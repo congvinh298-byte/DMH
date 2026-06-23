@@ -10,11 +10,11 @@ require_once __DIR__ . '/inc/header.php';
     <tr><th>Thông tin</th><th>Chi tiết</th></tr>
     <tr><td>Tên đơn vị</td><td><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong></td></tr>
     <tr><td>Mã số thuế (MST)</td><td>1402228630</td></tr>
-    <tr><td>Người đại diện</td><td>Nguyễn Văn Hiếu</td></tr>
+    <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
     <tr><td>Chức vụ</td><td>Giám đốc</td></tr>
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
-    <tr><td>Email</td><td>support@dienmayhieu.com</td></tr>
+    <tr><td>Email</td><td>Congvinh298@gmail.com</td></tr>
     <tr><td>Website</td><td>dienmayhieu.com</td></tr>
     <tr><td>Số giấy chứng nhận ĐKKD</td><td>1402228630</td></tr>
     <tr><td>Ngày cấp</td><td>[Điền ngày cấp]</td></tr>
@@ -24,16 +24,16 @@ require_once __DIR__ . '/inc/header.php';
 <h2>Kênh hỗ trợ khách hàng</h2>
 <ul>
     <li><strong>Hotline:</strong> 0979.553.289 (8:00 - 20:00, tất cả các ngày trong tuần)</li>
-    <li><strong>Email:</strong> support@dienmayhieu.com (phản hồi trong 24 giờ)</li>
+    <li><strong>Email:</strong> Congvinh298@gmail.com (phản hồi trong 24 giờ)</li>
     <li><strong>Chat trực tuyến:</strong> Qua tính năng chat trên website (khi đã đăng nhập)</li>
 </ul>
 
 <h2>Đầu mối bảo vệ quyền lợi người tiêu dùng</h2>
 <p>Theo quy định tại Điều 39 Luật Bảo vệ quyền lợi người tiêu dùng:</p>
 <ul>
-    <li><strong>Người đại diện được ủy quyền:</strong> Nguyễn Văn Hiếu</li>
+    <li><strong>Người đại diện được ủy quyền:</strong> Trần Công Vinh</li>
     <li><strong>Số điện thoại:</strong> 0979.553.289</li>
-    <li><strong>Email:</strong> support@dienmayhieu.com</li>
+    <li><strong>Email:</strong> Congvinh298@gmail.com</li>
     <li><strong>Địa chỉ:</strong> 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</li>
 </ul>
 

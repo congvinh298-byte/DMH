@@ -52,7 +52,7 @@ require_once __DIR__ . '/inc/header.php';
 <p><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong><br>
 Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp<br>
 Điện thoại: 0979.553.289<br>
-Email: support@dienmayhieu.com<br>
-Người đại diện: Nguyễn Văn Hiếu</p>
+Email: Congvinh298@gmail.com<br>
+Người đại diện: Trần Công Vinh</p>
 
 <?php require_once __DIR__ . '/inc/footer.php'; ?>

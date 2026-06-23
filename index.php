@@ -1330,7 +1330,7 @@ footer {
 
 </head>
 <body>
-<div class="approval-line" style="border-block-end: 1px solid #fed7aa;">Website đang chờ duyệt</div>
+<div class="approval-line" style="border-block-end: 1px solid #fed7aa;">Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</div>
 <header>
     <div class="wrap head">
         <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">
@@ -1791,7 +1791,7 @@ footer {
             <?php if ($qrWeb !== ''): ?><img src="<?= h($qrWeb) ?>" alt="QR truy cập" style="max-inline-size: 120px; border-radius: 8px; background: white; padding: 5px; margin-block-start: 5px;"><?php endif; ?>
         </div>
     </div>
-    <div class="footer-bottom"><span>© Chợ Lấp Vò Online</span><span>Website đang chờ duyệt</span></div>
+    <div class="footer-bottom"><span>© Chợ Lấp Vò Online</span><span>Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</span></div>
 </div></footer>
 
 <div id="modalPolicy" class="dth-modal">

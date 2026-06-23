@@ -10,12 +10,12 @@ require_once __DIR__ . '/inc/header.php';
     <tr><td>Tên tổ chức</td><td><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong></td></tr>
     <tr><td>Tên website/ứng dụng</td><td>Chợ Xã Lấp Vò Online</td></tr>
     <tr><td>Tên miền</td><td>dienmayhieu.com</td></tr>
-    <tr><td>Người đại diện</td><td>Nguyễn Văn Hiếu</td></tr>
+    <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
     <tr><td>Chức vụ</td><td>Giám đốc</td></tr>
     <tr><td>Mã số thuế (MST)</td><td>1402228630</td></tr>
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
-    <tr><td>Email</td><td>support@dienmayhieu.com</td></tr>
+    <tr><td>Email</td><td>Congvinh298@gmail.com</td></tr>
     <tr><td>Số Giấy chứng nhận ĐKKD</td><td>1402228630</td></tr>
     <tr><td>Nơi cấp</td><td>Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp</td></tr>
     <tr><td>Ngày cấp</td><td>[Điền ngày cấp]</td></tr>
@@ -89,7 +89,7 @@ require_once __DIR__ . '/inc/header.php';
     <li><strong>Bảo mật thông tin:</strong> Mã hóa thông tin thanh toán và thông tin cá nhân người dùng.</li>
     <li><strong>Phòng chống gian lận:</strong> Giám sát giao dịch bất thường, cảnh báo tài khoản nghi ngờ.</li>
     <li><strong>Sao lưu dữ liệu:</strong> Sao lưu định kỳ để phòng mất mát dữ liệu.</li>
-    <li><strong>Đầu mối liên hệ bảo mật:</strong> support@dienmayhieu.com / 0979.553.289</li>
+    <li><strong>Đầu mối liên hệ bảo mật:</strong> Congvinh298@gmail.com / 0979.553.289</li>
 </ul>
 
 <h2>V. QUYỀN VÀ NGHĨA VỤ CÁC BÊN</h2>

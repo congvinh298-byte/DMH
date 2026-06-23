@@ -17,7 +17,7 @@
                 <h3>Lien he</h3>
                 <p>Hotline: 0979.553.289</p>
                 <p>Mua hang va goi tho ky thuat</p>
-                <p>Email: support@dienmayhieu.com</p>
+                <p>Email: Congvinh298@gmail.com</p>
             </div>
             <div>
                 <h3>Thong tin phap ly</h3>
