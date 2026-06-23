@@ -1,0 +1,21 @@
+mobile-app/
+├── lib/ (hoặc src/)
+│   ├── features/             # Chia theo từng tính năng lớn của app
+│   │   ├── auth/             # Đăng nhập, đăng ký, OTP
+│   │   ├── home/             # Màn hình chính, chọn dịch vụ
+│   │   ├── booking/          # Quá trình đặt lịch, chọn giờ, điền địa chỉ
+│   │   ├── tracking/         # Bản đồ theo dõi người giúp việc đang đến
+│   │   ├── payment/          # Giao diện thanh toán, áp mã khuyến mãi
+│   │   └── profile/          # Quản lý tài khoản, lịch sử đơn hàng
+│   │
+│   ├── core/                 # Các thành phần cốt lõi dùng chung
+│   │   ├── api/              # Cấu hình Axios/Dio gọi về Backend
+│   │   ├── theme/            # Màu sắc, font chữ, style chung
+│   │   ├── utils/            # Tiện ích (format tiền tệ, validate form)
+│   │   └── routing/          # Quản lý điều hướng (Navigation/Router)
+│   │
+│   ├── shared/               # Các UI Components dùng lại nhiều lần
+│   │   ├── widgets/          # Nút bấm (Button), ô nhập liệu (Input), Popup...
+│   │   └── assets/           # Hình ảnh, icons, file ngôn ngữ (i18n)
+│   │
+│   └── main.dart (hoặc App.tsx) # Điểm khởi chạy của ứng dụng

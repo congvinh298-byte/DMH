@@ -1,0 +1,46 @@
+ public string Sign1(string base64Str, X509Certificate2 certificate)
+        {
+            if (string.IsNullOrEmpty(base64Str))
+            {
+                throw new ArgumentNullException("input");
+            }
+            if (certificate == null)
+            {
+                throw new ArgumentNullException("certificate");
+            }
+            if (!certificate.HasPrivateKey)
+            {
+                throw new Exception("Chữ ký số để ký lên văn bản cần phải có khóa bí mật");
+            }
+                       
+
+            RSACryptoServiceProvider csp = null;
+
+            csp = (RSACryptoServiceProvider)certificate.PrivateKey;
+
+            if (csp == null)
+
+            {
+
+                throw new Exception("No valid cert was found");
+            }
+
+            SHA1Managed sha1 = new SHA1Managed();
+            byte[] data = Convert.FromBase64String(base64Str);
+
+            byte[] res = csp.SignHash(data, CryptoConfig.MapNameToOID("SHA1"));
+
+
+            return Convert.ToBase64String(res);
+
+        }
+		
+		
+
+private void btnDefaultSign_Click(object sender, EventArgs e)
+        {
+            XmlSigner signer = new XmlSigner();
+            var cert = CertUtil.GetByDialog(requirePrivateKey: true);
+            string res = signer.Sign1(txtHashString.Text, cert);
+            textSignvalue.Text = res;
+        }		

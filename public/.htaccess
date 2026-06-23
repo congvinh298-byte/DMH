@@ -1,0 +1,31 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Chan truy cap thu muc
+    Options -Indexes
+    
+    # Chan truy cap file an
+    RewriteRule ^\.(.*)$ - [F,L]
+    
+    # Routing trang phap ly: /pages/xxx -> /pages/xxx.php
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^pages/([a-zA-Z0-9-]+)/?$ pages/.php [L]
+    
+    # Neu file hoac thu muc ton tai, serve truc tiep
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    
+    # Rewrite tat ca request con lai ve index.php
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Bao ve file cau hinh
+<FilesMatch "\.(env|config|sql|md|log)$">
+    Deny from all
+</FilesMatch>
+
+# Chan truy cap thu muc
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>

@@ -1,0 +1,20 @@
+Lưu ý : - Có kết nối mạng internet mà không qua proxy, 
+- Tool sẽ tự động khởi động cùng win,
+- Bật máy ít nhất 1 khung giờ cấu hình để tool tải được hóa đơn.
+- Nếu có thay đổi password vinvoice và cơ quan thuế thì cần thực hiện lại bước 2.
+- Báo cáo hóa đơn đầu vào sẽ ra mắt sớm để DN sử dụng.
+- Cái lại bản mới thì phải remove bản cũ và restart lại máy trước khi cài bản mới.
+- Nếu kết nối có lỗi : Đã có lỗi xảy ra, hệ thống không thể lưu bản ghi , vui lòng thực hiện lại 
+thì kiểm tra dã cài tool chưa hoặc Đăng xuất vinvocie và đăng nhập lại
+ 
+
+ 
+Các bước thực hiện 
+Bước 1. Cái tool trước.
+Bước 2. Đăng nhập vinvoice.viettel.vn mục Quản lý hóa đơn đầu vào  -> Tài khoản kết nối -> Thêm mới tài khoản và chợn thời gian của hóa đơn đầu vào cần đồng bộ.
+Bước 3. Vào Quản lý hệ thống -> Cấu hình doanh nghiệp -> Cấu hình tự động đồng bộ hóa đơn đầu vào.
+ + Thời gian đồng bộ : Thời gian đồng bộ hàng ngày , quét các hóa đơn lùi 2 ngày.
+ + Thời gian định kỳ đồng bộ lại từ đầu: Để quét các hóa đơn trong vòng 1 năm nếu có thay đổi trạng thái thì sẽ được cập nhật lại , ví dụ bị xóa bỏ, bị thay thế.
+ 
+
+

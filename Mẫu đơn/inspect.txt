@@ -1,0 +1,73 @@
+--- Tables in Dondangky ---
+Table 1:
+Row 1: ['TÊN THƯƠNG NHÂN, \x0bTỔ CHỨC\xa0 \x0b______Số: ............CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\x0bĐộc lập – Tự do – Hạnh phúc\x0b_______________________………, ngày …. tháng …. năm ……..', '', '']
+Table 2:
+Row 1: ['STT', 'Nội dung thông tin', '1a. Thông tin người đại diện theo pháp luật của thương nhân/tổ chức', '1b. Thông tin người chịu trách nhiệm đối với website/ứng dụng cung cấp dịch vụ thương mại điện tử \x02']
+Row 2: ['1', 'Họ và tên người liên hệ', '', '']
+Row 3: ['2', 'Chức danh', '', '']
+Row 4: ['3', 'Địa chỉ liên hệ', '', '']
+Row 5: ['4', 'Số điện thoại di động', '', '']
+Row 6: ['5', 'Địa chỉ email', '', '']
+Row 7: ['6', 'Các phương thức liên hệ trực tuyến (viber, zalo,...)', '', '']
+Table 3:
+Row 1: ['STT', 'Tên ứng dụng1', 'Hệ điều hành', 'Địa chỉ lưu trữ hoặc tải ứng dụng2', 'Logo']
+Row 2: ['1', '', 'IOS', '', '']
+Row 3: ['2', '', 'Android', '', '']
+Row 4: ['3', '', 'Khác', '', '']
+Table 4:
+Row 1: ['STT', 'Tên ứng dụng1', 'Hệ điều hành', 'Địa chỉ lưu trữ hoặc tải ứng dụng2', 'Logo']
+Row 2: ['1', '', 'IOS', '', '']
+Row 3: ['2', '', 'Android', '', '']
+Row 4: ['3', '', 'Khác', '', '']
+Table 5:
+Row 1: ['\uf071', 'Điện thoại - Máy tính bảng', '\uf071', 'Dịch vụ vận chuyển bằng xe công nghệ']
+Row 2: ['\uf071', 'Điện tử - Điện lạnh', '\uf071', 'Dịch vụ vé: máy bay, tàu - xe, xem film, ca nhạc,…']
+Row 3: ['\uf071', 'Điện gia dụng - Điện máy', '\uf071', 'Dịch vụ lưu trú và du lịch']
+Row 4: ['\uf071', 'Máy tính -  Laptop - Linh kiện', '\uf071', 'Dịch vụ giao, đặt đồ ăn']
+Row 5: ['\uf071', 'Thiết bị số - Phụ kiện', '\uf071', 'Dịch vụ đào tạo, đào tạo trực tuyến']
+Row 6: ['\uf071', 'Nhà cửa - đời sống', '\uf071', 'Dịch vụ lao động, việc làm, tư vấn du học']
+Row 7: ['\uf071', 'Vật liệu xây dựng', '\uf071', 'Dịch vụ nội dung số & giá trị gia tăng']
+Row 8: ['\uf071', 'Làm đẹp - Chăm sóc sức khỏe', '\uf071', 'Dịch vụ chăm sóc sắc đẹp']
+Row 9: ['\uf071', 'Thực phẩm – Đồ uống', '\uf071', 'Dịch vụ y tế, chăm sóc sức khỏe']
+Table 6:
+Row 1: ['Nơi nhận:\x0b- Như trên;\x0b- Cơ quan chủ quản (nếu có);\x0b- Lưu:', 'CHỮ KÝ NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT\x0b(Ký tên, đóng dấu)']
+
+--- Tables in 2022_MauDean_Final14022022-103108(1).doc ---
+Table 1:
+Row 1: ['Tên thương nhân/tổ chức——————Số:  ………………..', 'CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\x0bĐộc lập – Tự do – Hạnh phúc\x0b————————————\x0b…….., ngày    tháng    năm 20..']
+Table 2:
+Row 1: ['STT', 'Nội dung thông tin', 'Thông tin đầu mối tiếp nhận']
+Row 2: ['1', 'Họ và tên người liên hệ', '']
+Row 3: ['2', 'Chức danh', '']
+Row 4: ['3', 'Địa chỉ liên hệ', '']
+Row 5: ['4', 'Số điện thoại di động', '']
+Row 6: ['5', 'Địa chỉ email', '']
+Row 7: ['6', 'Các phương thức liên hệ trực tuyến (viber, zalo,...)', '']
+Table 3:
+Row 1: ['', 'Chuyên trách', 'Kiêm nhiệm', 'Ghi chú']
+Row 2: ['Nhân viên kinh doanh', '', '', '']
+Row 3: ['Nhân viên IT', '', '', '']
+Row 4: ['Nhân viên pháp lý', '', '', '']
+Row 5: ['Nhân viên giao hàng', '', '', '']
+Row 6: ['Nhân viên hỗ trợ qua điện thoại, hỗ trợ trực tuyến (email, skype, yahoo messenger….)', '', '', '']
+Row 7: ['Nhân viên bảo hành, bảo trì, lắp đặt', '', '', '']
+Row 8: ['Đội ngũ quản lý điều hành', '', '', '']
+Table 4:
+Row 1: ['\uf071', 'Điện thoại - Máy tính bảng', '\uf071', 'Dịch vụ vận chuyển bằng xe công nghệ']
+Row 2: ['\uf071', 'Điện tử - Điện lạnh', '\uf071', 'Dịch vụ vé: máy bay, tàu - xe, xem film, ca nhạc,…']
+Row 3: ['\uf071', 'Điện gia dụng - Điện máy', '\uf071', 'Dịch vụ lưu trú và du lịch']
+Row 4: ['\uf071', 'Máy tính -  Laptop - Linh kiện', '\uf071', 'Dịch vụ giao, đặt đồ ăn']
+Row 5: ['\uf071', 'Thiết bị số - Phụ kiện', '\uf071', 'Dịch vụ đào tạo, đào tạo trực tuyến']
+Row 6: ['\uf071', 'Nhà cửa - đời sống', '\uf071', 'Dịch vụ lao động, việc làm, tư vấn du học']
+Row 7: ['\uf071', 'Vật liệu xây dựng', '\uf071', 'Dịch vụ nội dung số & giá trị gia tăng']
+Row 8: ['\uf071', 'Làm đẹp - Chăm sóc sức khỏe', '\uf071', 'Dịch vụ chăm sóc sắc đẹp']
+Row 9: ['\uf071', 'Thực phẩm – Đồ uống', '\uf071', 'Dịch vụ y tế, chăm sóc sức khỏe']
+Table 5:
+Row 1: ['', 'ĐẠI ĐIỆN CÔNG TY\x0bCHỨC DANHKý và đóng dấu']
+
+--- Tables in 2022_MauQuyche_Final(1).doc ---
+Table 1:
+Row 1: ['Tên thương nhân/tổ chức——————Số:  ………………..', 'CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAMĐộc lập – Tự do – Hạnh phúc————————————']
+Row 2: ['', '…….., ngày    tháng    năm 20..']
+Table 2:
+Row 1: ['', 'ĐẠI ĐIỆN CÔNG TY\x0bCHỨC DANHKý và đóng dấu']

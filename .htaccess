@@ -1,0 +1,119 @@
+# =========================================================================================
+# HTACCESS ROOT - DEPLOYMENT VINAHOST
+# 
+# 1. Ép buộc HTTPS (VinaHost có Valid SSL)
+# 2. Chống hotlink, bảo vệ file nhạy cảm
+# 3. Rewrite giữ nguyên store/ (code cũ) + chuyển hướng public/
+# 4. Caching cho asset
+# =========================================================================================
+
+# === BẬT REWRITE ENGINE ===
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    DirectoryIndex index.php
+
+    # ---- 1. ÉP BUỘC HTTPS ----
+    # RewriteCond %{HTTPS} off
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # ---- 2. LOẠI BỎ WWW (nếu có) ----
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^(.*)$ https://%1/$1 [R=301,L]
+
+    # Always route the public BCT report URL to the isolated portal.
+    RewriteRule ^api_baocao_bct\.php$ bct_portal.php [L]
+
+    # ---- 3. GIỮ NGUYÊN store/ (code cũ vẫn chạy) ----
+    RewriteRule ^store/ - [L]
+    RewriteRule ^config/ - [L]
+
+    # ---- 3b. PASS-THROUGH CHO STATIC ASSETS ----
+    # Phải đặt TRƯỚC rule rewrite về index.php.
+    # assets/, uploads/, api/ phải được serve trực tiếp để tránh lỗi MIME type.
+    RewriteRule ^assets/ - [L]
+    RewriteRule ^uploads/ - [L]
+    RewriteRule ^api/openclaw_chat\.php$ - [L]
+    RewriteRule ^api/(ai|core|cron|finances|jobs|orders|products|users|vouchers|webhooks|workers)\.php$ - [F,L]
+    RewriteRule ^api/ - [L]    # ---- PAGES ROUTING ----
+    RewriteRule ^pages/([a-zA-Z0-9-]+)/?$ pages/$1.php [L]
+
+
+    # ---- 4. KHÔNG REWRITE file/thư mục thật ----
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    # ---- 5. CHUYỂN HƯỚNG VỀ PUBLIC/ (code mới) ----
+    RewriteRule ^.*$ index.php [L]
+</IfModule>
+
+# === FIX MIME TYPE — BẮT BUỘC ĐỂ TRÁNH LỖI "Refused to apply style" ===
+# Đảm bảo trình duyệt nhận đúng Content-Type cho CSS và JS.
+<IfModule mod_mime.c>
+    # CSS → text/css (Chrome/Firefox từ chối nếu trả về text/plain)
+    AddType text/css                  .css
+    # JavaScript → đúng MIME theo WHATWG MIME Sniffing Standard
+    AddType application/javascript    .js
+    AddType application/javascript    .mjs
+    # JSON
+    AddType application/json          .json
+    # Web fonts
+    AddType font/woff                 .woff
+    AddType font/woff2                .woff2
+    AddType image/svg+xml             .svg
+</IfModule>
+
+# === BẢO VỆ FILE NHẠY CẢM ===
+<FilesMatch "\.(env|sql|json|md|log|lock)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+<FilesMatch "^(config/database\.php|store/db_config\.php|core/bootstrap\.php)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</FilesMatch>
+
+# === CHẶN TRUY CẬP THƯ MỤC ===
+Options -Indexes
+
+# === BẢO VỆ .HTACCESS ===
+<Files ".htaccess">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+</Files>
+
+# === CACHING CHO STATIC ASSETS ===
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 month"
+    ExpiresByType image/jpeg "access plus 1 month"
+    ExpiresByType image/gif "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType text/css "access plus 1 week"
+    ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# === CHỐNG HOTLINK ẢNH ===
+# QR/logo/product images must remain readable by the public storefront.
+# Hotlink protection is disabled here because it caused false 403 responses for valid images.
+
+# === PHP SETTINGS (nếu server cho phép) ===
+<IfModule mod_php.c>
+    php_value upload_max_filesize 64M
+    php_value post_max_size 64M
+    php_value max_execution_time 120
+    php_value memory_limit 256M
+</IfModule>
+
+# === GZIP COMPRESSION ===
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# === CUSTOM 404/500 (fallback an toàn) ===
+ErrorDocument 404 "Not Found"
+ErrorDocument 500 "Server Error"

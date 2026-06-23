@@ -1,0 +1,5 @@
+'Địa chỉ dành cho người mua:\t\r'
+'Địa chỉ dành cho người bán:\t\r'
+'Địa chỉ tải ứng dụng dành cho người mua, người sử dụng dịch vụ: \r'
+'Địa chỉ tải ứng dụng dành cho người bán, nhà cung cấp, đối tác: \r'
+'7. Đơn vị cung cấp dịch vụ Hosting: …………………………………………………………………..……………\r'

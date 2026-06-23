@@ -1,0 +1,65 @@
+ private void signDataBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signDataBtnActionPerformed
+        // TODO add your handling code here:
+        try {
+            String dataBase64 = dataBase64Txt.getText();
+            if (dataBase64 == null || dataBase64.trim().isEmpty()) {
+                log("Data Base64 is EMPTY");
+                return;
+            }
+           String certName = (String) listCertCbx.getSelectedItem();
+            key = (KeyStore.PrivateKeyEntry) st3.getMapCert().get(certName);
+            Certificate cert = key.getCertificate();
+            PublicKey publicKey = cert.getPublicKey();
+
+            byte[] data = null;
+            try {
+                data = Base64.decodeBase64(dataBase64);
+            } catch (Exception ex) {
+                logger.error(ex);
+                log("Data Base64 is INVALID: " + ex.getMessage());
+                return;
+            }
+
+            Provider p = st.getStore().getProvider();
+            Signature signature = Signature.getInstance("SHA1withRSA", p);
+            signature.initSign(key.getPrivateKey(), new SecureRandom());
+            signature.update(data);
+            byte[] sigBytes = signature.sign();
+
+            //Test signature có hợp lệ không?
+            signature.initVerify(key.getCertificate().getPublicKey());
+            signature.initVerify(publicKey);
+            signature.update(data);
+            logger.info(signature.verify(sigBytes));
+
+            try {
+                byte[] encoded = Base64.encodeBase64(sigBytes);
+                String signatureBase64 = new String(encoded, StandardCharsets.UTF_8);
+                signatureBase64Txt.setText(signatureBase64);
+                log("Sign SUCCESS");
+            } catch (Exception ex) {
+                logger.error("ERROR: Sign Data Fail: " + ex.getMessage(), ex);
+                log("ERROR: Sign Data Fail: " + ex.getMessage());
+            }
+
+            //Lấy ra CTS định dạng base64
+            String certificateBase64 = getX509CertBase64(cert);
+
+            //Parse nội dung base64 thành object certificate
+            if (certificateBase64 != null) {
+                Certificate cert2 = getX509Cert(certificateBase64);
+
+                signature.initVerify(cert2.getPublicKey());
+                signature.update(data);
+                logger.info(signature.verify(sigBytes));
+            }
+
+            //Verify CTS
+            verifyCert(cert);
+
+        } catch (Exception ex) {
+            logger.error(ex);
+            log("Sign ERROR: " + ex.getMessage());
+            return;
+        }
+    }//GEN-LAST:event_signDataBtnActionPerformed

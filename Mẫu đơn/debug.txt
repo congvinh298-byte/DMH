@@ -1,0 +1,35 @@
+
+Processing 2020_Dondangky_final11012022-015249(1).docx
+FOUND Tên đăng ký: '-Tên đăng ký:………………………………………………………………………………………………\r'
+FOUND Tên giao dịch: '-Tên giao dịch:……………………………………………………………………………………………..\r'
+FOUND THUONG NHAN in cell: 'TÊN THƯƠNG NHÂN, \x0bTỔ CHỨC\xa0 \x0b______\rSố: ............\r\x07CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM\x0bĐộc lập – Tự do – Hạnh phúc\x0b_______________________\r………, ngày …. tháng …. năm ……..\r\x07\r\x07\r\x07'
+FOUND Họ tên: 'Họ và tên người liên hệ'
+FOUND Chức danh: 'Chức danh'
+
+Processing 2022_MauDean_Final14022022-103108(1).doc
+FOUND Website: 'Website/ứng dụng  ………………………\r'
+FOUND Website: 'Website/ứng dụng chính thức hoạt động từ: tháng………năm………\r'
+FOUND Website: 'PHÂN ĐỊNH QUYỀN VÀ TRÁCH NHIỆM GIỮA THƯƠNG NHÂN/TỔ CHỨC VỚI CÁC BÊN SỬ DỤNG DỊCH VỤ TRÊN Website/ứng dụng .\r'
+FOUND Website: 'Quyền và trách nhiệm của Ban quản lý website/ứng dụng [Tên Website/ứng dụng]\r'
+FOUND Website: 'Quyền và trách nhiệm của đối tác (người bán, nhà cung cấp...) trên website/ứng dụng [Tên Website/ứng dụng]\r'
+FOUND Website: 'Quyền và trách nhiệm của khách hàng (người mua, người sử dụng dịch vụ…) trên website/ứng dụng [Tên Website/ứng dụng]\r'
+FOUND THUONG NHAN in cell: 'Tên thương nhân/tổ chức\r——————\rSố:  ………………..   \r\x07'
+FOUND Họ tên: 'Họ và tên người liên hệ'
+FOUND Chức danh: 'Chức danh'
+
+Processing 2022_MauQuyche_Final(1).doc
+FOUND Website: 'Nêu các mục đích và nguyên tắc của Website/ứng dụng cung cấp dịch vụ thương mại điện tử.\r'
+FOUND Website: 'Các quy định, định nghĩa, tên gọi trên Website/ứng dụng cung cấp dịch vụ thương mại điện tử, phân loại thành viên trên Website/ứng dụng cung cấp dịch vụ thương mại điện tử, v.v...\r'
+FOUND Website: 'Lưu ý: Ban quản lý Website/ứng dụng cung cấp dịch vụ thương mại điện tử TMĐT cần làm rõ các bước, có quy trình cụ thể kèm theo. \r'
+FOUND Website: 'Thanh toán giữa đối tác, người bán, nhà cung cấp.. và BQL Website/ứng dụng\r'
+FOUND Website: 'Lưu ý: Ban quản lý Website/ứng dụng cung cấp dịch vụ thương mại điện tử TMĐT đưa ra các phương thức thanh toán, Thành viên có thể tham khảo và lựa chọn áp dụng nếu phù hợp. \r'
+FOUND Website: 'Ban quản lý Website/ứng dụng cung cấp dịch vụ thương mại điện tử TMĐT cần cung cấp cho người tiêu dùng những thông tin quan trọng cần biết trước khi tham gia giao dịch thanh toán cho hàng hóa và dịch vụ trên Website/ứng dụng, đảm bảo Người tiêu dùng mua hàng hóa được an toàn.\r'
+FOUND Website: 'Ban quản lý Website/ứng dụng cung cấp dịch vụ thương mại điện tử TMĐT đưa ra cơ chế/phương án/giải pháp bảo đảm an toàn giao dịch. Đối với Website/ứng dụng cung cấp dịch vụ thương mại điện tử TMĐT có chức năng thanh toán trực tuyến, Ban quản lý sàn phải nêu rõ cơ chế bảo mật thanh toán của khách hàng, xử lý khiếu nại và đền bù thiệt hại trong trường hợp thông tin thanh toán của khách hàng qua website bị thay đổi, xóa, hủy, sao chép, tiết lộ, di chuyển trái phép hoặc bị chiếm đoạt gây thiệt hại cho khách hàng.\r'
+FOUND Website: 'Trách nhiệm của Ban quản lý (BQL) Website/ứng dụng cung cấp dịch vụ thương mại điện tử khi có phát sinh từ lỗi kỹ thuật, lỗi đường truyền, phần mềm…\r'
+FOUND Website: 'Quyền và trách nhiệm của BQL website TMĐT [Tên Website/ứng dụng]\r'
+FOUND Website: 'Quyền và trách nhiệm của các bên tham gia Website/ứng dụng cung cấp dịch vụ thương mại điện tử [Tên Website/ứng dụng]\r'
+FOUND Website: 'Địa chỉ liên lạc chính thức của Website/ứng dụng cung cấp dịch vụ thương mại điện tử TMĐT [Tên Website/ứng dụng]:\r'
+FOUND Website: 'Website/ứng dụng cung cấp dịch vụ thương mại điện tử [Tên Website/ứng dụng]\r'
+FOUND THUONG NHAN in cell: 'Tên thương nhân/tổ chức\r——————\rSố:  ………………..   \r\x07'
+
+Processing ~$20_Dondangky_final11012022-015249(1).docx
