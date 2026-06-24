@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 declare(strict_types=1);
 
 session_start();
@@ -37,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email']) && !empty($
             header('Location: admin_xxx.php');
             exit;
         } else {
-            $error = 'Email hoặc mật khẩu không đúng.';
+            $error = 'Email hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng.';
         }
     } catch (Exception $e) {
-        $error = 'Lỗi hệ thống: ' . $e->getMessage();
+        $error = 'Lá»—i há»‡ thá»‘ng: ' . $e->getMessage();
     }
 } elseif (!empty($_SESSION['admin_logged_in']) && !empty($_SESSION['admin_id'])) {
     try {
@@ -60,7 +60,7 @@ $isLoggedIn = !empty($_SESSION['admin_logged_in']) && $user !== false && $user !
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin - Chợ Lấp Vò Online</title>
+    <title>Admin - Chá»£ Láº¥p VÃ² Online</title>
     <style>
         *{box-sizing:border-box}
         body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f3f4f6;color:#111827;font-family:Arial,sans-serif;padding:20px}
@@ -84,31 +84,31 @@ $isLoggedIn = !empty($_SESSION['admin_logged_in']) && $user !== false && $user !
 <main>
 <?php if ($isLoggedIn): ?>
     <div class="topbar">
-        <span><strong>Admin</strong>: <?= h($user['fullname'] ?? $user['email']) ?></span>
-        <a href="admin_xxx.php?logout=1">Đăng xuất</a>
+        <span><strong>Admin</strong>: <?= esc_html($user['fullname'] ?? $user['email']) ?></span>
+        <a href="admin_xxx.php?logout=1">ÄÄƒng xuáº¥t</a>
     </div>
-    <div class="success">Đăng nhập thành công.</div>
+    <div class="success">ÄÄƒng nháº­p thÃ nh cÃ´ng.</div>
     <h1>Dashboard</h1>
-    <p>Chào mừng <strong><?= h($user['fullname'] ?? $user['email']) ?></strong> đến trang quản trị Chợ Lấp Vò Online.</p>
+    <p>ChÃ o má»«ng <strong><?= esc_html($user['fullname'] ?? $user['email']) ?></strong> Ä‘áº¿n trang quáº£n trá»‹ Chá»£ Láº¥p VÃ² Online.</p>
     <div class="dashboard-links">
-        <a href="bct_portal.php" target="_blank">📋 Cổng báo cáo BCT</a>
-        <a href="admin/chat_logs.php" target="_blank">💬 Chat logs</a>
-        <a href="/" target="_blank">🌐 Xem website</a>
+        <a href="bct_portal.php" target="_blank">ðŸ“‹ Cá»•ng bÃ¡o cÃ¡o BCT</a>
+        <a href="admin/chat_logs.php" target="_blank">ðŸ’¬ Chat logs</a>
+        <a href="/" target="_blank">ðŸŒ Xem website</a>
     </div>
 <?php else: ?>
-    <h1>Đăng nhập Admin</h1>
-    <p>Chợ Lấp Vò Online - Trang quản trị</p>
+    <h1>ÄÄƒng nháº­p Admin</h1>
+    <p>Chá»£ Láº¥p VÃ² Online - Trang quáº£n trá»‹</p>
     <?php if ($error !== ''): ?>
-        <div class="error"><?= h($error) ?></div>
+        <div class="error"><?= esc_html($error) ?></div>
     <?php endif; ?>
     <form method="post" autocomplete="off">
         <label for="email">Email admin</label>
         <input id="email" name="email" type="email" autocomplete="username" required autofocus placeholder="qltmdt@moit.gov.vn">
-        <label for="password">Mật khẩu</label>
+        <label for="password">Máº­t kháº©u</label>
         <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Admin@123">
-        <button type="submit">Đăng nhập</button>
+        <button type="submit">ÄÄƒng nháº­p</button>
     </form>
-    <p class="note">Tài khoản test BCT: qltmdt@moit.gov.vn / Admin@123</p>
+    <p class="note">TÃ i khoáº£n test BCT: qltmdt@moit.gov.vn / Admin@123</p>
 <?php endif; ?>
 </main>
 </body>

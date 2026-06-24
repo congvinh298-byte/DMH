@@ -1790,9 +1790,26 @@ function api_ok(array $data = []): void
     exit;
 }
 
-function next_order_code(): string
-{
-    return 'DH' . date('ymd') . strtoupper(substr(uniqid(), -6));
+if (!function_exists('next_order_code')) {
+    function next_order_code(): string
+    {
+        return 'DH' . date('ymd') . strtoupper(substr(uniqid(), -6));
+    }
+}
+
+if (!function_exists('seed_known_telegram_profiles')) {
+    function seed_known_telegram_profiles(PDO $pdo): void
+    {
+        // No-op stub: ensures ensure_core_schema() can call this function.
+    }
+}
+
+if (!function_exists('trigger_async_order_notification')) {
+    function trigger_async_order_notification(int $orderId): void
+    {
+        // No-op stub: real implementation lives in api/orders.php if loaded.
+        error_log('[order] async notification stub for order #' . $orderId);
+    }
 }
 
 if (defined('DTH_API_LIBRARY_ONLY') && DTH_API_LIBRARY_ONLY) {
