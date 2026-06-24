@@ -13,8 +13,9 @@ function is_admin_telegram_id(int $telegramUserId): bool
     return $telegramUserId > 0 && $telegramUserId === admin_telegram_id();
 }
 
-function seed_known_telegram_profiles(PDO $pdo)
-{
+if (!function_exists('seed_known_telegram_profiles')) {
+    function seed_known_telegram_profiles(PDO $pdo)
+    {
     $adminId = admin_telegram_id();
     if ($adminId > 0) {
         $pdo->prepare("INSERT INTO worker_profiles (telegram_user_id, telegram_name, identity_code, role, is_admin, created_at, updated_at)
@@ -32,7 +33,7 @@ function seed_known_telegram_profiles(PDO $pdo)
     }
 }
 
-function worker_payment_code(int $workerId): string
+}function worker_payment_code(int $workerId): string
 {
     return 'DTHP' . $workerId;
 }
