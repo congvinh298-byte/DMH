@@ -317,7 +317,9 @@ if (!app_is_https() && !$localHost) {
     bct_endpoint_json(['status' => 'error', 'message' => 'HTTPS is required.'], 426, $headOnly);
 }
 
+
 $bodyInput = request_data();
+
 $htmlRequest = bct_endpoint_prefers_html();
 if ($htmlRequest && isset($_GET['logout'])) {
     bct_endpoint_clear_session();
