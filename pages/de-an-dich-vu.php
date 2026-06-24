@@ -7,7 +7,7 @@ require_once __DIR__ . '/inc/header.php';
 <h2>I. THÔNG TIN CHUNG VỀ THƯƠNG NHÂN/TỔ CHỨC</h2>
 <table>
     <tr><th>Thông tin</th><th>Chi tiết</th></tr>
-    <tr><td>Tên tổ chức</td><td><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong></td></tr>
+    <tr><td>Tên tổ chức</td><td><strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong></td></tr>
     <tr><td>Tên website/ứng dụng</td><td>Chợ Lấp Vò Online</td></tr>
     <tr><td>Tên miền</td><td>dienmayhieu.com</td></tr>
     <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
@@ -15,7 +15,7 @@ require_once __DIR__ . '/inc/header.php';
     <tr><td>Mã số thuế (MST)</td><td>1402228630</td></tr>
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
-    <tr><td>Email</td><td>Congvinh298@gmail.com</td></tr>
+    <tr><td>Email</td><td>Congvinh28@gmail.com</td></tr>
     <tr><td>Số Giấy chứng nhận ĐKKD</td><td>1402228630</td></tr>
     <tr><td>Nơi cấp</td><td>Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp</td></tr>
     <tr><td>Ngày cấp</td><td>[Điền ngày cấp]</td></tr>
@@ -89,12 +89,12 @@ require_once __DIR__ . '/inc/header.php';
     <li><strong>Bảo mật thông tin:</strong> Mã hóa thông tin thanh toán và thông tin cá nhân người dùng.</li>
     <li><strong>Phòng chống gian lận:</strong> Giám sát giao dịch bất thường, cảnh báo tài khoản nghi ngờ.</li>
     <li><strong>Sao lưu dữ liệu:</strong> Sao lưu định kỳ để phòng mất mát dữ liệu.</li>
-    <li><strong>Đầu mối liên hệ bảo mật:</strong> Congvinh298@gmail.com / 0979.553.289</li>
+    <li><strong>Đầu mối liên hệ bảo mật:</strong> Congvinh28@gmail.com / 0979.553.289</li>
 </ul>
 
 <h2>V. QUYỀN VÀ NGHĨA VỤ CÁC BÊN</h2>
 
-<h3>1. Ban quản lý sàn (Công ty Điện Tử Hiếu)</h3>
+<h3>1. Ban quản lý sàn (Công ty ĐIỆN MÁY HIẾU)</h3>
 <ul>
     <li>Xây dựng, duy trì và phát triển nền tảng sàn giao dịch.</li>
     <li>Xác minh, kiểm tra thông tin người bán trước khi cho phép tham gia.</li>
@@ -125,6 +125,6 @@ require_once __DIR__ . '/inc/header.php';
 </ul>
 
 <p><em>Lập biên bản ngày: Tháng 6/2026</em><br>
-<em>Người lập: Công ty TNHH MTV Điện Tử Hiếu</em></p>
+<em>Người lập: Công ty TNHH MTV ĐIỆN MÁY HIẾU</em></p>
 
 <?php require_once __DIR__ . '/inc/footer.php'; ?>

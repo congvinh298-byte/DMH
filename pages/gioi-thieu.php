@@ -7,7 +7,7 @@ require_once __DIR__ . '/inc/header.php';
 <h2>1. Giới thiệu tổng quan</h2>
 <p><strong>Chợ Lấp Vò Online</strong> (dienmayhieu.com) là sàn giao dịch thương mại điện tử địa phương, được xây dựng nhằm kết nối người mua và người bán (thợ) trong khu vực Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp.</p>
 
-<p>Website được vận hành bởi <strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong>, đơn vị có nhiều năm kinh nghiệm trong lĩnh vực điện tử, điện lạnh và dịch vụ kỹ thuật tại địa phương.</p>
+<p>Website được vận hành bởi <strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong>, đơn vị có nhiều năm kinh nghiệm trong lĩnh vực điện tử, điện lạnh và dịch vụ kỹ thuật tại địa phương.</p>
 
 <h2>2. Tầm nhìn và sứ mệnh</h2>
 <ul>
@@ -42,12 +42,12 @@ require_once __DIR__ . '/inc/header.php';
 <h2>6. Thông tin pháp lý</h2>
 <table>
     <tr><th>Thông tin</th><th>Chi tiết</th></tr>
-    <tr><td>Tên đơn vị</td><td>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</td></tr>
+    <tr><td>Tên đơn vị</td><td>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</td></tr>
     <tr><td>MST</td><td>1402228630</td></tr>
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
-    <tr><td>Email</td><td>Congvinh298@gmail.com</td></tr>
+    <tr><td>Email</td><td>Congvinh28@gmail.com</td></tr>
 </table>
 
 <p><em>Cập nhật lần cuối: Tháng 6/2026</em></p>

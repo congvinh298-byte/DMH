@@ -49,10 +49,10 @@ require_once __DIR__ . '/inc/header.php';
 <p>Điều khoản này được điều chỉnh theo pháp luật Việt Nam. Mọi tranh chấp phát sinh sẽ được giải quyết thông qua thương lượng, hòa giải; nếu không thành sẽ được đưa ra Tòa án nhân dân có thẩm quyền tại tỉnh Đồng Tháp.</p>
 
 <h2>7. Thông tin liên hệ</h2>
-<p><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong><br>
+<p><strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong><br>
 Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp<br>
 Điện thoại: 0979.553.289<br>
-Email: Congvinh298@gmail.com<br>
+Email: Congvinh28@gmail.com<br>
 Người đại diện: Trần Công Vinh</p>
 
 <?php require_once __DIR__ . '/inc/footer.php'; ?>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Module: ai
 
 
@@ -36,7 +36,7 @@ function ollama_quote_reply(string $prompt): string
 
     $systemPrompt = clean_string(app_env('ANH_THIEN_SYSTEM_PROMPT', ''), 2200);
     if ($systemPrompt === '') {
-        $systemPrompt = 'Bạn là Anh Thiên, trợ lý tư vấn của Điện Tử Hiếu. Trả lời tiếng Việt ngắn gọn, thực tế, lịch sự. Chỉ đưa giá theo bảng công khai, không hứa giảm giá ngoài bảng. Nếu khách muốn chốt đơn, hướng dẫn khách gửi form Gọi Thợ hoặc gọi 0979.553.289.';
+        $systemPrompt = 'Bạn là Anh Thiên, trợ lý tư vấn của ĐIỆN MÁY HIẾU. Trả lời tiếng Việt ngắn gọn, thực tế, lịch sự. Chỉ đưa giá theo bảng công khai, không hứa giảm giá ngoài bảng. Nếu khách muốn chốt đơn, hướng dẫn khách gửi form Gọi Thợ hoặc gọi 0979.553.289.';
     }
     $thinkingMode = strtolower(app_env('GEMMA_THINKING_LEVEL', ''));
     $think = false;
@@ -137,7 +137,7 @@ function gemini_quote_reply(array $input): string
     $selected = clean_string($input['selected_service'] ?? '', 150);
     $publicPrice = clean_string($input['public_price'] ?? '', 120);
     $address = clean_string($input['address'] ?? '', 500);
-    $prompt = "Bạn là Anh Thiên 2, trợ lí báo giá của Điện Tử Hiếu. Trả lời tiếng Việt, ngắn gọn, thấu hiểu tâm lý khách hàng, thực tế, không hứa giảm giá ngoài bảng. "
+    $prompt = "Bạn là Anh Thiên 2, trợ lí báo giá của ĐIỆN MÁY HIẾU. Trả lời tiếng Việt, ngắn gọn, thấu hiểu tâm lý khách hàng, thực tế, không hứa giảm giá ngoài bảng. "
         . "Nhấn mạnh giá công khai đã gồm VAT, vật tư/linh kiện phát sinh báo riêng trước khi làm. "
         . "Bảng tham khảo: vệ sinh máy lạnh 165.000 VND; lắp máy lạnh 1HP/1.5HP 440.000 VND; lắp máy lạnh 2HP/3HP 550.000 VND; sửa chữa điện lạnh, treo tivi, lắp máy lọc nước, lắp máy giặt, kiểm tra/sửa điện thoại 220.000 VND. "
         . "Nhóm: {$serviceType}. Dịch vụ chọn: {$selected}. Giá đang hiển thị: {$publicPrice}. Địa chỉ: {$address}. Câu hỏi khách: {$message}";

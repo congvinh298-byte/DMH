@@ -7,7 +7,7 @@
     <div class="wrap">
         <div class="footer-grid">
             <div>
-                <h3>CONG TY TNHH MTV DIEN TU HIEU</h3>
+                <h3>CONG TY TNHH MTV DIEN MAY HIEU</h3>
                 <p>MST: 1402228630</p>
                 <p>Dia chi: 166, Ap Binh Thanh 1, Xa Lap Vo, Tinh Dong Thap</p>
                 <p>Website: dienmayhieu.com</p>
@@ -17,7 +17,7 @@
                 <h3>Lien he</h3>
                 <p>Hotline: 0979.553.289</p>
                 <p>Mua hang va goi tho ky thuat</p>
-                <p>Email: Congvinh298@gmail.com</p>
+                <p>Email: Congvinh28@gmail.com</p>
             </div>
             <div>
                 <h3>Thong tin phap ly</h3>

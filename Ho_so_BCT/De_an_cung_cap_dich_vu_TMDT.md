@@ -1,4 +1,4 @@
-# ĐỀ ÁN CUNG CẤP DỊCH VỤ THƯƠNG MẠI ĐIỆN TỬ
+﻿# ĐỀ ÁN CUNG CẤP DỊCH VỤ THƯƠNG MẠI ĐIỆN TỬ
 
 ## Website: dienmayhieu.com (Chợ Xã Lấp Vò Online)
 
@@ -10,7 +10,7 @@
 
 | Thông tin | Chi tiết |
 |-----------|----------|
-| Tên công ty | **CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU** |
+| Tên công ty | **CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU** |
 | Mã số thuế (MST) | 1402228630 |
 | Ngày cấp MST | 10/08/2024 |
 | Nơi cấp MST | BỘ CÔNG AN |
@@ -21,7 +21,7 @@
 | Ngày sinh | 29/08/1997 |
 | Địa chỉ trụ sở | 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp |
 | Số điện thoại | 0979.553.289 |
-| Email | Congvinh298@gmail.com |
+| Email | Congvinh28@gmail.com |
 | Vốn điều lệ | 30.000.000 VNĐ |
 | Tên miền website | https://dienmayhieu.com |
 | Tên website | Chợ Xã Lấp Vò Online |
@@ -212,16 +212,16 @@ Website cung cấp 3 nhóm dịch vụ chính:
 - Mã hóa dữ liệu nhạy cảm (thông tin thanh toán, CCCD).
 
 **5. Địa chỉ thu thập và quản lý thông tin:**
-- CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU
+- CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Đồng Tháp
-- SĐT: 0979.553.289 | Email: Congvinh298@gmail.com
+- SĐT: 0979.553.289 | Email: Congvinh28@gmail.com
 
 **6. Phương tiện và công cụ để người dùng chỉnh sửa thông tin:**
 - Người dùng có thể cập nhật thông tin cá nhân trong trang tài khoản.
 - Có thể yêu cầu xóa tài khoản qua email hoặc hotline.
 
 **Cơ chế tiếp nhận và giải quyết khiếu nại liên quan đến việc thu thập, sử dụng thông tin:**
-- Kênh tiếp nhận: Hotline 0979.553.289, email Congvinh298@gmail.com.
+- Kênh tiếp nhận: Hotline 0979.553.289, email Congvinh28@gmail.com.
 - Thời gian phản hồi: Trong vòng 24 giờ.
 - Quy trình: Tiếp nhận → Xác minh → Phản hồi → Giải quyết.
 
@@ -264,10 +264,10 @@ Website cung cấp 3 nhóm dịch vụ chính:
 5. Nếu không thành: chuyển Tòa án/Công an/Trung tâm hòa giải.
 
 **Thông tin liên hệ giải quyết tranh chấp:**
-- CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU
+- CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU
 - Người đại diện: Trần Công Vinh
 - Hotline: 0979.553.289
-- Email: Congvinh298@gmail.com
+- Email: Congvinh28@gmail.com
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp
 
 ### 4. Nguồn thu và cơ chế phí
@@ -303,7 +303,7 @@ Website cung cấp 3 nhóm dịch vụ chính:
 
 ## III. PHÂN ĐỊNH QUYỀN VÀ TRÁCH NHIỆM CỦA CÁC BÊN
 
-### 1. Ban quản lý sàn (CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU)
+### 1. Ban quản lý sàn (CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU)
 
 **Quyền:**
 - Xây dựng, duy trì, phát triển hệ thống sàn giao dịch.
@@ -364,4 +364,4 @@ Website cung cấp 3 nhóm dịch vụ chính:
 
 *Lập biên bản ngày: 23/06/2026*  
 *Người lập: Trần Công Vinh - Giám đốc*  
-*CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU*
+*CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU*

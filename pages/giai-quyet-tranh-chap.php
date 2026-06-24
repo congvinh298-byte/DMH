@@ -28,7 +28,7 @@ require_once __DIR__ . '/inc/header.php';
 <ul>
     <li>Hệ thống chat/email trên website</li>
     <li>Hotline: 0979.553.289 (giờ hành chính)</li>
-    <li>Email: Congvinh298@gmail.com</li>
+    <li>Email: Congvinh28@gmail.com</li>
 </ul>
 <p>Nội dung khiếu nại cần bao gồm: thông tin đơn hàng, mô tả vấn đề, bằng chứng (ảnh, video, tin nhắn).</p>
 
@@ -65,7 +65,7 @@ require_once __DIR__ . '/inc/header.php';
     <li>Thực hiện theo cam kết bảo hành, đổi trả.</li>
 </ul>
 
-<h3>Chủ sàn (Công ty Điện Tử Hiếu)</h3>
+<h3>Chủ sàn (Công ty ĐIỆN MÁY HIẾU)</h3>
 <ul>
     <li>Hỗ trợ, điều phối giải quyết tranh chấp một cách khách quan.</li>
     <li>Bảo vệ quyền lợi người tiêu dùng theo quy định pháp luật.</li>
@@ -73,10 +73,10 @@ require_once __DIR__ . '/inc/header.php';
 </ul>
 
 <h2>5. Thông tin liên hệ giải quyết tranh chấp</h2>
-<p><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong><br>
+<p><strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong><br>
 Người đại diện: Trần Công Vinh<br>
 Hotline: 0979.553.289<br>
-Email: Congvinh298@gmail.com<br>
+Email: Congvinh28@gmail.com<br>
 Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
 
 <p><em>Các tranh chấp không giải quyết được có thể được đưa ra Tòa án nhân dân huyện Lấp Vò, tỉnh Đồng Tháp.</em></p>

@@ -1,7 +1,7 @@
-# THÔNG TIN DỰ ÁN VÀ QUY ƯỚC LẬP TRÌNH BẮT BUỘC (AI SYSTEM PROMPT)
+﻿# THÔNG TIN DỰ ÁN VÀ QUY ƯỚC LẬP TRÌNH BẮT BUỘC (AI SYSTEM PROMPT)
 
 ## 1. Bối cảnh dự án (Project Context)
-- **Tên dự án:** Hệ Sinh Thái Lấp Vò - Điện Tử Hiếu.
+- **Tên dự án:** Hệ Sinh Thái Lấp Vò - ĐIỆN MÁY HIẾU.
 - **Mục tiêu cốt lõi:** Xây dựng một nền tảng Marketplace (sàn giao dịch trực tuyến) quy mô lớn đa dịch vụ (Vận tải, Sửa chữa, Lao động thời vụ, Viễn thông, Bảo hiểm...). Mục đích không phải là mở cửa hàng bán lẻ hay tự đi tìm shipper, mà là tạo ra một hệ sinh thái kết nối để **tạo ra nhiều cơ hội việc làm hơn cho cộng đồng địa phương**.
 - **Chiến lược Web-First:** Toàn bộ hệ thống hoạt động hoàn toàn trên môi trường Web (dienmayhieu.com), không sử dụng và phát triển ứng dụng di động riêng biệt (Mobile App). Mọi thao tác của khách hàng và đối tác đều thông qua trình duyệt web với phương thức **đăng nhập bằng mã QR** làm chủ đạo, giúp lược bỏ rào cản "phải cài app".
 - **Văn phong giao diện (Tone & Voice):** Gần gũi, dân dã, chân chất của người miền Tây. Sử dụng các từ ngữ như: "bà con", "ní", "mắng vốn", "nghen", "dạ", "chọt ngón tay". Tuyệt đối không dùng ngôn ngữ máy móc, khô khan khi viết text hiển thị cho người dùng.

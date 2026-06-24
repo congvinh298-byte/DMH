@@ -13,7 +13,7 @@ require_once __DIR__ . '/inc/header.php';
 </ul>
 
 <h2>II. Quy định chung</h2>
-<p><strong>Chủ sàn:</strong> CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</p>
+<p><strong>Chủ sàn:</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</p>
 <p><strong>Tên miền:</strong> dienmayhieu.com</p>
 <p><strong>Loại hình:</strong> Sàn giao dịch thương mại điện tử (E-commerce marketplace)</p>
 <p><strong>Phạm vi hoạt động:</strong> Khu vực Xã Lấp Vò và lân cận, bán kính phục vụ 10 km.</p>

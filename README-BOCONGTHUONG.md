@@ -1,4 +1,4 @@
-
+﻿
 # HƯỚNG DẪN NỘP HỒ SƠ BỘ CÔNG THƯƠNG
 
 > Dự án: dienmayhieu.com (Chợ Xã Lấp Vò Online)  
@@ -9,7 +9,7 @@
 ## ĐIỀU KIỆN ĐĂNG KÝ
 
 - Website phải có tên miền riêng (dienmayhieu.com đã có).
-- Chủ sở hữu phải là doanh nghiệp đăng ký kinh doanh hợp pháp (Công ty TNHH MTV Điện Tử Hiếu - MST 1402228630).
+- Chủ sở hữu phải là doanh nghiệp đăng ký kinh doanh hợp pháp (Công ty TNHH MTV ĐIỆN MÁY HIẾU - MST 1402228630).
 - Website phải hoàn thiện với đầy đủ cấu trúc, tính năng và thông tin theo đề án.
 
 ---
@@ -42,7 +42,7 @@
 - Tên website: **Chợ Xã Lấp Vò Online**
 - Tên miền: **dienmayhieu.com**
 - Loại hình: **Sàn giao dịch thương mại điện tử**
-- Thông tin chủ sở hữu: Công ty TNHH MTV Điện Tử Hiếu
+- Thông tin chủ sở hữu: Công ty TNHH MTV ĐIỆN MÁY HIẾU
 - Thông tin người đại diện: Nguyễn Văn Hiếu
 
 ### Bước 4: Upload tài liệu đính kèm

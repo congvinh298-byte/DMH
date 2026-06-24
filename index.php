@@ -7,7 +7,7 @@ header('Permissions-Policy: camera=(self), microphone=(), geolocation=(self)');
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /*
- * Dien Tu Hieu - Public Storefront.
+ * DIEN MAY HIEU - Public Storefront.
  * Do not require api_master.php here. This page calls the backend only by fetch().
  * Database credentials are loaded from .env so they are not exposed in this file.
  */
@@ -1765,7 +1765,7 @@ footer {
 <footer><div class="wrap">
     <div class="footer-grid">
         <div>
-            <h3>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</h3>
+            <h3>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h3>
             <p>MST: 1402228630</p>
             <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
             <p>Website: dienmayhieu.com</p>
@@ -1971,10 +1971,10 @@ function openModal(type) {
             html: `
                 <div class="legal-doc">
                     <div class="legal-lead">
-                        <p><b>Chợ Lấp Vò Online</b> là nền tảng số do CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU xây dựng nhằm kết nối người mua, cửa hàng, đơn vị cung ứng dịch vụ, thợ kỹ thuật và đối tác giao nhận trong khu vực phục vụ. Quy chế này công bố nguyên tắc vận hành, quy trình giao dịch, trách nhiệm của các bên và cơ chế bảo vệ quyền lợi người dùng trên nền tảng.</p>
+                        <p><b>Chợ Lấp Vò Online</b> là nền tảng số do CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU xây dựng nhằm kết nối người mua, cửa hàng, đơn vị cung ứng dịch vụ, thợ kỹ thuật và đối tác giao nhận trong khu vực phục vụ. Quy chế này công bố nguyên tắc vận hành, quy trình giao dịch, trách nhiệm của các bên và cơ chế bảo vệ quyền lợi người dùng trên nền tảng.</p>
                     </div>
                     <div class="legal-meta">
-                        <div><b>Đơn vị vận hành</b><br>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</div>
+                        <div><b>Đơn vị vận hành</b><br>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</div>
                         <div><b>Mã số thuế</b><br>1402228630</div>
                         <div><b>Phạm vi phục vụ</b><br>Ưu tiên bán kính 10 km quanh Cầu Lấp Vò, Đồng Tháp</div>
                     </div>
@@ -2047,7 +2047,7 @@ function openModal(type) {
             html: `
                 <div class="legal-doc">
                     <div class="legal-lead">
-                        <p>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU coi dữ liệu người dùng là tài sản cần được bảo vệ. Chính sách này giải thích cách Chợ Lấp Vò Online thu thập, sử dụng, lưu trữ, chia sẻ và bảo vệ dữ liệu cá nhân khi người dùng mua hàng, gọi thợ, gọi xe, đăng nhập QR, tích điểm hoặc tương tác với nền tảng.</p>
+                        <p>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU coi dữ liệu người dùng là tài sản cần được bảo vệ. Chính sách này giải thích cách Chợ Lấp Vò Online thu thập, sử dụng, lưu trữ, chia sẻ và bảo vệ dữ liệu cá nhân khi người dùng mua hàng, gọi thợ, gọi xe, đăng nhập QR, tích điểm hoặc tương tác với nền tảng.</p>
                     </div>
                     <section class="legal-section">
                         <h4>1. Loại dữ liệu có thể được thu thập</h4>
@@ -2101,7 +2101,7 @@ function openModal(type) {
                     </section>
                     <section class="legal-section">
                         <h4>8. Liên hệ bảo vệ dữ liệu</h4>
-                        <p>Người dùng có câu hỏi, yêu cầu chỉnh sửa/xóa dữ liệu hoặc phản ánh về bảo mật có thể liên hệ: CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU, địa chỉ 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp, hotline 0979.553.289.</p>
+                        <p>Người dùng có câu hỏi, yêu cầu chỉnh sửa/xóa dữ liệu hoặc phản ánh về bảo mật có thể liên hệ: CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU, địa chỉ 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp, hotline 0979.553.289.</p>
                         <p class="legal-note">Chính sách này được xây dựng theo định hướng tuân thủ Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân và các quy định pháp luật liên quan.</p>
                     </section>
                 </div>
@@ -2112,7 +2112,7 @@ function openModal(type) {
             html: `
                 <div class="legal-doc">
                     <div class="legal-lead">
-                        <p>Chợ Lấp Vò Online là đề án chuyển đổi số do CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU phát triển theo mô hình nền tảng dịch vụ số tư nhân, kết hợp website, ứng dụng, phần mềm máy tính, hệ thống quản trị, dữ liệu vận hành và công nghệ thông tin để phục vụ thương mại, dịch vụ kỹ thuật và nhu cầu thiết yếu tại địa phương.</p>
+                        <p>Chợ Lấp Vò Online là đề án chuyển đổi số do CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU phát triển theo mô hình nền tảng dịch vụ số tư nhân, kết hợp website, ứng dụng, phần mềm máy tính, hệ thống quản trị, dữ liệu vận hành và công nghệ thông tin để phục vụ thương mại, dịch vụ kỹ thuật và nhu cầu thiết yếu tại địa phương.</p>
                     </div>
                     <section class="legal-section">
                         <h4>1. Tầm nhìn</h4>

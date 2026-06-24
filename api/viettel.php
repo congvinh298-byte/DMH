@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 
 
@@ -157,7 +157,7 @@ class ViettelInvoiceAPI {
                 'buyerAddressLine' => $buyerAddressLine
             ],
             'sellerInfo' => [
-                'sellerLegalName' => getenv('COMPANY_NAME') ?: 'CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU',
+                'sellerLegalName' => getenv('COMPANY_NAME') ?: 'CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU',
                 'sellerTaxCode' => $this->taxCode,
                 'sellerAddressLine' => getenv('COMPANY_ADDRESS') ?: 'Đồng Tháp'
             ],

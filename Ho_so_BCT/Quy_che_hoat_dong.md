@@ -1,4 +1,4 @@
-# QUY CHẾ HOẠT ĐỘNG SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ
+﻿# QUY CHẾ HOẠT ĐỘNG SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ
 
 ## Website: dienmayhieu.com (Chợ Xã Lấp Vò Online)
 
@@ -16,7 +16,7 @@
 
 ## II. QUY ĐỊNH CHUNG
 
-**Chủ sàn:** CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU
+**Chủ sàn:** CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU
 
 **Tên miền:** dienmayhieu.com
 
@@ -25,13 +25,13 @@
 **Phạm vi hoạt động:** Khu vực Xã Lấp Vò và lân cận, bán kính phục vụ 10 km.
 
 **Thông tin chủ sở hữu:**
-- Tên công ty: CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU
+- Tên công ty: CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU
 - MST: 1402228630 (cấp 10/08/2024, BỘ CÔNG AN)
 - Người đại diện: Trần Công Vinh - Giám đốc
 - CCCD: 087097006101 (cấp 10/08/2024, BỘ CÔNG AN)
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp
 - SĐT: 0979.553.289
-- Email: Congvinh298@gmail.com
+- Email: Congvinh28@gmail.com
 
 ---
 
@@ -83,10 +83,10 @@
 4. Nếu không thành, chuyển cơ quan có thẩm quyền.
 
 **Thông tin liên hệ giải quyết tranh chấp:**
-- CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU
+- CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU
 - Người đại diện: Trần Công Vinh
 - Hotline: 0979.553.289
-- Email: Congvinh298@gmail.com
+- Email: Congvinh28@gmail.com
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp
 
 ---
@@ -130,7 +130,7 @@
 **Đầu mối liên hệ bảo vệ quyền lợi người tiêu dùng:**
 - Người đại diện được ủy quyền: Trần Công Vinh - Giám đốc
 - SĐT: 0979.553.289
-- Email: Congvinh298@gmail.com
+- Email: Congvinh28@gmail.com
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp
 
 ---
@@ -188,4 +188,4 @@
 
 *Lập biên bản ngày: 23/06/2026*  
 *Người lập: Trần Công Vinh - Giám đốc*  
-*CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU*
+*CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU*
