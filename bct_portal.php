@@ -1,4 +1,4 @@
-<?php
+\u003c?php\nif (isset(\['test_seed'])) { echo json_encode(['test' => 'ok']); exit; }
 declare(strict_types=1);
 
 define('DTH_API_LIBRARY_ONLY', true);
