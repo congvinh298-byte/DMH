@@ -380,7 +380,6 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
 
                 <button type="submit">ÄÄƒng nháº­p</button>
             </form>
-            <p class="note">TÃ i khoáº£n test: qltmdt@moit.gov.vn / Admin@123</p>
         </div>
     </div>
 </div>
