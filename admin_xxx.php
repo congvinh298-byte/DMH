@@ -368,7 +368,7 @@ function badge(status) {
 }
 
 async function loadStores(filter, containerId) {
-    const res = await api('admin_stores', { status: filter }, 'GET');
+    const res = await api('admin_store_list', { status: filter }, 'GET');
     const container = document.getElementById(containerId);
     if (!res || res.status !== 'ok' || !res.data) {
         container.innerHTML = '<p>Không tải được danh sách cửa hàng.</p>';
@@ -415,7 +415,7 @@ async function rejectStore(id) {
 }
 
 async function loadVouchers() {
-    const res = await api('admin_vouchers', {}, 'GET');
+    const res = await api('admin_voucher_list', {}, 'GET');
     const container = document.getElementById('vouchers-table');
     if (!res || res.status !== 'ok' || !res.vouchers) {
         container.innerHTML = '<p>Không tải được danh sách voucher.</p>';
@@ -446,7 +446,7 @@ async function loadVouchers() {
 }
 
 async function loadQRCoupons() {
-    const res = await api('admin_vouchers', {}, 'GET');
+    const res = await api('admin_voucher_list', {}, 'GET');
     const container = document.getElementById('qr-coupons-grid');
     if (!res || res.status !== 'ok' || !res.qr_coupons) {
         container.innerHTML = '<p>Không tải được danh sách QR.</p>';
@@ -482,7 +482,7 @@ async function saveVoucher(e) {
     data.max_discount = Number(data.max_discount || 0);
     data.usage_limit = Number(data.usage_limit || 1);
     data.is_active = Number(data.is_active);
-    const res = await api('admin_save_voucher', data);
+    const res = await api('admin_create_voucher', data);
     alert(res.message || (res.status === 'ok' ? 'Đã lưu voucher' : 'Lỗi'));
     if (res.status === 'ok') {
         form.reset();
@@ -498,7 +498,7 @@ async function generateQR(e) {
     const data = Object.fromEntries(new FormData(form));
     data.count = Number(data.count);
     data.value = Number(data.value);
-    const res = await api('admin_save_qr', data);
+    const res = await api('admin_create_qr', data);
     const result = document.getElementById('qr-created-result');
     if (res.status === 'ok' && res.codes) {
         let html = '<h3>Đã tạo các mã QR:</h3><div class="qr-list">';
