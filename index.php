@@ -513,39 +513,39 @@ body,button,input,textarea,select{font-family:Arial,Helvetica,sans-serif}
 body {
     background: #fef2f2; /* Light red tint for empty spaces */
 color:var(--text);line-height:1.5}
-a{text-decoration:none;color:inherit}.wrap{inline-size:min(1180px,calc(100% - 32px));margin:0 auto}
-.top{background:var(--dark);color:#fff;font-size:13px}.top .wrap{min-block-size:38px;display:flex;justify-content:space-between;align-items:center;gap:12px}.approval-line{background:#fff7ed;color:#9a3412;border-block-end:1px solid #fed7aa;text-align:center;padding:7px 12px;font-size:13px;font-weight:800}
-header{position:sticky;inset-block-start:0;z-index:10;background:#fff;border-block-end:1px solid var(--line)}
-.head{min-block-size:74px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+a{text-decoration:none;color:inherit}.wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
+.top{background:var(--dark);color:#fff;font-size:13px}.top .wrap{min-height:38px;display:flex;justify-content:space-between;align-items:center;gap:12px}.approval-line{background:#fff7ed;color:#9a3412;border-bottom:1px solid #fed7aa;text-align:center;padding:7px 12px;font-size:13px;font-weight:800}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
+.head{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .logo{font-size:22px;font-weight:900;color:var(--brand)}.logo small{display:block;color:var(--muted);font-size:12px}
-.search{display:flex;gap:8px;flex:1;max-inline-size:520px}.search input{inline-size:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font-size:15px}
+.search{display:flex;gap:8px;flex:1;max-width:520px}.search input{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font-size:15px}
 .btn,button{border:0;border-radius:8px;background:var(--brand);color:#fff;font-weight:800;padding:11px 16px;cursor:pointer}.btn.dark{background:var(--dark)}
-nav{border-block-start:1px solid var(--line)}nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 0}nav button{background:#fff;color:#344054;border:1px solid var(--line);white-space:nowrap}nav button.active{color:var(--brand);border-color:var(--brand);background:#fff5f5}
+nav{border-top:1px solid var(--line)}nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 0}nav button{background:#fff;color:#344054;border:1px solid var(--line);white-space:nowrap}nav button.active{color:var(--brand);border-color:var(--brand);background:#fff5f5}
 main{padding:24px 0 44px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 24px rgba(15,23,42,.06)}
-.hero{display:grid;grid-template-columns:1.35fr .9fr;gap:18px}.hero-main{min-block-size:260px;padding:28px;background:linear-gradient(120deg,#111827,#b42318);color:#fff;display:flex;flex-direction:column;justify-content:center}.hero-main h1{font-size:clamp(32px,4vw,50px);line-height:1;margin:0 0 12px}.hero-main p{max-inline-size:640px;color:#f3f4f6;margin:0 0 18px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap}.hero-actions .btn{text-align:center}
-.qr{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.qr-box{border:1px solid var(--line);border-radius:8px;padding:12px}.qr-box h3{margin:0 0 8px;font-size:15px}.qr-box p{margin:0 0 10px;color:var(--muted);font-size:13px}.qr-box img{inline-size:150px;block-size:150px;object-fit:contain;background:#fff;border:1px solid var(--line);padding:6px}.qr-empty{block-size:150px;display:grid;place-items:center;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;color:#98a2b3;text-align:center;font-size:13px}
+.hero{display:grid;grid-template-columns:1.35fr .9fr;gap:18px}.hero-main{min-height:260px;padding:28px;background:linear-gradient(120deg,#111827,#b42318);color:#fff;display:flex;flex-direction:column;justify-content:center}.hero-main h1{font-size:clamp(32px,4vw,50px);line-height:1;margin:0 0 12px}.hero-main p{max-width:640px;color:#f3f4f6;margin:0 0 18px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap}.hero-actions .btn{text-align:center}
+.qr{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.qr-box{border:1px solid var(--line);border-radius:8px;padding:12px}.qr-box h3{margin:0 0 8px;font-size:15px}.qr-box p{margin:0 0 10px;color:var(--muted);font-size:13px}.qr-box img{width:150px;height:150px;object-fit:contain;background:#fff;border:1px solid var(--line);padding:6px}.qr-empty{height:150px;display:grid;place-items:center;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;color:#98a2b3;text-align:center;font-size:13px}
 .storefront{display:flex;flex-direction:column}.storefront>section:nth-of-type(1){order:0}.storefront>section:nth-of-type(2){order:2}.storefront>section:nth-of-type(3){order:1}.storefront>section:nth-of-type(4){order:3}
-.section{margin-block-start:22px}.title{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-block-end:12px}.title h2{margin:0;font-size:23px}.muted{color:var(--muted);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}.img{block-size:160px;display:flex;justify-content:center;align-items:center;background:#fff;border-block-end:1px solid var(--line);color:#98a2b3;overflow:hidden;}.img img{max-inline-size:100%;block-size:100%;object-fit:contain;padding:10px}.sim-face{font-size:24px;font-weight:900;color:var(--ok);letter-spacing:.5px}.body{padding:12px;flex:1;display:flex;flex-direction:column;}.name{font-weight:900;min-block-size:42px}.cat{font-size:13px;color:var(--muted)}.price{font-size:17px;color:var(--brand);font-weight:900}.buy-row{display:flex;gap:8px;align-items:center;margin-block-start:auto;padding-block-start:10px;}.buy-row .btn{inline-size:100%;text-align:center;padding:9px 12px}.suggest{display:inline-block;color:var(--ok);font-size:12px;font-weight:800}.empty{grid-column:1/-1;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:24px;text-align:center;color:var(--muted)}
-.booking-shell{padding:18px}.service-head{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin-block-end:10px}.service-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-block-end:14px}.service-option{display:grid;grid-template-columns:1fr auto;gap:5px 10px;min-block-size:64px;padding:10px 12px;text-align:start;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:8px}.service-option:hover,.service-option.selected{border-color:var(--brand);background:#fff7f7}.service-option small{color:var(--muted);font-weight:700}.service-option strong{align-self:center;color:var(--brand);white-space:nowrap}.service-option span{font-size:13px;font-weight:900}.service-option.is-contact strong{color:var(--muted)}
+.section{margin-top:22px}.title{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.title h2{margin:0;font-size:23px}.muted{color:var(--muted);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}.img{height:160px;display:flex;justify-content:center;align-items:center;background:#fff;border-bottom:1px solid var(--line);color:#98a2b3;overflow:hidden;}.img img{max-width:100%;height:100%;object-fit:contain;padding:10px}.sim-face{font-size:24px;font-weight:900;color:var(--ok);letter-spacing:.5px}.body{padding:12px;flex:1;display:flex;flex-direction:column;}.name{font-weight:900;min-height:42px}.cat{font-size:13px;color:var(--muted)}.price{font-size:17px;color:var(--brand);font-weight:900}.buy-row{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:10px;}.buy-row .btn{width:100%;text-align:center;padding:9px 12px}.suggest{display:inline-block;color:var(--ok);font-size:12px;font-weight:800}.empty{grid-column:1/-1;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:24px;text-align:center;color:var(--muted)}
+.booking-shell{padding:18px}.service-head{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin-bottom:10px}.service-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}.service-option{display:grid;grid-template-columns:1fr auto;gap:5px 10px;min-height:64px;padding:10px 12px;text-align:start;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:8px}.service-option:hover,.service-option.selected{border-color:var(--brand);background:#fff7f7}.service-option small{color:var(--muted);font-weight:700}.service-option strong{align-self:center;color:var(--brand);white-space:nowrap}.service-option span{font-size:13px;font-weight:900}.service-option.is-contact strong{color:var(--muted)}
 .gemini-panel{display:none;margin:0 0 14px;border:1px solid #c7d2fe;background:#f8fafc;border-radius:8px;padding:12px}.gemini-panel.active{display:grid;gap:10px}.gemini-actions{display:flex;gap:8px;flex-wrap:wrap}.gemini-reply{display:none;border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px;white-space:pre-wrap}.gemini-reply.active{display:block}
-.gemini-message p:last-child { margin-block-end: 0; }
+.gemini-message p:last-child { margin-bottom: 0; }
 .gemini-message pre { background: #f1f5f9; padding: 10px; border-radius: 6px; overflow-x: auto; margin: 10px 0; font-size: 13px; }
 .gemini-message code { font-family: monospace; }
 .typing-indicator { display: none; padding: 8px 12px; font-style: italic; color: #64748b; font-size: 13px; }
-.dth-modal { display: none; position: fixed; z-index: 99999; inset-inline-start: 0; inset-block-start: 0; inline-size: 100%; block-size: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow: auto; }
-.dth-modal-content { background-color: #fff; margin: 5% auto; padding: 24px; border-radius: 12px; inline-size: 90%; max-inline-size: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; animation: modalFadeIn 0.3s ease; }
+.dth-modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow: auto; }
+.dth-modal-content { background-color: #fff; margin: 5% auto; padding: 24px; border-radius: 12px; width: 90%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; animation: modalFadeIn 0.3s ease; }
 @keyframes modalFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-.dth-modal-close { position: absolute; inset-block-start: 15px; inset-inline-end: 20px; font-size: 28px; font-weight: bold; color: #666; cursor: pointer; }
+.dth-modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; color: #666; cursor: pointer; }
 .dth-modal-close:hover { color: #dc2626; }
-.dth-modal-title { font-size: 22px; font-weight: 800; margin-block-end: 20px; color: #111827; border-block-end: 2px solid #dc2626; padding-block-end: 10px; display: inline-block; }
+.dth-modal-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: #111827; border-bottom: 2px solid #dc2626; padding-bottom: 10px; display: inline-block; }
 .dth-modal-body { font-size: 15px; line-height: 1.6; color: #374151; }
-.dth-modal-body h4 { margin-block-start: 15px; margin-block-end: 8px; color: #1f2937; font-size: 16px; }
-.dth-modal-body ul { padding-inline-start: 20px; margin-block-start: 5px; margin-block-end: 15px; }
-.legal-doc{display:grid;gap:16px;text-align:start;color:#374151}.legal-lead{background:#f8fafc;border:1px solid #e2e8f0;border-inline-start:4px solid #dc2626;border-radius:10px;padding:14px 16px}.legal-lead p{margin:0}.legal-section{border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;background:#fff}.legal-section h4{margin:0 0 8px!important;color:#111827!important;font-size:16px!important}.legal-section p{margin:0 0 8px}.legal-section p:last-child{margin-block-end:0}.legal-section ul{margin:0!important;padding-inline-start:20px!important}.legal-section li{margin-block-end:6px}.legal-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.legal-meta div{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:13px}.legal-note{font-size:13px;color:#64748b;font-style:italic}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px}.full{grid-column:1/-1}label{font-size:13px;font-weight:800}input,textarea,select{inline-size:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;background:#fff}textarea{min-block-size:100px;resize:vertical}.readonly-price{background:#f8fafc;color:#047857;font-weight:900}.map-actions{display:flex;gap:8px;flex-wrap:wrap}.map-actions .btn{padding:9px 12px}.map-preview{margin-block-start:4px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#f8fafc}.location-map{inline-size:100%;block-size:260px}.location-status{padding:8px 10px;background:#f8fafc;border-block-start:1px solid var(--line);font-size:12px;color:var(--muted)}.status{display:none;margin-block-start:12px;padding:10px 12px;border-radius:8px}.status.ok{display:block;background:#ecfdf3;color:#047857;border:1px solid #a7f3d0}.status.err{display:block;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
-.legal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.legal-item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:0 12px}.legal-item summary{cursor:pointer;font-weight:900;padding:12px 0}.legal-content{border-block-start:1px solid var(--line);padding:10px 0 12px;color:#475569;font-size:13px}.legal-content p{margin:0 0 8px}.legal-content p:last-child{margin-block-end:0}
-footer{background:#111827;color:#d1d5db;padding:24px 0;font-size:13px}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:18px}.footer-grid h3{margin:0 0 8px;color:#fff;font-size:15px}.footer-grid p{margin:4px 0}.footer-bottom{border-block-start:1px solid #374151;margin-block-start:18px;padding-block-start:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.dth-modal-body h4 { margin-top: 15px; margin-bottom: 8px; color: #1f2937; font-size: 16px; }
+.dth-modal-body ul { padding-left: 20px; margin-top: 5px; margin-bottom: 15px; }
+.legal-doc{display:grid;gap:16px;text-align:start;color:#374151}.legal-lead{background:#f8fafc;border:1px solid #e2e8f0;border-inline-start:4px solid #dc2626;border-radius:10px;padding:14px 16px}.legal-lead p{margin:0}.legal-section{border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;background:#fff}.legal-section h4{margin:0 0 8px!important;color:#111827!important;font-size:16px!important}.legal-section p{margin:0 0 8px}.legal-section p:last-child{margin-bottom:0}.legal-section ul{margin:0!important;padding-left:20px!important}.legal-section li{margin-bottom:6px}.legal-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.legal-meta div{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:13px}.legal-note{font-size:13px;color:#64748b;font-style:italic}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px}.full{grid-column:1/-1}label{font-size:13px;font-weight:800}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}.readonly-price{background:#f8fafc;color:#047857;font-weight:900}.map-actions{display:flex;gap:8px;flex-wrap:wrap}.map-actions .btn{padding:9px 12px}.map-preview{margin-top:4px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#f8fafc}.location-map{width:100%;height:260px}.location-status{padding:8px 10px;background:#f8fafc;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.status{display:none;margin-top:12px;padding:10px 12px;border-radius:8px}.status.ok{display:block;background:#ecfdf3;color:#047857;border:1px solid #a7f3d0}.status.err{display:block;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
+.legal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.legal-item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:0 12px}.legal-item summary{cursor:pointer;font-weight:900;padding:12px 0}.legal-content{border-top:1px solid var(--line);padding:10px 0 12px;color:#475569;font-size:13px}.legal-content p{margin:0 0 8px}.legal-content p:last-child{margin-bottom:0}
+footer{background:#111827;color:#d1d5db;padding:24px 0;font-size:13px}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:18px}.footer-grid h3{margin:0 0 8px;color:#fff;font-size:15px}.footer-grid p{margin:4px 0}.footer-bottom{border-top:1px solid #374151;margin-top:18px;padding-top:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 @media(max-width:900px){.head,.hero{display:grid;grid-template-columns:1fr}.search{max-width:none}.grid,.qr,.service-list,.legal-grid,.footer-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){header{position:static}.top .wrap{min-height:auto;padding:6px 0;flex-wrap:wrap}.head{padding:12px 0}.title{display:grid;grid-template-columns:1fr;align-items:start;gap:2px}.grid,.qr,.form,.service-head,.service-list,.legal-grid,.footer-grid{grid-template-columns:1fr}.hero-actions .btn{flex:1 1 180px}.full{grid-column:auto}.wrap{width:min(100% - 22px,1180px)}.location-map{height:230px}}
 
 
@@ -594,7 +594,7 @@ body, button, input, textarea, select {
 }
 
 body {
-    min-block-size: 100vh;
+    min-height: 100vh;
     margin: 0;
     color: #fff !important;
     background:
@@ -618,25 +618,25 @@ body::before {
 }
 
 .wrap {
-    inline-size: min(1180px, calc(100% - 32px)) !important;
+    width: min(1180px, calc(100% - 32px)) !important;
 }
 
 .approval-line {
     background: linear-gradient(90deg, rgba(6,42,29,.96), rgba(11,61,43,.96)) !important;
     color: var(--champagne-pale) !important;
-    border-block-end: 1px solid var(--line-gold) !important;
+    border-bottom: 1px solid var(--line-gold) !important;
     letter-spacing: .04em;
 }
 
 header {
     background: rgba(6, 42, 29, 0.76) !important;
-    border-block-end: 1px solid var(--line-gold) !important;
+    border-bottom: 1px solid var(--line-gold) !important;
     box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(22px);
 }
 
 .head {
-    min-block-size: 86px !important;
+    min-height: 86px !important;
     align-items: center !important;
 }
 
@@ -653,8 +653,8 @@ header {
 }
 
 .logo img {
-    block-size: 58px !important;
-    inline-size: 58px;
+    height: 58px !important;
+    width: 58px;
     border: 1px solid rgba(212, 175, 55, .55);
     border-radius: 18px !important;
     box-shadow: 0 12px 28px rgba(0, 0, 0, .25), 0 0 0 6px rgba(212, 175, 55, .08);
@@ -669,7 +669,7 @@ header {
 }
 
 .search input {
-    min-block-size: 46px;
+    min-height: 46px;
     background: rgba(255, 255, 255, .08) !important;
     color: #fff !important;
     border: 1px solid var(--line-gold) !important;
@@ -744,7 +744,7 @@ main {
 }
 
 .section {
-    margin-block-start: 0 !important;
+    margin-top: 0 !important;
 }
 
 .glass-panel,
@@ -766,7 +766,7 @@ main {
 }
 
 .hero-card {
-    min-block-size: clamp(390px, 48vw, 540px);
+    min-height: clamp(390px, 48vw, 540px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -777,26 +777,26 @@ main {
 .hero-card::after {
     content: "";
     position: absolute;
-    inline-size: 360px;
-    block-size: 360px;
-    inset-inline-end: -130px;
-    inset-block-start: -130px;
+    width: 360px;
+    height: 360px;
+    right: -130px;
+    top: -130px;
     border-radius: 50%;
     background: radial-gradient(circle, rgba(212, 175, 55, .23), transparent 68%);
     pointer-events: none;
 }
 
 .hero-logo {
-    inline-size: min(220px, 52vw);
+    width: min(220px, 52vw);
     aspect-ratio: 1;
     object-fit: contain;
     border-radius: 999px;
     filter: drop-shadow(0 26px 44px rgba(0, 0, 0, .42));
-    margin-block-end: clamp(18px, 3vw, 28px);
+    margin-bottom: clamp(18px, 3vw, 28px);
 }
 
 .hero-title {
-    max-inline-size: 760px;
+    max-width: 760px;
     margin: 0 0 16px;
     color: #fff;
     font-size: clamp(38px, 7vw, 78px);
@@ -806,7 +806,7 @@ main {
 }
 
 .hero-slogan {
-    max-inline-size: 720px;
+    max-width: 720px;
     margin: 0 0 26px;
     color: var(--white-soft);
     font-size: clamp(17px, 2.4vw, 24px);
@@ -821,7 +821,7 @@ main {
 }
 
 .hero-actions .btn {
-    min-block-size: 48px;
+    min-height: 48px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -829,7 +829,7 @@ main {
 }
 
 .qr-showcase {
-    min-block-size: 100%;
+    min-height: 100%;
     padding: clamp(18px, 3vw, 28px);
 }
 
@@ -852,7 +852,7 @@ main {
     grid-template-columns: auto 1fr;
     gap: 14px;
     align-items: center;
-    min-block-size: 178px;
+    min-height: 178px;
     padding: 16px;
     overflow: hidden;
     background: rgba(255, 255, 255, .08);
@@ -871,8 +871,8 @@ main {
 
 .qr-frame img,
 .footer-grid img {
-    inline-size: 132px !important;
-    block-size: 132px !important;
+    width: 132px !important;
+    height: 132px !important;
     object-fit: contain;
     background: #fff !important;
     border: 1px solid rgba(212, 175, 55, .65) !important;
@@ -894,14 +894,14 @@ main {
 
 .qr-label span {
     display: block;
-    margin-block-start: 5px;
+    margin-top: 5px;
     color: var(--muted-light);
     font-size: 14px;
 }
 
 .qr-empty {
-    inline-size: 132px;
-    block-size: 132px;
+    width: 132px;
+    height: 132px;
     display: grid;
     place-items: center;
     background: rgba(255, 255, 255, .08) !important;
@@ -923,7 +923,7 @@ main {
 }
 
 .category-orb {
-    min-block-size: 136px;
+    min-height: 136px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -950,8 +950,8 @@ main {
 }
 
 .category-icon {
-    inline-size: 62px;
-    block-size: 62px;
+    width: 62px;
+    height: 62px;
     display: grid;
     place-items: center;
     border-radius: 999px;
@@ -1001,7 +1001,7 @@ main {
 
 #formMainTitle {
     color: #fff !important;
-    border-block-end: 1px solid rgba(212, 175, 55, .32) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, .32) !important;
     letter-spacing: .01em !important;
 }
 
@@ -1017,7 +1017,7 @@ main {
     background: transparent !important;
     color: #fff !important;
     border: 0 !important;
-    border-block-end: 1px solid rgba(212, 175, 55, .70) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, .70) !important;
     border-radius: 0 !important;
     box-shadow: none !important;
     padding: 13px 4px 12px !important;
@@ -1032,7 +1032,7 @@ main {
 #bookingForm textarea:focus,
 #bookingForm select:focus {
     outline: none !important;
-    border-block-end-color: var(--champagne) !important;
+    border-bottom-color: var(--champagne) !important;
     box-shadow: 0 14px 24px -22px var(--champagne), 0 1px 0 var(--champagne) !important;
 }
 
@@ -1040,7 +1040,7 @@ main {
     background: rgba(255, 255, 255, .06) !important;
     color: #fff !important;
     border: 0 !important;
-    border-block-end: 1px solid rgba(212, 175, 55, .70) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, .70) !important;
     border-radius: 0 !important;
     padding: 14px 4px !important;
 }
@@ -1075,7 +1075,7 @@ main {
 
 #bookingSubmit {
     position: relative;
-    min-block-size: 60px;
+    min-height: 60px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1108,10 +1108,10 @@ main {
 }
 
 .dth-spinner {
-    inline-size: 18px;
-    block-size: 18px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(6, 42, 29, .24);
-    border-block-start-color: var(--emerald-950);
+    border-top-color: var(--emerald-950);
     border-radius: 50%;
     animation: dthSpin .72s linear infinite;
 }
@@ -1179,7 +1179,7 @@ main {
 }
 
 .store-block > div:first-child {
-    border-block-end: 1px solid var(--line-gold) !important;
+    border-bottom: 1px solid var(--line-gold) !important;
 }
 
 .store-block h3,
@@ -1193,7 +1193,7 @@ main {
 }
 
 .product {
-    min-block-size: 100%;
+    min-height: 100%;
     overflow: hidden;
     transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
 }
@@ -1206,7 +1206,7 @@ main {
 
 .product .img {
     background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.04)) !important;
-    border-block-end: 1px solid rgba(212, 175, 55, .22) !important;
+    border-bottom: 1px solid rgba(212, 175, 55, .22) !important;
 }
 
 .product .body,
@@ -1225,7 +1225,7 @@ main {
 footer {
     background: rgba(3, 21, 15, .94) !important;
     color: var(--muted-light) !important;
-    border-block-start: 1px solid var(--line-gold);
+    border-top: 1px solid var(--line-gold);
 }
 
 .footer-grid h3,
@@ -1234,7 +1234,7 @@ footer {
 }
 
 .footer-bottom {
-    border-block-start-color: rgba(212, 175, 55, .28) !important;
+    border-top-color: rgba(212, 175, 55, .28) !important;
 }
 
 @media (max-width: 992px) {
@@ -1246,7 +1246,7 @@ footer {
 
     .head > div[style*="align-items: flex-end"] {
         align-items: stretch !important;
-        max-inline-size: none !important;
+        max-width: none !important;
     }
 
     .head > div:last-child {
@@ -1260,7 +1260,7 @@ footer {
 
 @media (max-width: 620px) {
     .wrap {
-        inline-size: min(100% - 22px, 1180px) !important;
+        width: min(100% - 22px, 1180px) !important;
     }
 
     header {
@@ -1272,12 +1272,12 @@ footer {
     }
 
     .hero-card {
-        min-block-size: auto;
+        min-height: auto;
         padding: 24px;
     }
 
     .hero-logo {
-        inline-size: min(180px, 68vw);
+        width: min(180px, 68vw);
     }
 
     .hero-title {
@@ -1285,7 +1285,7 @@ footer {
     }
 
     .hero-actions .btn {
-        inline-size: 100%;
+        width: 100%;
     }
 
     .qr-frame {
@@ -1304,13 +1304,13 @@ footer {
     }
 
     .category-orb {
-        min-block-size: 106px;
+        min-height: 106px;
         padding: 10px 6px;
     }
 
     .category-icon {
-        inline-size: 52px;
-        block-size: 52px;
+        width: 52px;
+        height: 52px;
         font-size: 23px;
     }
 
@@ -1330,20 +1330,20 @@ footer {
 
 </head>
 <body>
-<div class="approval-line" style="border-block-end: 1px solid #fed7aa;">Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</div>
+<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</div>
 <header>
     <div class="wrap head">
         <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">
-            <img src="LOGO.png" alt="Logo Chợ Lấp Vò Online" style="block-size: 48px; border-radius: 6px; object-fit: contain;">
+            <img src="LOGO.png" alt="Logo Chợ Lấp Vò Online" style="height: 48px; border-radius: 6px; object-fit: contain;">
             <div>Chợ Lấp Vò Online<small>Chợ số thế hệ mới</small></div>
         </a>
-        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 1; max-inline-size: 520px;">
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 1; max-width: 520px;">
             <div id="topBarStatus">
                 <button type="button" onclick="openLoginModal()" style="background: #fff; color: #dc2626; border: 1px solid #fca5a5; padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(220,38,38,0.1); transition: all 0.2s ease;">
                     <span style="font-size: 15px;">👤</span> Đăng nhập / Đăng ký
                 </button>
             </div>
-            <form class="search" id="searchForm" style="inline-size: 100%; max-inline-size: 100%;"><input id="searchInput" type="search" placeholder="Tìm sản phẩm..."><button type="submit">Tìm</button></form>
+            <form class="search" id="searchForm" style="width: 100%; max-width: 100%;"><input id="searchInput" type="search" placeholder="Tìm sản phẩm..."><button type="submit">Tìm</button></form>
         </div>
 
 <style>
@@ -1360,13 +1360,13 @@ footer {
 }
 </style>
 <div id="serviceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: flex-end; backdrop-filter: blur(2px);">
-    <div style="background: #f8fafc; inline-size: 100%; max-inline-size: 600px; block-size: 85vh; border-radius: 24px 24px 0 0; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);">
-        <div style="padding: 18px 20px; border-block-end: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;">
+    <div style="background: #f8fafc; width: 100%; max-width: 600px; height: 85vh; border-radius: 24px 24px 0 0; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);">
+        <div style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;">
             <div>
                 <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;">Bảng Giá Dịch Vụ</h3>
                 <span style="font-size: 13px; color: #64748b;">Minh bạch - Rõ ràng - Nhanh chóng</span>
             </div>
-            <button type="button" id="closeServiceModal" style="background: #f1f5f9; border: none; inline-size: 36px; block-size: 36px; border-radius: 18px; font-size: 20px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+            <button type="button" id="closeServiceModal" style="background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 18px; font-size: 20px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
         </div>
         <div style="overflow-y: auto; padding: 20px; background: #f8fafc; flex: 1;">
             <?php 
@@ -1376,11 +1376,11 @@ footer {
                }
                foreach ($groupedServices as $groupName => $groupItems): 
             ?>
-            <div style="margin-block-end: 25px;" class="service-group-container" data-group-name="<?= h($groupName) ?>">
-                <div style="display: flex; align-items: center; gap: 10px; margin-block-end: 12px;">
-                    <div style="block-size: 2px; flex: 1; background: #e2e8f0;"></div>
+            <div style="margin-bottom: 25px;" class="service-group-container" data-group-name="<?= h($groupName) ?>">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
                     <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;"><?= h($groupName) ?></div>
-                    <div style="block-size: 2px; flex: 1; background: #e2e8f0;"></div>
+                    <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     <?php foreach ($groupItems as $svc): 
@@ -1403,7 +1403,7 @@ footer {
                         }
                     ?>
                     <div class="custom-service-item" data-name="<?= h($svc['name']) ?>" data-group="<?= h($svc['group']) ?>" data-base="<?= $base ?>" data-price="<?= $priceData ?>" style="background: #fff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                        <span style="font-weight: 700; color: #1e293b; font-size: 15px; flex: 1; padding-inline-end: 10px; line-height: 1.4;"><?= h($svc['name']) ?></span>
+                        <span style="font-weight: 700; color: #1e293b; font-size: 15px; flex: 1; padding-right: 10px; line-height: 1.4;"><?= h($svc['name']) ?></span>
                         <span style="font-weight: 800; color: #dc2626; font-size: 14px; background: #fee2e2; padding: 6px 10px; border-radius: 8px; white-space: nowrap;"><?= $priceLabel ?></span>
                     </div>
                     <?php endforeach; ?>
@@ -1469,14 +1469,14 @@ footer {
         </div>
     </section>
     
-    <section class="section panel booking-shell" id="goi-tho" style="background: linear-gradient(135deg, #b91c1c, #dc2626); border: 3px solid #fbbf24; border-radius: 12px; box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3); margin-block-start: 0; margin-block-end: 25px; padding: 25px;">
+    <section class="section panel booking-shell" id="goi-tho" style="background: linear-gradient(135deg, #b91c1c, #dc2626); border: 3px solid #fbbf24; border-radius: 12px; box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3); margin-top: 0; margin-bottom: 25px; padding: 25px;">
         <div class="title">
             <h2 id="sectionMainTitle" style="color: #fde047; text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 26px; margin: 0;">GỌI THỢ QUICK POST</h2>
             <span id="sectionMainDesc" style="color: #fef08a; font-size: 15px;">Chốt thợ nhanh chóng, minh bạch giá cả</span>
         </div>
         
-<form id="bookingForm" style="margin-block-start: 10px; padding: 25px; background: #fff; border: 2px solid #fca5a5; border-radius: 12px; box-shadow: 0 4px 15px rgba(220,38,38,0.1);">
-    <h3 id="formMainTitle" style="color: #dc2626; margin-block-start: 0; margin-block-end: 20px; font-size: 22px; text-transform: uppercase; border-block-end: 2px solid #fee2e2; padding-block-end: 10px;">📋 Điền thông tin quick post</h3>
+<form id="bookingForm" style="margin-top: 10px; padding: 25px; background: #fff; border: 2px solid #fca5a5; border-radius: 12px; box-shadow: 0 4px 15px rgba(220,38,38,0.1);">
+    <h3 id="formMainTitle" style="color: #dc2626; margin-top: 0; margin-bottom: 20px; font-size: 22px; text-transform: uppercase; border-bottom: 2px solid #fee2e2; padding-bottom: 10px;">📋 Điền thông tin quick post</h3>
     
     <input type="hidden" id="service_type" name="service_type">
     <input type="hidden" id="tech_target_base" name="tech_target_base">
@@ -1487,10 +1487,10 @@ footer {
     <input type="hidden" id="map_lng" name="map_lng">
     <input type="hidden" id="description" name="description">
 
-    <div style="margin-block-end: 15px;">
-        <label style="color: #475569; font-weight: bold; display: block; margin-block-end: 5px;">Chọn dịch vụ yêu cầu</label>
+    <div style="margin-bottom: 15px;">
+        <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Chọn dịch vụ yêu cầu</label>
         
-        <div id="serviceSelectorTrigger" style="background: #f8fafc; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 10px; padding: 14px; inline-size: 100%; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; transition: all 0.2s;">
+        <div id="serviceSelectorTrigger" style="background: #f8fafc; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 10px; padding: 14px; width: 100%; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; transition: all 0.2s;">
             <span id="serviceSelectorText" style="color: #64748b; font-weight: 500;">-- Bấm vào đây để chọn dịch vụ --</span>
             <span style="color: #cbd5e1; font-size: 12px;">▼</span>
         </div>
@@ -1499,58 +1499,58 @@ footer {
     
 
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-block-end: 15px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
         <div>
-            <label style="color: #475569; font-weight: bold; display: block; margin-block-end: 5px;">Tên của bạn</label>
-            <input type="text" id="customer_name" name="customer_name" required maxlength="150" placeholder="VD: Nguyễn Văn A" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; inline-size: 100%; box-sizing: border-box;">
+            <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Tên của bạn</label>
+            <input type="text" id="customer_name" name="customer_name" required maxlength="150" placeholder="VD: Nguyễn Văn A" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box;">
         </div>
         <div>
-            <label style="color: #475569; font-weight: bold; display: block; margin-block-end: 5px;">Số điện thoại</label>
-            <input type="tel" id="phone" name="phone" required pattern="[0-9]{8,15}" placeholder="VD: 09xxxxxxxx" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; inline-size: 100%; box-sizing: border-box;">
+            <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Số điện thoại</label>
+            <input type="tel" id="phone" name="phone" required pattern="[0-9]{8,15}" placeholder="VD: 09xxxxxxxx" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box;">
         </div>
     </div>
 
     
     <!-- Khu vực nhập vị trí mặc định (Cho Gọi thợ, Drone) -->
-    <div id="location_single_group" style="margin-block-end: 25px;">
-        <label style="color: #475569; font-weight: bold; display: block; margin-block-end: 5px;">Địa chỉ / Vị trí của bạn</label>
-        <input type="text" id="address" name="address" required placeholder="Nhập số nhà, tên đường, ấp... hoặc bấm Định Vị bên dưới" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; inline-size: 100%; box-sizing: border-box; margin-block-end: 10px;">
+    <div id="location_single_group" style="margin-bottom: 25px;">
+        <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Địa chỉ / Vị trí của bạn</label>
+        <input type="text" id="address" name="address" required placeholder="Nhập số nhà, tên đường, ấp... hoặc bấm Định Vị bên dưới" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
         
         <div style="display: flex; gap: 10px;">
             <button type="button" id="useCurrentLocation" class="btn" style="flex: 1; background: #2563eb; color: white; border-radius: 8px; padding: 12px; font-weight: bold; font-size: 15px;">📍 Lấy tọa độ hiện tại</button>
             <button type="button" id="clearLocation" class="btn dark" style="flex: 0 0 auto; border-radius: 8px; padding: 12px;">❌ Xóa</button>
         </div>
-        <div id="locationStatus" style="color: #047857; font-size: 14px; margin-block-start: 8px; font-weight: 500;"></div>
+        <div id="locationStatus" style="color: #047857; font-size: 14px; margin-top: 8px; font-weight: 500;"></div>
     </div>
 
     <!-- Khu vực nhập vị trí Gọi xe (2 điểm) -->
-    <div id="location_vehicle_group" style="display: none; margin-block-end: 25px; padding: 15px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #f8fafc;">
-        <div style="margin-block-end: 15px;">
-            <label style="color: #059669; font-weight: bold; display: block; margin-block-end: 5px;">🟢 Điểm đón / Lấy hàng</label>
-            <input type="text" id="pickup_address" placeholder="Nhập địa chỉ điểm đón..." style="border: 2px solid #a7f3d0; border-radius: 8px; padding: 12px; inline-size: 100%; box-sizing: border-box; margin-block-end: 10px;">
+    <div id="location_vehicle_group" style="display: none; margin-bottom: 25px; padding: 15px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #f8fafc;">
+        <div style="margin-bottom: 15px;">
+            <label style="color: #059669; font-weight: bold; display: block; margin-bottom: 5px;">🟢 Điểm đón / Lấy hàng</label>
+            <input type="text" id="pickup_address" placeholder="Nhập địa chỉ điểm đón..." style="border: 2px solid #a7f3d0; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
             <div style="display: flex; gap: 10px;">
                 <button type="button" id="usePickupLocation" class="btn" style="flex: 1; background: #10b981; color: white; border-radius: 8px; padding: 10px; font-size: 14px;">📍 Lấy tọa độ hiện tại</button>
                 <button type="button" class="btn dark open-map-btn" data-target="pickup" style="flex: 0 0 auto; border-radius: 8px; padding: 10px; font-size: 14px;">🗺️ Chọn trên bản đồ</button>
             </div>
-            <div id="pickupStatus" style="color: #047857; font-size: 13px; margin-block-start: 5px;"></div>
+            <div id="pickupStatus" style="color: #047857; font-size: 13px; margin-top: 5px;"></div>
             <input type="hidden" id="pickup_lat">
             <input type="hidden" id="pickup_lng">
         </div>
 
-        <div style="margin-block-end: 15px;">
-            <label style="color: #dc2626; font-weight: bold; display: block; margin-block-end: 5px;">🔴 Điểm đến / Giao hàng</label>
-            <input type="text" id="dropoff_address" placeholder="Nhập địa chỉ điểm đến..." style="border: 2px solid #fecaca; border-radius: 8px; padding: 12px; inline-size: 100%; box-sizing: border-box; margin-block-end: 10px;">
+        <div style="margin-bottom: 15px;">
+            <label style="color: #dc2626; font-weight: bold; display: block; margin-bottom: 5px;">🔴 Điểm đến / Giao hàng</label>
+            <input type="text" id="dropoff_address" placeholder="Nhập địa chỉ điểm đến..." style="border: 2px solid #fecaca; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
             <div style="display: flex; gap: 10px;">
                 <button type="button" id="useDropoffLocation" class="btn" style="flex: 1; background: #ef4444; color: white; border-radius: 8px; padding: 10px; font-size: 14px;">📍 Lấy tọa độ hiện tại</button>
                 <button type="button" class="btn dark open-map-btn" data-target="dropoff" style="flex: 0 0 auto; border-radius: 8px; padding: 10px; font-size: 14px;">🗺️ Chọn trên bản đồ</button>
             </div>
-            <div id="dropoffStatus" style="color: #dc2626; font-size: 13px; margin-block-start: 5px;"></div>
+            <div id="dropoffStatus" style="color: #dc2626; font-size: 13px; margin-top: 5px;"></div>
             <input type="hidden" id="dropoff_lat">
             <input type="hidden" id="dropoff_lng">
         </div>
 
-        <div id="vehicle_pricing_info" style="display: none; margin-block-start: 15px; padding: 15px; background: #fff; border: 2px solid #fbbf24; border-radius: 8px; text-align: center;">
-            <div style="font-size: 15px; color: #475569; margin-block-end: 5px;">Quãng đường: <b id="vehicle_distance_display" style="color: #1e293b;">0 km</b></div>
+        <div id="vehicle_pricing_info" style="display: none; margin-top: 15px; padding: 15px; background: #fff; border: 2px solid #fbbf24; border-radius: 8px; text-align: center;">
+            <div style="font-size: 15px; color: #475569; margin-bottom: 5px;">Quãng đường: <b id="vehicle_distance_display" style="color: #1e293b;">0 km</b></div>
             <div style="font-size: 18px; color: #dc2626; font-weight: 900;">Giá cước: <span id="vehicle_price_display">0 đ</span></div>
             <input type="hidden" id="vehicle_calculated_price" value="0">
         </div>
@@ -1558,19 +1558,19 @@ footer {
 
         
 
-    <button type="submit" id="bookingSubmit" class="btn" data-original-text="🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN" style="inline-size: 100%; background: #dc2626; color: #fff; font-size: 18px; padding: 15px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4); text-transform: uppercase;">🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN</button>
-    <div id="bookingStatus" style="margin-block-start: 15px; font-weight: bold; text-align: center;"></div>
+    <button type="submit" id="bookingSubmit" class="btn" data-original-text="🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN" style="width: 100%; background: #dc2626; color: #fff; font-size: 18px; padding: 15px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4); text-transform: uppercase;">🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN</button>
+    <div id="bookingStatus" style="margin-top: 15px; font-weight: bold; text-align: center;"></div>
 </form>
 
 <div id="mapPickerModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10000; justify-content: center; align-items: center; padding: 15px; backdrop-filter: blur(2px);">
-    <div style="background: #fff; inline-size: 100%; max-inline-size: 600px; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
-        <div style="padding: 15px; border-block-end: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #f8fafc;">
+    <div style="background: #fff; width: 100%; max-width: 600px; border-radius: 12px; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+        <div style="padding: 15px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #f8fafc;">
             <h3 style="margin: 0; font-size: 18px; color: #1e293b; font-weight: 800;" id="mapPickerTitle">Chọn vị trí</h3>
             <button type="button" id="closeMapPicker" style="background: none; border: none; font-size: 28px; cursor: pointer; color: #64748b; line-height: 1;">&times;</button>
         </div>
-        <div id="mapPickerContainer" style="block-size: 400px; inline-size: 100%;"></div>
-        <div style="padding: 15px; border-block-start: 1px solid #e2e8f0; background: #f8fafc;">
-            <button type="button" id="confirmMapPicker" class="btn" style="inline-size: 100%; background: #2563eb; font-size: 16px; font-weight: bold; padding: 12px;">✅ XÁC NHẬN VỊ TRÍ NÀY</button>
+        <div id="mapPickerContainer" style="height: 400px; width: 100%;"></div>
+        <div style="padding: 15px; border-top: 1px solid #e2e8f0; background: #f8fafc;">
+            <button type="button" id="confirmMapPicker" class="btn" style="width: 100%; background: #2563eb; font-size: 16px; font-weight: bold; padding: 12px;">✅ XÁC NHẬN VỊ TRÍ NÀY</button>
         </div>
     </div>
 </div>
@@ -1624,8 +1624,8 @@ footer {
                         $sProducts = isset($storeProducts[$store['id']]) ? $storeProducts[$store['id']] : [];
                         if (empty($sProducts)) continue;
                     ?>
-                    <div class="store-block" data-category="<?= $storeType ?>" style="margin-block-end: 30px; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--line);">
-                        <div style="border-block-end: 2px solid #fecaca; padding-block-end: 10px; margin-block-end: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div class="store-block" data-category="<?= $storeType ?>" style="margin-bottom: 30px; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid var(--line);">
+                        <div style="border-bottom: 2px solid #fecaca; padding-bottom: 10px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
                             <h3 style="margin: 0; color: var(--brand); font-size: 20px;">
                                 🛒 <?= h($store['store_name']) ?> <span style="font-size: 14px; color: var(--muted); font-weight: normal;">(<?= h($store['store_type']) ?>)</span>
                             </h3>
@@ -1647,14 +1647,14 @@ footer {
                                         <?php if ($image !== ''): ?>
                                             <img src="<?= h($image) ?>" alt="<?= h($name) ?>" onerror="this.src='data:image/svg+xml;utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%239ca3af\' stroke-width=\'1.5\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Cpath d=\'M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z\'/%3E%3Ccircle cx=\'12\' cy=\'13\' r=\'4\'/%3E%3C/svg%3E'">
                                         <?php else: ?>
-                                            <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E" alt="Chưa có ảnh" style="inline-size:50px; opacity:0.5; margin:auto; display:block;">
+                                            <img src="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239ca3af' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z'/%3E%3Ccircle cx='12' cy='13' r='4'/%3E%3C/svg%3E" alt="Chưa có ảnh" style="width:50px; opacity:0.5; margin:auto; display:block;">
                                         <?php endif; ?>
                                     </div>
                                     <div class="body">
                                         <div class="name"><?= h($name) ?></div>
                                         <div class="price"><?= money_vnd($price) ?></div>
                                         <div class="buy-row"><button class="btn buy-product" type="button">Đặt mua</button></div>
-                                        <span class="suggest" style="margin-block-start: 5px; display: block; color: #64748b; font-weight: normal;">Giá đã bao gồm VAT</span>
+                                        <span class="suggest" style="margin-top: 5px; display: block; color: #64748b; font-weight: normal;">Giá đã bao gồm VAT</span>
                                     </div>
                                 </article>
                             <?php endforeach; ?>
@@ -1666,7 +1666,7 @@ footer {
     </section>
 
     <div id="orderModal" class="dth-modal">
-        <div class="dth-modal-content" style="max-inline-size: 560px;">
+        <div class="dth-modal-content" style="max-width: 560px;">
             <span class="dth-modal-close" onclick="closeOrderModal()">&times;</span>
             <div class="dth-modal-title">Đặt mua sản phẩm</div>
             <form id="orderForm">
@@ -1678,14 +1678,14 @@ footer {
                     <label>Sản phẩm</label>
                     <input id="order_product_display" type="text" readonly style="font-weight: bold; background: #f8fafc; color: #0f172a;">
                 </div>
-                <div style="display: flex; gap: 10px; margin-block-end: 15px;">
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
                     <div style="flex: 1;">
                         <label>Đơn giá</label>
                         <input id="order_unit_price_display" type="text" readonly style="background: #f8fafc; color: #dc2626; font-weight: bold; text-align: end;">
                     </div>
-                    <div style="inline-size: 100px;">
+                    <div style="width: 100px;">
                         <label for="order_quantity">Số lượng</label>
-                        <input type="number" id="order_quantity" name="quantity" min="1" value="1" style="inline-size: 100%; text-align: center; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
+                        <input type="number" id="order_quantity" name="quantity" min="1" value="1" style="width: 100%; text-align: center; font-weight: bold; border: 1px solid #cbd5e1; border-radius: 6px; padding: 10px;">
                     </div>
                 </div>
                 <div class="form">
@@ -1706,7 +1706,7 @@ footer {
     <input type="hidden" id="order_map_lng" name="map_lng">
     <button type="button" id="orderUseCurrentLocation" style="background: #2563eb; color: white; border: none; border-radius: 6px; padding: 0 12px; font-weight: bold; cursor: pointer; white-space: nowrap;">📍 Định vị</button>
 </div>
-<div id="orderLocationStatus" style="font-size: 12px; color: #16a34a; margin-block-start: 5px;"></div>
+<div id="orderLocationStatus" style="font-size: 12px; color: #16a34a; margin-top: 5px;"></div>
 
                     </div>
                     <div class="field full" id="order_goods_type_container" style="display: none;">
@@ -1729,16 +1729,16 @@ footer {
                         
 
                         <div style="display: flex; gap: 8px; align-items: center;">
-                            <input id="order_voucher_code" name="voucher_code" maxlength="80" placeholder="Nhập mã" style="flex: 1; min-inline-size: 0;">
-                            <button type="button" id="btnScanQR" style="background: #2563eb; color: white; border: none; border-radius: 6px; padding: 0 12px; font-weight: bold; cursor: pointer; white-space: nowrap; block-size: 42px; display: flex; align-items: center; gap: 5px;">
+                            <input id="order_voucher_code" name="voucher_code" maxlength="80" placeholder="Nhập mã" style="flex: 1; min-width: 0;">
+                            <button type="button" id="btnScanQR" style="background: #2563eb; color: white; border: none; border-radius: 6px; padding: 0 12px; font-weight: bold; cursor: pointer; white-space: nowrap; height: 42px; display: flex; align-items: center; gap: 5px;">
                                 📷 Quét QR
                             </button>
                         </div>
-                        <div id="qr-reader" style="inline-size: 100%; display: none; margin-block-start: 10px; border-radius: 8px; overflow: hidden; border: 2px solid #cbd5e1;"></div>
-                        <div id="orderVoucherStatus" style="font-size: 14px; margin-block-start: 10px; font-weight: 500; background: #fef2f2; padding: 10px; border-radius: 6px; display: none;"></div>
+                        <div id="qr-reader" style="width: 100%; display: none; margin-top: 10px; border-radius: 8px; overflow: hidden; border: 2px solid #cbd5e1;"></div>
+                        <div id="orderVoucherStatus" style="font-size: 14px; margin-top: 10px; font-weight: 500; background: #fef2f2; padding: 10px; border-radius: 6px; display: none;"></div>
                         
                         <!-- Hiển thị Tổng tiền -->
-                        <div style="margin-block-start: 15px; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;">
+                        <div style="margin-top: 15px; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;">
                             <span style="font-size: 14px; color: #64748b; text-transform: uppercase; font-weight: bold;">Tổng thanh toán</span><br>
                             <strong id="order_final_total_display" style="font-size: 24px; color: #dc2626;">0 đ</strong>
                         </div>
@@ -1788,7 +1788,7 @@ footer {
         </div>
         <div>
             <h3>Truy cập nhanh</h3>
-            <?php if ($qrWeb !== ''): ?><img src="<?= h($qrWeb) ?>" alt="QR truy cập" style="max-inline-size: 120px; border-radius: 8px; background: white; padding: 5px; margin-block-start: 5px;"><?php endif; ?>
+            <?php if ($qrWeb !== ''): ?><img src="<?= h($qrWeb) ?>" alt="QR truy cập" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;"><?php endif; ?>
         </div>
     </div>
     <div class="footer-bottom"><span>© Chợ Lấp Vò Online</span><span>Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</span></div>
@@ -1804,52 +1804,52 @@ footer {
 
 <!-- Modal Đăng nhập (Thật) -->
 <div id="modalLogin" class="dth-modal">
-    <div class="dth-modal-content" style="max-inline-size: 420px; text-align: center; border-radius: 20px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
-        <span class="dth-modal-close" onclick="document.getElementById('modalLogin').style.display='none'" style="font-size: 30px; inset-inline-end: 20px; inset-block-start: 15px;">&times;</span>
-        <img src="LOGO.png" alt="Logo" style="inline-size: 70px; block-size: 70px; border-radius: 16px; margin-block-end: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-        <h2 style="margin-block-start: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Chợ Lấp Vò Online</span></h2>
-        <p style="color: #6b7280; font-size: 14px; margin-block-end: 30px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
+    <div class="dth-modal-content" style="max-width: 420px; text-align: center; border-radius: 20px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
+        <span class="dth-modal-close" onclick="document.getElementById('modalLogin').style.display='none'" style="font-size: 30px; right: 20px; top: 15px;">&times;</span>
+        <img src="LOGO.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Chợ Lấp Vò Online</span></h2>
+        <p style="color: #6b7280; font-size: 14px; margin-bottom: 30px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
         
         <div id="loginMethods">
-            <button class="btn" style="inline-size: 100%; margin-block-end: 15px; background: #dc2626; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
-            <button class="btn" style="inline-size: 100%; margin-block-end: 25px; background: #10b981; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
+            <button class="btn" style="width: 100%; margin-bottom: 15px; background: #dc2626; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
+            <button class="btn" style="width: 100%; margin-bottom: 25px; background: #10b981; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
             
-            <div style="margin-block-end: 20px; padding-block-end: 20px; border-block-end: 1px dashed #e5e7eb;">
+            <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed #e5e7eb;">
                 <a href="javascript:void(0)" onclick="showStoreRegister()" style="color: #047857; font-weight: bold; font-size: 14px; text-decoration: underline;">Bạn là chủ Cửa hàng? Đăng ký ngay!</a>
             </div>
 
             <div style="font-size: 12px; color: #6b7280; text-align: start; background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px solid #fee2e2;">
                 <label style="display: flex; gap: 8px; font-weight: normal; cursor: pointer; align-items: flex-start;">
-                    <input type="checkbox" id="tosCheck" checked style="margin-block-start: 3px;">
+                    <input type="checkbox" id="tosCheck" checked style="margin-top: 3px;">
                     <span style="line-height: 1.4;">Bằng việc tiếp tục, tôi xác nhận đã đọc và đồng ý với <a href="javascript:void(0)" onclick="openModal('quyche'); document.getElementById('modalLogin').style.display='none'" style="color: #dc2626; font-weight: bold; text-decoration: underline;">Điều khoản dịch vụ</a> và <a href="javascript:void(0)" onclick="openModal('baomat'); document.getElementById('modalLogin').style.display='none'" style="color: #dc2626; font-weight: bold; text-decoration: underline;">Chính sách bảo mật</a> của hệ thống.</span>
                 </label>
             </div>
         </div>
 
         <div id="storeRegisterForm" style="display: none; text-align: start;">
-            <p style="margin-block-end: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng ký Cửa hàng</p>
+            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng ký Cửa hàng</p>
             
             <label style="font-size: 13px; font-weight: bold;">Tên Cửa hàng / Tên chủ shop</label>
-            <input type="text" id="regStoreName" placeholder="VD: Quán ăn Cô Ba" style="inline-size: 100%; margin-block-end: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <input type="text" id="regStoreName" placeholder="VD: Quán ăn Cô Ba" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             
             <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
-            <input type="text" id="regStorePhone" placeholder="VD: 0987654321" style="inline-size: 100%; margin-block-end: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <input type="text" id="regStorePhone" placeholder="VD: 0987654321" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             
             <label style="font-size: 13px; font-weight: bold;">Mã số thuế / CCCD (Tối thiểu 8 số)</label>
-            <input type="text" id="regStoreTax" placeholder="VD: 12345678" style="inline-size: 100%; margin-block-end: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <input type="text" id="regStoreTax" placeholder="VD: 12345678" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             
             <label style="font-size: 13px; font-weight: bold;">Địa chỉ</label>
-            <input type="text" id="regStoreAddress" placeholder="VD: Bến đò Lấp Vò..." style="inline-size: 100%; margin-block-end: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <input type="text" id="regStoreAddress" placeholder="VD: Bến đò Lấp Vò..." style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             
             <label style="font-size: 13px; font-weight: bold;">Tọa độ (Tính phí ship cho khách mua online)</label>
-            <div style="display: flex; gap: 10px; margin-block-end: 12px;">
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
                 <input type="text" id="regStoreLat" placeholder="Vĩ độ (Lat)" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
                 <input type="text" id="regStoreLng" placeholder="Kinh độ (Lng)" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             </div>
-            <button class="btn" style="inline-size: 100%; margin-block-end: 12px; background: #e5e7eb; color: #374151;" onclick="getStoreLocation(event)">📍 Lấy tọa độ hiện tại</button>
+            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #e5e7eb; color: #374151;" onclick="getStoreLocation(event)">📍 Lấy tọa độ hiện tại</button>
             
             <label style="font-size: 13px; font-weight: bold;">Hạng mục kinh doanh (Tối đa 5)</label>
-            <div id="regStoreCategories" style="display: flex; flex-wrap: wrap; gap: 8px; margin-block-end: 15px; font-size: 13px;">
+            <div id="regStoreCategories" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; font-size: 13px;">
                 <label><input type="checkbox" value="Quán ăn" onchange="checkMaxCategories(this)"> Quán ăn</label>
                 <label><input type="checkbox" value="Nước giải khát" onchange="checkMaxCategories(this)"> Nước giải khát</label>
                 <label><input type="checkbox" value="Quần áo" onchange="checkMaxCategories(this)"> Quần áo</label>
@@ -1860,59 +1860,59 @@ footer {
                 <label><input type="checkbox" value="Dịch vụ" onchange="checkMaxCategories(this)"> Dịch vụ</label>
             </div>
 
-            <button id="storeRegSubmitBtn" class="btn primary" style="inline-size: 100%; background: #047857;" onclick="submitStoreRegister()">Gửi đơn Đăng ký</button>
-            <div id="storeRegError" style="display: none; color: #dc2626; margin-block-start: 10px; font-size: 13px; text-align: center;"></div>
-            <div id="storeRegSuccess" style="display: none; color: #047857; margin-block-start: 10px; font-size: 13px; text-align: center; font-weight: bold;"></div>
-            <button class="btn" style="inline-size: 100%; margin-block-start: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('storeRegisterForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
+            <button id="storeRegSubmitBtn" class="btn primary" style="width: 100%; background: #047857;" onclick="submitStoreRegister()">Gửi đơn Đăng ký</button>
+            <div id="storeRegError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
+            <div id="storeRegSuccess" style="display: none; color: #047857; margin-top: 10px; font-size: 13px; text-align: center; font-weight: bold;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('storeRegisterForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
         </div>
 
         <div id="phoneLoginForm" style="display: none; text-align: start;">
-            <p style="margin-block-end: 15px; font-weight: bold; color: #374151; text-align: center;">Đăng nhập / Đăng ký</p>
+            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center;">Đăng nhập / Đăng ký</p>
             <label style="font-size: 13px; font-weight: bold;">Họ và Tên</label>
-            <input type="text" id="loginNameInput" placeholder="VD: Nguyễn Văn A" style="inline-size: 100%; margin-block-end: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <input type="text" id="loginNameInput" placeholder="VD: Nguyễn Văn A" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
-            <input type="text" id="loginPhoneInput" placeholder="VD: 0987654321" style="inline-size: 100%; margin-block-end: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <button id="phoneLoginSubmitBtn" class="btn primary" style="inline-size: 100%;" onclick="submitPhoneLogin()">Xác nhận</button>
-            <div id="phoneLoginError" style="display: none; color: #dc2626; margin-block-start: 10px; font-size: 13px; text-align: center;"></div>
-            <button class="btn" style="inline-size: 100%; margin-block-start: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('phoneLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
+            <input type="text" id="loginPhoneInput" placeholder="VD: 0987654321" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <button id="phoneLoginSubmitBtn" class="btn primary" style="width: 100%;" onclick="submitPhoneLogin()">Xác nhận</button>
+            <div id="phoneLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('phoneLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
         </div>
 
         <div id="qrLoginForm" style="display: none; text-align: center;">
-            <p style="margin-block-end: 15px; font-weight: bold; color: #374151;">Quét mã QR hoặc Nhập Mã Thẻ</p>
-            <div id="qr-reader-login" style="inline-size: 100%; max-inline-size: 300px; margin: 0 auto 15px auto; overflow: hidden; border-radius: 8px;"></div>
-            <p style="margin-block-end: 10px; font-size: 12px; color: #6b7280;">Hoặc nhập mã thẻ thủ công:</p>
-            <input type="text" id="loginKeyInput" placeholder="VD: MK123456" style="inline-size: 100%; margin-block-end: 15px; text-align: center; font-size: 18px; letter-spacing: 1px; font-weight: bold;">
-            <button id="loginSubmitBtn" class="btn dark" style="inline-size: 100%;" onclick="submitLogin()">Xác nhận Đăng nhập</button>
-            <div id="loginError" style="display: none; color: #dc2626; margin-block-start: 10px; font-size: 13px;"></div>
-            <button class="btn" style="inline-size: 100%; margin-block-start: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="closeQrLogin()">Quay lại</button>
+            <p style="margin-bottom: 15px; font-weight: bold; color: #374151;">Quét mã QR hoặc Nhập Mã Thẻ</p>
+            <div id="qr-reader-login" style="width: 100%; max-width: 300px; margin: 0 auto 15px auto; overflow: hidden; border-radius: 8px;"></div>
+            <p style="margin-bottom: 10px; font-size: 12px; color: #6b7280;">Hoặc nhập mã thẻ thủ công:</p>
+            <input type="text" id="loginKeyInput" placeholder="VD: MK123456" style="width: 100%; margin-bottom: 15px; text-align: center; font-size: 18px; letter-spacing: 1px; font-weight: bold;">
+            <button id="loginSubmitBtn" class="btn dark" style="width: 100%;" onclick="submitLogin()">Xác nhận Đăng nhập</button>
+            <div id="loginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="closeQrLogin()">Quay lại</button>
         </div>
         
         <div id="memberQrDisplay" style="display: none;">
-            <h3 style="color: #047857; margin-block-end: 10px;">Đăng nhập thành công!</h3>
+            <h3 style="color: #047857; margin-bottom: 10px;">Đăng nhập thành công!</h3>
             <p style="font-size: 16px; font-weight: bold; color: #111827;" id="successUserName">Tên Khách</p>
-            <p style="font-size: 13px; color: #dc2626; font-weight: bold; margin-block-end: 5px;"><span id="successUserRank">Thành viên</span> - <span id="successUserPoints">0 điểm</span></p>
-            <p style="font-size: 13px; color: #f59e0b; font-weight: bold; margin-block-end: 15px;">🎁 Bạn có: <span id="successLuckySpins">0 lượt quay</span></p>
-            <button class="btn" style="inline-size: 100%; margin-block-end: 15px; background: #8b5cf6; color: white;" onclick="openWheelModal()">🎡 Chơi Vòng Quay May Mắn</button>
-            <img id="successQrImg" src="" alt="Member QR" style="border-radius: 10px; border: 2px solid #dc2626; padding: 10px; margin-block-end: 15px; display: inline-block;">
-            <p style="font-size: 13px; color: #666; margin-block-end: 20px;">Vui lòng lưu lại và đưa QR này cho thu ngân/thợ quét khi mua hàng hoặc gọi thợ để tích điểm!</p>
-            <button class="btn success" style="inline-size: 100%; margin-block-end: 10px;" onclick="closeLoginModal()">Đóng</button>
-            <button class="btn danger" style="inline-size: 100%;" onclick="logoutCustomer()">Đăng xuất</button>
+            <p style="font-size: 13px; color: #dc2626; font-weight: bold; margin-bottom: 5px;"><span id="successUserRank">Thành viên</span> - <span id="successUserPoints">0 điểm</span></p>
+            <p style="font-size: 13px; color: #f59e0b; font-weight: bold; margin-bottom: 15px;">🎁 Bạn có: <span id="successLuckySpins">0 lượt quay</span></p>
+            <button class="btn" style="width: 100%; margin-bottom: 15px; background: #8b5cf6; color: white;" onclick="openWheelModal()">🎡 Chơi Vòng Quay May Mắn</button>
+            <img id="successQrImg" src="" alt="Member QR" style="border-radius: 10px; border: 2px solid #dc2626; padding: 10px; margin-bottom: 15px; display: inline-block;">
+            <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Vui lòng lưu lại và đưa QR này cho thu ngân/thợ quét khi mua hàng hoặc gọi thợ để tích điểm!</p>
+            <button class="btn success" style="width: 100%; margin-bottom: 10px;" onclick="closeLoginModal()">Đóng</button>
+            <button class="btn danger" style="width: 100%;" onclick="logoutCustomer()">Đăng xuất</button>
         </div>
     </div>
 </div>
 
 <div id="wheelModal" class="dth-modal">
-    <div class="dth-modal-content" style="max-inline-size: 400px; text-align: center;">
+    <div class="dth-modal-content" style="max-width: 400px; text-align: center;">
         <span class="dth-modal-close" onclick="document.getElementById('wheelModal').style.display='none'">&times;</span>
-        <h2 style="color: #8b5cf6; margin-block-end: 10px;">🎡 Vòng Quay May Mắn 🎡</h2>
-        <p style="margin-block-end: 15px; font-weight: bold;">Bạn đang có: <span id="wheelSpinsCount" style="color: #dc2626;">0</span> lượt quay</p>
+        <h2 style="color: #8b5cf6; margin-bottom: 10px;">🎡 Vòng Quay May Mắn 🎡</h2>
+        <p style="margin-bottom: 15px; font-weight: bold;">Bạn đang có: <span id="wheelSpinsCount" style="color: #dc2626;">0</span> lượt quay</p>
         
-        <div style="position: relative; inline-size: 300px; block-size: 300px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 5px solid #333; box-shadow: 0 0 15px rgba(0,0,0,0.3);">
+        <div style="position: relative; width: 300px; height: 300px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 5px solid #333; box-shadow: 0 0 15px rgba(0,0,0,0.3);">
             <canvas id="wheelCanvas" width="300" height="300"></canvas>
-            <div style="position: absolute; inset-block-start: 0; inset-inline-start: 50%; transform: translateX(-50%); inline-size: 0; block-size: 0; border-inline-start: 15px solid transparent; border-inline-end: 15px solid transparent; border-block-start: 30px solid #dc2626; z-index: 10;"></div>
+            <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-inline-start: 15px solid transparent; border-inline-end: 15px solid transparent; border-top: 30px solid #dc2626; z-index: 10;"></div>
         </div>
         
-        <button id="spinBtn" onclick="spinWheel()" class="btn success" style="inline-size: 100%; margin-block-start: 20px; font-size: 18px; background: #8b5cf6; border: none;">CHƠI NGAY (Tốn 1 Lượt)</button>
+        <button id="spinBtn" onclick="spinWheel()" class="btn success" style="width: 100%; margin-top: 20px; font-size: 18px; background: #8b5cf6; border: none;">CHƠI NGAY (Tốn 1 Lượt)</button>
     </div>
 </div>
 
@@ -2374,7 +2374,7 @@ function closeQrLoginScannerOnly() {
         loginQrScanner.stop().then(() => {
             loginQrScanner.clear();
             loginQrScanner = null;
-        }).catch(e => console.log(e));
+        }).catch(e => console.error(e));
     }
 }
 
@@ -2462,9 +2462,9 @@ function logoutCustomer() {
 function updateTopBarState(user) {
     const bar = document.getElementById('topBarStatus');
     if (bar && user) {
-        bar.innerHTML = `<span style="color:white; margin-inline-end:10px;">Xin chào, <b>${user.fullname || 'Khách'}</b></span> 
-                         <a href="javascript:void(0)" onclick="openCustomerOrdersModal()" style="color: #fbbf24; text-decoration: underline; font-weight: bold; margin-inline-end: 15px;">Đơn hàng của tôi</a>
-                         <a href="javascript:void(0)" onclick="openLoginModal()" style="color: #6ee7b7; text-decoration: underline; font-weight: bold; margin-inline-end: 15px;">Mã QR của tôi</a>
+        bar.innerHTML = `<span style="color:white; margin-right:10px;">Xin chào, <b>${user.fullname || 'Khách'}</b></span> 
+                         <a href="javascript:void(0)" onclick="openCustomerOrdersModal()" style="color: #fbbf24; text-decoration: underline; font-weight: bold; margin-right: 15px;">Đơn hàng của tôi</a>
+                         <a href="javascript:void(0)" onclick="openLoginModal()" style="color: #6ee7b7; text-decoration: underline; font-weight: bold; margin-right: 15px;">Mã QR của tôi</a>
                          <a href="javascript:void(0)" onclick="logoutCustomer()" style="color: #fca5a5; text-decoration: underline; font-weight: bold;">Đăng xuất</a>`;
     }
 }
@@ -2638,7 +2638,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 localStorage.removeItem('dth_user_key');
                 localStorage.removeItem('dth_user_time');
             }
-        }).catch(e => console.log(e));
+        }).catch(e => console.error(e));
     }
 });
 
@@ -3308,10 +3308,10 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
 });
 </script>
 <div id="customerOrdersModal" class="dth-modal">
-    <div class="dth-modal-content" style="max-inline-size: 500px; padding: 20px;">
+    <div class="dth-modal-content" style="max-width: 500px; padding: 20px;">
         <span class="dth-modal-close" onclick="document.getElementById('customerOrdersModal').style.display='none'">&times;</span>
-        <h3 style="margin-block-start:0; color:#dc2626; border-block-end:1px solid #fee2e2; padding-block-end:10px;">📦 Đơn hàng của tôi</h3>
-        <div id="customerOrdersList" style="max-block-size: 400px; overflow-y: auto;">
+        <h3 style="margin-top:0; color:#dc2626; border-bottom:1px solid #fee2e2; padding-bottom:10px;">📦 Đơn hàng của tôi</h3>
+        <div id="customerOrdersList" style="max-height: 400px; overflow-y: auto;">
             Đang tải...
         </div>
     </div>
@@ -3350,17 +3350,17 @@ async function openCustomerOrdersModal() {
                 else if (isCancelled) { statusColor = '#dc2626'; statusText = 'Đã hủy'; }
                 else if (o.status === 'customer_received') { statusColor = '#059669'; statusText = 'Đã nhận (Chờ thu tiền)'; }
                 html += `
-                <div style="border:1px solid #e5e7eb; border-radius:8px; padding:12px; margin-block-end:10px;">
-                    <div style="display:flex; justify-content:space-between; margin-block-end:5px;">
+                <div style="border:1px solid #e5e7eb; border-radius:8px; padding:12px; margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                         <b style="font-size:15px; color:#111827;">${o.product_name}</b>
                         <span style="color:${statusColor}; font-weight:bold; font-size:13px;">${statusText}</span>
                     </div>
-                    <div style="display:flex; justify-content:space-between; font-size:13px; color:#6b7280; margin-block-end:10px;">
+                    <div style="display:flex; justify-content:space-between; font-size:13px; color:#6b7280; margin-bottom:10px;">
                         <span>Mã: ${o.order_code}</span>
                         <b style="color:#dc2626; font-size:14px;">${new Intl.NumberFormat('vi-VN').format(o.total_price)} đ</b>
                     </div>
-                    ${(!isCancelled && o.status !== 'completed' && o.status !== 'delivering' && o.status !== 'customer_received') ? `<button onclick="cancelCustomerOrder(${o.id})" style="inline-size:100%; padding:10px; border:none; background:#dc2626; color:white; border-radius:6px; font-weight:bold; cursor:pointer; margin-block-end:5px;">❌ Hủy đơn hàng</button>` : ''}
-                    ${(!isCancelled && o.status !== 'completed') ? `<button onclick="confirmCustomerOrder(${o.id})" style="inline-size:100%; padding:10px; border:none; background:#10b981; color:white; border-radius:6px; font-weight:bold; cursor:pointer;">✅ Đã nhận được hàng</button>` : ''}
+                    ${(!isCancelled && o.status !== 'completed' && o.status !== 'delivering' && o.status !== 'customer_received') ? `<button onclick="cancelCustomerOrder(${o.id})" style="width:100%; padding:10px; border:none; background:#dc2626; color:white; border-radius:6px; font-weight:bold; cursor:pointer; margin-bottom:5px;">❌ Hủy đơn hàng</button>` : ''}
+                    ${(!isCancelled && o.status !== 'completed') ? `<button onclick="confirmCustomerOrder(${o.id})" style="width:100%; padding:10px; border:none; background:#10b981; color:white; border-radius:6px; font-weight:bold; cursor:pointer;">✅ Đã nhận được hàng</button>` : ''}
                 </div>`;
             });
             list.innerHTML = html;
@@ -3418,7 +3418,7 @@ async function confirmCustomerOrder(id) {
                     const sl = document.getElementById('successLuckySpins');
                     if (sl) sl.textContent = (d.data.lucky_spins || 0) + ' lượt quay';
                 }
-            }).catch(e => console.log(e));
+            }).catch(e => console.error(e));
         } else {
             alert(res.message);
         }

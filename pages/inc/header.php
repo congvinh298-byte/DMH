@@ -18,9 +18,9 @@ if (!isset($PAGE_DESC)) $PAGE_DESC = 'Cho Xa Lap Vo Online - Cho so the he moi';
         * { box-sizing: border-box; }
         body { font-family: Arial, Helvetica, sans-serif; background: #fef2f2; color: var(--text); line-height: 1.6; }
         a { text-decoration: none; color: inherit; }
-        .wrap { inline-size: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+        .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
         header { position: sticky; inset-block-start: 0; z-index: 10; background: #fff; border-block-end: 1px solid var(--line); }
-        .head { min-block-size: 64px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 0; }
+        .head { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 0; }
         .logo { font-size: 20px; font-weight: 900; color: var(--brand); }
         .logo small { display: block; color: var(--muted); font-size: 12px; }
         .btn-page { display: inline-block; border: 0; border-radius: 8px; background: var(--brand); color: #fff; font-weight: 800; padding: 10px 16px; cursor: pointer; text-align: center; }
@@ -56,7 +56,7 @@ if (!isset($PAGE_DESC)) $PAGE_DESC = 'Cho Xa Lap Vo Online - Cho so the he moi';
 <header>
     <div class="wrap head">
         <a class="logo" href="/" style="display:flex; align-items:center; gap: 8px;">
-            <img src="/LOGO.png" alt="Logo" style="block-size: 40px; border-radius: 6px; object-fit: contain;">
+            <img src="/LOGO.png" alt="Logo" style="height: 40px; border-radius: 6px; object-fit: contain;">
             <div>Cho Xa Lap Vo Online<small>Cho so the he moi</small></div>
         </a>
         <a href="/" class="btn-page" style="font-size: 14px;">Ve trang chu</a>

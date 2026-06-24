@@ -25,7 +25,7 @@
         .panel.active { display: block; }
         
         .card { background: white; border-radius: 8px; padding: 15px; margin-block-end: 15px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); display: flex; gap: 15px; align-items: center; }
-        .card img { inline-size: 80px; block-size: 80px; object-fit: cover; border-radius: 6px; }
+        .card img { width: 80px; height: 80px; object-fit: cover; border-radius: 6px; }
         .card-info { flex: 1; }
         .card-title { font-weight: 700; margin-block-end: 5px; color: #111827; }
         .card-price { color: #dc2626; font-weight: bold; }
@@ -37,18 +37,18 @@
         .order-customer { font-size: 14px; margin-block-end: 5px; }
         .order-price { font-weight: bold; color: #dc2626; text-align: end; }
         
-        .btn-add { background: #047857; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; inline-size: 100%; margin-block-end: 20px; }
+        .btn-add { background: #047857; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; margin-block-end: 20px; }
         
         .modal { display: none; position: fixed; inset-block-start: 0; inset-inline-start: 0; inset-inline-end: 0; inset-block-end: 0; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
         .modal.active { display: flex; }
-        .modal-content { background: white; border-radius: 12px; inline-size: 100%; max-inline-size: 500px; max-block-size: 90vh; overflow-y: auto; padding: 20px; position: relative; }
+        .modal-content { background: white; border-radius: 12px; width: 100%; max-width: 500px; max-height: 90vh; overflow-y: auto; padding: 20px; position: relative; }
         .modal-close { position: absolute; inset-block-start: 15px; inset-inline-end: 15px; font-size: 24px; cursor: pointer; color: #6b7280; line-height: 1; }
         .modal-title { font-size: 18px; font-weight: bold; margin-block-end: 20px; color: #111827; }
         .form-group { margin-block-end: 15px; }
         .form-group label { display: block; font-weight: 600; font-size: 14px; margin-block-end: 5px; color: #374151; }
-        .form-group input, .form-group select { inline-size: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 15px; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #047857; box-shadow: 0 0 0 3px rgba(4,120,87,0.1); }
-        .btn-submit { background: #047857; color: white; inline-size: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-block-start: 10px; }
+        .btn-submit { background: #047857; color: white; width: 100%; padding: 12px; border: none; border-radius: 6px; font-weight: bold; font-size: 16px; cursor: pointer; margin-block-start: 10px; }
         .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; }
     </style>
 </head>
@@ -58,7 +58,7 @@
     <h1 id="storeName">Đang tải...</h1>
     <div style="display: flex; align-items: center; gap: 15px;">
         <div id="notificationBell" style="position: relative; cursor: pointer;" onclick="switchTab('orders', document.querySelectorAll('.tab')[1])">
-            <svg style="inline-size: 24px; block-size: 24px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+            <svg style="width: 24px; height: 24px; color: white;" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
             <span id="notificationBadge" style="display: none; position: absolute; inset-block-start: -5px; inset-inline-end: -5px; background: #dc2626; color: white; border-radius: 50%; padding: 2px 5px; font-size: 10px; font-weight: bold;">0</span>
         </div>
         <button class="logout-btn" onclick="logout()">Đăng xuất</button>
@@ -83,7 +83,7 @@
 </div>
 
 <div id="receiptModal" class="modal">
-    <div class="modal-content" style="max-inline-size: 400px; text-align: center; background: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);">
+    <div class="modal-content" style="max-width: 400px; text-align: center; background: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.05);">
         <div class="modal-close" onclick="document.getElementById('receiptModal').classList.remove('active')">&times;</div>
         <h2 style="margin-block-start: 10px; margin-block-end: 5px; color: #111827;">HÓA ĐƠN CHỐT CA</h2>
         <div style="font-size: 14px; color: #6b7280; margin-block-end: 20px; border-block-end: 2px dashed #e5e7eb; padding-block-end: 15px;">
@@ -118,7 +118,7 @@
             </div>
             <div class="form-group">
                 <label>Mô tả sản phẩm</label>
-                <textarea id="prodDescription" rows="3" placeholder="Ví dụ: Trà sữa thái xanh đậm vị, trân châu dai giòn..." style="inline-size: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-family: inherit; box-sizing: border-box;"></textarea>
+                <textarea id="prodDescription" rows="3" placeholder="Ví dụ: Trà sữa thái xanh đậm vị, trân châu dai giòn..." style="width: 100%; padding: 12px; border: 1px solid #e5e7eb; border-radius: 8px; font-family: inherit; box-sizing: border-box;"></textarea>
             </div>
             <div class="form-group">
                 <label>Giá bán (VNĐ) *</label>
@@ -386,9 +386,9 @@ function renderOrders(list) {
             </div>
             ${(!isOk && !isCancelled) ? `
             <div style="display:flex; gap: 10px; margin-block-start: 10px; flex-wrap:wrap;">
-                ${(o.status !== 'delivering' && o.status !== 'customer_received') ? `<button style="flex: 1; min-inline-size: 100px; padding: 8px; border: none; border-radius: 4px; background: #3b82f6; color: white; font-weight: bold; cursor: pointer;" onclick="updateOrderStatus(${o.id}, 'delivering')">🚚 Đã giao hàng</button>` : ''}
-                <button style="flex: 1; min-inline-size: 140px; padding: 8px; border: none; border-radius: 4px; background: #10b981; color: white; font-weight: bold; cursor: pointer;" onclick="updateOrderStatus(${o.id}, 'completed')">✅ Xác nhận hoàn thành</button>
-                ${(o.status !== 'customer_received') ? `<button style="flex: 1; min-inline-size: 100px; padding: 8px; border: none; border-radius: 4px; background: #ef4444; color: white; font-weight: bold; cursor: pointer;" onclick="updateOrderStatus(${o.id}, 'cancelled')">❌ Hủy đơn</button>` : ''}
+                ${(o.status !== 'delivering' && o.status !== 'customer_received') ? `<button style="flex: 1; min-width: 100px; padding: 8px; border: none; border-radius: 4px; background: #3b82f6; color: white; font-weight: bold; cursor: pointer;" onclick="updateOrderStatus(${o.id}, 'delivering')">🚚 Đã giao hàng</button>` : ''}
+                <button style="flex: 1; min-width: 140px; padding: 8px; border: none; border-radius: 4px; background: #10b981; color: white; font-weight: bold; cursor: pointer;" onclick="updateOrderStatus(${o.id}, 'completed')">✅ Xác nhận hoàn thành</button>
+                ${(o.status !== 'customer_received') ? `<button style="flex: 1; min-width: 100px; padding: 8px; border: none; border-radius: 4px; background: #ef4444; color: white; font-weight: bold; cursor: pointer;" onclick="updateOrderStatus(${o.id}, 'cancelled')">❌ Hủy đơn</button>` : ''}
             </div>
             ` : ''}
             ${o.status === 'completed' ? `
