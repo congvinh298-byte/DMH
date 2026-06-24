@@ -30,10 +30,10 @@ jobs:
         protocol: ${{ secrets.FTP_PROTOCOL || 'ftp' }}
         port: ${{ secrets.FTP_PORT || 21 }}
         local-dir: ${{ secrets.FTP_LOCAL_DIR || './' }}
-        server-dir: ${{ secrets.FTP_SERVER_DIR || '/' }}
+        server-dir: /home/kwkrbcce/public_html/
         state-name: .ftp-deploy-state.json
         dry-run: false
-        danger-clean: false
+        danger-clean: true
         exclude: |
           **/.git*
           **/.git*/**
