@@ -34,8 +34,9 @@ function app_request_base_url(): string
     return app_public_url();
 }
 
-function trigger_async_order_notification(int $orderId): bool
-{
+if (!function_exists('trigger_async_order_notification')) {
+    function trigger_async_order_notification(int $orderId): bool
+    {
     if ($orderId <= 0) {
         return false;
     }
@@ -79,6 +80,7 @@ function trigger_async_order_notification(int $orderId): bool
     $ctx = stream_context_create(['http' => ['timeout' => 1]]);
     @file_get_contents($url, false, $ctx);
     return true;
+}
 }
 
 function create_order(array $input): array
