@@ -5,27 +5,67 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type "deploy" to confirm deployment'
+        required: true
+        default: 'no'
 
 jobs:
   web-deploy:
     name: 🎉 Deploy
     runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.confirm == 'deploy'
     steps:
     - name: 🚚 Get latest code
       uses: actions/checkout@v4
-      
+
     - name: 📂 Sync files
       uses: SamKirkland/FTP-Deploy-Action@v4.3.5
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
+        protocol: ${{ secrets.FTP_PROTOCOL || 'ftp' }}
+        port: ${{ secrets.FTP_PORT || 21 }}
+        local-dir: ${{ secrets.FTP_LOCAL_DIR || './' }}
+        server-dir: ${{ secrets.FTP_SERVER_DIR || '/' }}
+        state-name: .ftp-deploy-state.json
+        dry-run: false
+        danger-clean: false
         exclude: |
           **/.git*
           **/.git*/**
-          **/.github*/**
+          **/.github*/
           .env.example
           README.md
           **/.vscode/**
           database_migration.sql
           docs/**
+          storage/logs/**
+          storage/cache/**
+          vendor/**
+          node_modules/**
+          .env
+          *.md
+          *.log
+          error_log
+          test*.php
+          fix_*.php
+          alter_*.php
+          debug_*.php
+          scripts/deploy-*
+          scripts/seed-*
+          .ftp-deploy-state.json
+
+    - name: 📋 Post-deploy info
+      if: always()
+      run: |
+        echo "## 🚀 Deployment Status" >> $GITHUB_STEP_SUMMARY
+        echo "- Server: ${{ secrets.FTP_SERVER }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Time: $(date -u)" >> $GITHUB_STEP_SUMMARY
+        echo "- Trigger: ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+        echo "- Commit: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "🔗 Test web: https://dienmayhieu.com" >> $GITHUB_STEP_SUMMARY
