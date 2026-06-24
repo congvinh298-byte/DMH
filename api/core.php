@@ -1795,12 +1795,6 @@ function next_order_code(): string
     return 'DH' . date('ymd') . strtoupper(substr(uniqid(), -6));
 }
 
-function trigger_async_order_notification(int $orderId): void
-{
-    // No-op stub: could spawn curl/webhook in production.
-    error_log('[order] notification triggered for order #' . $orderId);
-}
-
 if (defined('DTH_API_LIBRARY_ONLY') && DTH_API_LIBRARY_ONLY) {
     return;
 }

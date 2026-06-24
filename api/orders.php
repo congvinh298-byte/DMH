@@ -3,9 +3,11 @@
 
 
 
-function next_order_code(): string
-{
-    return 'DTH-' . date('Ymd-His') . '-' . random_int(100, 999);
+if (!function_exists('next_order_code')) {
+    function next_order_code(): string
+    {
+        return 'DTH-' . date('Ymd-His') . '-' . random_int(100, 999);
+    }
 }
 
 function order_notification_token(int $orderId): string
