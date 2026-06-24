@@ -15,12 +15,12 @@ ROOT = OUT_DIR.parent
 OUT_DOCX = OUT_DIR / "Ho_so_dang_ky_BCT_Dien_Tu_Hieu.docx"
 
 COMPANY = {
-    "name": "CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU",
-    "trade": "ĐIỆN TỬ HIẾU",
+    "name": "CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU",
+    "trade": "ĐIỆN MÁY HIẾU",
     "tax_code": "1402228630",
-    "address": "Số 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp, Việt Nam",
+    "address": "166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp, Việt Nam",
     "phone": "0979.553.289",
-    "email": "Congvinh298@gmail.com",
+    "email": "Congvinh28@gmail.com",
     "representative": "TRẦN CÔNG VINH",
     "representative_title": "Giám đốc",
     "website_name": "Chợ Lấp Vò Online",
