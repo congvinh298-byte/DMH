@@ -33,7 +33,7 @@ jobs:
         server-dir: /home/kwkrbcce/public_html/
         state-name: .ftp-deploy-state.json
         dry-run: false
-        danger-clean: true
+        dangerous-clean-slate: true
         exclude: |
           **/.git*
           **/.git*/**
