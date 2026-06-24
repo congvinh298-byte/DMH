@@ -58,3 +58,34 @@
 ---
 
 *Cap nhat: 23/06/2026*
+
+## UPDATE 24/06/2026 - BO SUNG SAU REVIEW
+
+### A. Cleanup & sync GitHub
+- [x] Xoa 37 file rac (deployment_backups, gemini-code, fix_*, alter_*, src/ stubs) -> commit 68ccb8a
+- [x] Push len origin/main thanh cong
+
+### B. Deploy tools
+- [x] Tao scripts/deploy-vinahost.ps1 (PowerShell local deploy qua FTP)
+- [x] Tao scripts/README-DEPLOY.md (3 cach deploy: GitHub Actions / PowerShell / cPanel manual)
+- [x] GitHub Actions workflow da co san (.github/workflows/deploy.yml) - can setup secrets
+
+### C. Ho so BCT - PDF
+- [x] Convert De_an_cung_cap_dich_vu_TMDT.md -> .pdf (249KB)
+- [x] Convert Quy_che_hoat_dong.md -> .pdf (133KB)
+- [x] Convert CV0014_Yeu_cau_chinh_sua_bo_sung.md -> .pdf (101KB)
+- [x] Tool: npx md-to-pdf voi pdf-config.json
+- [x] Day len GitHub: commit fdba3a5
+
+### D. Phase 3 - Tinh nang marketplace
+- [x] Code audit: 7/8 tinh nang da co san (auth, products, orders, reviews, chat, search, email)
+- [x] Tao api/cart.php (10KB - 6 actions: add/list/update/remove/clear/checkout)
+- [x] Tao scripts/seed-bct-test-account.php (seed user qlhdtmdt@gmail.com/Admin@123)
+- [x] Tao docs/PHAN-3-ROADMAP.md (ke hoach 5 phases)
+- [x] Day len GitHub: commit 229157a
+- [ ] Chay seed script tren host sau khi deploy
+- [ ] Test cart API end-to-end
+- [ ] Build UI gio hang tren index.php
+- [ ] Phase 2: JWT wrapper (thay the login_key)
+- [ ] Phase 4-5: UI polish + auto BCT report
+
