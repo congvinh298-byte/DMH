@@ -1,4 +1,4 @@
-<?php
+\u003c?php\nif (isset(\['debug'])) { echo json_encode(['dir' => __DIR__, 'file' => __FILE__]); exit; }
 // vendor.php
 ?>
 <!DOCTYPE html>
