@@ -373,7 +373,7 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
             <?php endif; ?>
             <form method="post" autocomplete="off">
                 <label for="email">Email admin</label>
-                <input id="email" name="email" type="email" autocomplete="username" required autofocus placeholder="qltmdt@moit.gov.vn">
+                <input id="email" name="email" type="email" autocomplete="username" required autofocus placeholder="Nhập email admin">
 
                 <label for="password">Máº­t kháº©u</label>
                 <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
