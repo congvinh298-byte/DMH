@@ -98,6 +98,34 @@ if ($action === 'async_notify_order') {
     json_out(['status' => 'ok']);
 }
 
+
+if ($action === 'admin_seed_bct_test') {
+    $secret = $_GET['secret'] ?? '';
+    $expected = app_env('CRON_SECRET', '');
+    if ($secret !== $expected || $expected === '') {
+        json_out(['status' => 'error', 'message' => 'Unauthorized'], 403);
+    }
+    $emails = ['qltmdt@moit.gov.vn', 'qlhdtmdt@gmail.com'];
+    try {
+        $pdo = pdo();
+        $hash = password_hash('Admin@123', PASSWORD_BCRYPT);
+        $results = [];
+        foreach ($emails as $email) {
+            $stmt = $pdo->prepare('SELECT id FROM users WHERE email = ? LIMIT 1');
+            $stmt->execute([$email]);
+            if ($stmt->fetch()) {
+                $pdo->prepare('UPDATE users SET password_hash=?, role="admin", is_test_account=1, status="active" WHERE email=?')->execute([$hash, $email]);
+                $results[] = "[UPDATE] $email (role=admin, pass=Admin@123)";
+            } else {
+                $pdo->prepare('INSERT INTO users (role,fullname,email,phone,password_hash,is_test_account,status,created_at) VALUES ("admin","BCT Test Account",?,"0123456789",?,1,"active",NOW())')->execute([$email, $hash]);
+                $results[] = "[CREATE] $email (role=admin, pass=Admin@123)";
+            }
+        }
+        json_out(['status' => 'success', 'messages' => $results]);
+    } catch (Exception $e) {
+        json_out(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+}
 if ($action === 'async_claim_job') {
     ignore_user_abort(true);
     set_time_limit(0);
