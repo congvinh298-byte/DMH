@@ -30,7 +30,7 @@ function cart_require_user(array $input): array {
     if ($userId <= 0) {
         api_error('Vui long dang nhap de su dung gio hang', 401);
     }
-    $pdo = db();
+    $pdo = pdo();
     $stmt = $pdo->prepare('SELECT id, fullname, phone, role FROM users WHERE id = ? LIMIT 1');
     $stmt->execute([$userId]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -83,7 +83,7 @@ switch ($action) {
         $qty = max(1, (int)($input['quantity'] ?? 1));
         if ($productId <= 0) api_error('product_id khong hop le');
 
-        $pdo = db();
+        $pdo = pdo();
         $pdo->beginTransaction();
         try {
             $stmt = $pdo->prepare('SELECT id, price, stock, is_active FROM products WHERE id = ? LIMIT 1');
@@ -118,7 +118,7 @@ switch ($action) {
     // ---------------------------------------------------------------------------------
     case 'cart_list':
         $user = cart_require_user($input);
-        $pdo = db();
+        $pdo = pdo();
         $items = cart_load_items($pdo, $user['id']);
         $summary = cart_recalculate($items);
         api_ok([
@@ -134,7 +134,7 @@ switch ($action) {
         $qty = (int)($input['quantity'] ?? 0);
         if ($productId <= 0) api_error('product_id khong hop le');
         if ($qty < 0) api_error('So luong khong hop le');
-        $pdo = db();
+        $pdo = pdo();
         if ($qty === 0) {
             $stmt = $pdo->prepare('DELETE FROM cart_items WHERE user_id = ? AND product_id = ?');
             $stmt->execute([$user['id'], $productId]);
@@ -156,7 +156,7 @@ switch ($action) {
     case 'cart_remove':
         $user = cart_require_user($input);
         $productId = (int)($input['product_id'] ?? 0);
-        $pdo = db();
+        $pdo = pdo();
         $stmt = $pdo->prepare('DELETE FROM cart_items WHERE user_id = ? AND product_id = ?');
         $stmt->execute([$user['id'], $productId]);
         api_ok(['message' => 'Da xoa khoi gio']);
@@ -165,7 +165,7 @@ switch ($action) {
     // ---------------------------------------------------------------------------------
     case 'cart_clear':
         $user = cart_require_user($input);
-        $pdo = db();
+        $pdo = pdo();
         $stmt = $pdo->prepare('DELETE FROM cart_items WHERE user_id = ?');
         $stmt->execute([$user['id']]);
         api_ok(['message' => 'Da xoa sach gio hang']);
@@ -182,7 +182,7 @@ switch ($action) {
         if (!in_array($payment, $allowedPayments, true)) api_error('Phuong thuc thanh toan khong hop le');
         if ($address === '' || $phone === '') api_error('Vui long nhap dia chi va so dien thoai');
 
-        $pdo = db();
+        $pdo = pdo();
         $pdo->beginTransaction();
         try {
             $items = cart_load_items($pdo, $user['id']);

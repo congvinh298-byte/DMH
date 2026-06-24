@@ -1775,6 +1775,32 @@ function require_admin_for_action(string $action)
     }
 }
 
+function api_error(string $message, int $code = 400): void
+{
+    http_response_code($code);
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(['status' => 'error', 'message' => $message], JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+function api_ok(array $data = []): void
+{
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(array_merge(['status' => 'ok'], $data), JSON_UNESCAPED_UNICODE);
+    exit;
+}
+
+function next_order_code(): string
+{
+    return 'DH' . date('ymd') . strtoupper(substr(uniqid(), -6));
+}
+
+function trigger_async_order_notification(int $orderId): void
+{
+    // No-op stub: could spawn curl/webhook in production.
+    error_log('[order] notification triggered for order #' . $orderId);
+}
+
 if (defined('DTH_API_LIBRARY_ONLY') && DTH_API_LIBRARY_ONLY) {
     return;
 }

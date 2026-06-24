@@ -1,6 +1,6 @@
 <?php
-\ = 'Chính sách bảo mật';
-\ = 'Chính sách bảo mật thông tin - Chợ Xã Lấp Vò Online';
+$page_title = 'Chính sách bảo mật';
+$meta_title = 'Chính sách bảo mật thông tin - Chợ Xã Lấp Vò Online';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
