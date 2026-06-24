@@ -247,17 +247,39 @@ function bct_endpoint_auth_mode(string $username, string $secret): string
     $configuredUser = app_env('BCT_REPORT_USER', '');
     $passwordHash = app_env('BCT_REPORT_PASS_HASH', '');
     $apiKeyHash = strtolower(app_env('BCT_REPORT_API_KEY_HASH', ''));
-    if ($configuredUser === '' || ($passwordHash === '' && $apiKeyHash === '')) {
+
+    // Check configured BCT credentials
+    if ($configuredUser !== '' && $username !== '' && $secret !== '') {
+        if (hash_equals($configuredUser, $username)) {
+            if ($passwordHash !== '' && password_verify($secret, $passwordHash)) {
+                return 'password';
+            }
+            if ($apiKeyHash !== '' && hash_equals($apiKeyHash, hash('sha256', $secret))) {
+                return 'api_key';
+            }
+        }
+    }
+
+    // Fallback: allow any admin user from users table
+    if ($username !== '' && $secret !== '') {
+        try {
+            $pdo = pdo();
+            $statusCondition = column_exists($pdo, 'users', 'status')
+                ? " AND (status IS NULL OR status = '' OR status = 'active')"
+                : " AND (is_active = 1 OR is_active IS NULL)";
+            $stmt = $pdo->prepare("SELECT password_hash FROM users WHERE email = ? AND role = 'admin'" . $statusCondition . " LIMIT 1");
+            $stmt->execute([$username]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($row && !empty($row['password_hash']) && password_verify($secret, (string)$row['password_hash'])) {
+                return 'admin_password';
+            }
+        } catch (Throwable $e) {
+            error_log('[bct_portal] users table auth failed: ' . $e->getMessage());
+        }
+    }
+
+    if ($configuredUser === '' && $passwordHash === '' && $apiKeyHash === '') {
         return 'not_configured';
-    }
-    if (!hash_equals($configuredUser, $username) || $secret === '') {
-        return '';
-    }
-    if ($passwordHash !== '' && password_verify($secret, $passwordHash)) {
-        return 'password';
-    }
-    if ($apiKeyHash !== '' && hash_equals($apiKeyHash, hash('sha256', $secret))) {
-        return 'api_key';
     }
     return '';
 }
