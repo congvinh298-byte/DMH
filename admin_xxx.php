@@ -344,8 +344,12 @@ async function api(action, data = {}, method = 'POST') {
         }
     };
     if (method === 'POST') {
-        opts.headers['Content-Type'] = 'application/json';
-        opts.body = JSON.stringify(data);
+        const params = new URLSearchParams();
+        for (const [k, v] of Object.entries(data)) {
+            params.append(k, v);
+        }
+        opts.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+        opts.body = params.toString();
     }
     const res = await fetch(url, opts);
     return res.json();
