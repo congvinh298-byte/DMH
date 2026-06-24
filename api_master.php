@@ -65,7 +65,7 @@ if (defined('DTH_API_LIBRARY_ONLY')) {
 
 $action = clean_string($_GET['action'] ?? '', 80);
 if ($action === '') {
-    json_out(['status' => 'ok', 'message' => 'api_master online']);
+    json_out(['status' => 'ok', 'message' => 'api_master v2']);
 }
 
 if ($action === 'telegram_webhook') {
