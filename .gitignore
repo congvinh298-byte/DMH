@@ -34,3 +34,9 @@ build/
 AutoSign/InputInvoice_v9.exe
 AutoSign/Viettel_tool_ki_so_v1.0.5.exe
 *.exe
+
+# FTP client configs
+*.coreftp
+*.filezilla
+*.winscp
+
