@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 declare(strict_types=1);
 
 require_once __DIR__ . '/api/core.php';
@@ -30,12 +30,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email']) && !empty($
     $password = safe_input('password');
 
     if ($email === '' || $password === '') {
-        $error = 'Vui lÃ²ng nháº­p email vÃ  máº­t kháº©u.';
+        $error = 'Vui lÃƒÂ²ng nhÃ¡ÂºÂ­p email vÃƒÂ  mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u.';
     } else {
         try {
             $pdo = pdo();
 
-            // Kiá»ƒm tra cá»™t status cÃ³ tá»“n táº¡i khÃ´ng
+            // KiÃ¡Â»Æ’m tra cÃ¡Â»â„¢t status cÃƒÂ³ tÃ¡Â»â€œn tÃ¡ÂºÂ¡i khÃƒÂ´ng
             $statusCondition = column_exists($pdo, 'users', 'status')
                 ? " AND (status IS NULL OR status = '' OR status = 'active')"
                 : " AND (is_active = 1 OR is_active IS NULL)";
@@ -52,11 +52,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email']) && !empty($
                 header('Location: admin_xxx.php');
                 exit;
             } else {
-                $error = 'Email hoáº·c máº­t kháº©u khÃ´ng Ä‘Ãºng.';
+                $error = 'Email hoÃ¡ÂºÂ·c mÃ¡ÂºÂ­t khÃ¡ÂºÂ©u khÃƒÂ´ng Ã„â€˜ÃƒÂºng.';
                 $user = null;
             }
         } catch (Throwable $e) {
-            $error = 'Lá»—i há»‡ thá»‘ng: ' . $e->getMessage();
+            $error = 'LÃ¡Â»â€”i hÃ¡Â»â€¡ thÃ¡Â»â€˜ng: ' . $e->getMessage();
         }
     }
 } elseif (!empty($_SESSION['admin_logged_in']) && !empty($_SESSION['admin_id'])) {
@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['email']) && !empty($
         }
     } catch (Throwable $e) {
         $user = null;
-        $error = 'Lá»—i táº£i thÃ´ng tin admin: ' . $e->getMessage();
+        $error = 'LÃ¡Â»â€”i tÃ¡ÂºÂ£i thÃƒÂ´ng tin admin: ' . $e->getMessage();
     }
 }
 
@@ -85,7 +85,7 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard - Chá»£ Láº¥p VÃ² Online</title>
+    <title>Admin Dashboard - ChÃ¡Â»Â£ LÃ¡ÂºÂ¥p VÃƒÂ² Online</title>
     <style>
         :root {
             --primary: #dc2626;
@@ -100,9 +100,8 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
             --radius: 12px;
         }
         * { box-sizing: border-box; }
-        html, body { margin: 0; min-height: 100%; }
+        html, body { font-family: "Times New Roman", Times, serif; margin: 0; min-height: 100%; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.5;
@@ -309,7 +308,7 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
             .topbar { flex-direction: column; align-items: flex-start; }
             .user-chip { width: 100%; justify-content: space-between; }
         }
-    </style>
+    input, button, label, p, h1, h2, h3, h4, h5, h6, span, a, div { font-family: "Times New Roman", Times, serif; }\n    </style>
 </head>
 <body>
 <?php if ($isLoggedIn): ?>
@@ -318,12 +317,12 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
         <div class="topbar">
             <div>
                 <h1>Dashboard</h1>
-                <div style="color: var(--muted); font-size: 14px;">Chá»£ Láº¥p VÃ² Online</div>
+                <div style="color: var(--muted); font-size: 14px;">ChÃ¡Â»Â£ LÃ¡ÂºÂ¥p VÃƒÂ² Online</div>
             </div>
             <div class="user-chip">
                 <span class="avatar"><?= mb_substr($displayName, 0, 1, 'UTF-8') ?></span>
                 <span><?= $displayName ?></span>
-                <a class="btn btn-outline" href="admin_xxx.php?logout=1">ÄÄƒng xuáº¥t</a>
+                <a class="btn btn-outline" href="admin_xxx.php?logout=1">Ã„ÂÃ„Æ’ng xuÃ¡ÂºÂ¥t</a>
             </div>
         </div>
 
@@ -333,29 +332,29 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
 
         <div class="grid">
             <a class="tile" href="bct_portal.php" target="_blank" rel="noopener">
-                <div class="tile-icon">ðŸ“‹</div>
-                <div class="tile-title">Cá»•ng bÃ¡o cÃ¡o BCT</div>
-                <div class="tile-desc">Truy cáº­p cá»•ng thÃ´ng tin Bá»™ CÃ´ng ThÆ°Æ¡ng.</div>
+                <div class="tile-icon">Ã°Å¸â€œâ€¹</div>
+                <div class="tile-title">CÃ¡Â»â€¢ng bÃƒÂ¡o cÃƒÂ¡o BCT</div>
+                <div class="tile-desc">Truy cÃ¡ÂºÂ­p cÃ¡Â»â€¢ng thÃƒÂ´ng tin BÃ¡Â»â„¢ CÃƒÂ´ng ThÃ†Â°Ã†Â¡ng.</div>
             </a>
             <a class="tile" href="admin/chat_logs.php" target="_blank" rel="noopener">
-                <div class="tile-icon">ðŸ’¬</div>
+                <div class="tile-icon">Ã°Å¸â€™Â¬</div>
                 <div class="tile-title">Chat logs</div>
-                <div class="tile-desc">Xem lá»‹ch sá»­ chat vÃ  tÆ°Æ¡ng tÃ¡c.</div>
+                <div class="tile-desc">Xem lÃ¡Â»â€¹ch sÃ¡Â»Â­ chat vÃƒÂ  tÃ†Â°Ã†Â¡ng tÃƒÂ¡c.</div>
             </a>
             <a class="tile" href="/" target="_blank" rel="noopener">
-                <div class="tile-icon">ðŸŒ</div>
+                <div class="tile-icon">Ã°Å¸Å’Â</div>
                 <div class="tile-title">Xem website</div>
-                <div class="tile-desc">Má»Ÿ trang chá»§ dienmayhieu.com.</div>
+                <div class="tile-desc">MÃ¡Â»Å¸ trang chÃ¡Â»Â§ dienmayhieu.com.</div>
             </a>
             <a class="tile" href="admin_xxx.php?logout=1">
-                <div class="tile-icon">ðŸšª</div>
-                <div class="tile-title">ÄÄƒng xuáº¥t</div>
-                <div class="tile-desc">ThoÃ¡t khá»i trang quáº£n trá»‹.</div>
+                <div class="tile-icon">Ã°Å¸Å¡Âª</div>
+                <div class="tile-title">Ã„ÂÃ„Æ’ng xuÃ¡ÂºÂ¥t</div>
+                <div class="tile-desc">ThoÃƒÂ¡t khÃ¡Â»Âi trang quÃ¡ÂºÂ£n trÃ¡Â»â€¹.</div>
             </a>
         </div>
 
         <footer>
-            Â© <?= date('Y') ?> Chá»£ Láº¥p VÃ² Online â€” Admin Dashboard
+            Ã‚Â© <?= date('Y') ?> ChÃ¡Â»Â£ LÃ¡ÂºÂ¥p VÃƒÂ² Online Ã¢â‚¬â€ Admin Dashboard
         </footer>
     </div>
 </div>
@@ -363,9 +362,9 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
 <div class="page">
     <div class="card">
         <div class="card-header">
-            <div class="logo-mark">ðŸ”</div>
-            <h1>ÄÄƒng nháº­p Admin</h1>
-            <p>Chá»£ Láº¥p VÃ² Online - Trang quáº£n trá»‹</p>
+            <div class="logo-mark">Ã°Å¸â€Â</div>
+            <h1>Ã„ÂÃ„Æ’ng nhÃ¡ÂºÂ­p Admin</h1>
+            <p>ChÃ¡Â»Â£ LÃ¡ÂºÂ¥p VÃƒÂ² Online - Trang quÃ¡ÂºÂ£n trÃ¡Â»â€¹</p>
         </div>
         <div class="card-body">
             <?php if ($error !== ''): ?>
@@ -373,12 +372,12 @@ $displayName = esc_html($user['fullname'] ?? $user['email'] ?? 'Admin');
             <?php endif; ?>
             <form method="post" autocomplete="off">
                 <label for="email">Email admin</label>
-                <input id="email" name="email" type="email" autocomplete="username" required autofocus placeholder="Nhập email admin">
+                <input id="email" name="email" type="email" autocomplete="username" required autofocus placeholder="Nháº­p email admin">
 
-                <label for="password">Máº­t kháº©u</label>
-                <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+                <label for="password">MÃ¡ÂºÂ­t khÃ¡ÂºÂ©u</label>
+                <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢Ã¢â‚¬Â¢">
 
-                <button type="submit">ÄÄƒng nháº­p</button>
+                <button type="submit">Ã„ÂÃ„Æ’ng nhÃ¡ÂºÂ­p</button>
             </form>
         </div>
     </div>
