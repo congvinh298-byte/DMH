@@ -15,7 +15,7 @@ $values = [
     'role' => 'admin',
     'fullname' => 'Chu Website',
     'email' => $email,
-    'phone' => '0979553289',
+    'phone' => '0979553290',
     'password_hash' => $hash,
 ];
 
