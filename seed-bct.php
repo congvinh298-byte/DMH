@@ -1,4 +1,4 @@
-<?php
+\u003c?php\n// Seed BCT test account - v2
 declare(strict_types=1);
 
 require_once __DIR__ . '/api/core.php';
