@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 const cards = Array.from(document.querySelectorAll('.product'));
 const searchInput = document.getElementById('searchInput');
@@ -265,7 +265,7 @@ document.getElementById('askGeminiButton')?.addEventListener('click', async () =
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                message: question || selected || 'Tư vấn Chợ Xã Lấp Vò',
+                message: question || selected || 'Tư vấn Chợ Lấp Vò',
                 service_type: document.getElementById('service_type').value,
                 selected_service: selected,
                 public_price: document.getElementById('customer_price_display').value,
@@ -368,7 +368,7 @@ const policies = {
         title: 'Quy Chế Hoạt Động',
         body: `
             <h4>1. Nguyên tắc chung</h4>
-            <p>Nền tảng Chợ Xã Lấp Vò Online là ứng dụng số hỗ trợ kết nối khách hàng với thợ kỹ thuật sửa chữa, lắp đặt thiết bị điện tử, điện lạnh, gia dụng tại địa bàn cấp xã và khu vực lân cận.</p>
+            <p>Nền tảng Chợ Lấp Vò Online là ứng dụng số hỗ trợ kết nối khách hàng với thợ kỹ thuật sửa chữa, lắp đặt thiết bị điện tử, điện lạnh, gia dụng tại địa bàn cấp xã và khu vực lân cận.</p>
             <h4>2. Quy định dành cho Khách Hàng</h4>
             <ul>
                 <li>Cung cấp thông tin liên hệ và tình trạng sự cố trung thực, chính xác.</li>
@@ -405,7 +405,7 @@ const policies = {
                 <li>Ứng dụng tự động hóa thông qua Telegram Bot để tiết giảm tối đa chi phí vận hành, từ đó mang lại mức giá dịch vụ tốt nhất cho bà con.</li>
             </ul>
             <h4>5. Tầm nhìn chiến lược</h4>
-            <p>Chợ Xã Lấp Vò Online hướng tới mục tiêu trở thành nền tảng ứng dụng số kiểu mẫu phục vụ thiết thực cho đời sống, dễ dàng nhân rộng sang các địa bàn cấp xã khác, góp sức kiến tạo nên bức tranh Nông Thôn Mới hiện đại, số hóa và văn minh.</p>
+            <p>Chợ Lấp Vò Online hướng tới mục tiêu trở thành nền tảng ứng dụng số kiểu mẫu phục vụ thiết thực cho đời sống, dễ dàng nhân rộng sang các địa bàn cấp xã khác, góp sức kiến tạo nên bức tranh Nông Thôn Mới hiện đại, số hóa và văn minh.</p>
         `
     },
     'baomat': {

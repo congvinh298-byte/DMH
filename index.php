@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 header('Content-Type: text/html; charset=utf-8');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-Content-Type-Options: nosniff');
@@ -495,9 +495,9 @@ $services = array(
 <link rel="icon" href="data:,">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chợ Xã Lấp Vò Online - Chợ Số Thế Hệ Mới</title>
-    <meta name="description" content="Chợ Xã Lấp Vò Online - chốt thợ nhanh, mua hàng nhanh, thanh toán gọn trong một chạm.">
-    <meta property="og:title" content="Chợ Xã Lấp Vò Online - Chợ Số Thế Hệ Mới">
+    <title>Chợ Lấp Vò Online - Chợ Số Thế Hệ Mới</title>
+    <meta name="description" content="Chợ Lấp Vò Online - chốt thợ nhanh, mua hàng nhanh, thanh toán gọn trong một chạm.">
+    <meta property="og:title" content="Chợ Lấp Vò Online - Chợ Số Thế Hệ Mới">
     <meta property="og:description" content="Mua hàng nhanh, gọi thợ nhanh, giá dịch vụ công khai.">
     <meta property="og:type" content="website">
     <link rel="icon" href="<?= h($favicon) ?>">
@@ -1335,7 +1335,7 @@ footer {
     <div class="wrap head">
         <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">
             <img src="LOGO.png" alt="Logo Chợ Lấp Vò Online" style="block-size: 48px; border-radius: 6px; object-fit: contain;">
-            <div>Chợ Xã Lấp Vò Online<small>Chợ số thế hệ mới</small></div>
+            <div>Chợ Lấp Vò Online<small>Chợ số thế hệ mới</small></div>
         </a>
         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 1; max-inline-size: 520px;">
             <div id="topBarStatus">
@@ -1428,9 +1428,9 @@ footer {
         <div class="row g-4 align-items-stretch">
             <div class="col-lg-7">
                 <div class="glass-panel hero-card">
-                    <img class="hero-logo" src="LOGO.png" alt="Logo Chợ Xã Lấp Vò Online">
-                    <h1 class="hero-title">Chợ Xã Lấp Vò Online</h1>
-                    <p class="hero-slogan">Chợ Xã Lấp Vò Online - Chốt Thợ Trong 1 Nốt Nhạc, Mua Hàng Trong 1 Chạm.</p>
+                    <img class="hero-logo" src="LOGO.png" alt="Logo Chợ Lấp Vò Online">
+                    <h1 class="hero-title">Chợ Lấp Vò Online</h1>
+                    <p class="hero-slogan">Chợ Lấp Vò Online - Chốt Thợ Trong 1 Nốt Nhạc, Mua Hàng Trong 1 Chạm.</p>
                     <div class="hero-actions">
                         <a class="btn" href="#goi-tho" onclick="selectMainService('worker')">Gọi thợ quick post</a>
                         <a class="btn dark" href="#products">Mua hàng 1 chạm</a>
@@ -1443,7 +1443,7 @@ footer {
                     <div class="qr-grid">
                         <div class="qr-frame">
                             <?php if ($qrWeb !== ''): ?>
-                                <img src="<?= h($qrWeb) ?>" alt="QR truy cập Chợ Xã Lấp Vò Online">
+                                <img src="<?= h($qrWeb) ?>" alt="QR truy cập Chợ Lấp Vò Online">
                             <?php else: ?>
                                 <div class="qr-empty">QR.png</div>
                             <?php endif; ?>
@@ -1454,7 +1454,7 @@ footer {
                         </div>
                         <div class="qr-frame">
                             <?php if ($qrPay !== ''): ?>
-                                <img src="<?= h($qrPay) ?>" alt="QR thanh toán Chợ Xã Lấp Vò Online">
+                                <img src="<?= h($qrPay) ?>" alt="QR thanh toán Chợ Lấp Vò Online">
                             <?php else: ?>
                                 <div class="qr-empty">QR_THANH_TOAN.png</div>
                             <?php endif; ?>

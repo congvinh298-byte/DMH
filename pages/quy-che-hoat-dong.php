@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Quy chế hoạt động';
 $PAGE_DESC = 'Quy chế hoạt động sàn giao dịch thương mại điện tử - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';

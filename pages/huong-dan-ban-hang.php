@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Hướng dẫn bán hàng';
-$PAGE_DESC = 'Hướng dẫn đăng ký gian hàng và bán hàng trên Chợ Xã Lấp Vò Online';
+$PAGE_DESC = 'Hướng dẫn đăng ký gian hàng và bán hàng trên Chợ Lấp Vò Online';
 require_once __DIR__ . '/inc/header.php';
 ?>
 

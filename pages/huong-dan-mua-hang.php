@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Hướng dẫn mua hàng';
-$PAGE_DESC = 'Hướng dẫn chi tiết cách mua hàng trên Chợ Xã Lấp Vò Online';
+$PAGE_DESC = 'Hướng dẫn chi tiết cách mua hàng trên Chợ Lấp Vò Online';
 require_once __DIR__ . '/inc/header.php';
 ?>
 

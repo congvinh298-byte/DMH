@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Điều khoản sử dụng';
-$PAGE_DESC = 'Điều khoản sử dụng website Chợ Xã Lấp Vò Online - dienmayhieu.com';
+$PAGE_DESC = 'Điều khoản sử dụng website Chợ Lấp Vò Online - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
 <h2>1. Phạm vi áp dụng</h2>
-<p>Điều khoản này quy định các quyền và nghĩa vụ của thành viên khi tham gia sử dụng dịch vụ trên website Chợ Xã Lấp Vò Online (dienmayhieu.com), bao gồm cả người mua và người bán (thợ). Việc sử dụng website đồng nghĩa với việc bạn đồng ý tuân thủ toàn bộ các điều khoản này.</p>
+<p>Điều khoản này quy định các quyền và nghĩa vụ của thành viên khi tham gia sử dụng dịch vụ trên website Chợ Lấp Vò Online (dienmayhieu.com), bao gồm cả người mua và người bán (thợ). Việc sử dụng website đồng nghĩa với việc bạn đồng ý tuân thủ toàn bộ các điều khoản này.</p>
 
 <h2>2. Quyền và nghĩa vụ của người dùng</h2>
 <h3>2.1. Người mua (Khách hàng)</h3>

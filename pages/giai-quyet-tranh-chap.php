@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Giải quyết tranh chấp';
-$PAGE_DESC = 'Quy trình giải quyết tranh chấp, khiếu nại trên Chợ Xã Lấp Vò Online';
+$PAGE_DESC = 'Quy trình giải quyết tranh chấp, khiếu nại trên Chợ Lấp Vò Online';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
 <h2>1. Nguyên tắc giải quyết tranh chấp</h2>
-<p>Mọi tranh chấp phát sinh trên sàn giao dịch Chợ Xã Lấp Vò Online đều được giải quyết theo nguyên tắc:</p>
+<p>Mọi tranh chấp phát sinh trên sàn giao dịch Chợ Lấp Vò Online đều được giải quyết theo nguyên tắc:</p>
 <ul>
     <li><strong>Thương lượng trực tiếp:</strong> Ưu tiên giải quyết thông qua đối thoại giữa các bên.</li>
     <li><strong>Hòa giải:</strong> Sàn hỗ trợ điều phối khi các bên không tự thương lượng được.</li>

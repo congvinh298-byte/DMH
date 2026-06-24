@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 $page_title = 'Chính sách bảo mật';
-$meta_title = 'Chính sách bảo mật thông tin - Chợ Xã Lấp Vò Online';
+$meta_title = 'Chính sách bảo mật thông tin - Chợ Lấp Vò Online';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
 <h2>1. Mục đích và phạm vi thu thập thông tin</h2>
-<p>Chợ Xã Lấp Vò Online thu thập thông tin cá nhân của người dùng nhằm mục đích:</p>
+<p>Chợ Lấp Vò Online thu thập thông tin cá nhân của người dùng nhằm mục đích:</p>
 <ul>
     <li>Xác thực danh tính người dùng (người mua, người bán).</li>
     <li>Hỗ trợ quá trình giao dịch, vận chuyển và thanh toán.</li>

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 ob_start();
 register_shutdown_function(static function (): void {
     $error = error_get_last();

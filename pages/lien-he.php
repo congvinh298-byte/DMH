@@ -1,6 +1,6 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Liên hệ';
-$PAGE_DESC = 'Thông tin liên hệ Chợ Xã Lấp Vò Online - dienmayhieu.com';
+$PAGE_DESC = 'Thông tin liên hệ Chợ Lấp Vò Online - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
 ?>
 

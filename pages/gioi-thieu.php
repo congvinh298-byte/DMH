@@ -1,11 +1,11 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Giới thiệu';
-$PAGE_DESC = 'Giới thiệu về Chợ Xã Lấp Vò Online - dienmayhieu.com';
+$PAGE_DESC = 'Giới thiệu về Chợ Lấp Vò Online - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
 <h2>1. Giới thiệu tổng quan</h2>
-<p><strong>Chợ Xã Lấp Vò Online</strong> (dienmayhieu.com) là sàn giao dịch thương mại điện tử địa phương, được xây dựng nhằm kết nối người mua và người bán (thợ) trong khu vực Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp.</p>
+<p><strong>Chợ Lấp Vò Online</strong> (dienmayhieu.com) là sàn giao dịch thương mại điện tử địa phương, được xây dựng nhằm kết nối người mua và người bán (thợ) trong khu vực Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp.</p>
 
 <p>Website được vận hành bởi <strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong>, đơn vị có nhiều năm kinh nghiệm trong lĩnh vực điện tử, điện lạnh và dịch vụ kỹ thuật tại địa phương.</p>
 
@@ -16,7 +16,7 @@ require_once __DIR__ . '/inc/header.php';
 </ul>
 
 <h2>3. Mô hình hoạt động</h2>
-<p>Chợ Xã Lấp Vò Online hoạt động theo mô hình <strong>Sàn giao dịch thương mại điện tử (E-commerce Marketplace)</strong>:</p>
+<p>Chợ Lấp Vò Online hoạt động theo mô hình <strong>Sàn giao dịch thương mại điện tử (E-commerce Marketplace)</strong>:</p>
 <ul>
     <li>Người bán (thợ) đăng ký gian hàng, đăng bán sản phẩm/dịch vụ.</li>
     <li>Người mua tìm kiếm, so sánh và đặt hàng trực tiếp trên website.</li>

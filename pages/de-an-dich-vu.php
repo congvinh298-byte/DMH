@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Đề án cung cấp dịch vụ TMĐT';
 $PAGE_DESC = 'Đề án cung cấp dịch vụ thương mại điện tử - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
@@ -8,7 +8,7 @@ require_once __DIR__ . '/inc/header.php';
 <table>
     <tr><th>Thông tin</th><th>Chi tiết</th></tr>
     <tr><td>Tên tổ chức</td><td><strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong></td></tr>
-    <tr><td>Tên website/ứng dụng</td><td>Chợ Xã Lấp Vò Online</td></tr>
+    <tr><td>Tên website/ứng dụng</td><td>Chợ Lấp Vò Online</td></tr>
     <tr><td>Tên miền</td><td>dienmayhieu.com</td></tr>
     <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
     <tr><td>Chức vụ</td><td>Giám đốc</td></tr>

@@ -1,4 +1,4 @@
-\u003c?php\nif (isset(\['debug'])) { echo json_encode(['dir' => __DIR__, 'file' => __FILE__]); exit; }
+﻿\u003c?php\nif (isset(\['debug'])) { echo json_encode(['dir' => __DIR__, 'file' => __FILE__]); exit; }
 // vendor.php
 ?>
 <!DOCTYPE html>
@@ -7,7 +7,7 @@
 <link rel="icon" href="data:,">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Quản lý Cửa Hàng - Chợ Xã Lấp Vò</title>
+    <title>Quản lý Cửa Hàng - Chợ Lấp Vò</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
