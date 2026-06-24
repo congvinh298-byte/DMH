@@ -99,7 +99,7 @@ if ($action === 'async_notify_order') {
 }
 
 
-if ($action === 'admin_seed_bct_test') {
+if ($action === 'seed_bct_test') {
     $secret = $_GET['secret'] ?? '';
     $expected = app_env('CRON_SECRET', '');
     if ($secret !== $expected || $expected === '') {
