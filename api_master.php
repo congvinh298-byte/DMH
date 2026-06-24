@@ -1164,6 +1164,145 @@ try {
         }
         json_out(['status' => 'error', 'message' => 'Lỗi phát hành từ Viettel API: ' . json_encode($res, JSON_UNESCAPED_UNICODE)]);
 
+    case 'admin_stores':
+        $filter = clean_string($input['status'] ?? '', 30);
+        $sql = 'SELECT * FROM marketplace_stores';
+        $params = [];
+        if ($filter !== '') {
+            $sql .= ' WHERE status = ?';
+            $params[] = $filter;
+        }
+        $sql .= ' ORDER BY id DESC';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute($params);
+        $rows = $stmt->fetchAll();
+        json_out(['status' => 'success', 'data' => $rows]);
+
+    case 'admin_approve_store':
+        $storeId = (int)($input['id'] ?? 0);
+        if ($storeId <= 0) {
+            json_out(['status' => 'error', 'message' => 'ID cửa hàng không hợp lệ.'], 400);
+        }
+        $adminName = clean_string($_SESSION['admin_fullname'] ?? $_SESSION['admin_email'] ?? 'admin', 150);
+        update_compat($pdo, 'marketplace_stores', [
+            'status' => 'active',
+            'approved_at' => 'NOW()',
+            'approved_by' => $adminName,
+        ], 'id = ?', [$storeId], ['updated_at' => 'NOW()']);
+        json_out(['status' => 'success', 'message' => 'Đã phê duyệt cửa hàng.']);
+
+    case 'admin_reject_store':
+        $storeId = (int)($input['id'] ?? 0);
+        if ($storeId <= 0) {
+            json_out(['status' => 'error', 'message' => 'ID cửa hàng không hợp lệ.'], 400);
+        }
+        update_compat($pdo, 'marketplace_stores', [
+            'status' => 'rejected',
+        ], 'id = ?', [$storeId], ['updated_at' => 'NOW()']);
+        json_out(['status' => 'success', 'message' => 'Đã từ chối cửa hàng.']);
+
+    case 'admin_vouchers':
+        $vStmt = $pdo->query('SELECT * FROM vouchers ORDER BY id DESC LIMIT 200');
+        $qrStmt = $pdo->query('SELECT * FROM qr_coupons ORDER BY id DESC LIMIT 200');
+        json_out(['status' => 'success', 'vouchers' => $vStmt->fetchAll(), 'qr_coupons' => $qrStmt->fetchAll()]);
+
+    case 'admin_save_voucher':
+        $id = (int)($input['id'] ?? 0);
+        $code = clean_string($input['code'] ?? '', 50);
+        $type = in_array($input['type'] ?? '', ['percent', 'fixed'], true) ? $input['type'] : 'fixed';
+        $value = money_int($input['value'] ?? 0);
+        $minOrder = money_int($input['min_order'] ?? 0);
+        $maxDiscount = money_int($input['max_discount'] ?? 0);
+        $usageLimit = max(1, (int)($input['usage_limit'] ?? 1));
+        $expiresAt = clean_string($input['expires_at'] ?? '', 20);
+        $isActive = (int)(bool)($input['is_active'] ?? 1);
+
+        if ($code === '') {
+            json_out(['status' => 'error', 'message' => 'Mã voucher không được để trống.'], 400);
+        }
+        if ($value <= 0) {
+            json_out(['status' => 'error', 'message' => 'Giá trị voucher phải lớn hơn 0.'], 400);
+        }
+
+        $discountPercent = $type === 'percent' ? $value : 0;
+        $discountAmount = $type === 'fixed' ? $value : 0;
+        $data = [
+            'code' => $code,
+            'type' => $type,
+            'value' => $value,
+            'min_order' => $minOrder,
+            'max_discount' => $maxDiscount,
+            'usage_limit' => $usageLimit,
+            'max_uses' => $usageLimit,
+            'is_active' => $isActive,
+        ];
+        if (column_exists($pdo, 'vouchers', 'discount_percent')) {
+            $data['discount_percent'] = $discountPercent;
+        }
+        if (column_exists($pdo, 'vouchers', 'discount_amount')) {
+            $data['discount_amount'] = $discountAmount;
+        }
+
+        $existing = $pdo->prepare('SELECT id FROM vouchers WHERE code = ? LIMIT 1');
+        $existing->execute([$code]);
+        if ($id <= 0 && $existing->fetch()) {
+            json_out(['status' => 'error', 'message' => 'Mã voucher đã tồn tại.'], 409);
+        }
+        if ($id > 0) {
+            update_compat($pdo, 'vouchers', $data, 'id = ?', [$id], ['updated_at' => 'NOW()']);
+            if ($expiresAt !== '' && column_exists($pdo, 'vouchers', 'expires_at')) {
+                $pdo->prepare('UPDATE vouchers SET expires_at = ? WHERE id = ?')->execute([$expiresAt, $id]);
+            }
+            json_out(['status' => 'success', 'message' => 'Đã cập nhật voucher.', 'id' => $id]);
+        }
+        insert_compat($pdo, 'vouchers', $data, ['created_at' => 'NOW()']);
+        $newId = (int)$pdo->lastInsertId();
+        if ($expiresAt !== '' && column_exists($pdo, 'vouchers', 'expires_at')) {
+            $pdo->prepare('UPDATE vouchers SET expires_at = ? WHERE id = ?')->execute([$expiresAt, $newId]);
+        }
+        json_out(['status' => 'success', 'message' => 'Đã tạo voucher.', 'id' => $newId]);
+
+    case 'admin_save_qr':
+        $count = max(1, min(500, (int)($input['count'] ?? 1)));
+        $type = in_array($input['type'] ?? '', ['discount', 'prize'], true) ? $input['type'] : 'discount';
+        $value = money_int($input['value'] ?? 0);
+        $description = clean_string($input['description'] ?? '', 500);
+        $codes = [];
+        for ($i = 0; $i < $count; $i++) {
+            do {
+                $code = generate_code('QR', 4);
+                $stmt = $pdo->prepare('SELECT COUNT(*) FROM qr_coupons WHERE code = ?');
+                $stmt->execute([$code]);
+            } while ((int)$stmt->fetchColumn() > 0);
+            insert_compat($pdo, 'qr_coupons', [
+                'code' => $code,
+                'type' => $type,
+                'value' => $value,
+                'discount_amount' => $value,
+                'quantity_left' => 1,
+                'description' => $description,
+                'is_used' => 0,
+            ], ['created_at' => 'NOW()']);
+            $codes[] = $code;
+        }
+        json_out(['status' => 'success', 'message' => 'Đã tạo ' . count($codes) . ' mã QR.', 'codes' => $codes]);
+
+    case 'admin_delete_voucher':
+        $id = (int)($input['id'] ?? 0);
+        if ($id <= 0) {
+            json_out(['status' => 'error', 'message' => 'ID voucher không hợp lệ.'], 400);
+        }
+        $pdo->prepare('DELETE FROM vouchers WHERE id = ?')->execute([$id]);
+        json_out(['status' => 'success', 'message' => 'Đã xóa voucher.']);
+
+    case 'admin_delete_qr':
+        $id = (int)($input['id'] ?? 0);
+        if ($id <= 0) {
+            json_out(['status' => 'error', 'message' => 'ID mã QR không hợp lệ.'], 400);
+        }
+        $pdo->prepare('DELETE FROM qr_coupons WHERE id = ?')->execute([$id]);
+        json_out(['status' => 'success', 'message' => 'Đã xóa mã QR.']);
+
     default:
         json_out(['status' => 'error', 'message' => "Unknown action: {$action}"], 404);
     }
