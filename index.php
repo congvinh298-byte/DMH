@@ -445,14 +445,14 @@ if ($pdo instanceof PDO) {
     try {
         $stmt = $pdo->query("SELECT id, store_name, store_type FROM marketplace_stores WHERE status = 'active' ORDER BY id DESC LIMIT 100");
         $stores = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : array();
-        
+
         $stores = array_filter($stores, function($s) {
             return !in_array($s['store_name'], ['Quán Ăn Sáng Cô Bảy', 'Tiệm Nước Giải Khát Lấp Vò']);
         });
-        
+
         $stmt2 = $pdo->query("SELECT * FROM marketplace_products WHERE status = 'active' AND store_id IN (SELECT id FROM marketplace_stores WHERE status = 'active') ORDER BY store_id DESC, id DESC");
         $products = $stmt2 ? $stmt2->fetchAll(PDO::FETCH_ASSOC) : array();
-        
+
         foreach ($products as $p) {
             $storeProducts[$p['store_id']][] = $p;
         }
@@ -912,6 +912,88 @@ main {
     font-size: 13px;
 }
 
+/* Map service area */
+.map-stage {
+    padding: clamp(18px, 3vw, 28px) 0;
+}
+
+.map-panel {
+    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
+    border: 1px solid rgba(52, 211, 153, .25);
+    border-radius: 18px;
+    padding: clamp(18px, 3vw, 28px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .20);
+}
+
+.map-panel h2 {
+    color: #fde047 !important;
+    font-weight: 900;
+    margin: 0 0 10px;
+    font-size: clamp(22px, 3vw, 28px);
+}
+
+.map-desc {
+    color: #d1fae5;
+    font-size: 15px;
+    margin: 0 0 18px;
+    max-width: 760px;
+}
+
+.map-desc strong {
+    color: #fde047;
+}
+
+.map-frame {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
+    margin-bottom: 18px;
+}
+
+.map-frame iframe {
+    display: block;
+    width: 100%;
+    height: 420px;
+    border: 0;
+    border-radius: 12px;
+}
+
+.map-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.map-stat {
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(52, 211, 153, .20);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+}
+
+.map-stat strong {
+    display: block;
+    color: #fde047;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.map-stat span {
+    display: block;
+    color: #d1fae5;
+    font-size: 13px;
+}
+
+@media (max-width: 768px) {
+    .map-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .map-frame iframe {
+        height: 280px;
+    }
+}
+
 .category-stage {
     padding: clamp(18px, 3vw, 28px);
 }
@@ -1369,12 +1451,12 @@ footer {
             <button type="button" id="closeServiceModal" style="background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 18px; font-size: 20px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
         </div>
         <div style="overflow-y: auto; padding: 20px; background: #f8fafc; flex: 1;">
-            <?php 
+            <?php
                $groupedServices = [];
                foreach ($services as $svc) {
                    $groupedServices[$svc['group']][] = $svc;
                }
-               foreach ($groupedServices as $groupName => $groupItems): 
+               foreach ($groupedServices as $groupName => $groupItems):
             ?>
             <div style="margin-bottom: 25px;" class="service-group-container" data-group-name="<?= h($groupName) ?>">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
@@ -1383,11 +1465,11 @@ footer {
                     <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
                 </div>
                 <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <?php foreach ($groupItems as $svc): 
-                        $base = (int)$svc['base']; 
-                        $publicPrice = $base; 
+                    <?php foreach ($groupItems as $svc):
+                        $base = (int)$svc['base'];
+                        $publicPrice = $base;
                         $isVehicle = ($svc['group'] === 'Gọi xe');
-                        
+
                         if ($isVehicle) {
                             if (stripos($svc['name'], '2km đầu') !== false) {
                                 $priceLabel = money_vnd($publicPrice) . ' / 2km đầu';
@@ -1420,7 +1502,7 @@ footer {
             <a class="btn" href="#goi-tho" onclick="selectMainService('drone')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #8b5cf6; border: 1px solid #7c3aed; color: white; text-align: center;">🚁 Drone</a>
         </div>
     </div>
-    
+
 </header>
 
 <main><div class="wrap storefront">
@@ -1468,16 +1550,56 @@ footer {
             </div>
         </div>
     </section>
-    
+
+    <!-- BẢN ĐỒ PHẠM VI HOẠT ĐỘNG -->
+    <section class="section map-stage" id="service-area">
+        <div class="glass-panel map-panel">
+            <div class="map-header">
+                <h2>🗺️ Phạm vi hoạt động</h2>
+                <p class="map-desc">Chợ Lấp Vò Online hiện đang phục vụ tại <strong>khu vực Lấp Vò, tỉnh Đồng Tháp</strong> và các vùng lân cận. Dự kiến mở rộng toàn tỉnh Đồng Tháp trong thời gian tới.</p>
+            </div>
+            <div class="map-frame">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15673.123456789012!2d105.6012345678901!3d10.1234567890123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310a1234567890ab%3A0x1234567890abcdef!2zTGFwIFZvw6AsIMSQ4buzbmcgVGjDoXA!5e0!3m2!1svi!2svn!4v1700000000000!5m2!1svi!2svn"
+                    width="100%"
+                    height="420"
+                    style="border:0; border-radius: 12px;"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Bản đồ phạm vi hoạt động Chợ Lấp Vò Online">
+                </iframe>
+            </div>
+            <div class="map-stats">
+                <div class="map-stat">
+                    <strong>Khu vực chính</strong>
+                    <span>Lấp Vò, Đồng Tháp</span>
+                </div>
+                <div class="map-stat">
+                    <strong>Phạm vi</strong>
+                    <span>15km từ trung tâm</span>
+                </div>
+                <div class="map-stat">
+                    <strong>Thời gian giao</strong>
+                    <span>30 phút – 2 giờ</span>
+                </div>
+                <div class="map-stat">
+                    <strong>Mở rộng</strong>
+                    <span>Toàn tỉnh Đồng Tháp</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="section panel booking-shell" id="goi-tho" style="background: linear-gradient(135deg, #b91c1c, #dc2626); border: 3px solid #fbbf24; border-radius: 12px; box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3); margin-top: 0; margin-bottom: 25px; padding: 25px;">
         <div class="title">
             <h2 id="sectionMainTitle" style="color: #fde047; text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 26px; margin: 0;">GỌI THỢ QUICK POST</h2>
             <span id="sectionMainDesc" style="color: #fef08a; font-size: 15px;">Chốt thợ nhanh chóng, minh bạch giá cả</span>
         </div>
-        
+
 <form id="bookingForm" style="margin-top: 10px; padding: 25px; background: #fff; border: 2px solid #fca5a5; border-radius: 12px; box-shadow: 0 4px 15px rgba(220,38,38,0.1);">
     <h3 id="formMainTitle" style="color: #dc2626; margin-top: 0; margin-bottom: 20px; font-size: 22px; text-transform: uppercase; border-bottom: 2px solid #fee2e2; padding-bottom: 10px;">📋 Điền thông tin quick post</h3>
-    
+
     <input type="hidden" id="service_type" name="service_type">
     <input type="hidden" id="tech_target_base" name="tech_target_base">
     <input type="hidden" id="selected_service_name" name="selected_service_name">
@@ -1489,14 +1611,14 @@ footer {
 
     <div style="margin-bottom: 15px;">
         <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Chọn dịch vụ yêu cầu</label>
-        
+
         <div id="serviceSelectorTrigger" style="background: #f8fafc; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 10px; padding: 14px; width: 100%; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; transition: all 0.2s;">
             <span id="serviceSelectorText" style="color: #64748b; font-weight: 500;">-- Bấm vào đây để chọn dịch vụ --</span>
             <span style="color: #cbd5e1; font-size: 12px;">▼</span>
         </div>
 
     </div>
-    
+
 
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 15px;">
@@ -1510,12 +1632,12 @@ footer {
         </div>
     </div>
 
-    
+
     <!-- Khu vực nhập vị trí mặc định (Cho Gọi thợ, Drone) -->
     <div id="location_single_group" style="margin-bottom: 25px;">
         <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Địa chỉ / Vị trí của bạn</label>
         <input type="text" id="address" name="address" required placeholder="Nhập số nhà, tên đường, ấp... hoặc bấm Định Vị bên dưới" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-        
+
         <div style="display: flex; gap: 10px;">
             <button type="button" id="useCurrentLocation" class="btn" style="flex: 1; background: #2563eb; color: white; border-radius: 8px; padding: 12px; font-weight: bold; font-size: 15px;">📍 Lấy tọa độ hiện tại</button>
             <button type="button" id="clearLocation" class="btn dark" style="flex: 0 0 auto; border-radius: 8px; padding: 12px;">❌ Xóa</button>
@@ -1556,7 +1678,7 @@ footer {
         </div>
     </div>
 
-        
+
 
     <button type="submit" id="bookingSubmit" class="btn" data-original-text="🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN" style="width: 100%; background: #dc2626; color: #fff; font-size: 18px; padding: 15px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4); text-transform: uppercase;">🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN</button>
     <div id="bookingStatus" style="margin-top: 15px; font-weight: bold; text-align: center;"></div>
@@ -1619,7 +1741,7 @@ footer {
                 <div class="empty">Hiện chưa có gian hàng nào đang mở.</div>
             <?php else: ?>
                 <?php foreach ($stores as $store): ?>
-                    <?php 
+                    <?php
                         $storeType = h(lower_text($store['store_type']));
                         $sProducts = isset($storeProducts[$store['id']]) ? $storeProducts[$store['id']] : [];
                         if (empty($sProducts)) continue;
@@ -1699,7 +1821,7 @@ footer {
                     </div>
                     <div class="field full">
                         <label for="order_customer_address">Địa chỉ nhận hàng</label>
-                        
+
 <div style="display: flex; gap: 8px;">
     <input id="order_customer_address" name="customer_address" maxlength="500" required placeholder="Nhập địa chỉ nhận hàng" style="flex: 1;">
     <input type="hidden" id="order_map_lat" name="map_lat">
@@ -1726,7 +1848,7 @@ footer {
                     </div>
                     <div class="field">
                         <label for="order_voucher_code">Mã giảm giá</label>
-                        
+
 
                         <div style="display: flex; gap: 8px; align-items: center;">
                             <input id="order_voucher_code" name="voucher_code" maxlength="80" placeholder="Nhập mã" style="flex: 1; min-width: 0;">
@@ -1736,7 +1858,7 @@ footer {
                         </div>
                         <div id="qr-reader" style="width: 100%; display: none; margin-top: 10px; border-radius: 8px; overflow: hidden; border: 2px solid #cbd5e1;"></div>
                         <div id="orderVoucherStatus" style="font-size: 14px; margin-top: 10px; font-weight: 500; background: #fef2f2; padding: 10px; border-radius: 6px; display: none;"></div>
-                        
+
                         <!-- Hiển thị Tổng tiền -->
                         <div style="margin-top: 15px; padding: 15px; background: #f8fafc; border: 2px dashed #cbd5e1; border-radius: 8px; text-align: center;">
                             <span style="font-size: 14px; color: #64748b; text-transform: uppercase; font-weight: bold;">Tổng thanh toán</span><br>
@@ -1757,9 +1879,9 @@ footer {
         </div>
     </div>
 
-    
 
-    
+
+
 </div></main>
 
 <footer><div class="wrap">
@@ -1809,11 +1931,11 @@ footer {
         <img src="LOGO.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
         <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Chợ Lấp Vò Online</span></h2>
         <p style="color: #6b7280; font-size: 14px; margin-bottom: 30px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
-        
+
         <div id="loginMethods">
             <button class="btn" style="width: 100%; margin-bottom: 15px; background: #dc2626; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
             <button class="btn" style="width: 100%; margin-bottom: 25px; background: #10b981; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
-            
+
             <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed #e5e7eb;">
                 <a href="javascript:void(0)" onclick="showStoreRegister()" style="color: #047857; font-weight: bold; font-size: 14px; text-decoration: underline;">Bạn là chủ Cửa hàng? Đăng ký ngay!</a>
             </div>
@@ -1828,26 +1950,26 @@ footer {
 
         <div id="storeRegisterForm" style="display: none; text-align: start;">
             <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng ký Cửa hàng</p>
-            
+
             <label style="font-size: 13px; font-weight: bold;">Tên Cửa hàng / Tên chủ shop</label>
             <input type="text" id="regStoreName" placeholder="VD: Quán ăn Cô Ba" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            
+
             <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
             <input type="text" id="regStorePhone" placeholder="VD: 0987654321" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            
+
             <label style="font-size: 13px; font-weight: bold;">Mã số thuế / CCCD (Tối thiểu 8 số)</label>
             <input type="text" id="regStoreTax" placeholder="VD: 12345678" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            
+
             <label style="font-size: 13px; font-weight: bold;">Địa chỉ</label>
             <input type="text" id="regStoreAddress" placeholder="VD: Bến đò Lấp Vò..." style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            
+
             <label style="font-size: 13px; font-weight: bold;">Tọa độ (Tính phí ship cho khách mua online)</label>
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
                 <input type="text" id="regStoreLat" placeholder="Vĩ độ (Lat)" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
                 <input type="text" id="regStoreLng" placeholder="Kinh độ (Lng)" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             </div>
             <button class="btn" style="width: 100%; margin-bottom: 12px; background: #e5e7eb; color: #374151;" onclick="getStoreLocation(event)">📍 Lấy tọa độ hiện tại</button>
-            
+
             <label style="font-size: 13px; font-weight: bold;">Hạng mục kinh doanh (Tối đa 5)</label>
             <div id="regStoreCategories" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; font-size: 13px;">
                 <label><input type="checkbox" value="Quán ăn" onchange="checkMaxCategories(this)"> Quán ăn</label>
@@ -1886,7 +2008,7 @@ footer {
             <div id="loginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px;"></div>
             <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="closeQrLogin()">Quay lại</button>
         </div>
-        
+
         <div id="memberQrDisplay" style="display: none;">
             <h3 style="color: #047857; margin-bottom: 10px;">Đăng nhập thành công!</h3>
             <p style="font-size: 16px; font-weight: bold; color: #111827;" id="successUserName">Tên Khách</p>
@@ -1906,12 +2028,12 @@ footer {
         <span class="dth-modal-close" onclick="document.getElementById('wheelModal').style.display='none'">&times;</span>
         <h2 style="color: #8b5cf6; margin-bottom: 10px;">🎡 Vòng Quay May Mắn 🎡</h2>
         <p style="margin-bottom: 15px; font-weight: bold;">Bạn đang có: <span id="wheelSpinsCount" style="color: #dc2626;">0</span> lượt quay</p>
-        
+
         <div style="position: relative; width: 300px; height: 300px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 5px solid #333; box-shadow: 0 0 15px rgba(0,0,0,0.3);">
             <canvas id="wheelCanvas" width="300" height="300"></canvas>
             <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-inline-start: 15px solid transparent; border-inline-end: 15px solid transparent; border-top: 30px solid #dc2626; z-index: 10;"></div>
         </div>
-        
+
         <button id="spinBtn" onclick="spinWheel()" class="btn success" style="width: 100%; margin-top: 20px; font-size: 18px; background: #8b5cf6; border: none;">CHƠI NGAY (Tốn 1 Lượt)</button>
     </div>
 </div>
@@ -1962,9 +2084,9 @@ function openModal(type) {
     const title = document.getElementById('modalTitle');
     const body = document.getElementById('modalBody');
     const modal = document.getElementById('modalPolicy');
-    
+
     if (!modal) return;
-    
+
     const modalContent = {
         quyche: {
             title: 'Quy chế hoạt động sàn giao dịch',
@@ -2173,7 +2295,7 @@ function openModal(type) {
     if (!selected) return;
     title.innerHTML = selected.title;
     body.innerHTML = selected.html;
-    
+
     modal.style.display = 'block';
 }
 
@@ -2239,7 +2361,7 @@ function submitStoreRegister() {
     const address = document.getElementById('regStoreAddress').value.trim();
     const lat = document.getElementById('regStoreLat').value.trim();
     const lng = document.getElementById('regStoreLng').value.trim();
-    
+
     const checkedCats = document.querySelectorAll('#regStoreCategories input[type="checkbox"]:checked');
     const categories = Array.from(checkedCats).map(cb => cb.value).join(', ');
 
@@ -2312,10 +2434,10 @@ function submitPhoneLogin() {
         err.style.display = 'block';
         return;
     }
-    
+
     document.getElementById('phoneLoginSubmitBtn').disabled = true;
     document.getElementById('phoneLoginSubmitBtn').textContent = 'Đang xử lý...';
-    
+
     fetch('api_master.php?action=login_or_register_phone', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2346,7 +2468,7 @@ function showQrLogin() {
     document.getElementById('storeRegisterForm').style.display = 'none';
     document.getElementById('qrLoginForm').style.display = 'block';
     document.getElementById('loginError').style.display = 'none';
-    
+
     if (typeof Html5Qrcode !== 'undefined') {
         if (loginQrScanner) {
             loginQrScanner.clear();
@@ -2392,11 +2514,11 @@ function submitLogin() {
         err.style.display = 'block';
         return;
     }
-    
+
     const btn = document.getElementById('loginSubmitBtn');
     btn.disabled = true;
     btn.textContent = 'Đang kiểm tra...';
-    
+
     fetch('api_master.php?action=verify_login_key', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -2428,18 +2550,18 @@ function handleLoginSuccess(data) {
         window.location.href = 'vendor.php';
         return;
     }
-    
+
     // User login
     localStorage.setItem('dth_user_key', data.login_key);
     localStorage.setItem('dth_user_time', Date.now());
-    
+
     document.getElementById('phoneLoginForm').style.display = 'none';
     document.getElementById('qrLoginForm').style.display = 'none';
     document.getElementById('loginMethods').style.display = 'none';
-    
+
     const dpy = document.getElementById('memberQrDisplay');
     dpy.style.display = 'block';
-    
+
     document.getElementById('successUserName').textContent = data.fullname || 'Khách';
     document.getElementById('successUserRank').textContent = data.member_rank || 'Thành viên';
     document.getElementById('successUserPoints').textContent = (data.loyalty_points || 0) + ' điểm';
@@ -2449,7 +2571,7 @@ function handleLoginSuccess(data) {
     } else {
         document.getElementById('successQrImg').style.display = 'none';
     }
-    
+
     updateTopBarState(data);
 }
 
@@ -2462,7 +2584,7 @@ function logoutCustomer() {
 function updateTopBarState(user) {
     const bar = document.getElementById('topBarStatus');
     if (bar && user) {
-        bar.innerHTML = `<span style="color:white; margin-right:10px;">Xin chào, <b>${user.fullname || 'Khách'}</b></span> 
+        bar.innerHTML = `<span style="color:white; margin-right:10px;">Xin chào, <b>${user.fullname || 'Khách'}</b></span>
                          <a href="javascript:void(0)" onclick="openCustomerOrdersModal()" style="color: #fbbf24; text-decoration: underline; font-weight: bold; margin-right: 15px;">Đơn hàng của tôi</a>
                          <a href="javascript:void(0)" onclick="openLoginModal()" style="color: #6ee7b7; text-decoration: underline; font-weight: bold; margin-right: 15px;">Mã QR của tôi</a>
                          <a href="javascript:void(0)" onclick="logoutCustomer()" style="color: #fca5a5; text-decoration: underline; font-weight: bold;">Đăng xuất</a>`;
@@ -2488,29 +2610,29 @@ function openOrderModal(card) {
     document.getElementById('order_product_type').value = card.dataset.productType || 'product';
     document.getElementById('order_product_name').value = name;
     document.getElementById('order_product_price').value = String(price);
-    
+
     document.getElementById('order_product_display').value = name;
     document.getElementById('order_unit_price_display').value = formatVnd(price) + ' đ';
     document.getElementById('order_quantity').value = 1;
-    
+
     document.getElementById('orderStatus').className = 'status';
     document.getElementById('orderStatus').textContent = '';
-    
+
     const statusEl = document.getElementById('orderVoucherStatus');
     if (statusEl) {
         statusEl.style.display = 'none';
         statusEl.innerHTML = '';
     }
-    
+
     // Default show/hide goods type
     if (card.dataset.productType === 'product' && card.dataset.category) {
         document.getElementById('order_goods_type_container').style.display = 'block';
     } else {
         document.getElementById('order_goods_type_container').style.display = 'block'; // Or always show for all products
     }
-    
+
     updateOrderTotal();
-    
+
     document.getElementById('orderModal').style.display = 'block';
     document.getElementById('order_customer_name').focus();
 }
@@ -2522,18 +2644,18 @@ function updateOrderTotal() {
     const quantityEl = document.getElementById('order_quantity');
     const quantity = quantityEl ? Math.max(1, parseInt(quantityEl.value) || 1) : 1;
     const subtotal = unitPrice * quantity;
-    
+
     const codeEl = document.getElementById('order_voucher_code');
     const code = codeEl ? codeEl.value.trim() : '';
     const statusEl = document.getElementById('orderVoucherStatus');
     const totalDisplay = document.getElementById('order_final_total_display');
-    
+
     if (!code) {
         if (statusEl) statusEl.style.display = 'none';
         if (totalDisplay) totalDisplay.innerHTML = formatVnd(subtotal) + ' đ';
         return;
     }
-    
+
     if (checkVoucherTimeout) clearTimeout(checkVoucherTimeout);
     checkVoucherTimeout = setTimeout(async () => {
         if (statusEl) {
@@ -2542,27 +2664,27 @@ function updateOrderTotal() {
             statusEl.style.border = '1px solid #cbd5e1';
             statusEl.innerHTML = '<span style="color:#64748b;">⏳ Đang kiểm tra...</span>';
         }
-        
+
         try {
             const fd = new FormData();
             fd.append('action', 'check_voucher');
             fd.append('coupon_code', code);
             fd.append('code', code);
             fd.append('base_price', subtotal);
-            
+
             const res = await fetch('api_master.php?action=check_voucher', { method: 'POST', body: fd });
             const json = await readJsonResponse(res);
-            
+
             if (json.status === 'success' || json.status === 'ok') {
                 const discount = parseInt(json.discount_amount) || 0;
                 const finalPrice = Math.max(0, subtotal - discount);
-                
+
                 if (statusEl) {
                     statusEl.style.background = '#f0fdf4';
                     statusEl.style.border = '1px solid #bbf7d0';
                     statusEl.innerHTML = `<span style="color:#16a34a;">✅ Áp dụng mã thành công! Giảm ${formatVnd(discount)} đ</span>`;
                 }
-                
+
                 if (totalDisplay) {
                     totalDisplay.innerHTML = `<span style="text-decoration: line-through; color: #94a3b8; font-size: 16px;">${formatVnd(subtotal)} đ</span> <br> ${formatVnd(finalPrice)} đ`;
                 }
@@ -2599,7 +2721,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const storedUserKey = localStorage.getItem('dth_user_key');
     const storedUserTime = localStorage.getItem('dth_user_time');
     const storedStoreKey = localStorage.getItem('dth_store_key');
-    
+
     // Check 10-minute expiry for customer on init
     if (storedUserKey && !storedStoreKey) {
         if (storedUserTime && (Date.now() - parseInt(storedUserTime)) > 600000) {
@@ -2617,7 +2739,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 60000);
         }
     }
-    
+
     // Refresh variable after potential auto-logout
     const validUserKey = localStorage.getItem('dth_user_key');
 
@@ -2688,7 +2810,7 @@ function checkLocationRadius(lat, lng) {
     const CENTER_LAT = 10.338528;
     const CENTER_LNG = 105.518472;
     const MAX_RADIUS_KM = 10;
-    
+
     const R = 6371;
     const dLat = (lat - CENTER_LAT) * Math.PI / 180;
     const dLng = (lng - CENTER_LNG) * Math.PI / 180;
@@ -2697,7 +2819,7 @@ function checkLocationRadius(lat, lng) {
               Math.sin(dLng/2) * Math.sin(dLng/2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     const distance = R * c;
-    
+
     if (distance > MAX_RADIUS_KM) {
         alert('Rất tiếc! Hệ thống chỉ hỗ trợ phục vụ trong bán kính 10km quanh Cầu Lấp Vò, Đồng Tháp. Vui lòng chọn địa chỉ khác.');
         return false;
@@ -2748,13 +2870,13 @@ if (serviceSelectorTrigger && serviceModal) {
         });
         serviceModal.style.display = 'flex';
     });
-    
+
     if (closeServiceModal) {
         closeServiceModal.addEventListener('click', () => {
             serviceModal.style.display = 'none';
         });
     }
-    
+
     // Close on backdrop click
     serviceModal.addEventListener('click', (e) => {
         if (e.target === serviceModal) serviceModal.style.display = 'none';
@@ -2766,16 +2888,16 @@ if (serviceSelectorTrigger && serviceModal) {
             const group = item.dataset.group || '';
             const base = item.dataset.base || '0';
             const priceText = item.dataset.price || '';
-            
+
             document.getElementById('service_type').value = group;
             document.getElementById('tech_target_base').value = base;
             document.getElementById('selected_service_name').value = name;
-            
+
             serviceSelectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - ${priceText}</span>`;
             serviceSelectorTrigger.style.borderColor = '#D4AF37';
             serviceSelectorTrigger.style.background = 'rgba(255,255,255,.06)';
-            
-            
+
+
             serviceModal.style.display = 'none';
             if (typeof calculateVehicleRouteAndPrice === 'function') calculateVehicleRouteAndPrice();
         });
@@ -2807,7 +2929,7 @@ document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
         }
         document.getElementById('map_lat').value = lat;
         document.getElementById('map_lng').value = lng;
-        
+
         setLocationStatus('Đã lấy tọa độ thành công. Đang tải địa chỉ...');
         try {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=' + lat + '&lon=' + lng);
@@ -2874,11 +2996,11 @@ function selectMainService(type) {
     const submitBtn = document.getElementById('bookingSubmit');
     const selectorTrigger = document.getElementById('serviceSelectorTrigger');
     const selectorText = document.getElementById('serviceSelectorText');
-    
+
     // Đặt lại các giá trị ban đầu
     selectorTrigger.style.pointerEvents = 'auto';
     selectorTrigger.style.opacity = '1';
-    
+
     if (type === 'worker') {
         if (roleInput) roleInput.value = 'worker';
         sectionTitle.innerHTML = 'GỌI THỢ QUICK POST';
@@ -2923,13 +3045,13 @@ function selectMainService(type) {
         document.getElementById('service_type').value = 'drone';
         document.getElementById('tech_target_base').value = dronePrice;
         document.getElementById('selected_service_name').value = droneService;
-        
+
         selectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${droneService}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - 1.000.000 đ</span>`;
         selectorTrigger.style.borderColor = '#D4AF37';
         selectorTrigger.style.background = 'rgba(255,255,255,.06)';
         selectorTrigger.style.pointerEvents = 'none'; // Khoá nút chọn
         selectorTrigger.style.opacity = '0.8';
-        
+
     }
 }
 
@@ -2976,7 +3098,7 @@ document.querySelectorAll('.open-map-btn').forEach(btn => {
         currentPickerTarget = btn.dataset.target;
         document.getElementById('mapPickerTitle').textContent = currentPickerTarget === 'pickup' ? 'Chọn Điểm Đón' : 'Chọn Điểm Đến';
         document.getElementById('mapPickerModal').style.display = 'flex';
-        
+
         setTimeout(() => {
             if (!pickerMap) {
                 pickerMap = L.map('mapPickerContainer').setView([10.762622, 106.660172], 13);
@@ -2984,14 +3106,14 @@ document.querySelectorAll('.open-map-btn').forEach(btn => {
                     attribution: '© OpenStreetMap contributors'
                 }).addTo(pickerMap);
                 pickerMarker = L.marker([10.762622, 106.660172], {draggable: true}).addTo(pickerMap);
-                
+
                 pickerMap.on('click', function(e) {
                     pickerMarker.setLatLng(e.latlng);
                 });
             } else {
                 pickerMap.invalidateSize();
             }
-            
+
             const existLat = document.getElementById(currentPickerTarget + '_lat').value;
             const existLng = document.getElementById(currentPickerTarget + '_lng').value;
             if (existLat && existLng) {
@@ -3018,18 +3140,18 @@ document.getElementById('confirmMapPicker')?.addEventListener('click', async () 
     const latlng = pickerMarker.getLatLng();
     const lat = latlng.lat;
     const lng = latlng.lng;
-    
+
     if (!checkLocationRadius(lat, lng)) {
         return; // Don't close modal, let user re-pick
     }
-    
+
     document.getElementById(currentPickerTarget + '_lat').value = lat;
     document.getElementById(currentPickerTarget + '_lng').value = lng;
     document.getElementById('mapPickerModal').style.display = 'none';
-    
+
     const ls = document.getElementById(currentPickerTarget + 'Status');
     ls.textContent = 'Đang lấy địa chỉ từ bản đồ...';
-    
+
     try {
         const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${lat}&lon=${lng}`);
         const data = await response.json();
@@ -3043,7 +3165,7 @@ document.getElementById('confirmMapPicker')?.addEventListener('click', async () 
         document.getElementById(currentPickerTarget + '_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
         ls.textContent = 'Đã chọn tọa độ: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
     }
-    
+
     calculateVehicleRouteAndPrice();
 });
 
@@ -3053,15 +3175,15 @@ async function calculateVehicleRouteAndPrice() {
     const pLng = document.getElementById('pickup_lng').value;
     const dLat = document.getElementById('dropoff_lat').value;
     const dLng = document.getElementById('dropoff_lng').value;
-    
+
     if (!pLat || !pLng || !dLat || !dLng) return;
-    
+
     const serviceName = document.getElementById('selected_service_name').value.trim();
     if (!serviceName || serviceName === 'Gọi xe') return;
-    
+
     document.getElementById('vehicle_pricing_info').style.display = 'block';
     document.getElementById('vehicle_distance_display').textContent = 'Đang tính toán...';
-    
+
     try {
         const url = `https://router.project-osrm.org/route/v1/driving/${pLng},${pLat};${dLng},${dLat}?overview=false`;
         const res = await fetch(url);
@@ -3069,11 +3191,11 @@ async function calculateVehicleRouteAndPrice() {
         if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
             const distanceKm = data.routes[0].distance / 1000;
             document.getElementById('vehicle_distance_display').textContent = distanceKm.toFixed(2) + ' km';
-            
+
             let price = 0;
             let exactExtraPrice = 0;
             const km = distanceKm;
-            
+
             if (serviceName.includes('Đơn đồ ăn') || serviceName.includes('Đi chợ thay')) {
                 price = 13000;
                 if (km > 2) exactExtraPrice = (km - 2) * 3500;
@@ -3087,10 +3209,10 @@ async function calculateVehicleRouteAndPrice() {
                 price = 15000;
                 if (km > 2) exactExtraPrice = (km - 2) * 4000;
             }
-            
+
             const total = price + exactExtraPrice;
             const finalPrice = Math.round(total / 1000) * 1000;
-            
+
             document.getElementById('vehicle_calculated_price').value = finalPrice;
             document.getElementById('vehicle_price_display').textContent = new Intl.NumberFormat('vi-VN').format(finalPrice) + ' đ';
         } else {
@@ -3127,16 +3249,16 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         const dLng = document.getElementById('dropoff_lng').value.trim();
         const pAddress = document.getElementById('pickup_address').value.trim();
         const dAddress = document.getElementById('dropoff_address').value.trim();
-        
+
         if (!pLat || !pLng || !dLat || !dLng) {
             showBookingStatus('err', 'Vui lòng lấy tọa độ cho cả Điểm đón và Điểm đến.');
             return;
         }
-        
+
         document.getElementById('map_lat').value = pLat;
         document.getElementById('map_lng').value = pLng;
         document.getElementById('address').value = `Từ: ${pAddress || pLat+','+pLng} -> Đến: ${dAddress || dLat+','+dLng}`;
-        
+
         if (!document.getElementById('customer_price_hidden')) {
             const cp = document.createElement('input');
             cp.type = 'hidden';
@@ -3181,12 +3303,12 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         });
         const vehiclePricing = document.getElementById('vehicle_pricing_info');
         if (vehiclePricing) vehiclePricing.style.display = 'none';
-        
-        
+
+
         document.getElementById('map_lat').value = '';
         document.getElementById('map_lng').value = '';
         document.querySelectorAll('.choose-service').forEach(item => item.classList.remove('selected'));
-        
+
         setLocationStatus('Bấm vào bản đồ hoặc dùng vị trí hiện tại.');
         showBookingStatus('ok', 'Yêu cầu đã gửi thành công.');
     } catch (error) {
@@ -3239,7 +3361,7 @@ let html5QrCode = null;
 document.getElementById('btnScanQR')?.addEventListener('click', () => {
     const readerDiv = document.getElementById('qr-reader');
     const btn = document.getElementById('btnScanQR');
-    
+
     if (html5QrCode) {
         // Stop scanning
         html5QrCode.stop().then(() => {
@@ -3252,14 +3374,14 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
         });
         return;
     }
-    
+
     readerDiv.style.display = 'block';
     btn.innerHTML = '❌ Đóng';
-    
+
     let isScanningSuccess = false;
     html5QrCode = new Html5Qrcode('qr-reader');
     html5QrCode.start(
-        { facingMode: 'environment' }, 
+        { facingMode: 'environment' },
         {
             fps: 10,
             qrbox: { width: 250, height: 250 }
@@ -3267,7 +3389,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
         (decodedText, decodedResult) => {
             if (isScanningSuccess) return;
             isScanningSuccess = true;
-            
+
             // Handle on success
             let finalCode = decodedText;
             try {
@@ -3283,13 +3405,13 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
                 // Not a URL, use as is
             }
             document.getElementById('order_voucher_code').value = finalCode;
-            
+
             html5QrCode.stop().then(() => {
                 html5QrCode.clear();
                 html5QrCode = null;
                 readerDiv.style.display = 'none';
                 btn.innerHTML = '📷 Quét QR';
-                
+
                 // Auto trigger Check
                 updateOrderTotal();
             }).catch(err => {
@@ -3324,16 +3446,16 @@ async function openCustomerOrdersModal() {
     const modal = document.getElementById('customerOrdersModal');
     if(!modal) return;
     modal.style.display = 'block';
-    
+
     const list = document.getElementById('customerOrdersList');
     list.innerHTML = '<div style="text-align:center; padding:20px;">Đang tải đơn hàng...</div>';
-    
+
     try {
         const formData = new FormData();
         formData.append('login_key', key);
         const response = await fetch('api_master.php?action=app_customer_get_orders', { method: 'POST', body: formData });
         const res = await readJsonResponse(response);
-        
+
         if (res.status === 'success') {
             const orders = res.data;
             if (orders.length === 0) {
@@ -3476,7 +3598,7 @@ async function spinWheel() {
         alert('Bạn đã hết lượt quay!');
         return;
     }
-    
+
     isSpinning = true;
     const btn = document.getElementById('spinBtn');
     btn.textContent = 'Đang quay...';
@@ -3488,20 +3610,20 @@ async function spinWheel() {
         formData.append('login_key', key);
         const response = await fetch('api_master.php?action=app_customer_spin_wheel', { method: 'POST', body: formData });
         const res = await readJsonResponse(response);
-        
+
         if(res.status === 'success') {
             const prizeIndex = res.data.prize_index;
             const extraRotations = 5;
             const sliceAngle = 360 / wheelPrizes.length;
             const targetSliceCenter = prizeIndex * sliceAngle + sliceAngle / 2;
             const targetRotationDeg = 270 - targetSliceCenter + (extraRotations * 360);
-            
+
             let currentDeg = wheelAngle * 180 / Math.PI;
             const totalRotation = targetRotationDeg - (currentDeg % 360) + (extraRotations * 360);
-            
+
             const duration = 4000;
             const start = performance.now();
-            
+
             function animate(time) {
                 let progress = (time - start) / duration;
                 if(progress > 1) progress = 1;
@@ -3509,7 +3631,7 @@ async function spinWheel() {
                 const currentAnimatedDeg = currentDeg + totalRotation * easeOut;
                 wheelAngle = currentAnimatedDeg * Math.PI / 180;
                 drawWheel();
-                
+
                 if(progress < 1) {
                     requestAnimationFrame(animate);
                 } else {
@@ -3517,14 +3639,14 @@ async function spinWheel() {
                     btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)';
                     btn.disabled = false;
                     alert('🎉 Kết quả: ' + wheelPrizes[prizeIndex] + '\\n' + res.message);
-                    
+
                     document.getElementById('wheelSpinsCount').textContent = res.data.lucky_spins;
                     document.getElementById('successLuckySpins').textContent = res.data.lucky_spins + ' lượt quay';
                     document.getElementById('successUserPoints').textContent = res.data.loyalty_points + ' điểm';
                 }
             }
             requestAnimationFrame(animate);
-            
+
         } else {
             alert(res.message);
             isSpinning = false;
