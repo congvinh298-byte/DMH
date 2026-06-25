@@ -3642,7 +3642,7 @@ async function spinWheel() {
 
 <!-- Bảng Giá Dịch Vụ Modal -->
 <div id="serviceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99999; justify-content: center; align-items: center; backdrop-filter: blur(2px);">
-    <div id="serviceModalInner" style="background: #f8fafc; width: 100%; max-width: 600px; height: 85vh; border-radius: 24px 24px 0 0; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);">
+    <div id="serviceModalInner" style="background: #f8fafc; width: 100%; max-width: 800px; height: auto; max-height: 85vh; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1); box-shadow: 0 30px 80px rgba(0,0,0,0.35);">
         <div style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;">
             <div>
                 <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;">Bảng Giá Dịch Vụ</h3>
