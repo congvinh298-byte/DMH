@@ -524,7 +524,7 @@ nav{border-top:1px solid var(--line)}nav .wrap{display:flex;gap:8px;overflow:aut
 main{padding:24px 0 44px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 24px rgba(15,23,42,.06)}
 .hero{display:grid;grid-template-columns:1.35fr .9fr;gap:18px}.hero-main{min-height:260px;padding:28px;background:linear-gradient(120deg,#111827,#b42318);color:#fff;display:flex;flex-direction:column;justify-content:center}.hero-main h1{font-size:clamp(32px,4vw,50px);line-height:1;margin:0 0 12px}.hero-main p{max-width:640px;color:#f3f4f6;margin:0 0 18px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap}.hero-actions .btn{text-align:center}
 .qr{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.qr-box{border:1px solid var(--line);border-radius:8px;padding:12px}.qr-box h3{margin:0 0 8px;font-size:15px}.qr-box p{margin:0 0 10px;color:var(--muted);font-size:13px}.qr-box img{width:150px;height:150px;object-fit:contain;background:#fff;border:1px solid var(--line);padding:6px}.qr-empty{height:150px;display:grid;place-items:center;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;color:#98a2b3;text-align:center;font-size:13px}
-.storefront{display:flex;flex-direction:column}.storefront>section:nth-of-type(1){order:0}.storefront>section:nth-of-type(2){order:2}.storefront>section:nth-of-type(3){order:1}.storefront>section:nth-of-type(4){order:3}
+.storefront{display:flex;flex-direction:column}
 .section{margin-top:22px}.title{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.title h2{margin:0;font-size:23px}.muted{color:var(--muted);font-size:14px}
 .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}.img{height:160px;display:flex;justify-content:center;align-items:center;background:#fff;border-bottom:1px solid var(--line);color:#98a2b3;overflow:hidden;}.img img{max-width:100%;height:100%;object-fit:contain;padding:10px}.sim-face{font-size:24px;font-weight:900;color:var(--ok);letter-spacing:.5px}.body{padding:12px;flex:1;display:flex;flex-direction:column;}.name{font-weight:900;min-height:42px}.cat{font-size:13px;color:var(--muted)}.price{font-size:17px;color:var(--brand);font-weight:900}.buy-row{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:10px;}.buy-row .btn{width:100%;text-align:center;padding:9px 12px}.suggest{display:inline-block;color:var(--ok);font-size:12px;font-weight:800}.empty{grid-column:1/-1;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:24px;text-align:center;color:var(--muted)}
 .booking-shell{padding:18px}.service-head{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin-bottom:10px}.service-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}.service-option{display:grid;grid-template-columns:1fr auto;gap:5px 10px;min-height:64px;padding:10px 12px;text-align:start;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:8px}.service-option:hover,.service-option.selected{border-color:var(--brand);background:#fff7f7}.service-option small{color:var(--muted);font-weight:700}.service-option strong{align-self:center;color:var(--brand);white-space:nowrap}.service-option span{font-size:13px;font-weight:900}.service-option.is-contact strong{color:var(--muted)}
@@ -956,6 +956,26 @@ main {
     height: 420px;
     border: 0;
     border-radius: 12px;
+}
+
+#serviceModal {
+    align-items: center !important;
+}
+#serviceModalInner {
+    height: auto;
+    max-height: 90vh;
+    border-radius: 24px;
+}
+
+@media(max-width:620px){
+    #serviceModal {
+        align-items: flex-end !important;
+    }
+    #serviceModalInner {
+        height: 85vh;
+        max-height: 85vh;
+        border-radius: 24px 24px 0 0;
+    }
 }
 
 .map-stats {
@@ -1441,61 +1461,6 @@ footer {
     transform: scale(0.98);
 }
 </style>
-<div id="serviceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 9999; justify-content: center; align-items: flex-end; backdrop-filter: blur(2px);">
-    <div style="background: #f8fafc; width: 100%; max-width: 600px; height: 85vh; border-radius: 24px 24px 0 0; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);">
-        <div style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;">
-            <div>
-                <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;">Bảng Giá Dịch Vụ</h3>
-                <span style="font-size: 13px; color: #64748b;">Minh bạch - Rõ ràng - Nhanh chóng</span>
-            </div>
-            <button type="button" id="closeServiceModal" style="background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 18px; font-size: 20px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
-        </div>
-        <div style="overflow-y: auto; padding: 20px; background: #f8fafc; flex: 1;">
-            <?php
-               $groupedServices = [];
-               foreach ($services as $svc) {
-                   $groupedServices[$svc['group']][] = $svc;
-               }
-               foreach ($groupedServices as $groupName => $groupItems):
-            ?>
-            <div style="margin-bottom: 25px;" class="service-group-container" data-group-name="<?= h($groupName) ?>">
-                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
-                    <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
-                    <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;"><?= h($groupName) ?></div>
-                    <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <?php foreach ($groupItems as $svc):
-                        $base = (int)$svc['base'];
-                        $publicPrice = $base;
-                        $isVehicle = ($svc['group'] === 'Gọi xe');
-
-                        if ($isVehicle) {
-                            if (stripos($svc['name'], '2km đầu') !== false) {
-                                $priceLabel = money_vnd($publicPrice) . ' / 2km đầu';
-                            } else if (stripos($svc['name'], 'Km đầu') !== false) {
-                                $priceLabel = money_vnd($publicPrice) . ' / Km đầu';
-                            } else {
-                                $priceLabel = money_vnd($publicPrice) . ' (mở cửa)';
-                            }
-                            $priceData = 'Tính cước theo km';
-                        } else {
-                            $priceLabel = $publicPrice > 0 ? money_vnd($publicPrice) : 'Liên hệ';
-                            $priceData = $publicPrice > 0 ? money_vnd($publicPrice) . ' (Đã gồm VAT)' : 'Liên hệ báo giá';
-                        }
-                    ?>
-                    <div class="custom-service-item" data-name="<?= h($svc['name']) ?>" data-group="<?= h($svc['group']) ?>" data-base="<?= $base ?>" data-price="<?= $priceData ?>" style="background: #fff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
-                        <span style="font-weight: 700; color: #1e293b; font-size: 15px; flex: 1; padding-right: 10px; line-height: 1.4;"><?= h($svc['name']) ?></span>
-                        <span style="font-weight: 800; color: #dc2626; font-size: 14px; background: #fee2e2; padding: 6px 10px; border-radius: 8px; white-space: nowrap;"><?= $priceLabel ?></span>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <?php endforeach; ?>
-        </div>
-    </div>
-</div>
-
         <div class="quick-tabs" style="display: flex; gap: 8px;">
             <a class="btn dark" href="#goi-tho" onclick="selectMainService('worker')" style="flex: 1; padding: 10px 5px; font-size: 14px; text-align: center;">🛠 Gọi thợ</a>
             <a class="btn" href="#goi-tho" onclick="selectMainService('vehicle')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #2563eb; border: 1px solid #1d4ed8; color: white; text-align: center;">🚖 Gọi xe</a>
@@ -1546,46 +1511,6 @@ footer {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- BẢN ĐỒ PHẠM VI HOẠT ĐỘNG -->
-    <section class="section map-stage" id="service-area">
-        <div class="glass-panel map-panel">
-            <div class="map-header">
-                <h2>🗺️ Phạm vi hoạt động</h2>
-                <p class="map-desc">Chợ Lấp Vò Online hiện đang phục vụ tại <strong>khu vực Lấp Vò, tỉnh Đồng Tháp</strong> và các vùng lân cận. Dự kiến mở rộng toàn tỉnh Đồng Tháp trong thời gian tới.</p>
-            </div>
-            <div class="map-frame">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15673.123456789012!2d105.6012345678901!3d10.1234567890123!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x310a1234567890ab%3A0x1234567890abcdef!2zTGFwIFZvw6AsIMSQ4buzbmcgVGjDoXA!5e0!3m2!1svi!2svn!4v1700000000000!5m2!1svi!2svn"
-                    width="100%"
-                    height="420"
-                    style="border:0; border-radius: 12px;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
-                    title="Bản đồ phạm vi hoạt động Chợ Lấp Vò Online">
-                </iframe>
-            </div>
-            <div class="map-stats">
-                <div class="map-stat">
-                    <strong>Khu vực chính</strong>
-                    <span>Lấp Vò, Đồng Tháp</span>
-                </div>
-                <div class="map-stat">
-                    <strong>Phạm vi</strong>
-                    <span>15km từ trung tâm</span>
-                </div>
-                <div class="map-stat">
-                    <strong>Thời gian giao</strong>
-                    <span>30 phút – 2 giờ</span>
-                </div>
-                <div class="map-stat">
-                    <strong>Mở rộng</strong>
-                    <span>Toàn tỉnh Đồng Tháp</span>
                 </div>
             </div>
         </div>
@@ -1784,6 +1709,59 @@ footer {
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
+        </div>
+    </section>
+
+    <!-- BẢN ĐỒ PHẠM VI HOẠT ĐỘNG -->
+    <section class="section map-stage" id="service-area">
+        <div class="glass-panel map-panel">
+            <div class="map-header">
+                <h2>🗺️ Phạm vi hoạt động</h2>
+                <p class="map-desc">Chợ Lấp Vò Online hiện đang phục vụ tại <strong>khu vực Lấp Vò, tỉnh Đồng Tháp</strong> và các vùng lân cận. Dự kiến mở rộng toàn tỉnh Đồng Tháp trong thời gian tới.</p>
+            </div>
+            <div class="map-frame">
+                <div id="service-area-map" style="width:100%; height:420px; border:0; border-radius:12px;"></div>
+            </div>
+            <script>
+                (function() {
+                    var center = [10.3611456, 105.5224619];
+                    var map = L.map('service-area-map', {
+                        center: center,
+                        zoom: 12,
+                        scrollWheelZoom: false
+                    });
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors',
+                        maxZoom: 19
+                    }).addTo(map);
+                    L.marker(center).addTo(map)
+                        .bindPopup('<b>Chợ Lấp Vò</b><br>Trung tâm hoạt động').openPopup();
+                    L.circle(center, {
+                        color: '#dc2626',
+                        fillColor: '#dc2626',
+                        fillOpacity: 0.12,
+                        radius: 10000
+                    }).addTo(map).bindPopup('Phạm vi phục vụ: 10km');
+                })();
+            </script>
+            <div class="map-stats">
+                <div class="map-stat">
+                    <strong>Khu vực chính</strong>
+                    <span>Lấp Vò, Đồng Tháp</span>
+                </div>
+                <div class="map-stat">
+                    <strong>Phạm vi</strong>
+                    <span>10km từ trung tâm</span>
+                </div>
+                <div class="map-stat">
+                    <strong>Thời gian giao</strong>
+                    <span>30 phút – 2 giờ</span>
+                </div>
+                <div class="map-stat">
+                    <strong>Mở rộng</strong>
+                    <span>Toàn tỉnh Đồng Tháp</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -3661,6 +3639,62 @@ async function spinWheel() {
     }
 }
 </script>
+
+<!-- Bảng Giá Dịch Vụ Modal -->
+<div id="serviceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99999; justify-content: center; align-items: center; backdrop-filter: blur(2px);">
+    <div id="serviceModalInner" style="background: #f8fafc; width: 100%; max-width: 600px; height: 85vh; border-radius: 24px 24px 0 0; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1);">
+        <div style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;">
+            <div>
+                <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;">Bảng Giá Dịch Vụ</h3>
+                <span style="font-size: 13px; color: #64748b;">Minh bạch - Rõ ràng - Nhanh chóng</span>
+            </div>
+            <button type="button" id="closeServiceModal" style="background: #f1f5f9; border: none; width: 36px; height: 36px; border-radius: 18px; font-size: 20px; color: #64748b; cursor: pointer; display: flex; align-items: center; justify-content: center;">&times;</button>
+        </div>
+        <div style="overflow-y: auto; padding: 20px; background: #f8fafc; flex: 1;">
+            <?php
+               $groupedServices = [];
+               foreach ($services as $svc) {
+                   $groupedServices[$svc['group']][] = $svc;
+               }
+               foreach ($groupedServices as $groupName => $groupItems):
+            ?>
+            <div style="margin-bottom: 25px;" class="service-group-container" data-group-name="<?= h($groupName) ?>">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 12px;">
+                    <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
+                    <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;"><?= h($groupName) ?></div>
+                    <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <?php foreach ($groupItems as $svc):
+                        $base = (int)$svc['base'];
+                        $publicPrice = $base;
+                        $isVehicle = ($svc['group'] === 'Gọi xe');
+
+                        if ($isVehicle) {
+                            if (stripos($svc['name'], '2km đầu') !== false) {
+                                $priceLabel = money_vnd($publicPrice) . ' / 2km đầu';
+                            } else if (stripos($svc['name'], 'Km đầu') !== false) {
+                                $priceLabel = money_vnd($publicPrice) . ' / Km đầu';
+                            } else {
+                                $priceLabel = money_vnd($publicPrice) . ' (mở cửa)';
+                            }
+                            $priceData = 'Tính cước theo km';
+                        } else {
+                            $priceLabel = $publicPrice > 0 ? money_vnd($publicPrice) : 'Liên hệ';
+                            $priceData = $publicPrice > 0 ? money_vnd($publicPrice) . ' (Đã gồm VAT)' : 'Liên hệ báo giá';
+                        }
+                    ?>
+                    <div class="custom-service-item" data-name="<?= h($svc['name']) ?>" data-group="<?= h($svc['group']) ?>" data-base="<?= $base ?>" data-price="<?= $priceData ?>" style="background: #fff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                        <span style="font-weight: 700; color: #1e293b; font-size: 15px; flex: 1; padding-right: 10px; line-height: 1.4;"><?= h($svc['name']) ?></span>
+                        <span style="font-weight: 800; color: #dc2626; font-size: 14px; background: #fee2e2; padding: 6px 10px; border-radius: 8px; white-space: nowrap;"><?= $priceLabel ?></span>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
