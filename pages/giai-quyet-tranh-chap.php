@@ -76,7 +76,7 @@ require_once __DIR__ . '/inc/header.php';
 <p><strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong><br>
 Người đại diện: Trần Công Vinh<br>
 Hotline: 0979.553.289<br>
-Email: Congvinh28@gmail.com<br>
+Email: Congvinh298@gmail.com<br>
 Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
 
 <p><em>Các tranh chấp không giải quyết được có thể được đưa ra Tòa án nhân dân huyện Lấp Vò, tỉnh Đồng Tháp.</em></p>
