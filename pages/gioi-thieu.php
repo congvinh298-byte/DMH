@@ -47,7 +47,7 @@ require_once __DIR__ . '/inc/header.php';
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
-    <tr><td>Email</td><td>Congvinh28@gmail.com</td></tr>
+    <tr><td>Email</td><td>Congvinh298@gmail.com</td></tr>
 </table>
 
 <p><em>Cập nhật lần cuối: Tháng 6/2026</em></p>

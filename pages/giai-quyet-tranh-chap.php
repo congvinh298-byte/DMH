@@ -28,7 +28,7 @@ require_once __DIR__ . '/inc/header.php';
 <ul>
     <li>Hệ thống chat/email trên website</li>
     <li>Hotline: 0979.553.289 (giờ hành chính)</li>
-    <li>Email: Congvinh28@gmail.com</li>
+    <li>Email: Congvinh298@gmail.com</li>
 </ul>
 <p>Nội dung khiếu nại cần bao gồm: thông tin đơn hàng, mô tả vấn đề, bằng chứng (ảnh, video, tin nhắn).</p>
 

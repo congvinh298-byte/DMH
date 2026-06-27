@@ -38,7 +38,7 @@ require_once __DIR__ . '/inc/header.php';
 <ul>
     <li>Tra cứu, chỉnh sửa thông tin cá nhân của mình trên hệ thống.</li>
     <li>Yêu cầu xóa thông tin cá nhân khỏi hệ thống.</li>
-    <li>Báo cáo vi phạm bảo mật thông tin qua hotline 0979.553.289 hoặc email Congvinh28@gmail.com.</li>
+    <li>Báo cáo vi phạm bảo mật thông tin qua hotline 0979.553.289 hoặc email Congvinh298@gmail.com.</li>
 </ul>
 
 <h2>6. Đầu mối liên hệ bảo vệ quyền lợi người tiêu dùng</h2>
@@ -46,7 +46,7 @@ require_once __DIR__ . '/inc/header.php';
 <ul>
     <li>Người đại diện được ủy quyền phối hợp với cơ quan nhà nước: <strong>Trần Công Vinh</strong> - Giám đốc</li>
     <li>Điện thoại: 0979.553.289</li>
-    <li>Email: Congvinh28@gmail.com</li>
+    <li>Email: Congvinh298@gmail.com</li>
 </ul>
 
 <?php require_once __DIR__ . '/inc/footer.php'; ?>
@@ -57,6 +57,6 @@ require_once __DIR__ . '/inc/header.php';
     <li><strong>Công ty:</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</li>
     <li><strong>Mã số thuế:</strong> 1402228630</li>
     <li><strong>Ngày thành lập:</strong> 06/04/2026</li>
-    <li><strong>Email:</strong> Congvinh28@gmail.com</li>
+    <li><strong>Email:</strong> Congvinh298@gmail.com</li>
     <li><strong>Hotline:</strong> 0979.553.289</li>
 </ul>

@@ -15,10 +15,10 @@ require_once __DIR__ . '/inc/header.php';
     <tr><td>Mã số thuế (MST)</td><td>1402228630</td></tr>
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
-    <tr><td>Email</td><td>Congvinh28@gmail.com</td></tr>
+    <tr><td>Email</td><td>Congvinh298@gmail.com</td></tr>
     <tr><td>Số Giấy chứng nhận ĐKKD</td><td>1402228630</td></tr>
     <tr><td>Nơi cấp</td><td>Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp</td></tr>
-    <tr><td>Ngày cấp</td><td>[Điền ngày cấp]</td></tr>
+    <tr><td>Ngày cấp</td><td>06/04/2026</td></tr>
 </table>
 
 <h2>II. MÔ TẢ DỊCH VỤ</h2>
