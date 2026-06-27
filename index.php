@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 header('Content-Type: text/html; charset=utf-8');
 header('X-Frame-Options: SAMEORIGIN');
 header('X-Content-Type-Options: nosniff');
@@ -960,21 +960,37 @@ main {
 
 #serviceModal {
     align-items: center !important;
+    padding: 20px;
 }
 #serviceModalInner {
-    height: auto;
-    max-height: 90vh;
+    width: 100% !important;
+    max-width: 1050px !important;
+    height: auto !important;
+    max-height: 90vh !important;
     border-radius: 24px;
+}
+.service-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 12px;
 }
 
 @media(max-width:620px){
     #serviceModal {
         align-items: flex-end !important;
+        padding: 0 !important;
     }
     #serviceModalInner {
-        height: 85vh;
-        max-height: 85vh;
-        border-radius: 24px 24px 0 0;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: 85vh !important;
+        max-height: 85vh !important;
+        border-radius: 24px 24px 0 0 !important;
+    }
+    .service-items-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 }
 
@@ -3642,7 +3658,7 @@ async function spinWheel() {
 
 <!-- Bảng Giá Dịch Vụ Modal -->
 <div id="serviceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99999; justify-content: center; align-items: center; backdrop-filter: blur(2px);">
-    <div id="serviceModalInner" style="background: #f8fafc; width: 100%; max-width: 800px; height: auto; max-height: 85vh; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1); box-shadow: 0 30px 80px rgba(0,0,0,0.35);">
+    <div id="serviceModalInner" style="background: #f8fafc; width: 100%; max-width: 1050px; height: auto; max-height: 90vh; border-radius: 24px; display: flex; flex-direction: column; overflow: hidden; animation: slideUp 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.1); box-shadow: 0 30px 80px rgba(0,0,0,0.35);">
         <div style="padding: 18px 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; background: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.05); z-index: 10;">
             <div>
                 <h3 style="margin: 0; color: #0f172a; font-size: 20px; font-weight: 800;">Bảng Giá Dịch Vụ</h3>
@@ -3664,7 +3680,7 @@ async function spinWheel() {
                     <div style="font-size: 12px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px;"><?= h($groupName) ?></div>
                     <div style="height: 2px; flex: 1; background: #e2e8f0;"></div>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div class="service-items-grid">
                     <?php foreach ($groupItems as $svc):
                         $base = (int)$svc['base'];
                         $publicPrice = $base;
