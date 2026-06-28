@@ -91,7 +91,7 @@ Phản hồi của bạn CHỈ được phép là một đối tượng JSON h�
   \"text\": \"Câu trả lời của bạn gửi cho khách hàng\",
   \"actions\": [
     { \"label\": \"Đặt đơn ngay\", \"type\": \"link\", \"value\": \"/dat-don\" },
-    { \"label\": \"Xem giá Quay phim\", \"type\": \"link\", \"value\": \"/#goi-tho\" },
+    { \"label\": \"Xem giá Quay + Chụp\", \"type\": \"link\", \"value\": \"/#goi-tho\" },
     { \"label\": \"Gọi thợ trực tiếp\", \"type\": \"call\", \"value\": \"tel:0979553289\" }
   ]
 }
