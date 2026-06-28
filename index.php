@@ -1481,7 +1481,7 @@ footer {
         <div class="quick-tabs" style="display: flex; gap: 8px;">
             <a class="btn dark" href="#goi-tho" onclick="selectMainService('worker')" style="flex: 1; padding: 10px 5px; font-size: 14px; text-align: center;">🛠 Gọi thợ</a>
             <a class="btn" href="#goi-tho" onclick="selectMainService('vehicle')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #2563eb; border: 1px solid #1d4ed8; color: white; text-align: center;">🚖 Gọi xe</a>
-            <a class="btn" href="#goi-tho" onclick="selectMainService('drone')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #8b5cf6; border: 1px solid #7c3aed; color: white; text-align: center;">🎥 Quay phim</a>
+            <a class="btn" href="#goi-tho" onclick="selectMainService('drone')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #8b5cf6; border: 1px solid #7c3aed; color: white; text-align: center;">📷 Quay phim</a>
         </div>
     </div>
 
@@ -3028,18 +3028,18 @@ function selectMainService(type) {
         document.getElementById('address').required = false;
     } else if (type === 'drone') {
         if (roleInput) roleInput.value = 'drone';
-        sectionTitle.innerHTML = '📹 THỢ QUAY';
-        sectionDesc.textContent = 'Dịch vụ máy quay phim, ghi lại khoảnh khắc trọng đại';
-        formTitle.textContent = '📋 Điền thông tin gọi thợ quay';
-        submitBtn.innerHTML = '🚀 GỌI THỢ QUAY NGAY';
-        submitBtn.dataset.originalText = '🚀 GỌI THỢ QUAY NGAY';
+        sectionTitle.innerHTML = '📷 QUAY PHIM';
+        sectionDesc.textContent = 'Dịch vụ quay phim, ghi lại khoảnh khắc trọng đại';
+        formTitle.textContent = '📋 Điền thông tin đặt dịch vụ quay phim';
+        submitBtn.innerHTML = '🚀 ĐẶT QUAY PHIM NGAY';
+        submitBtn.dataset.originalText = '🚀 ĐẶT QUAY PHIM NGAY';
         document.getElementById('location_single_group').style.display = 'block';
         document.getElementById('location_vehicle_group').style.display = 'none';
         document.getElementById('address').required = true;
-        // Gán cứng giá và dịch vụ cho Thợ quay
+        // Gán cứng giá và dịch vụ cho Quay phim
         const droneService = 'Quay trao nhẫn cưới';
         const dronePrice = 500000;
-        document.getElementById('service_type').value = 'Thợ quay';
+        document.getElementById('service_type').value = 'Quay phim';
         document.getElementById('tech_target_base').value = dronePrice;
         document.getElementById('selected_service_name').value = droneService;
 
