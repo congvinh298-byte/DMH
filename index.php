@@ -1757,8 +1757,8 @@ footer {
                         color: '#dc2626',
                         fillColor: '#dc2626',
                         fillOpacity: 0.12,
-                        radius: 10000
-                    }).addTo(map).bindPopup('Phạm vi phục vụ: 10km');
+                        radius: 15000
+                    }).addTo(map).bindPopup('Phạm vi phục vụ: 15km');
                 })();
             </script>
             <div class="map-stats">
@@ -1768,7 +1768,7 @@ footer {
                 </div>
                 <div class="map-stat">
                     <strong>Phạm vi</strong>
-                    <span>10km từ trung tâm</span>
+                    <span>15km từ trung tâm</span>
                 </div>
                 <div class="map-stat">
                     <strong>Thời gian giao</strong>
@@ -1886,7 +1886,7 @@ footer {
             <p>MST: 1402228630</p>
             <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
             <p>Website: dienmayhieu.com</p>
-            <p>Khu vực phục vụ: bán kính 10 km tính từ Cầu Lấp Vò</p>
+            <p>Khu vực phục vụ: bán kính 15 km tính từ Cầu Lấp Vò</p>
         </div>
         <div><h3>Liên hệ</h3><p>Hotline: 0979.553.289</p><p>Mua hàng và gọi thợ kỹ thuật</p></div>
         <div>
@@ -2093,7 +2093,7 @@ function openModal(type) {
                     <div class="legal-meta">
                         <div><b>Đơn vị vận hành</b><br>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</div>
                         <div><b>Mã số thuế</b><br>1402228630</div>
-                        <div><b>Phạm vi phục vụ</b><br>Ưu tiên bán kính 10 km quanh Cầu Lấp Vò, Đồng Tháp</div>
+                        <div><b>Phạm vi phục vụ</b><br>Ưu tiên bán kính 15 km quanh Cầu Lấp Vò, Đồng Tháp</div>
                     </div>
                     <section class="legal-section">
                         <h4>1. Nguyên tắc chung</h4>
@@ -2804,7 +2804,7 @@ document.getElementById('orderForm')?.addEventListener('submit', async event => 
 function checkLocationRadius(lat, lng) {
     const CENTER_LAT = 10.338528;
     const CENTER_LNG = 105.518472;
-    const MAX_RADIUS_KM = 10;
+    const MAX_RADIUS_KM = 15;
 
     const R = 6371;
     const dLat = (lat - CENTER_LAT) * Math.PI / 180;
@@ -2816,7 +2816,7 @@ function checkLocationRadius(lat, lng) {
     const distance = R * c;
 
     if (distance > MAX_RADIUS_KM) {
-        alert('Rất tiếc! Hệ thống chỉ hỗ trợ phục vụ trong bán kính 10km quanh Cầu Lấp Vò, Đồng Tháp. Vui lòng chọn địa chỉ khác.');
+        alert('Rất tiếc! Hệ thống chỉ hỗ trợ phục vụ trong bán kính 15km quanh Cầu Lấp Vò, Đồng Tháp. Vui lòng chọn địa chỉ khác.');
         return false;
     }
     return true;
@@ -2846,60 +2846,62 @@ if (serviceSearchInput) {
 }); */
 
 
-const serviceSelectorTrigger = document.getElementById('serviceSelectorTrigger');
-const serviceModal = document.getElementById('serviceModal');
-const closeServiceModal = serviceModal ? serviceModal.querySelector('#closeServiceModal') : null;
-const serviceSelectorText = document.getElementById('serviceSelectorText');
+document.addEventListener('DOMContentLoaded', () => {
+    const serviceSelectorTrigger = document.getElementById('serviceSelectorTrigger');
+    const serviceModal = document.getElementById('serviceModal');
+    const closeServiceModal = serviceModal ? serviceModal.querySelector('#closeServiceModal') : null;
+    const serviceSelectorText = document.getElementById('serviceSelectorText');
 
-if (serviceSelectorTrigger && serviceModal) {
-    serviceSelectorTrigger.addEventListener('click', () => {
-        serviceModal.querySelectorAll('.service-group-container').forEach(el => {
-            const group = el.getAttribute('data-group-name');
-            if (currentMainService === 'vehicle') {
-                el.style.display = (group === 'Gọi xe') ? 'block' : 'none';
-            } else if (currentMainService === 'worker') {
-                el.style.display = (group !== 'Gọi xe' && group !== 'Drone' && group !== 'Quay phim' && group !== 'Quay + Chụp') ? 'block' : 'none';
-            } else if (currentMainService === 'drone') {
-                el.style.display = (group === 'Quay + Chụp' || group === 'Quay phim' || group === 'Drone') ? 'block' : 'none';
-            } else {
-                el.style.display = 'block';
-            }
+    if (serviceSelectorTrigger && serviceModal) {
+        serviceSelectorTrigger.addEventListener('click', () => {
+            serviceModal.querySelectorAll('.service-group-container').forEach(el => {
+                const group = el.getAttribute('data-group-name');
+                if (currentMainService === 'vehicle') {
+                    el.style.display = (group === 'Gọi xe') ? 'block' : 'none';
+                } else if (currentMainService === 'worker') {
+                    el.style.display = (group !== 'Gọi xe' && group !== 'Drone' && group !== 'Quay phim' && group !== 'Quay + Chụp') ? 'block' : 'none';
+                } else if (currentMainService === 'drone') {
+                    el.style.display = (group === 'Quay + Chụp' || group === 'Quay phim' || group === 'Drone') ? 'block' : 'none';
+                } else {
+                    el.style.display = 'block';
+                }
+            });
+            serviceModal.style.display = 'flex';
         });
-        serviceModal.style.display = 'flex';
-    });
 
-    if (closeServiceModal) {
-        closeServiceModal.addEventListener('click', () => {
-            serviceModal.style.display = 'none';
+        if (closeServiceModal) {
+            closeServiceModal.addEventListener('click', () => {
+                serviceModal.style.display = 'none';
+            });
+        }
+
+        // Close on backdrop click
+        serviceModal.addEventListener('click', (e) => {
+            if (e.target === serviceModal) serviceModal.style.display = 'none';
+        });
+
+        serviceModal.querySelectorAll('.custom-service-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const name = item.dataset.name || '';
+                const group = item.dataset.group || '';
+                const base = item.dataset.base || '0';
+                const priceText = item.dataset.price || '';
+
+                document.getElementById('service_type').value = group;
+                document.getElementById('tech_target_base').value = base;
+                document.getElementById('selected_service_name').value = name;
+
+                serviceSelectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - ${priceText}</span>`;
+                serviceSelectorTrigger.style.borderColor = '#D4AF37';
+                serviceSelectorTrigger.style.background = 'rgba(255,255,255,.06)';
+
+
+                serviceModal.style.display = 'none';
+                if (typeof calculateVehicleRouteAndPrice === 'function') calculateVehicleRouteAndPrice();
+            });
         });
     }
-
-    // Close on backdrop click
-    serviceModal.addEventListener('click', (e) => {
-        if (e.target === serviceModal) serviceModal.style.display = 'none';
-    });
-
-    serviceModal.querySelectorAll('.custom-service-item').forEach(item => {
-        item.addEventListener('click', () => {
-            const name = item.dataset.name || '';
-            const group = item.dataset.group || '';
-            const base = item.dataset.base || '0';
-            const priceText = item.dataset.price || '';
-
-            document.getElementById('service_type').value = group;
-            document.getElementById('tech_target_base').value = base;
-            document.getElementById('selected_service_name').value = name;
-
-            serviceSelectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - ${priceText}</span>`;
-            serviceSelectorTrigger.style.borderColor = '#D4AF37';
-            serviceSelectorTrigger.style.background = 'rgba(255,255,255,.06)';
-
-
-            serviceModal.style.display = 'none';
-            if (typeof calculateVehicleRouteAndPrice === 'function') calculateVehicleRouteAndPrice();
-        });
-    });
-}
+});
 
 
 
@@ -2921,7 +2923,7 @@ document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         if (!checkLocationRadius(lat, lng)) {
-            setLocationStatus('Vị trí nằm ngoài vùng phục vụ (10km quanh Lấp Vò).');
+            setLocationStatus('Vị trí nằm ngoài vùng phục vụ (15km quanh Lấp Vò).');
             return;
         }
         document.getElementById('map_lat').value = lat;
@@ -3060,7 +3062,7 @@ function getLocationFor(type) {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         if (!checkLocationRadius(lat, lng)) {
-            ls.textContent = 'Vị trí nằm ngoài vùng phục vụ (10km quanh Lấp Vò).';
+            ls.textContent = 'Vị trí nằm ngoài vùng phục vụ (15km quanh Lấp Vò).';
             return;
         }
         document.getElementById(type + '_lat').value = lat;
@@ -3330,7 +3332,7 @@ document.getElementById('orderUseCurrentLocation')?.addEventListener('click', ()
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         if (!checkLocationRadius(lat, lng)) {
-            ls.textContent = 'Vị trí nằm ngoài vùng phục vụ (10km quanh Lấp Vò).';
+            ls.textContent = 'Vị trí nằm ngoài vùng phục vụ (15km quanh Lấp Vò).';
             return;
         }
         document.getElementById('order_map_lat').value = lat;

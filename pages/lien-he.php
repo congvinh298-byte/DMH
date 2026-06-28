@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $PAGE_TITLE = 'Liên hệ';
 $PAGE_DESC = 'Thông tin liên hệ Chợ Lấp Vò Online - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
@@ -38,7 +38,7 @@ require_once __DIR__ . '/inc/header.php';
 </ul>
 
 <h2>Khu vực phục vụ</h2>
-<p>Bán kính 10 km tính từ Cầu Lấp Vò, bao gồm các xã/làng trong huyện Lấp Vò và một phần huyện lân cận.</p>
+<p>Bán kính 15 km tính từ Cầu Lấp Vò, bao gồm các xã/làng trong huyện Lấp Vò và một phần huyện lân cận.</p>
 
 <p><em>Cập nhật lần cuối: Tháng 6/2026</em></p>
 

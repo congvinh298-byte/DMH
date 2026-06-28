@@ -1,4 +1,4 @@
-﻿            </div>
+            </div>
         </div>
     </div>
 </main>
@@ -11,7 +11,7 @@
                 <p>MST: 1402228630</p>
                 <p>Dia chi: 166, Ap Binh Thanh 1, Xa Lap Vo, Tinh Dong Thap</p>
                 <p>Website: dienmayhieu.com</p>
-                <p>Khu vuc phuc vu: ban kinh 10 km tinh tu Cau Lap Vo</p>
+                <p>Khu vuc phuc vu: ban kinh 15 km tinh tu Cau Lap Vo</p>
             </div>
             <div>
                 <h3>Lien he</h3>

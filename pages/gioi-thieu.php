@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $PAGE_TITLE = 'Giới thiệu';
 $PAGE_DESC = 'Giới thiệu về Chợ Lấp Vò Online - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
@@ -21,7 +21,7 @@ require_once __DIR__ . '/inc/header.php';
     <li>Người bán (thợ) đăng ký gian hàng, đăng bán sản phẩm/dịch vụ.</li>
     <li>Người mua tìm kiếm, so sánh và đặt hàng trực tiếp trên website.</li>
     <li>Sàn cung cấp nền tảng kết nối, hỗ trợ thanh toán, đánh giá và giải quyết tranh chấp.</li>
-    <li>Phạm vi hoạt động: bán kính 10 km tính từ Cầu Lấp Vò.</li>
+    <li>Phạm vi hoạt động: bán kính 15 km tính từ Cầu Lấp Vò.</li>
 </ul>
 
 <h2>4. Các loại hình dịch vụ</h2>

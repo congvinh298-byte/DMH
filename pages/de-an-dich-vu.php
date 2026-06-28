@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $PAGE_TITLE = 'Đề án cung cấp dịch vụ TMĐT';
 $PAGE_DESC = 'Đề án cung cấp dịch vụ thương mại điện tử - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
@@ -28,7 +28,7 @@ require_once __DIR__ . '/inc/header.php';
 
 <h3>2. Phạm vi hoạt động</h3>
 <ul>
-    <li><strong>Khu vực phục vụ:</strong> Bán kính 10 km tính từ Cầu Lấp Vò.</li>
+    <li><strong>Khu vực phục vụ:</strong> Bán kính 15 km tính từ Cầu Lấp Vò.</li>
     <li><strong>Đối tượng phục vụ:</strong> Người dân địa phương cần mua sắm hàng hóa, thuê thợ kỹ thuật điện tử/điện lạnh.</li>
 </ul>
 

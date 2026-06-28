@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $PAGE_TITLE = 'Quy chế hoạt động';
 $PAGE_DESC = 'Quy chế hoạt động sàn giao dịch thương mại điện tử - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
@@ -16,7 +16,7 @@ require_once __DIR__ . '/inc/header.php';
 <p><strong>Chủ sàn:</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</p>
 <p><strong>Tên miền:</strong> dienmayhieu.com</p>
 <p><strong>Loại hình:</strong> Sàn giao dịch thương mại điện tử (E-commerce marketplace)</p>
-<p><strong>Phạm vi hoạt động:</strong> Khu vực Xã Lấp Vò và lân cận, bán kính phục vụ 10 km.</p>
+<p><strong>Phạm vi hoạt động:</strong> Khu vực Xã Lấp Vò và lân cận, bán kính phục vụ 15 km.</p>
 
 <h2>III. Quy trình giao dịch</h2>
 <h3>1. Quy trình dành cho người mua hàng</h3>
