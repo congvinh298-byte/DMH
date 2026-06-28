@@ -484,6 +484,7 @@ $services = array(
     array('group' => 'Thợ máy lọc nước', 'name' => 'Lắp máy lọc nước', 'base' => 200000, 'note' => 'Công thợ + phụ kiện'),
     array('group' => 'Thợ gia dụng', 'name' => 'Lắp máy giặt', 'base' => 200000, 'note' => 'Công thợ + phụ kiện'),
     array('group' => 'Thợ điện thoại', 'name' => 'Kiểm tra / sửa điện thoại', 'base' => 200000, 'note' => 'Công thợ + linh kiện nếu có'),
+    array('group' => 'Quay phim', 'name' => 'Quay trao nhẫn cưới', 'base' => 500000, 'note' => 'Gói quay phim 500k'),
     array('group' => 'Gọi xe', 'name' => 'Đơn đồ ăn / Đi chợ thay (2km đầu: 13k, vượt: 3.5k/km)', 'base' => 13000, 'note' => ''),
     array('group' => 'Gọi xe', 'name' => 'Xe ôm (2km đầu: 15k, vượt: 4k/km)', 'base' => 15000, 'note' => ''),
     array('group' => 'Gọi xe', 'name' => 'Shipper giao hàng (Km đầu: 16k, vượt: 4k/km)', 'base' => 16000, 'note' => ''),
@@ -1480,7 +1481,7 @@ footer {
         <div class="quick-tabs" style="display: flex; gap: 8px;">
             <a class="btn dark" href="#goi-tho" onclick="selectMainService('worker')" style="flex: 1; padding: 10px 5px; font-size: 14px; text-align: center;">🛠 Gọi thợ</a>
             <a class="btn" href="#goi-tho" onclick="selectMainService('vehicle')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #2563eb; border: 1px solid #1d4ed8; color: white; text-align: center;">🚖 Gọi xe</a>
-            <a class="btn" href="#goi-tho" onclick="selectMainService('drone')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #8b5cf6; border: 1px solid #7c3aed; color: white; text-align: center;">🚁 Drone</a>
+            <a class="btn" href="#goi-tho" onclick="selectMainService('drone')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #8b5cf6; border: 1px solid #7c3aed; color: white; text-align: center;">🎥 Quay phim</a>
         </div>
     </div>
 
@@ -1574,7 +1575,7 @@ footer {
     </div>
 
 
-    <!-- Khu vực nhập vị trí mặc định (Cho Gọi thợ, Drone) -->
+    <!-- Khu vực nhập vị trí mặc định (Cho Gọi thợ, Quay phim) -->
     <div id="location_single_group" style="margin-bottom: 25px;">
         <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Địa chỉ / Vị trí của bạn</label>
         <input type="text" id="address" name="address" required placeholder="Nhập số nhà, tên đường, ấp... hoặc bấm Định Vị bên dưới" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
@@ -2857,7 +2858,9 @@ if (serviceSelectorTrigger && serviceModal) {
             if (currentMainService === 'vehicle') {
                 el.style.display = (group === 'Gọi xe') ? 'block' : 'none';
             } else if (currentMainService === 'worker') {
-                el.style.display = (group !== 'Gọi xe' && group !== 'Drone') ? 'block' : 'none';
+                el.style.display = (group !== 'Gọi xe' && group !== 'Drone' && group !== 'Quay phim') ? 'block' : 'none';
+            } else if (currentMainService === 'drone') {
+                el.style.display = (group === 'Quay phim' || group === 'Drone') ? 'block' : 'none';
             } else {
                 el.style.display = 'block';
             }
@@ -3025,22 +3028,22 @@ function selectMainService(type) {
         document.getElementById('address').required = false;
     } else if (type === 'drone') {
         if (roleInput) roleInput.value = 'drone';
-        sectionTitle.innerHTML = '🚁 DRONE QUAY CƯỚI';
-        sectionDesc.textContent = 'Dịch vụ quay phim bằng Flycam chuyên nghiệp';
-        formTitle.textContent = '📋 Điền thông tin thuê Drone';
-        submitBtn.innerHTML = '🚀 ĐẶT DRONE NGAY';
-        submitBtn.dataset.originalText = '🚀 ĐẶT DRONE NGAY';
+        sectionTitle.innerHTML = '📹 THỢ QUAY';
+        sectionDesc.textContent = 'Dịch vụ máy quay phim, ghi lại khoảnh khắc trọng đại';
+        formTitle.textContent = '📋 Điền thông tin gọi thợ quay';
+        submitBtn.innerHTML = '🚀 GỌI THỢ QUAY NGAY';
+        submitBtn.dataset.originalText = '🚀 GỌI THỢ QUAY NGAY';
         document.getElementById('location_single_group').style.display = 'block';
         document.getElementById('location_vehicle_group').style.display = 'none';
         document.getElementById('address').required = true;
-        // Gán cứng giá và dịch vụ cho Drone
-        const droneService = 'Drone quay cưới - 1 shot trao nhẫn';
-        const dronePrice = 1000000;
-        document.getElementById('service_type').value = 'drone';
+        // Gán cứng giá và dịch vụ cho Thợ quay
+        const droneService = 'Quay trao nhẫn cưới';
+        const dronePrice = 500000;
+        document.getElementById('service_type').value = 'Thợ quay';
         document.getElementById('tech_target_base').value = dronePrice;
         document.getElementById('selected_service_name').value = droneService;
 
-        selectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${droneService}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - 1.000.000 đ</span>`;
+        selectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${droneService}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - 500.000 đ</span>`;
         selectorTrigger.style.borderColor = '#D4AF37';
         selectorTrigger.style.background = 'rgba(255,255,255,.06)';
         selectorTrigger.style.pointerEvents = 'none'; // Khoá nút chọn

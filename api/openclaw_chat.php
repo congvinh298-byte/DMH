@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 header("Access-Control-Allow-Origin: https://dienmayhieu.com");
 header("Access-Control-Allow-Methods: POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
@@ -75,7 +75,7 @@ try {
 // Fallback manual knowledge if DB empty or specific ones needed:
 $knowledgeBase .= "
 Quy trình làm việc của đội thợ: Tiếp nhận yêu cầu -> Khảo sát/Báo giá -> Thực hiện -> Bàn giao & Thanh toán.
-Giá drone quay cưới: 500k cho 1 shot (trao nhục).
+Giá dịch vụ quay phim: 500k cho gói quay trao nhẫn cưới.
 Liên hệ vận hành: 0979.553.289 (Công ty TNHH MTV ĐIỆN MÁY HIẾU)
 ";
 
@@ -91,7 +91,7 @@ Phản hồi của bạn CHỈ được phép là một đối tượng JSON h�
   \"text\": \"Câu trả lời của bạn gửi cho khách hàng\",
   \"actions\": [
     { \"label\": \"Đặt đơn ngay\", \"type\": \"link\", \"value\": \"/dat-don\" },
-    { \"label\": \"Xem giá Drone\", \"type\": \"link\", \"value\": \"/dich-vu/drone\" },
+    { \"label\": \"Xem giá Thợ quay\", \"type\": \"link\", \"value\": \"/#goi-tho\" },
     { \"label\": \"Gọi thợ trực tiếp\", \"type\": \"call\", \"value\": \"tel:0979553289\" }
   ]
 }
