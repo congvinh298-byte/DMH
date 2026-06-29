@@ -429,3 +429,74 @@ function verify_login_key_action(PDO $pdo, array $input): array
     // Fallback Error Feedback
     return ['status' => 'error', 'message' => 'Lỗi: Không tìm thấy tài khoản. Có thể mã QR không hợp lệ, bị sai số hoặc tài khoản đã bị xóa.'];
 }
+
+function login_email_password_action(PDO $pdo, array $input): array
+{
+    $email = clean_string($input['email'] ?? '', 150);
+    $password = (string)($input['password'] ?? '');
+    
+    if ($email === '' || $password === '') {
+        return ['status' => 'error', 'message' => 'Vui lòng điền đầy đủ Email và Mật khẩu.'];
+    }
+    
+    $stmt = $pdo->prepare('SELECT * FROM users WHERE email = ? LIMIT 1');
+    $stmt->execute([$email]);
+    $user = $stmt->fetch();
+    
+    if (!$user || empty($user['password_hash']) || !password_verify($password, $user['password_hash'])) {
+        return ['status' => 'error', 'message' => 'Email hoặc Mật khẩu không chính xác.'];
+    }
+    
+    if ((int)$user['is_active'] === 0) {
+        return ['status' => 'error', 'message' => 'Tài khoản của bạn đã bị khóa. Vui lòng liên hệ quản trị viên.'];
+    }
+    
+    $role = (string)$user['role'];
+    $loginKey = (string)$user['login_key'];
+    if ($loginKey === '') {
+        $loginKey = customer_generate_login_key($pdo);
+        $pdo->prepare('UPDATE users SET login_key = ? WHERE id = ?')->execute([$loginKey, $user['id']]);
+    }
+    
+    if ($role === 'seller') {
+        $stmtStore = $pdo->prepare('SELECT id, store_name, owner_name, login_key, status FROM marketplace_stores WHERE email = ? OR phone = ? ORDER BY id DESC LIMIT 1');
+        $stmtStore->execute([$user['email'], $user['phone']]);
+        $store = $stmtStore->fetch();
+        if ($store) {
+            if ($store['status'] !== 'active') {
+                return ['status' => 'error', 'message' => 'Cửa hàng liên kết đang chờ duyệt hoặc bị khóa.'];
+            }
+            $storeKey = $store['login_key'];
+            if (empty($storeKey)) {
+                $storeKey = 'DTHS-' . strtoupper(bin2hex(random_bytes(6)));
+                $pdo->prepare('UPDATE marketplace_stores SET login_key = ? WHERE id = ?')->execute([$storeKey, $store['id']]);
+            }
+            return [
+                'status' => 'success',
+                'data' => [
+                    'type' => 'store',
+                    'id' => (int)$store['id'],
+                    'store_name' => $store['store_name'],
+                    'owner_name' => $store['owner_name'],
+                    'login_key' => $storeKey
+                ]
+            ];
+        } else {
+            return ['status' => 'error', 'message' => 'Không tìm thấy thông tin cửa hàng liên kết với tài khoản người bán này.'];
+        }
+    }
+    
+    return [
+        'status' => 'success',
+        'data' => [
+            'type' => 'user',
+            'id' => (int)$user['id'],
+            'fullname' => $user['fullname'],
+            'role' => $user['role'],
+            'login_key' => $loginKey,
+            'member_rank' => $user['member_rank'] ?? 'Thành viên',
+            'loyalty_points' => (int)($user['loyalty_points'] ?? 0),
+            'qr_image_url' => qr_image_url_for_payload(customer_qr_payload($loginKey), 160)
+        ]
+    ];
+}

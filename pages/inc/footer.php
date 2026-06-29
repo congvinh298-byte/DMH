@@ -7,31 +7,31 @@
     <div class="wrap">
         <div class="footer-grid">
             <div>
-                <h3>CONG TY TNHH MTV DIEN MAY HIEU</h3>
-                <p>MST: 1402228630</p>
-                <p>Dia chi: 166, Ap Binh Thanh 1, Xa Lap Vo, Tinh Dong Thap</p>
-                <p>Website: dienmayhieu.com</p>
-                <p>Khu vuc phuc vu: ban kinh 15 km tinh tu Cau Lap Vo</p>
+                <h3>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h3>
+                <p>Số GCN ĐKKD/MST: 1402228630 do Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp cấp ngày 10/08/2024</p>
+                <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</p>
+                <p>Đại diện pháp luật: Ông Trần Công Vinh - Giám đốc</p>
+                <p>Khu vực phục vụ: bán kính 15 km tính từ Cầu Lấp Vò</p>
             </div>
             <div>
-                <h3>Lien he</h3>
-                <p>Hotline: 0979.553.289</p>
-                <p>Mua hang va goi tho ky thuat</p>
-                <p>Email: Congvinh28@gmail.com</p>
+                <h3>Liên hệ & Khiếu nại</h3>
+                <p>Hotline: 0979.553.289 (Mua hàng & gọi thợ)</p>
+                <p>Đầu mối giải quyết khiếu nại bảo vệ NTD: Ông Trần Công Vinh - Giám đốc</p>
+                <p>Email: <a href="mailto:congvinh298@gmail.com" style="color:#fff;text-decoration:underline;">congvinh298@gmail.com</a></p>
             </div>
             <div>
-                <h3>Thong tin phap ly</h3>
-                <p><a href="/pages/dieu-khoan-su-dung">Dieu khoan su dung</a></p>
-                <p><a href="/pages/quy-che-hoat-dong">Quy che hoat dong</a></p>
-                <p><a href="/pages/chinh-sach-bao-mat">Chinh sach bao mat</a></p>
-                <p><a href="/pages/giai-quyet-tranh-chap">Giai quyet tranh chap</a></p>
+                <h3>Thông tin pháp lý</h3>
+                <p><a href="/pages/dieu-khoan-su-dung">Điều khoản sử dụng</a></p>
+                <p><a href="/pages/quy-che-hoat-dong">Quy chế hoạt động</a></p>
+                <p><a href="/pages/chinh-sach-bao-mat">Chính sách bảo mật</a></p>
+                <p><a href="/pages/giai-quyet-tranh-chap">Giải quyết tranh chấp</a></p>
             </div>
             <div>
-                <h3>Huong dan</h3>
-                <p><a href="/pages/huong-dan-mua-hang">Huong dan mua hang</a></p>
-                <p><a href="/pages/huong-dan-ban-hang">Huong dan ban hang</a></p>
-                <p><a href="/pages/lien-he">Lien he</a></p>
-                <p><a href="/pages/gioi-thieu">Gioi thieu</a></p>
+                <h3>Hướng dẫn</h3>
+                <p><a href="/pages/huong-dan-mua-hang">Hướng dẫn mua hàng</a></p>
+                <p><a href="/pages/huong-dan-ban-hang">Hướng dẫn bán hàng</a></p>
+                <p><a href="/pages/lien-he">Liên hệ</a></p>
+                <p><a href="/pages/gioi-thieu">Giới thiệu</a></p>
             </div>
         </div>
         <div class="footer-bottom">

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 ob_start();
 register_shutdown_function(static function (): void {
     $error = error_get_last();
@@ -724,6 +724,9 @@ try {
         } catch (Exception $e) {
             json_out(['status' => 'error', 'error' => $e->getMessage()]);
         }
+
+    case 'login_email_password':
+        json_out(login_email_password_action($pdo, $input));
 
     case 'login_or_register_phone':
         json_out(login_or_register_phone_action($pdo, $input));

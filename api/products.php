@@ -213,6 +213,11 @@ function save_admin_product(PDO $pdo, array $input): int
         json_out(['status' => 'error', 'message' => 'Ten san pham khong duoc trong.'], 400);
     }
 
+    $badWord = app_check_content_keywords($pdo, $name);
+    if ($badWord !== null) {
+        json_out(['status' => 'error', 'message' => 'Tên sản phẩm chứa từ khóa bị cấm: "' . $badWord . '". Vui lòng chọn tên khác.'], 400);
+    }
+
     $price = money_int($input['price'] ?? 0);
     $stock = max(0, (int)($input['stock'] ?? $input['stock_quantity'] ?? 0));
     $category = clean_string($input['category'] ?? '', 120);

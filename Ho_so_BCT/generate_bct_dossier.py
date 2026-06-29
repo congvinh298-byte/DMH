@@ -20,7 +20,7 @@ COMPANY = {
     "tax_code": "1402228630",
     "address": "166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp, Việt Nam",
     "phone": "0979.553.289",
-    "email": "Congvinh28@gmail.com",
+    "email": "Congvinh298@gmail.com",
     "representative": "TRẦN CÔNG VINH",
     "representative_title": "Giám đốc",
     "website_name": "Chợ Lấp Vò Online",
@@ -554,11 +554,14 @@ def add_project_plan(doc):
     add_bullets(
         doc,
         [
-            f"Hệ thống website đặt tại hạ tầng hosting của {COMPANY['hosting']}, sử dụng tên miền {COMPANY['domain']} và kết nối HTTPS.",
-            "Hệ thống quản trị phân quyền theo tài khoản, có cơ chế đăng nhập, lưu vết thao tác, chống truy cập trái phép ở mức ứng dụng.",
-            "Dữ liệu giao dịch, đơn hàng, người dùng, đối tác và báo cáo được lưu trong cơ sở dữ liệu của hệ thống; công ty thực hiện sao lưu và kiểm tra định kỳ theo năng lực hạ tầng.",
-            "Phương án kết nối báo cáo với Cổng quản lý hoạt động TMĐT: cung cấp API báo cáo tại " + COMPANY["bct_api"] + ".",
-            "API hỗ trợ xác thực bằng tài khoản và API key; hệ thống lưu " + "BCT_REPORT_API_KEY_HASH" + " dạng SHA-256, không lưu API key thô trong mã nguồn.",
+            f"Hệ thống website đặt tại hạ tầng hosting của {COMPANY['hosting']}, sử dụng tên miền {COMPANY['domain']} và kết nối bảo mật HTTPS (SSL).",
+            "Mật khẩu người dùng được băm tự động bằng thuật toán BCRYPT bảo mật cao dưới dạng một chiều, đảm bảo không thể xem trực tiếp mật khẩu từ cơ sở dữ liệu.",
+            "Hệ thống quản trị phân quyền theo tài khoản, có cơ chế đăng nhập mã OTP/Key bảo mật, lưu vết thao tác (audit logs) để chống truy cập trái phép ở mức ứng dụng.",
+            "Dữ liệu giao dịch, đơn hàng, người dùng, đối tác và báo cáo được lưu trong cơ sở dữ liệu của hệ thống; công ty thực hiện sao lưu tự động định kỳ.",
+            "Tích hợp hệ thống tiền kiểm từ khóa prohibited_keywords để tự động chặn các tin đăng có chứa từ ngữ vi phạm pháp luật hoặc đạo đức trước khi lưu trữ vào cơ sở dữ liệu.",
+            "Chế độ bảo vệ thử nghiệm: Thiết lập chế độ mật khẩu bao trùm toàn trang (site-wide password protection) thông qua tệp cấu hình .env (SITE_PASSWORD_PROTECT=1) để phục vụ kiểm tra nội bộ và thẩm định hồ sơ của Bộ Công Thương.",
+            "Phương án kết nối báo cáo với Cổng quản lý hoạt động TMĐT: cung cấp API báo cáo và cổng đăng nhập giám sát bct_portal.php dành riêng cho Bộ Công Thương.",
+            "API hỗ trợ xác thực bằng tài khoản và API key; hệ thống lưu mật khẩu dạng SHA-256 mã hóa, không lưu API key thô trong mã nguồn.",
         ],
     )
 
@@ -699,18 +702,53 @@ def add_regulation(doc):
     )
 
     add_p(doc, "VI. Chính sách bảo vệ thông tin cá nhân của người tiêu dùng", style="Heading 1")
-    add_p(doc, "Công ty thu thập dữ liệu cá nhân ở mức cần thiết gồm họ tên, số điện thoại, địa chỉ, vị trí khi người dùng cấp quyền, thông tin giao dịch, phản ánh, dữ liệu kỹ thuật và dữ liệu đối soát. Dữ liệu được dùng để xác minh, xử lý giao dịch, điều phối dịch vụ, chăm sóc khách hàng, phòng chống gian lận, cải thiện hệ thống và tuân thủ nghĩa vụ pháp lý.")
-    add_p(doc, "Công ty không bán dữ liệu cá nhân cho bên thứ ba. Việc chia sẻ dữ liệu chỉ thực hiện ở mức cần thiết cho người bán, nhà cung cấp, đối tác giao nhận, kỹ thuật, thanh toán hoặc cơ quan nhà nước có thẩm quyền. Người dùng có thể yêu cầu kiểm tra, chỉnh sửa, hạn chế xử lý hoặc xóa dữ liệu trong phạm vi pháp luật cho phép.")
+    add_p(doc, "1. Mục đích thu thập thông tin cá nhân:", style="Heading 2")
+    add_p(doc, "Công ty thu thập thông tin cá nhân của người tiêu dùng nhằm xác minh danh tính, xử lý đơn đặt hàng, cung cấp các dịch vụ trên website, liên hệ hỗ trợ kỹ thuật, giải quyết tranh chấp khiếu nại, cải thiện trải nghiệm người dùng và tuân thủ các nghĩa vụ pháp lý theo quy định của pháp luật Việt Nam.")
+    
+    add_p(doc, "2. Phạm vi sử dụng thông tin:", style="Heading 2")
+    add_p(doc, "Thông tin được thu thập bao gồm: Họ tên, số điện thoại, email, địa chỉ thường trú/giao nhận hàng, và tọa độ địa lý (khi người dùng cho phép). Thông tin chỉ được sử dụng trong phạm vi cung cấp dịch vụ của website dienmayhieu.com, đối soát thanh toán và hỗ trợ thợ kỹ thuật liên lạc thực hiện dịch vụ.")
+    
+    add_p(doc, "3. Thời gian lưu trữ thông tin:", style="Heading 2")
+    add_p(doc, "Thông tin cá nhân của thành viên sẽ được lưu trữ trong suốt thời gian tài khoản hoạt động trên website. Trong trường hợp thành viên yêu cầu hủy bỏ hoặc tài khoản bị khóa, thông tin cá nhân vẫn sẽ được lưu trữ bảo mật trên máy chủ trong thời hạn tối thiểu là 02 năm để phục vụ công tác đối soát, thanh tra của cơ quan nhà nước có thẩm quyền.")
+    
+    add_p(doc, "4. Những người hoặc tổ chức có thể tiếp cận với thông tin:", style="Heading 2")
+    add_p(doc, "Những đối tượng có quyền tiếp cận thông tin cá nhân của người tiêu dùng bao gồm: (i) Ban quản lý website dienmayhieu.com; (ii) Cửa hàng/thợ kỹ thuật trực tiếp thực hiện đơn hàng/dịch vụ (chỉ tiếp cận thông tin liên hệ và địa điểm để giao dịch); (iii) Đơn vị trung gian thanh toán và vận chuyển liên kết; (iv) Cơ quan quản lý nhà nước có thẩm quyền khi có yêu cầu bằng văn bản chính thức.")
+    
+    add_p(doc, "5. Địa chỉ của đơn vị thu thập và quản lý thông tin:", style="Heading 2")
+    add_p(doc, "CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU. Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp. Người đại diện: Trần Công Vinh - Giám đốc. Hotline liên hệ hỏi về hoạt động thu thập, xử lý dữ liệu: 0979.553.289. Email: congvinh298@gmail.com.")
+    
+    add_p(doc, "6. Phương thức và công cụ để người dùng tiếp cận và chỉnh sửa dữ liệu cá nhân:", style="Heading 2")
+    add_p(doc, "Thành viên có thể tự truy cập vào trang cá nhân của mình trên website để tự chỉnh sửa, cập nhật thông tin cá nhân. Ngoài ra, thành viên có thể liên hệ trực tiếp với Ban quản lý qua hotline hoặc email để yêu cầu nhân viên kỹ thuật hỗ trợ thay đổi, khóa hoặc xóa dữ liệu cá nhân của mình.")
+    
+    add_p(doc, "7. Cơ chế tiếp nhận và giải quyết khiếu nại của người tiêu dùng liên quan đến việc thông tin cá nhân bị sử dụng sai mục đích hoặc phạm vi thông báo:", style="Heading 2")
+    add_p(doc, "Khi phát hiện thông tin cá nhân bị sử dụng sai mục đích hoặc ngoài phạm vi thỏa thuận, người tiêu dùng gửi khiếu nại đến email congvinh298@gmail.com hoặc gọi hotline 0979.553.289. Ban quản lý có trách nhiệm phản hồi và đưa ra biện pháp xử lý trong vòng 03 ngày làm việc. Nếu vụ việc phức tạp, hai bên sẽ phối hợp thương lượng hoặc chuyển cơ quan chức năng giải quyết.")
 
-    add_p(doc, "VII. Quản lý thông tin trên website", style="Heading 1")
+    add_p(doc, "VII. Cơ chế quản lý thông tin trên website và kiểm soát thông tin xấu", style="Heading 1")
+    add_p(doc, "1. Danh sách hàng hóa, dịch vụ cấm giao dịch tại dienmayhieu.com:", style="Heading 2")
     add_bullets(
         doc,
         [
-            "Ban quản lý có quyền rà soát, yêu cầu chỉnh sửa, từ chối hoặc gỡ bỏ thông tin vi phạm quy chế, vi phạm pháp luật hoặc gây rủi ro cho người tiêu dùng.",
-            "Thông tin hàng hóa, dịch vụ phải mô tả đúng bản chất, nguồn gốc, giá, phí, điều kiện cung cấp và các hạn chế nếu có.",
-            "Công ty áp dụng kiểm soát thủ công, tài khoản quản trị, nhật ký hệ thống, từ khóa cảnh báo và biện pháp kỹ thuật phù hợp để quản lý thông tin.",
+            "Vũ khí quân dụng, súng, đạn, pháo hoa, vật liệu nổ.",
+            "Chất ma túy, cần sa, thuốc phiện và các chất hướng thần.",
+            "Tài liệu đồi trụy, phản động, xâm phạm an ninh quốc gia.",
+            "Hàng giả, hàng nhái nhãn hiệu, hàng vi phạm quyền sở hữu trí tuệ.",
+            "Động thực vật hoang dã quý hiếm cần bảo vệ.",
+            "Dịch vụ cờ bạc, cá độ, lô đề, mại dâm, môi giới bất hợp pháp.",
+            "Các loại hóa chất độc hại, chất cấm theo quy định của Bộ Công Thương.",
         ],
     )
+    add_p(doc, "2. Quy trình kiểm duyệt và biện pháp xử lý vi phạm:", style="Heading 2")
+    add_bullets(
+        doc,
+        [
+            "Tiền kiểm tự động: Hệ thống sử dụng bộ lọc từ khóa cấm (ví dụ: súng, đạn, ma túy, cờ bạc...) để ngăn chặn người bán tạo sản phẩm vi phạm ngay từ lúc gửi tin.",
+            "Hậu kiểm thủ công: Ban quản lý rà soát hàng ngày các tin đăng mới. Nếu phát hiện vi phạm nhẹ, sẽ nhắc nhở và yêu cầu sửa đổi trong 24h.",
+            "Gỡ bỏ và khóa tài khoản: Đối với các vi phạm nghiêm trọng (bán hàng cấm, lừa đảo), tin đăng sẽ bị gỡ bỏ ngay lập tức và tài khoản người bán bị khóa vĩnh viễn.",
+            "Phối hợp với cơ quan chức năng: Cung cấp thông tin của thành viên vi phạm pháp luật cho cơ quan công an khi có yêu cầu điều tra.",
+        ],
+    )
+    add_p(doc, "3. Cơ chế báo cáo nội dung xấu dành cho người tiêu dùng:", style="Heading 2")
+    add_p(doc, "Tại mỗi tin đăng hoặc gian hàng, website cung cấp nút báo cáo vi phạm (hoặc người dùng có thể liên hệ trực tiếp qua hotline 0979.553.289 và email congvinh298@gmail.com). Khi nhận được báo cáo, Ban quản lý sẽ kiểm tra nội dung bị phản ánh trong vòng 04 giờ làm việc và đưa ra biện pháp ẩn hoặc xóa nếu phát hiện vi phạm thực tế.")
 
     add_p(doc, "VIII. Trách nhiệm trong trường hợp phát sinh lỗi kỹ thuật", style="Heading 1")
     add_p(doc, "Khi phát sinh lỗi kỹ thuật, lỗi đường truyền, phần mềm hoặc sự cố dữ liệu, Ban quản lý website tiếp nhận phản ánh, xác minh phạm vi ảnh hưởng, ưu tiên khắc phục, thông báo cho thành viên khi cần thiết và bảo vệ dữ liệu giao dịch trong khả năng kỹ thuật. Công ty không chịu trách nhiệm đối với lỗi do người dùng, thiết bị của người dùng, thông tin sai do thành viên cung cấp hoặc sự kiện bất khả kháng ngoài phạm vi kiểm soát hợp lý.")

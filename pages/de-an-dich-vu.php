@@ -89,7 +89,7 @@ require_once __DIR__ . '/inc/header.php';
     <li><strong>Bảo mật thông tin:</strong> Mã hóa thông tin thanh toán và thông tin cá nhân người dùng.</li>
     <li><strong>Phòng chống gian lận:</strong> Giám sát giao dịch bất thường, cảnh báo tài khoản nghi ngờ.</li>
     <li><strong>Sao lưu dữ liệu:</strong> Sao lưu định kỳ để phòng mất mát dữ liệu.</li>
-    <li><strong>Đầu mối liên hệ bảo mật:</strong> Congvinh28@gmail.com / 0979.553.289</li>
+    <li><strong>Đầu mối liên hệ bảo mật:</strong> Congvinh298@gmail.com / 0979.553.289</li>
 </ul>
 
 <h2>V. QUYỀN VÀ NGHĨA VỤ CÁC BÊN</h2>

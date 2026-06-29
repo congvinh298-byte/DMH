@@ -1,4 +1,4 @@
-﻿# CHECKLIST - Xay dung lai dienmayhieu.com (Cho Xa Lap Vo Online)
+# CHECKLIST - Xay dung lai dienmayhieu.com (Cho Xa Lap Vo Online)
 
 ## PHAN 1: TRANG PHAP LY (Bat buoc)
 - [x] Tao thu muc pages/ va pages/inc/ (header.php, footer.php)
@@ -18,7 +18,7 @@
 - [x] MST/CCCD: 1402228630
 - [x] Dia chi: 166, Ap Binh Thanh 1, Xa Lap Vo, Huyen Lap Vo, Dong Thap
 - [x] SDT ho tro: 0979.553.289
-- [x] Email lien he: Congvinh28@gmail.com
+- [x] Email lien he: Congvinh298@gmail.com
 - [x] Nguoi dai dien: Tran Cong Vinh
 - [x] Ngay cap MST: 10/08/2024, Bo Cong An
 - [ ] Logo Bo Cong Thuong (placeholder - se gan sau khi dang ky)
@@ -50,7 +50,7 @@
 - [x] Tai lieu huong dan nop ho so (README-BOCONGTHUONG.md)
 - [x] Cap nhat thong tin nguoi dai dien: Tran Cong Vinh
 - [x] Cap nhat MST: 1402228630 (cap 10/08/2024, Bo Cong An)
-- [x] Cap nhat email: Congvinh28@gmail.com
+- [x] Cap nhat email: Congvinh298@gmail.com
 - [x] Banner thu nghiem tren trang chu
 - [ ] Bo sung hinh anh minh hoa cho cac trang phap ly
 - [ ] In de an ra PDF de nop ho so

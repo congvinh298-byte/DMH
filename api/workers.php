@@ -620,6 +620,8 @@ function app_store_register_action(PDO $pdo, array $input): array
 {
     $phone = digits_only((string)($input['phone'] ?? $input['contact_phone'] ?? ''));
     $taxCode = strtoupper(clean_string($input['tax_code'] ?? $input['mst'] ?? '', 30));
+    $taxCodeDate = clean_string($input['tax_code_date'] ?? '', 50);
+    $taxCodePlace = clean_string($input['tax_code_place'] ?? '', 150);
     $ownerName = clean_string($input['owner_name'] ?? $input['contact_name'] ?? '', 150);
     $email = clean_string($input['email'] ?? '', 190);
     $storeName = clean_string($input['store_name'] ?? $input['shop_name'] ?? $input['name'] ?? '', 150);
@@ -632,6 +634,15 @@ function app_store_register_action(PDO $pdo, array $input): array
     }
     if (strlen(digits_only($taxCode)) < 8) {
         json_out(['status' => 'error', 'message' => 'Vui long nhap ma so thue de gui don dang ky cho giam doc.'], 400);
+    }
+    if ($ownerName === '') {
+        json_out(['status' => 'error', 'message' => 'Vui lòng nhập họ tên chủ sở hữu.'], 400);
+    }
+    if ($email === '') {
+        json_out(['status' => 'error', 'message' => 'Vui lòng nhập địa chỉ email liên hệ.'], 400);
+    }
+    if ($taxCodeDate === '' || $taxCodePlace === '') {
+        json_out(['status' => 'error', 'message' => 'Vui lòng nhập ngày cấp và nơi cấp MST/CCCD.'], 400);
     }
 
     $business = marketplace_business_lookup($taxCode);
@@ -678,6 +689,8 @@ function app_store_register_action(PDO $pdo, array $input): array
     $values = [
         'phone' => $phone,
         'tax_code' => $storageTaxCode,
+        'tax_code_date' => $taxCodeDate,
+        'tax_code_place' => $taxCodePlace,
         'owner_name' => $ownerName,
         'email' => $email,
         'store_name' => $storeName,
@@ -1026,6 +1039,12 @@ function app_store_save_product_action(PDO $pdo, array $input): array
 
         if ($name === '') {
             return ['status' => 'error', 'message' => 'Vui lòng nhập tên sản phẩm.'];
+        }
+
+        // BCT Compliance: Keyword pre-moderation filter
+        $badWord = app_check_content_keywords($pdo, $name . ' ' . $description);
+        if ($badWord !== null) {
+            return ['status' => 'error', 'message' => 'Nội dung chứa từ khóa bị cấm: "' . $badWord . '". Vui lòng loại bỏ từ khóa này.'];
         }
 
         // Chợ Xã Lập Vỏ sử dụng cấu trúc chuẩn, bỏ qua các cột dư thừa cũ

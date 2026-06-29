@@ -1,4 +1,4 @@
-﻿# QUY CHẾ HOẠT ĐỘNG SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ
+# QUY CHẾ HOẠT ĐỘNG SÀN GIAO DỊCH THƯƠNG MẠI ĐIỆN TỬ
 
 ## Website: dienmayhieu.com (Chợ Xã Lấp Vò Online)
 
@@ -31,7 +31,7 @@
 - CCCD: 087097006101 (cấp 10/08/2024, BỘ CÔNG AN)
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp
 - SĐT: 0979.553.289
-- Email: Congvinh28@gmail.com
+- Email: Congvinh298@gmail.com
 
 ---
 
@@ -86,7 +86,7 @@
 - CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU
 - Người đại diện: Trần Công Vinh
 - Hotline: 0979.553.289
-- Email: Congvinh28@gmail.com
+- Email: Congvinh298@gmail.com
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp
 
 ---
@@ -130,7 +130,7 @@
 **Đầu mối liên hệ bảo vệ quyền lợi người tiêu dùng:**
 - Người đại diện được ủy quyền: Trần Công Vinh - Giám đốc
 - SĐT: 0979.553.289
-- Email: Congvinh28@gmail.com
+- Email: Congvinh298@gmail.com
 - Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp
 
 ---

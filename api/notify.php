@@ -133,7 +133,7 @@ try {
         $body .= "<p>Mã đơn hàng: <strong>#{$orderId}</strong></p>";
         $body .= "<p>Tổng tiền: <strong>" . number_format((float)$order['total_amount'], 0, ',', '.') . " VNĐ</strong></p>";
         $body .= "<p>Trạng thái: {$order['status']}</p>";
-        $body .= "<p>Nếu cần hỗ trợ, liên hệ hotline 0979.553.289 hoặc email Congvinh28@gmail.com</p>";
+        $body .= "<p>Nếu cần hỗ trợ, liên hệ hotline 0979.553.289 hoặc email Congvinh298@gmail.com</p>";
 
         $emailOk = false;
         if (!empty($order['email'])) {

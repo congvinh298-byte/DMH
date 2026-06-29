@@ -179,6 +179,89 @@ function clean_string($value, int $max = 500): string
     return function_exists('mb_substr') ? mb_substr($value, 0, $max, 'UTF-8') : substr($value, 0, $max);
 }
 
+function app_check_content_keywords(PDO $pdo, string $text): ?string
+{
+    if (trim($text) === '') {
+        return null;
+    }
+    try {
+        $stmt = $pdo->query("SELECT word FROM prohibited_keywords WHERE is_active = 1");
+        $keywords = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        foreach ($keywords as $kw) {
+            if ($kw !== '' && mb_stripos($text, $kw, 0, 'UTF-8') !== false) {
+                return $kw;
+            }
+        }
+    } catch (Throwable $e) {
+        error_log('[keywords] check failed: ' . $e->getMessage());
+    }
+    return null;
+}
+
+function app_check_site_password()
+{
+    $protect = app_bool_env('SITE_PASSWORD_PROTECT', false);
+    if (!$protect) {
+        return;
+    }
+    
+    app_ensure_session();
+    
+    if (isset($_POST['dth_site_pwd'])) {
+        $sitePwd = (string)$_POST['dth_site_pwd'];
+        $expectedPwd = app_env('SITE_PASSWORD', 'dth123');
+        if ($sitePwd === $expectedPwd) {
+            $_SESSION['dth_site_unlocked'] = true;
+            setcookie('dth_site_unlocked', '1', time() + 30 * 86400, '/');
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit;
+        } else {
+            $GLOBALS['dth_site_pwd_error'] = 'Mật khẩu truy cập không đúng!';
+        }
+    }
+    
+    $isUnlocked = !empty($_SESSION['dth_site_unlocked']) || !empty($_COOKIE['dth_site_unlocked']);
+    if ($isUnlocked) {
+        return;
+    }
+    
+    http_response_code(403);
+    $errorHtml = isset($GLOBALS['dth_site_pwd_error']) ? '<div style="color:#b91c1c;background:#fef2f2;border:1px solid #fee2e2;padding:12px;border-radius:8px;margin-bottom:15px;font-size:14px;">' . htmlspecialchars($GLOBALS['dth_site_pwd_error']) . '</div>' : '';
+    echo '<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Khu vực Thử nghiệm - Chợ Lấp Vò Online</title>
+    <style>
+        *{box-sizing:border-box}
+        body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fef2f2;color:#111827;font-family:system-ui,-apple-system,sans-serif;padding:20px}
+        main{width:min(440px,100%);background:#fff;border:1px solid #fed7aa;border-radius:16px;padding:30px 24px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);text-align:center}
+        .logo{width:80px;height:80px;margin-bottom:20px;border-radius:16px;object-fit:contain}
+        h1{font-size:22px;margin:0 0 8px;font-weight:800}
+        p{margin:0 0 20px;color:#4b5563;font-size:14px;line-height:1.6}
+        input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font:inherit;text-align:center;margin-bottom:15px}
+        input:focus{outline:none;border-color:#ea580c;box-shadow:0 0 0 3px rgba(234,88,12,0.1)}
+        button{width:100%;padding:12px 14px;border:none;border-radius:8px;background:#ea580c;color:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 6px -1px rgba(234,88,12,0.2)}
+        button:hover{background:#d97706}
+    </style>
+</head>
+<body>
+<main>
+    <img src="/LOGO.png" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
+    <h1>Khu vực Thử nghiệm</h1>
+    <p>Website đang trong chế độ thử nghiệm nội bộ để cơ quan quản lý duyệt hồ sơ. Vui lòng nhập mật khẩu được cung cấp để tiếp tục.</p>
+    ' . $errorHtml . '
+    <form method="post">
+        <input type="password" name="dth_site_pwd" placeholder="Nhập mật khẩu truy cập" required autofocus autocomplete="off">
+        <button type="submit">Xác nhận truy cập</button>
+    </form>
+</main>
+</body>
+</html>';
+    exit;
+}
+
 function digits_only($value): string
 {
     return preg_replace('/\D+/', '', (string)$value) ?? '';
@@ -750,6 +833,8 @@ function ensure_core_schema(PDO $pdo)
         id INT AUTO_INCREMENT PRIMARY KEY,
         phone VARCHAR(30) NOT NULL,
         tax_code VARCHAR(30) NOT NULL,
+        tax_code_date VARCHAR(50) NULL,
+        tax_code_place VARCHAR(150) NULL,
         owner_name VARCHAR(150) NULL,
         email VARCHAR(190) NULL,
         store_name VARCHAR(150) NOT NULL,
@@ -766,6 +851,7 @@ function ensure_core_schema(PDO $pdo)
         rating_count INT NOT NULL DEFAULT 0,
         report_token VARCHAR(64) NULL,
         vendor_telegram_chat_id VARCHAR(50) NULL,
+        trust_badge VARCHAR(100) NULL,
         last_login_at DATETIME NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NULL DEFAULT NULL,
@@ -776,6 +862,15 @@ function ensure_core_schema(PDO $pdo)
     // Seamless update for existing tables
     try {
         $pdo->exec("ALTER TABLE marketplace_stores ADD COLUMN vendor_telegram_chat_id VARCHAR(50) NULL");
+    } catch (PDOException $e) { /* ignore if exists */ }
+    try {
+        $pdo->exec("ALTER TABLE marketplace_stores ADD COLUMN tax_code_date VARCHAR(50) NULL");
+    } catch (PDOException $e) { /* ignore if exists */ }
+    try {
+        $pdo->exec("ALTER TABLE marketplace_stores ADD COLUMN tax_code_place VARCHAR(150) NULL");
+    } catch (PDOException $e) { /* ignore if exists */ }
+    try {
+        $pdo->exec("ALTER TABLE marketplace_stores ADD COLUMN trust_badge VARCHAR(100) NULL");
     } catch (PDOException $e) { /* ignore if exists */ }
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS store_daily_reports (
@@ -1191,6 +1286,26 @@ function ensure_core_schema(PDO $pdo)
             WHERE j.telegram_worker_id IS NULL");
     } catch (Throwable $e) {
         error_log('[schema] telegram worker backfill skipped: ' . $e->getMessage());
+    }
+
+    // BCT Compliance: Prohibited Keywords
+    $pdo->exec("CREATE TABLE IF NOT EXISTS prohibited_keywords (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        word VARCHAR(100) NOT NULL UNIQUE,
+        is_active TINYINT(1) NOT NULL DEFAULT 1,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    // Seed default prohibited keywords if empty
+    $count = (int)$pdo->query("SELECT COUNT(*) FROM prohibited_keywords")->fetchColumn();
+    if ($count === 0) {
+        $defaultKeywords = ['súng', 'đạn', 'ma túy', 'cần sa', 'thuốc phiện', 'pháo hoa', 'vũ khí', 'cá độ', 'cờ bạc', 'heroin'];
+        $stmt = $pdo->prepare("INSERT INTO prohibited_keywords (word, is_active) VALUES (?, 1)");
+        foreach ($defaultKeywords as $kw) {
+            try {
+                $stmt->execute([$kw]);
+            } catch (Throwable $e) { /* ignore duplicates */ }
+        }
     }
 
     seed_known_telegram_profiles($pdo);

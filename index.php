@@ -377,6 +377,63 @@ function suggested_component_price($name, $category)
 
 dth_load_env(__DIR__ . '/.env');
 
+// Site-wide password protection check (BCT compliance)
+if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTECT'] === '1') {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+    if (isset($_POST['dth_site_pwd'])) {
+        $sitePwd = (string)$_POST['dth_site_pwd'];
+        $expectedPwd = isset($_ENV['SITE_PASSWORD']) ? $_ENV['SITE_PASSWORD'] : 'dth123';
+        if ($sitePwd === $expectedPwd) {
+            $_SESSION['dth_site_unlocked'] = true;
+            setcookie('dth_site_unlocked', '1', time() + 30 * 86400, '/');
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit;
+        } else {
+            $GLOBALS['dth_site_pwd_error'] = 'Mật khẩu truy cập không đúng!';
+        }
+    }
+    $isUnlocked = !empty($_SESSION['dth_site_unlocked']) || !empty($_COOKIE['dth_site_unlocked']);
+    if (!$isUnlocked) {
+        http_response_code(403);
+        $errorHtml = isset($GLOBALS['dth_site_pwd_error']) ? '<div style="color:#b91c1c;background:#fef2f2;border:1px solid #fee2e2;padding:12px;border-radius:8px;margin-bottom:15px;font-size:14px;text-align:center;">' . htmlspecialchars($GLOBALS['dth_site_pwd_error']) . '</div>' : '';
+        echo '<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Khu vực Thử nghiệm - Chợ Lấp Vò Online</title>
+    <style>
+        *{box-sizing:border-box}
+        body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fef2f2;color:#111827;font-family:system-ui,-apple-system,sans-serif;padding:20px}
+        main{width:min(440px,100%);background:#fff;border:1px solid #fed7aa;border-radius:16px;padding:30px 24px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.1),0 10px 10px -5px rgba(0,0,0,0.04);text-align:center}
+        .logo{width:80px;height:80px;margin-bottom:20px;border-radius:16px;object-fit:contain}
+        h1{font-size:22px;margin:0 0 8px;font-weight:800}
+        p{margin:0 0 20px;color:#4b5563;font-size:14px;line-height:1.6}
+        input{width:100%;padding:12px;border:1px solid #d1d5db;border-radius:8px;font:inherit;text-align:center;margin-bottom:15px}
+        input:focus{outline:none;border-color:#ea580c;box-shadow:0 0 0 3px rgba(234,88,12,0.1)}
+        button{width:100%;padding:12px 14px;border:none;border-radius:8px;background:#ea580c;color:#fff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 6px -1px rgba(234,88,12,0.2)}
+        button:hover{background:#d97706}
+    </style>
+</head>
+<body>
+<main>
+    <img src="/LOGO.png" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
+    <h1>Khu vực Thử nghiệm</h1>
+    <p>Website đang trong chế độ thử nghiệm nội bộ để cơ quan quản lý duyệt hồ sơ. Vui lòng nhập mật khẩu được cung cấp để tiếp tục.</p>
+    ' . $errorHtml . '
+    <form method="post">
+        <input type="password" name="dth_site_pwd" placeholder="Nhập mật khẩu truy cập" required autofocus autocomplete="off">
+        <button type="submit">Xác nhận truy cập</button>
+    </form>
+</main>
+</body>
+</html>';
+        exit;
+    }
+}
+
 try {
     $dbName = dth_env('DB_NAME', '');
     $dbUser = dth_env('DB_USER', '');
@@ -1883,12 +1940,17 @@ footer {
     <div class="footer-grid">
         <div>
             <h3>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h3>
-            <p>MST: 1402228630</p>
-            <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
-            <p>Website: dienmayhieu.com</p>
+            <p>Số GCN ĐKKD/MST: 1402228630 do Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp cấp ngày 10/08/2024</p>
+            <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</p>
+            <p>Đại diện pháp luật: Ông Trần Công Vinh - Giám đốc</p>
             <p>Khu vực phục vụ: bán kính 15 km tính từ Cầu Lấp Vò</p>
         </div>
-        <div><h3>Liên hệ</h3><p>Hotline: 0979.553.289</p><p>Mua hàng và gọi thợ kỹ thuật</p></div>
+        <div>
+            <h3>Liên hệ & Khiếu nại</h3>
+            <p>Hotline: 0979.553.289 (Mua hàng & gọi thợ)</p>
+            <p>Đầu mối giải quyết khiếu nại bảo vệ NTD: Ông Trần Công Vinh - Giám đốc</p>
+            <p>Email: <a href="mailto:congvinh298@gmail.com" style="color:#fff;text-decoration:underline;">congvinh298@gmail.com</a></p>
+        </div>
         <div>
             <h3>Thông tin pháp lý</h3>
             <p><a href="/pages/dieu-khoan-su-dung">Điều khoản sử dụng</a></p>
@@ -1925,13 +1987,14 @@ footer {
         <span class="dth-modal-close" onclick="document.getElementById('modalLogin').style.display='none'" style="font-size: 30px; right: 20px; top: 15px;">&times;</span>
         <img src="LOGO.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
         <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Chợ Lấp Vò Online</span></h2>
-        <p style="color: #6b7280; font-size: 14px; margin-bottom: 30px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
+        <p style="color: #6b7280; font-size: 14px; margin-bottom: 25px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
 
         <div id="loginMethods">
-            <button class="btn" style="width: 100%; margin-bottom: 15px; background: #dc2626; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
-            <button class="btn" style="width: 100%; margin-bottom: 25px; background: #10b981; color: white; border-radius: 12px; padding: 14px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
+            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #dc2626; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
+            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #2563eb; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);" onclick="showEmailLogin()">✉️ Tiếp tục với Email & Mật khẩu</button>
+            <button class="btn" style="width: 100%; margin-bottom: 20px; background: #10b981; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
 
-            <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px dashed #e5e7eb;">
+            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #e5e7eb;">
                 <a href="javascript:void(0)" onclick="showStoreRegister()" style="color: #047857; font-weight: bold; font-size: 14px; text-decoration: underline;">Bạn là chủ Cửa hàng? Đăng ký ngay!</a>
             </div>
 
@@ -1943,20 +2006,48 @@ footer {
             </div>
         </div>
 
+        <div id="emailLoginForm" style="display: none; text-align: start;">
+            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập Email & Mật khẩu</p>
+            <label style="font-size: 13px; font-weight: bold;">Địa chỉ Email</label>
+            <input type="email" id="loginEmailInput" placeholder="VD: qlhdtmdt@gmail.com" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <label style="font-size: 13px; font-weight: bold;">Mật khẩu</label>
+            <input type="password" id="loginPasswordInput" placeholder="Nhập mật khẩu" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <button id="emailLoginSubmitBtn" class="btn primary" style="width: 100%; background: #2563eb;" onclick="submitEmailLogin()">Đăng nhập</button>
+            <div id="emailLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('emailLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
+        </div>
+
         <div id="storeRegisterForm" style="display: none; text-align: start;">
             <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng ký Cửa hàng</p>
 
-            <label style="font-size: 13px; font-weight: bold;">Tên Cửa hàng / Tên chủ shop</label>
-            <input type="text" id="regStoreName" placeholder="VD: Quán ăn Cô Ba" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <label style="font-size: 13px; font-weight: bold;">Tên Cửa hàng *</label>
+            <input type="text" id="regStoreName" placeholder="VD: Cửa hàng Điện máy A" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
 
-            <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
+            <label style="font-size: 13px; font-weight: bold;">Họ tên Chủ sở hữu / Người đại diện *</label>
+            <input type="text" id="regStoreOwnerName" placeholder="VD: Nguyễn Văn A" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+
+            <label style="font-size: 13px; font-weight: bold;">Số điện thoại liên hệ *</label>
             <input type="text" id="regStorePhone" placeholder="VD: 0987654321" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
 
-            <label style="font-size: 13px; font-weight: bold;">Mã số thuế / CCCD (Tối thiểu 8 số)</label>
+            <label style="font-size: 13px; font-weight: bold;">Email liên hệ *</label>
+            <input type="email" id="regStoreEmail" placeholder="VD: email@gmail.com" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+
+            <label style="font-size: 13px; font-weight: bold;">Số ĐKKD / Mã số thuế / CCCD *</label>
             <input type="text" id="regStoreTax" placeholder="VD: 12345678" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
 
-            <label style="font-size: 13px; font-weight: bold;">Địa chỉ</label>
-            <input type="text" id="regStoreAddress" placeholder="VD: Bến đò Lấp Vò..." style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+                <div style="flex: 1;">
+                    <label style="font-size: 13px; font-weight: bold;">Ngày cấp *</label>
+                    <input type="date" id="regStoreTaxDate" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+                </div>
+                <div style="flex: 1;">
+                    <label style="font-size: 13px; font-weight: bold;">Nơi cấp *</label>
+                    <input type="text" id="regStoreTaxPlace" placeholder="Sở KH&ĐT Đồng Tháp" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+                </div>
+            </div>
+
+            <label style="font-size: 13px; font-weight: bold;">Địa chỉ trụ sở / thường trú *</label>
+            <input type="text" id="regStoreAddress" placeholder="VD: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Đồng Tháp" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
 
             <label style="font-size: 13px; font-weight: bold;">Tọa độ (Tính phí ship cho khách mua online)</label>
             <div style="display: flex; gap: 10px; margin-bottom: 12px;">
@@ -2306,6 +2397,15 @@ function closeLoginModal() {
 
 let loginQrScanner = null;
 
+function showEmailLogin() {
+    document.getElementById('loginMethods').style.display = 'none';
+    document.getElementById('qrLoginForm').style.display = 'none';
+    document.getElementById('storeRegisterForm').style.display = 'none';
+    document.getElementById('phoneLoginForm').style.display = 'none';
+    document.getElementById('emailLoginForm').style.display = 'block';
+    document.getElementById('emailLoginError').style.display = 'none';
+}
+
 function showPhoneLogin() {
     document.getElementById('loginMethods').style.display = 'none';
     document.getElementById('qrLoginForm').style.display = 'none';
@@ -2351,8 +2451,12 @@ function getStoreLocation(e) {
 
 function submitStoreRegister() {
     const name = document.getElementById('regStoreName').value.trim();
+    const ownerName = document.getElementById('regStoreOwnerName').value.trim();
     const phone = document.getElementById('regStorePhone').value.trim();
+    const email = document.getElementById('regStoreEmail').value.trim();
     const tax = document.getElementById('regStoreTax').value.trim();
+    const taxDate = document.getElementById('regStoreTaxDate').value.trim();
+    const taxPlace = document.getElementById('regStoreTaxPlace').value.trim();
     const address = document.getElementById('regStoreAddress').value.trim();
     const lat = document.getElementById('regStoreLat').value.trim();
     const lng = document.getElementById('regStoreLng').value.trim();
@@ -2365,8 +2469,8 @@ function submitStoreRegister() {
     err.style.display = 'none';
     succ.style.display = 'none';
 
-    if (!name || !phone || !tax || !address) {
-        err.textContent = 'Vui lòng nhập đầy đủ các trường thông tin.';
+    if (!name || !ownerName || !phone || !email || !tax || !taxDate || !taxPlace || !address) {
+        err.textContent = 'Vui lòng nhập đầy đủ tất cả các trường có dấu (*).';
         err.style.display = 'block';
         return;
     }
@@ -2384,8 +2488,12 @@ function submitStoreRegister() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             store_name: name,
+            owner_name: ownerName,
             phone: phone,
+            email: email,
             tax_code: tax,
+            tax_code_date: taxDate,
+            tax_code_place: taxPlace,
             address: address,
             store_type: categories,
             lat: lat,
@@ -2405,8 +2513,12 @@ function submitStoreRegister() {
         succ.style.display = 'block';
         // Reset form
         document.getElementById('regStoreName').value = '';
+        document.getElementById('regStoreOwnerName').value = '';
         document.getElementById('regStorePhone').value = '';
+        document.getElementById('regStoreEmail').value = '';
         document.getElementById('regStoreTax').value = '';
+        document.getElementById('regStoreTaxDate').value = '';
+        document.getElementById('regStoreTaxPlace').value = '';
         document.getElementById('regStoreAddress').value = '';
         document.getElementById('regStoreLat').value = '';
         document.getElementById('regStoreLng').value = '';
@@ -2452,6 +2564,44 @@ function submitPhoneLogin() {
     .catch(e => {
         document.getElementById('phoneLoginSubmitBtn').disabled = false;
         document.getElementById('phoneLoginSubmitBtn').textContent = 'Xác nhận';
+        err.textContent = 'Lỗi kết nối. Vui lòng thử lại.';
+        err.style.display = 'block';
+    });
+}
+
+function submitEmailLogin() {
+    const email = document.getElementById('loginEmailInput').value.trim();
+    const password = document.getElementById('loginPasswordInput').value.trim();
+    const err = document.getElementById('emailLoginError');
+    if (!email || !password) {
+        err.textContent = 'Vui lòng nhập đầy đủ Email và Mật khẩu.';
+        err.style.display = 'block';
+        return;
+    }
+
+    document.getElementById('emailLoginSubmitBtn').disabled = true;
+    document.getElementById('emailLoginSubmitBtn').textContent = 'Đang xử lý...';
+
+    fetch('api_master.php?action=login_email_password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, password: password })
+    })
+    .then(readJsonResponse)
+    .then(d => {
+        document.getElementById('emailLoginSubmitBtn').disabled = false;
+        document.getElementById('emailLoginSubmitBtn').textContent = 'Đăng nhập';
+        if (d.status !== 'success') {
+            err.textContent = d.message || 'Lỗi đăng nhập.';
+            err.style.display = 'block';
+            return;
+        }
+        document.getElementById('emailLoginForm').style.display = 'none';
+        handleLoginSuccess(d.data);
+    })
+    .catch(e => {
+        document.getElementById('emailLoginSubmitBtn').disabled = false;
+        document.getElementById('emailLoginSubmitBtn').textContent = 'Đăng nhập';
         err.textContent = 'Lỗi kết nối. Vui lòng thử lại.';
         err.style.display = 'block';
     });

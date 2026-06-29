@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $PAGE_TITLE = 'Giới thiệu';
 $PAGE_DESC = 'Giới thiệu về Chợ Lấp Vò Online - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';
