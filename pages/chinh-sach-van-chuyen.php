@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $title = "Chính sách vận chuyển";
 require_once __DIR__ . '/_legal_header.php';
 ?>

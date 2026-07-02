@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Chính sách bảo mật';
 $PAGE_DESC = 'Chính sách bảo vệ thông tin cá nhân của khách hàng - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';

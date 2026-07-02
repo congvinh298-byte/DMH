@@ -3,6 +3,8 @@
  * BCT Compliance Utility: Database Hashed Password Screenshot Helper
  * URL: /admin/db_screenshot.php?token=bct_view
  */
+require_once __DIR__ . '/../demo_gate.php';
+
 require_once __DIR__ . '/../api/core.php';
 
 // Auth Check: Require token 'bct_view' or admin session

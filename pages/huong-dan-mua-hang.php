@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Hướng dẫn đặt dịch vụ / mua hàng';
 $PAGE_DESC = 'Hướng dẫn đặt dịch vụ và mua hàng tại Điện Máy Hiếu';
 require_once __DIR__ . '/inc/header.php';

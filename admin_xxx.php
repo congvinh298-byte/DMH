@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/demo_gate.php';
+
 require_once __DIR__ . '/api/core.php';
 
 app_ensure_session();

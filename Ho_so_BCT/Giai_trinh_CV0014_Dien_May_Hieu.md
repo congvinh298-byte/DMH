@@ -105,7 +105,7 @@ Sau khi chỉnh sửa, **dienmayhieu.com** chỉ giới thiệu và bán hàng/c
 
 - Xóa bảng `partners` khỏi `database/schema.sql`.
 - Xóa comment “ĐỐI TÁC” trong bảng `workers`.
-- Tên DB vận hành vẫn tạm giữ `kwkrbcce_Choxalapvo` trên host để tránh đứt kết nối; việc đổi tên DB sẽ thực hiện riêng khi triển khai chính thức.
+- Database sử dụng: `kwkrbcce_dienmayhieulapvo`; user `kwkrbcce_baocao`.
 
 ### 3.6. Tài liệu cũ đã lưu trữ
 
@@ -121,6 +121,29 @@ Các tài liệu thuộc mô hình marketplace cũ đã được chuyển vào `
 - `database_migration.sql.old`
 - `PROMPT_FOR_CODEX.md.old`
 - `PROMPT_FOR_CODEX_V2.md.old`
+
+### 3.7. Chế độ thử nghiệm / demo theo yêu cầu CV0014
+
+Để tuân thủ yêu cầu **tạm dừng website hoặc hoạt động chế độ thử nghiệm có mật khẩu truy cập**, website đã được đặt ở chế độ demo với các thông tin sau:
+
+- **URL truy cập:** https://dienmayhieu.com
+- **Tài khoản demo (người quản trị / chủ sở hữu):** `anhthien`
+- **Mật khẩu demo:** `Anhthien369@`
+
+Sau khi đăng nhập demo, có thể truy cập:
+
+- Trang chủ, các trang pháp lý, giới thiệu, liên hệ, hướng dẫn mua hàng.
+- Trang quản trị: `https://dienmayhieu.com/admin_xxx.php` với tài khoản `anhthien` / `Anhthien369@`.
+
+Các API nội bộ (chat, Telegram, cron, thanh toán) và cổng báo cáo BCT (`bct_portal.php`) được cho phép truy cập không cần mật khẩu demo để đảm bảo hoạt động kỹ thuật và báo cáo không bị gián đoạn.
+
+**Lưu ý:** Website không còn có đối tác/người bán thứ ba. Tài khoản demo duy nhất là tài khoản của chủ sở hữu; tài khoản khách hàng thử nghiệm được tạo qua đăng nhập bằng số điện thoại + họ tên trên giao diện.
+
+**Tài khoản khách hàng thử nghiệm (demo):**
+
+- Số điện thoại: `0900000001`
+- Họ tên: `Khách hàng thử nghiệm BCT`
+- Cách tạo: chạy script `php scripts/seed-bct-test-customer.php` trên host sau khi deploy DB, hoặc đăng nhập trực tiếp trên website bằng số điện thoại trên.
 
 ---
 

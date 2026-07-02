@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Liên hệ';
 $PAGE_DESC = 'Thông tin liên hệ Điện Máy Hiếu - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';

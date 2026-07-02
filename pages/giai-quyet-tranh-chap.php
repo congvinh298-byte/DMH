@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Giải quyết tranh chấp';
 $PAGE_DESC = 'Quy trình giải quyết tranh chấp, khiếu nại tại Điện Máy Hiếu';
 require_once __DIR__ . '/inc/header.php';

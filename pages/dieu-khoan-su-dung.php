@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Điều khoản sử dụng';
 $PAGE_DESC = 'Điều khoản sử dụng website Điện Máy Hiếu - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';

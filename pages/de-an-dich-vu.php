@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Đề án cung cấp dịch vụ TMĐT';
 $PAGE_DESC = 'Đề án cung cấp dịch vụ thương mại điện tử - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';

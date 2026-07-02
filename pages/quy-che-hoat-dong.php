@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Quy chế hoạt động';
 $PAGE_DESC = 'Quy chế hoạt động website Điện Máy Hiếu - dienmayhieu.com';
 require_once __DIR__ . '/inc/header.php';

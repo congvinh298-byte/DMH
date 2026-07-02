@@ -71,11 +71,12 @@ cd C:\Users\pcpv\OneDrive\Desktop\DTH
 
 - [ ] File `.env` tren host co dung thong tin that (DB_PASS, BOT_TOKEN, ...)
 - [ ] `.htaccess` duoc upload
-- [ ] Database `kwkrbcce_Choxalapvo` (co the doi ten thanh `dienmayhieu` sau) da duoc cap nhat schema tu `database/schema.sql` hoac migration tu dong qua index.php.
-- [ ] Test: `https://dienmayhieu.com` load trang chu
+- [ ] Database `kwkrbcce_dienmayhieulapvo` da duoc cap nhat schema tu `database/schema.sql` hoac migration tu dong qua index.php.
+- [ ] Test: `https://dienmayhieu.com` load trang chu (se hoi mat khau demo: **anhthien / Anhthien369@**)
 - [ ] Test: `https://dienmayhieu.com/pages/dieu-khoan-su-dung.php`
 - [ ] Test: `https://dienmayhieu.com/pages/gioi-thieu.php`
-- [ ] Test admin: `https://dienmayhieu.com/admin/login.php` voi `qlhdtmdt@gmail.com / Admin@123`
+- [ ] Test admin: `https://dienmayhieu.com/admin_xxx.php` voi `anhthien / Anhthien369@`
+- [ ] Tao tai khoan khach hang test BCT: chay `php scripts/seed-bct-test-customer.php` (SDT: 0900000001)
 - [ ] SSL: Vao cPanel > SSL/TLS Status > run AutoSSL neu chua co HTTPS
 
 ---
