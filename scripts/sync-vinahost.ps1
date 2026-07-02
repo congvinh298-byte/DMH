@@ -34,39 +34,19 @@ Write-Host "FTP:    $FtpServer  as  $FtpUser"
 Write-Host "Remote: $RemotePath"
 Write-Host ""
 
-$excludeRegex = @(
-    '\\.git[\\\\/]',
-    '\\.github[\\\\/]',
-    '\\.vscode[\\\\/]',
-    'AutoSign[\\\\/]',
-    'node_modules[\\\\/]',
-    'vendor[\\\\/]',
-    'dist[\\\\/]',
-    'build[\\\\/]',
-    'storage\\\\logs[\\\\/]',
-    'storage\\\\cache[\\\\/]',
-    'uploads[\\\\/]',
-    'public\\\\uploads[\\\\/]',
-    'scripts\\\\deploy-',
-    'scripts\\\\codex-',
-    'scripts\\\\sync-',
-    'error_log$',
-    'bot_log\\.txt$',
-    '.*\\.log$',
-    '.*\\.bak$',
-    '^temp.*',
-    '^test\\.php$',
-    '^debug_.*\\.php$',
-    '^alter_.*\\.php$',
-    '^fix_.*\\.php$',
-    '^old_.*\\.php$',
-    '^khach_hang.*\\.json$'
-)
-
-function Should-Exclude($relativePath) {
-    foreach ($ex in $excludeRegex) {
-        if ($relativePath -match $ex) { return $true }
-    }
+function Should-Exclude($fullPath) {
+    $p = $fullPath.ToLowerInvariant()
+    # Skip VCS/dev/tool folders and sensitive files.
+    if ($p -like '*\.git\*' -or $p -like '*\AutoSign\*') { return $true }
+    if ($p -like '*\.github\*' -or $p -like '*\.vscode\*') { return $true }
+    if ($p -like '*\node_modules\*' -or $p -like '*\vendor\*' -or $p -like '*\dist\*' -or $p -like '*\build\*') { return $true }
+    if ($p -like '*\storage\logs\*' -or $p -like '*\storage\cache\*') { return $true }
+    if ($p -like '*\uploads\*' -and -not ($p -like '*\uploads\index.html')) { return $true }
+    if ($p -like '*\public\uploads\*') { return $true }
+    if ($p -like '*\scripts\deploy-*' -or $p -like '*\scripts\codex-*' -or $p -like '*\scripts\sync-*') { return $true }
+    $name = Split-Path $p -Leaf
+    if ($name -eq 'error_log' -or $name -like '*.log' -or $name -like '*.bak') { return $true }
+    if ($name -like 'temp*' -or $name -like 'test.php' -or $name -like 'debug_*.php' -or $name -like 'alter_*.php' -or $name -like 'fix_*.php' -or $name -like 'old_*.php' -or $name -like 'khach_hang*.json') { return $true }
     return $false
 }
 
@@ -99,10 +79,7 @@ function Upload-File($localFile, $ftpFileUrl) {
     $resp.Close()
 }
 
-$files = Get-ChildItem -Path $root -Recurse -File | Where-Object {
-    $rel = $_.FullName.Substring($root.Path.Length).Replace('\', '/').TrimStart('/')
-    -not (Should-Exclude $rel)
-} | Sort-Object FullName
+$files = Get-ChildItem -Path $root -Recurse -File | Where-Object { -not (Should-Exclude $_.FullName) } | Sort-Object FullName
 
 $total = $files.Count
 $uploaded = 0
