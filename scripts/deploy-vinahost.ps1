@@ -81,15 +81,13 @@ foreach ($f in $files) {
 }
 Write-Host "   Copied $copied files"
 
-# --- BUOC 2: Tao .env.example tu .env thuc (KHONG commit secrets) ---
-$envExample = Join-Path $staging ".env"
-if (Test-Path (Join-Path $root ".env")) {
-    Write-Host "[2/4] Writing .env (no secrets)..." -ForegroundColor Yellow
-    Get-Content (Join-Path $root ".env") | ForEach-Object {
-        if ($_ -match "^\s*#|^\s*$") { $_ }
-        elseif ($_ -match "^(.*?)=(.*)$") { "$($matches[1])=$('"' + (Get-Random) + '"')" }
-        else { $_ }
-    } | Set-Content $envExample
+# --- BUOC 2: San sang .env (KHONG mask secrets vi deploy cho chinh chu so huu) ---
+$envSource = Join-Path $root ".env"
+$envDest = Join-Path $staging ".env"
+if (Test-Path $envSource) {
+    Write-Host "[2/4] Copying real .env into package..." -ForegroundColor Yellow
+    Copy-Item $envSource -Destination $envDest -Force
+    Write-Host "   Copied real .env (do not commit it to git)"
 } else {
     Write-Host "[2/4] .env not found, skipping" -ForegroundColor DarkYellow
 }
