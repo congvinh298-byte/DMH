@@ -1,4 +1,5 @@
 <?php
+ob_start();
 /**
  * Demo / password-protection gate for CV0014 compliance.
  * Website must operate in demo/test mode with password access before official approval.
