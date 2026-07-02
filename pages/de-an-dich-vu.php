@@ -4,127 +4,93 @@ $PAGE_DESC = 'Đề án cung cấp dịch vụ thương mại điện tử - die
 require_once __DIR__ . '/inc/header.php';
 ?>
 
-<h2>I. THÔNG TIN CHUNG VỀ THƯƠNG NHÂN/TỔ CHỨC</h2>
+<h2>I. THÔNG TIN CHUNG VỀ CHỦ SỞ HỮU WEBSITE</h2>
 <table>
     <tr><th>Thông tin</th><th>Chi tiết</th></tr>
-    <tr><td>Tên tổ chức</td><td><strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong></td></tr>
-    <tr><td>Tên website/ứng dụng</td><td>Chợ Lấp Vò Online</td></tr>
+    <tr><td>Tên chủ sở hữu</td><td><strong>Trần Công Vinh (Điện Máy Hiếu)</strong></td></tr>
+    <tr><td>Tên website/ứng dụng</td><td>Điện Máy Hiếu</td></tr>
     <tr><td>Tên miền</td><td>dienmayhieu.com</td></tr>
-    <tr><td>Người đại diện</td><td>Trần Công Vinh</td></tr>
-    <tr><td>Chức vụ</td><td>Giám đốc</td></tr>
+    <tr><td>Hình thức hoạt động</td><td>Cửa hàng cá nhân / Hộ kinh doanh</td></tr>
     <tr><td>Mã số thuế (MST)</td><td>1402228630</td></tr>
     <tr><td>Địa chỉ</td><td>166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</td></tr>
     <tr><td>Số điện thoại</td><td>0979.553.289</td></tr>
     <tr><td>Email</td><td>congvinh298@gmail.com</td></tr>
     <tr><td>Số Giấy chứng nhận ĐKKD</td><td>1402228630</td></tr>
     <tr><td>Nơi cấp</td><td>Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp</td></tr>
-    <tr><td>Ngày cấp</td><td>06/04/2026</td></tr>
+    <tr><td>Ngày cấp</td><td>10/08/2024</td></tr>
 </table>
 
-<h2>II. MÔ TẢ DỊCH VỤ</h2>
+<h2>II. MÔ TẢ DỊCH VỤ / WEBSITE</h2>
 
-<h3>1. Loại hình cung cấp dịch vụ</h3>
-<p>Website dienmayhieu.com là <strong>Sàn giao dịch thương mại điện tử (E-commerce marketplace)</strong>, cung cấp nền tảng kết nối giữa người mua và người bán (thợ) trong khu vực Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp.</p>
+<h3>1. Loại hình</h3>
+<p>Website <strong>dienmayhieu.com</strong> là <strong>website thương mại điện tử bán hàng/cung cấp dịch vụ của cá nhân</strong>, do Trần Công Vinh làm chủ và trực tiếp vận hành. Website không phải là sàn giao dịch thương mại điện tử, không cung cấp nền tảng cho thương nhân/tổ chức/cá nhân khác tiến hành mua bán.</p>
 
 <h3>2. Phạm vi hoạt động</h3>
 <ul>
     <li><strong>Khu vực phục vụ:</strong> Bán kính 15 km tính từ Cầu Lấp Vò.</li>
-    <li><strong>Đối tượng phục vụ:</strong> Người dân địa phương cần mua sắm hàng hóa, thuê thợ kỹ thuật điện tử/điện lạnh.</li>
+    <li><strong>Đối tượng phục vụ:</strong> Người dân địa phương cần dịch vụ kỹ thuật điện – điện lạnh – gia dụng và mua sắm điện máy.</li>
 </ul>
 
-<h3>3. Các loại hình giao dịch trên sàn</h3>
+<h3>3. Các loại hình dịch vụ/sản phẩm</h3>
 <ul>
-    <li><strong>Sàn giao dịch TMĐT:</strong> Người bán (thợ) đăng bán sản phẩm/dịch vụ; người mua tìm kiếm, đặt hàng và thanh toán qua nền tảng.</li>
-    <li><strong>Gọi thợ kỹ thuật:</strong> Sửa chữa, lắp đặt, bảo hành điện tử, điện lạnh tại nhà.</li>
-    <li><strong>Mua bán hàng hóa:</strong> Điện tử, gia dụng, phụ kiện, sim số đẹp.</li>
+    <li><strong>Dịch vụ gọi thợ:</strong> Vệ sinh máy lạnh, lắp đặt máy lạnh, sửa chữa điện lạnh, lắp máy giặt, lắp máy lọc nước, treo tivi, kiểm tra/sửa điện thoại.</li>
+    <li><strong>Bán hàng điện máy:</strong> Máy lạnh, tivi, máy giặt, máy lọc nước, phụ kiện, linh kiện.</li>
+    <li><strong>Chương trình khách hàng thân thiết:</strong> Tích lũy điểm qua số điện thoại, cấp QR khuyến mãi cá nhân, tra cứu bảo hành/hóa đơn bằng QR.</li>
 </ul>
 
 <h3>4. Cấu trúc chức năng website</h3>
 <table>
     <tr><th>Module</th><th>Chức năng</th></tr>
-    <tr><td>Trang chủ</td><td>Hiển thị sản phẩm nổi bật, dịch vụ, danh mục</td></tr>
-    <tr><td>Tìm kiếm</td><td>Tìm kiếm sản phẩm/dịch vụ theo từ khóa, danh mục</td></tr>
-    <tr><td>Gian hàng</td><td>Quản lý sản phẩm, đơn hàng (dành cho người bán)</td></tr>
-    <tr><td>Giỏ hàng</td><td>Thêm, xóa, chỉnh sửa sản phẩm trước khi thanh toán</td></tr>
-    <tr><td>Thanh toán</td><td>COD và chuyển khoản ngân hàng</td></tr>
-    <tr><td>Chat</td><td>Nhắn tin trực tiếp giữa người mua và người bán</td></tr>
-    <tr><td>Đánh giá</td><td>Đánh giá 1-5 sao và bình luận sau giao dịch</td></tr>
-    <tr><td>Trang pháp lý</td><td>Quy chế, chính sách bảo mật, điều khoản</td></tr>
+    <tr><td>Trang chủ</td><td>Giới thiệu dịch vụ gọi thợ, sản phẩm điện máy, QR truy cập/thanh toán/khuyến mãi</td></tr>
+    <tr><td>Đặt dịch vụ</td><td>Khách hàng chọn dịch vụ, điền thông tin, gửi yêu cầu</td></tr>
+    <tr><td>Tài khoản khách</td><td>Đăng nhập bằng số điện thoại, xem điểm tích lũy, QR khuyến mãi, lịch sử dịch vụ</td></tr>
+    <tr><td>Sản phẩm</td><td>Hiển thị, tìm kiếm hàng điện máy do Điện Máy Hiếu bán</td></tr>
+    <tr><td>Thanh toán</td><td>COD và chuyển khoản qua QR/thông tin tài khoản</td></tr>
+    <tr><td>QR tiện ích</td><td>QR truy cập web, QR thanh toán, QR đánh giá, QR khuyến mãi trong tài khoản</td></tr>
+    <tr><td>Trang pháp lý</td><td>Quy chế hoạt động, điều khoản sử dụng, chính sách bảo mật, liên hệ</td></tr>
 </table>
 
 <h2>III. QUY TRÌNH GIAO DỊCH</h2>
 
-<h3>1. Quy trình dành cho người mua</h3>
+<h3>1. Quy trình đặt dịch vụ / mua hàng</h3>
 <ol>
-    <li>Đăng ký/đăng nhập tài khoản (vai trò: Khách hàng).</li>
-    <li>Tìm kiếm sản phẩm/dịch vụ qua thanh tìm kiếm hoặc duyệt danh mục.</li>
-    <li>Xem thông tin chi tiết: giá, mô tả, hình ảnh, đánh giá.</li>
-    <li>Thêm vào giỏ hàng và tiến hành đặt hàng.</li>
-    <li>Chọn phương thức thanh toán (COD hoặc chuyển khoản).</li>
-    <li>Nhận hàng/dịch vụ và xác nhận hoàn thành trên hệ thống.</li>
-    <li>Đánh giá người bán (1-5 sao + bình luận).</li>
+    <li>Khách hàng truy cập website, chọn dịch vụ hoặc sản phẩm.</li>
+    <li>Điền số điện thoại, địa chỉ, mô tả yêu cầu; hoặc đăng nhập để tích lũy điểm.</li>
+    <li>Điện Máy Hiếu liên hệ xác nhận, báo giá, thống nhất lịch.</li>
+    <li>Thực hiện dịch vụ/giao hàng và thanh toán.</li>
+    <li>Khách hàng xác nhận hoàn thành và đánh giá.</li>
 </ol>
 
-<h3>2. Quy trình dành cho người bán (Thợ)</h3>
-<ol>
-    <li>Đăng ký tài khoản với vai trò "Người bán".</li>
-    <li>Cung cấp thông tin xác thực (CMND/CCCD, thông tin liên hệ).</li>
-    <li>Tạo gian hàng, đăng sản phẩm/dịch vụ.</li>
-    <li>Nhận và xác nhận đơn hàng trong vòng 2 giờ.</li>
-    <li>Thực hiện giao dịch (giao hàng/lắp đặt/bảo hành).</li>
-    <li>Cập nhật trạng thái đơn hàng trên hệ thống.</li>
-</ol>
-
-<h3>3. Quy trình đăng và quản lý thông tin</h3>
+<h3>2. Quy trình thanh toán</h3>
 <ul>
-    <li>Người bán đăng tin sản phẩm qua trang quản lý gian hàng.</li>
-    <li>Nội dung tin đăng phải tuân thủ quy định pháp luật, không chứa thông tin cấm.</li>
-    <li>Sàn kiểm duyệt tự động và người dùng có thể báo cáo nội dung vi phạm.</li>
-    <li>Người bán có thể sửa/xóa tin đăng bất cứ lúc nào.</li>
+    <li>COD: Thanh toán tiền mặt khi nhận hàng hoặc sau khi hoàn thành dịch vụ.</li>
+    <li>Chuyển khoản: Quét QR thanh toán hoặc chuyển khoản theo thông tin trên hóa đơn.</li>
+</ul>
+
+<h3>3. Quy trình bảo hành / đổi trả</h3>
+<ul>
+    <li>Dịch vụ: Bảo hành theo cam kết cụ thể từng hạng mục; khách liên hệ hotline để yêu cầu.</li>
+    <li>Sản phẩm: Đổi trả trong vòng 7 ngày nếu lỗi do nhà sản xuất, còn nguyên vẹn phụ kiện/hóa đơn.</li>
 </ul>
 
 <h2>IV. BIỆN PHÁP BẢO MẬT</h2>
 <ul>
-    <li><strong>Xác thực danh tính:</strong> Người bán phải xác thực CMND/CCCD trước khi đăng bán.</li>
-    <li><strong>Bảo mật thông tin:</strong> Mã hóa thông tin thanh toán và thông tin cá nhân người dùng.</li>
-    <li><strong>Phòng chống gian lận:</strong> Giám sát giao dịch bất thường, cảnh báo tài khoản nghi ngờ.</li>
-    <li><strong>Sao lưu dữ liệu:</strong> Sao lưu định kỳ để phòng mất mát dữ liệu.</li>
-    <li><strong>Đầu mối liên hệ bảo mật:</strong> congvinh298@gmail.com / 0979.553.289</li>
+    <li>Sử dụng kết nối SSL cho toàn bộ website.</li>
+    <li>Mật khẩu tài khoản khách hàng được mã hóa một chiều (BCRYPT).</li>
+    <li>Hạn chế truy cập dữ liệu cá nhân chỉ cho chủ cửa hàng và nhân viên trực tiếp phụ trách.</li>
+    <li>Sao lưu dữ liệu định kỳ.</li>
+    <li>Đầu mối bảo mật: congvinh298@gmail.com / 0979.553.289.</li>
 </ul>
 
-<h2>V. QUYỀN VÀ NGHĨA VỤ CÁC BÊN</h2>
-
-<h3>1. Ban quản lý sàn (Công ty ĐIỆN MÁY HIẾU)</h3>
+<h2>V. CAM KẾT</h2>
 <ul>
-    <li>Xây dựng, duy trì và phát triển nền tảng sàn giao dịch.</li>
-    <li>Xác minh, kiểm tra thông tin người bán trước khi cho phép tham gia.</li>
-    <li>Hỗ trợ giải quyết tranh chấp giữa các bên.</li>
-    <li>Bảo vệ thông tin cá nhân và bảo mật giao dịch.</li>
+    <li>Tuân thủ Nghị định 52/2013/NĐ-CP, Nghị định 85/2021/NĐ-CP và Thông tư 01/2022/TT-BCT.</li>
+    <li>Website chỉ hoạt động chính thức sau khi hoàn tất thủ tục thông báo/đăng ký với Bộ Công Thương.</li>
+    <li>Minh bạch thông tin chủ sở hữu, giá cả, chính sách bảo hành, đổi trả, thanh toán.</li>
+    <li>Bảo vệ quyền lợi người tiêu dùng theo quy định pháp luật.</li>
 </ul>
 
-<h3>2. Người bán (Thợ/Gian hàng)</h3>
-<ul>
-    <li>Cung cấp thông tin chính xác, đầy đủ và cập nhật thường xuyên.</li>
-    <li>Đảm bảo chất lượng hàng hóa/dịch vụ đúng như mô tả.</li>
-    <li>Thực hiện đúng cam kết về giá cả, thời gian và bảo hành.</li>
-    <li>Chịu trách nhiệm về bồi thường nếu vi phạm cam kết.</li>
-</ul>
-
-<h3>3. Người mua (Khách hàng)</h3>
-<ul>
-    <li>Cung cấp thông tin chính xác khi đăng ký và đặt hàng.</li>
-    <li>Thanh toán đầy đủ, đúng hạn theo thỏa thuận.</li>
-    <li>Kiểm tra hàng hóa khi nhận và phản hồi trung thực.</li>
-</ul>
-
-<h2>VI. CAM KẾT VÀ KẾ HOẠCH TRIỂN KHAI</h2>
-<ul>
-    <li>Cam kết tuân thủ đầy đủ các quy định của Nghị định 52/2013/NĐ-CP và Nghị định 85/2021/NĐ-CP.</li>
-    <li>Website chỉ hoạt động chính thức sau khi được Bộ Công Thương xác nhận đăng ký.</li>
-    <li>Duy trì hoạt động ổn định, minh bạch và bảo vệ quyền lợi người tiêu dùng.</li>
-</ul>
-
-<p><em>Lập biên bản ngày: Tháng 6/2026</em><br>
-<em>Người lập: Công ty TNHH MTV ĐIỆN MÁY HIẾU</em></p>
+<p><em>Lập ngày: Tháng 7/2026</em><br>
+<em>Người lập: Trần Công Vinh (Điện Máy Hiếu)</em></p>
 
 <?php require_once __DIR__ . '/inc/footer.php'; ?>

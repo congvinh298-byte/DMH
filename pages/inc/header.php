@@ -48,7 +48,7 @@ if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTEC
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Khu vực Thử nghiệm - Chợ Lấp Vò Online</title>
+    <title>Khu vực Thử nghiệm - Điện Máy Hiếu</title>
     <style>
         *{box-sizing:border-box}
         body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fef2f2;color:#111827;font-family:system-ui,-apple-system,sans-serif;padding:20px}
@@ -82,8 +82,8 @@ if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTEC
 /**
  * Layout chung cho cac trang phap ly - dienmayhieu.com
  */
-if (!isset($PAGE_TITLE)) $PAGE_TITLE = 'Cho Xa Lap Vo Online';
-if (!isset($PAGE_DESC)) $PAGE_DESC = 'Cho Xa Lap Vo Online - Cho so the he moi';
+if (!isset($PAGE_TITLE)) $PAGE_TITLE = 'Điện Máy Hiếu';
+if (!isset($PAGE_DESC)) $PAGE_DESC = 'Điện Máy Hiếu - Dịch vụ gọi thợ và cửa hàng điện máy tại Lấp Vò';
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -136,8 +136,8 @@ if (!isset($PAGE_DESC)) $PAGE_DESC = 'Cho Xa Lap Vo Online - Cho so the he moi';
 <header>
     <div class="wrap head">
         <a class="logo" href="/" style="display:flex; align-items:center; gap: 8px;">
-            <img src="/LOGO.png" alt="Logo" style="height: 40px; border-radius: 6px; object-fit: contain;">
-            <div>Cho Xa Lap Vo Online<small>Cho so the he moi</small></div>
+            <img src="/LOGO.svg" alt="Logo Điện Máy Hiếu" style="height: 40px; border-radius: 6px; object-fit: contain;">
+            <div>Điện Máy Hiếu<small>Dịch vụ gọi thợ & cửa hàng điện máy</small></div>
         </a>
         <a href="/" class="btn-page" style="font-size: 14px;">Ve trang chu</a>
     </div>

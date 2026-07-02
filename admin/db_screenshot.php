@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * BCT Compliance Utility: Database Hashed Password Screenshot Helper
  * URL: /admin/db_screenshot.php?token=bct_view
@@ -30,7 +30,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cơ sở dữ liệu - Xác thực mã hóa mật khẩu - Chợ Lấp Vò Online</title>
+    <title>Cơ sở dữ liệu - Xác thực mã hóa mật khẩu - Điện Máy Hiếu</title>
     <style>
         body { font-family: 'Courier New', Courier, monospace; background: #0f172a; color: #38bdf8; padding: 40px; margin: 0; }
         .container { max-width: 1000px; margin: 0 auto; background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
@@ -89,7 +89,7 @@ $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </table>
     
     <div class="footer-note">
-        Hệ sinh thái thương mại điện tử Chợ Lấp Vò Online - Thiết lập tuân thủ theo Nghị định số 52/2013/NĐ-CP
+        Hệ sinh thái thương mại điện tử Điện Máy Hiếu - Thiết lập tuân thủ theo Nghị định số 52/2013/NĐ-CP
     </div>
 </div>
 </body>

@@ -1,4 +1,4 @@
-# Environment And Htaccess Standard
+﻿# Environment And Htaccess Standard
 
 ## Database environment names
 Use exactly one database configuration set in `.env`:
@@ -13,8 +13,8 @@ Do not use database aliases in application code:
 
 - `DB_USER_BAOCAO`
 - `DB_PASS_BAOCAO`
-- `DB_USER_SHIPPER`
-- `DB_PASS_SHIPPER`
+- `DB_USER_BAOCAO`
+- `DB_PASS_BAOCAO`
 
 `DB_NAME` must match the real cPanel database name exactly, including letter case. `DB_USER` must be assigned to that database in cPanel MySQL Databases.
 

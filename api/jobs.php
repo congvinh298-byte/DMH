@@ -6,18 +6,22 @@
 function public_service_catalog(): array
 {
     $services = [
-        ['group' => 'Thợ điện lạnh', 'name' => 'Vệ sinh máy lạnh', 'base' => 150000, 'note' => 'Thu phí 15%'],
-        ['group' => 'Thợ điện lạnh', 'name' => 'Lắp máy', 'base' => 400000, 'note' => 'Thu phí 15%'],
-        ['group' => 'Thợ điện lạnh', 'name' => 'Lắp đặt máy lạnh 2HP / 3HP', 'base' => 500000, 'note' => 'Chưa gồm vật tư phát sinh.'],
-        ['group' => 'Thợ điện lạnh', 'name' => 'Máy lạnh âm trần', 'base' => 0, 'note' => 'Báo giá sau khi tư vấn.'],
-        ['group' => 'Thợ điện lạnh', 'name' => 'Sửa chữa điện lạnh', 'base' => 200000, 'note' => 'Linh kiện phát sinh được báo riêng.'],
-        ['group' => 'Thợ tivi', 'name' => 'Treo tivi', 'base' => 200000, 'note' => 'Chưa gồm khung treo.'],
-        ['group' => 'Thợ máy lọc nước', 'name' => 'Lắp máy lọc nước', 'base' => 200000, 'note' => 'Phụ kiện phát sinh được báo riêng.'],
-        ['group' => 'Thợ gia dụng', 'name' => 'Lắp máy giặt', 'base' => 200000, 'note' => 'Phụ kiện phát sinh được báo riêng.'],
-        ['group' => 'Thợ điện thoại', 'name' => 'Kiểm tra / sửa điện thoại', 'base' => 200000, 'note' => 'Linh kiện phát sinh được báo riêng.'],
-        ['group' => 'Gọi xe', 'name' => 'Đơn đồ ăn / Đi chợ thay (2km đầu: 13k, vượt: 3.5k/km)', 'base' => 13000, 'note' => ''],
-        ['group' => 'Gọi xe', 'name' => 'Xe ôm (2km đầu: 15k, vượt: 4k/km)', 'base' => 15000, 'note' => ''],
-        ['group' => 'Gọi xe', 'name' => 'Shipper giao hàng (Km đầu: 16k, vượt: 4k/km)', 'base' => 16000, 'note' => ''],
+        ['group' => 'Vệ sinh điện lạnh', 'name' => 'Vệ sinh máy lạnh gia đình (dưới 2HP)', 'base' => 150000, 'note' => 'Bao gồm vệ sinh dàn lạnh, kiểm tra gas, nguồn.'],
+        ['group' => 'Vệ sinh điện lạnh', 'name' => 'Vệ sinh máy lạnh tủ đứng/âm trần/cassette', 'base' => 250000, 'note' => 'Báo giá cụ thể sau khảo sát.'],
+        ['group' => 'Lắp đặt điện lạnh', 'name' => 'Lắp máy lạnh treo tường 1HP - 2HP', 'base' => 400000, 'note' => 'Chưa gồm vật tư phát sinh.'],
+        ['group' => 'Lắp đặt điện lạnh', 'name' => 'Lắp đặt máy lạnh 2HP / 3HP', 'base' => 500000, 'note' => 'Chưa gồm vật tư phát sinh.'],
+        ['group' => 'Lắp đặt điện lạnh', 'name' => 'Lắp đặt máy lạnh âm trần', 'base' => 0, 'note' => 'Báo giá sau khi tư vấn.'],
+        ['group' => 'Sửa chữa điện lạnh', 'name' => 'Sửa chữa máy lạnh (kiểm tra + báo giá)', 'base' => 200000, 'note' => 'Linh kiện phát sinh được báo riêng.'],
+        ['group' => 'Vệ sinh gia dụng', 'name' => 'Vệ sinh nệm tại nhà (1 nệm)', 'base' => 250000, 'note' => 'Giặt hơi nước, hút bụi, khử mùi.'],
+        ['group' => 'Vệ sinh gia dụng', 'name' => 'Vệ sinh sofa (1 bộ)', 'base' => 300000, 'note' => 'Tùy chất liệu vải/da, báo giá cụ thể khi khảo sát.'],
+        ['group' => 'Vệ sinh gia dụng', 'name' => 'Vệ sinh thảm tại nhà', 'base' => 200000, 'note' => 'Theo mét vuông, tối thiểu 1 thảm.'],
+        ['group' => 'Lắp đặt gia dụng', 'name' => 'Lắp máy giặt', 'base' => 200000, 'note' => 'Phụ kiện phát sinh được báo riêng.'],
+        ['group' => 'Lắp đặt gia dụng', 'name' => 'Lắp máy lọc nước', 'base' => 200000, 'note' => 'Phụ kiện phát sinh được báo riêng.'],
+        ['group' => 'Lắp đặt gia dụng', 'name' => 'Treo tivi', 'base' => 200000, 'note' => 'Chưa gồm khung treo.'],
+        ['group' => 'Sửa chữa điện tử', 'name' => 'Kiểm tra / sửa điện thoại, tablet', 'base' => 200000, 'note' => 'Linh kiện phát sinh được báo riêng.'],
+        ['group' => 'Sửa chữa điện tử', 'name' => 'Sửa bếp từ, bếp hồng ngoại, nồi cơm điện', 'base' => 200000, 'note' => 'Báo giá linh kiện sau kiểm tra.'],
+        ['group' => 'Dịch vụ khác', 'name' => 'Khoan treo đồ, lắp kệ, lắp phong cách đơn giản', 'base' => 150000, 'note' => 'Theo món, báo giá trước khi làm.'],
+        ['group' => 'Dịch vụ khác', 'name' => 'Rửa xe, vệ sinh máy lạnh xe hơi tại nhà', 'base' => 250000, 'note' => 'Chỉ phục vụ trong phạm vi di chuyển hợp lý.'],
     ];
 
     foreach ($services as $index => &$service) {
@@ -263,17 +267,11 @@ function get_bot_group_chat_id(string $role): string
 function booking_bot_role(array $input, string $serviceType, string $selectedService, string $description): string
 {
     $explicitRole = strtolower(trim((string)($input['bot_role'] ?? $input['service_role'] ?? '')));
-    if (in_array($explicitRole, ['worker', 'bike', 'drone', 'report'], true)) {
+    if (in_array($explicitRole, ['worker', 'report'], true)) {
         return telegram_normalize_role($explicitRole);
     }
 
     $serviceKey = service_name_key($serviceType . ' ' . $selectedService . ' ' . $description);
-    if (preg_match('/(drone|flycam|quay|camera|chup anh)/', $serviceKey)) {
-        return 'drone';
-    }
-    if (preg_match('/(xe|shipper|giao hang|di chuyen|cho khach|don do an|di cho)/', $serviceKey)) {
-        return 'bike';
-    }
     if (preg_match('/(su co|khieu nai|bao loi|support|ho tro|bao cao)/', $serviceKey)) {
         return 'report';
     }
@@ -561,19 +559,11 @@ function create_job_action(array $input): array
     $selectedServiceName = clean_string((string)($input['selected_service_name'] ?? $input['selected_service'] ?? ''), 150);
     $selectedService  = public_service_by_name($selectedServiceName);
     if ($selectedService !== null) {
-        if (!empty($input['customer_price']) && $selectedService['group'] === 'Gọi xe') {
-            $techBase = 0;
-            $estimated = (int)$input['customer_price'];
-        } else {
-            $techBase  = (int)$selectedService['tech_base'];
-            $estimated = (int)$selectedService['public_price'] * $quantity;
-        }
+        $techBase  = (int)$selectedService['tech_base'];
+        $estimated = (int)$selectedService['public_price'] * $quantity;
         if ($serviceType === '') {
             $serviceType = (string)$selectedService['name'];
         }
-    } elseif (!empty($input['customer_price']) && (in_array($serviceType, ['vehicle', 'Gọi xe']) || strtolower(trim($input['bot_role'] ?? '')) === 'bike')) {
-        $techBase = 0;
-        $estimated = (int)$input['customer_price'];
     }
 
     // ----------------------------------------------------------------

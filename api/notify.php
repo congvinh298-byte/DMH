@@ -22,7 +22,7 @@ function send_smtp_email(string $to, string $subject, string $body, bool $isHtml
     $user = app_env('SMTP_USER', '');
     $pass = app_env('SMTP_PASS', '');
     $from = app_env('SMTP_FROM', $user);
-    $fromName = app_env('SMTP_FROM_NAME', 'Chợ Lấp Vò Online');
+    $fromName = app_env('SMTP_FROM_NAME', 'Điện Máy Hiếu');
 
     if ($host === '' || $user === '' || $pass === '') {
         throw new RuntimeException('SMTP chưa được cấu hình.');
@@ -79,7 +79,7 @@ try {
     }
 
     if ($channel === 'telegram') {
-        $bot = clean_string($input['bot'] ?? 'report', 20); // report, worker, bike, drone
+        $bot = clean_string($input['bot'] ?? 'report', 20); // report, worker
         $chatId = clean_string($input['chat_id'] ?? '', 50);
         $message = $input['message'] ?? '';
 
@@ -89,14 +89,10 @@ try {
 
         $tokenKey = match ($bot) {
             'worker' => 'BOT_WORKER_TOKEN',
-            'bike' => 'BOT_BIKE_TOKEN',
-            'drone' => 'BOT_DRONE_TOKEN',
             default => 'BOT_REPORT_TOKEN',
         };
         $chatKey = match ($bot) {
             'worker' => 'WORKER_CHAT_ID',
-            'bike' => 'BIKE_CHAT_ID',
-            'drone' => 'DRONE_CHAT_ID',
             default => 'BOSS_CHAT_ID',
         };
 
@@ -128,7 +124,7 @@ try {
             json_out(['status' => 'error', 'message' => 'Không tìm thấy đơn hàng.'], 404);
         }
 
-        $subject = "Xác nhận đơn hàng #{$orderId} - Chợ Lấp Vò Online";
+        $subject = "Xác nhận đơn hàng #{$orderId} - Điện Máy Hiếu";
         $body = "<h2>Cảm ơn anh/chị {$order['fullname']} đã đặt hàng!</h2>";
         $body .= "<p>Mã đơn hàng: <strong>#{$orderId}</strong></p>";
         $body .= "<p>Tổng tiền: <strong>" . number_format((float)$order['total_amount'], 0, ',', '.') . " VNĐ</strong></p>";

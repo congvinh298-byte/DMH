@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#062A1D"/>
+      <stop offset="100%" stop-color="#0F5138"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F7D978"/>
+      <stop offset="100%" stop-color="#D4AF37"/>
+    </linearGradient>
+  </defs>
+  <rect width="200" height="200" rx="40" fill="url(#bg)"/>
+  <circle cx="100" cy="80" r="52" fill="none" stroke="url(#gold)" stroke-width="8"/>
+  <path d="M78 68 h16 v24 h-16 z M118 68 h16 v24 h-16 z M82 102 h48 v10 h-48 z" fill="url(#gold)"/>
+  <text x="100" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" font-weight="900" fill="#F7D978">ĐIỆN MÁY HIẾU</text>
+</svg>

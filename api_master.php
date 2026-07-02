@@ -915,7 +915,7 @@ try {
         $phone = digits_only($input['phone'] ?? '');
         $name = clean_string($input['name'] ?? "Ho kinh doanh {$workerId}", 150);
         $role = telegram_normalize_role(clean_string($input['role'] ?? 'worker', 20));
-        if (!in_array($role, ['worker', 'bike', 'drone'], true)) {
+        if (!in_array($role, ['worker'], true)) {
             $role = 'worker';
         }
         if ($workerId <= 0 || strlen($phone) < 8 || $workerId === admin_telegram_id()) {
@@ -958,18 +958,9 @@ try {
     case 'app_store_counts':
         json_out(['status' => 'success', 'data' => app_store_counts($pdo)]);
 
-    case 'app_store_register':
-        json_out(app_store_register_action($pdo, $input));
-
     case 'app_store_login_qr':
         json_out(app_store_login_qr_action($pdo, $input));
-    case 'vendor_get_orders':
-        json_out(vendor_get_orders_action($pdo, $input));
-    case 'vendor_update_order_status':
-        json_out(vendor_update_order_status_action($pdo, $input));
-    case 'vendor_close_shift':
-        json_out(vendor_close_shift_action($pdo, $input));
-        
+
     case 'app_store_get_products':
         json_out(app_store_get_products_action($pdo, $input));
     case 'app_store_save_product':
@@ -983,7 +974,7 @@ try {
         if (isset($input['login_key']) || isset($input['qr_data']) || isset($input['key'])) {
             json_out(app_store_login_qr_action($pdo, $input));
         }
-        json_out(app_store_register_action($pdo, $input));
+        json_out(['status' => 'error', 'message' => 'Không còn chức năng đăng ký cửa hàng mới.'], 400);
 
     case 'app_customer_register':
         json_out(app_customer_register_action($pdo, $input));
@@ -1068,7 +1059,7 @@ try {
         $order_id = $pdo->lastInsertId();
         $salesChat = telegram_chat('report');
         if ($salesChat !== '') {
-            tg_send('report', $salesChat, "CO DON HANG CHO XA LAP VO!\nCua hang ID: $store_id\nSDT Khach: " . esc_html(mask_phone($customer_phone)) . "\nDia chi: " . esc_html($customer_address) . "\nTong: " . number_format($total_amount) . " d");
+            tg_send('report', $salesChat, "CO DON HANG DIEN MAY HIEU!\nCua hang ID: $store_id\nSDT Khach: " . esc_html(mask_phone($customer_phone)) . "\nDia chi: " . esc_html($customer_address) . "\nTong: " . number_format($total_amount) . " d");
         }
         json_out(['status' => 'success', 'order_id' => $order_id]);
 

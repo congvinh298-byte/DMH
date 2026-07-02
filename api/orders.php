@@ -146,7 +146,7 @@ function create_order(array $input): array
                     } else {
                         $shippingFee = 13000 + ceil($distanceKm - 2) * 3500;
                     }
-                    $jobServiceType = 'Giao hàng / Đi chợ thay';
+                    $jobServiceType = 'Giao hàng tận nơi';
                 }
             }
         }

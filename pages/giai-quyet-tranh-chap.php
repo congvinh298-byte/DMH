@@ -1,80 +1,72 @@
 ﻿<?php
 $PAGE_TITLE = 'Giải quyết tranh chấp';
-$PAGE_DESC = 'Quy trình giải quyết tranh chấp, khiếu nại trên Chợ Lấp Vò Online';
+$PAGE_DESC = 'Quy trình giải quyết tranh chấp, khiếu nại tại Điện Máy Hiếu';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
 <h2>1. Nguyên tắc giải quyết tranh chấp</h2>
-<p>Mọi tranh chấp phát sinh trên sàn giao dịch Chợ Lấp Vò Online đều được giải quyết theo nguyên tắc:</p>
+<p>Mọi khiếu nại phát sinh từ dịch vụ/sản phẩm của Điện Máy Hiếu đều được giải quyết theo nguyên tắc:</p>
 <ul>
-    <li><strong>Thương lượng trực tiếp:</strong> Ưu tiên giải quyết thông qua đối thoại giữa các bên.</li>
-    <li><strong>Hòa giải:</strong> Sàn hỗ trợ điều phối khi các bên không tự thương lượng được.</li>
-    <li><strong>Trọng tài/Tòa án:</strong> Nếu các biện pháp trên không thành, tranh chấp được đưa ra cơ quan có thẩm quyền.</li>
+    <li><strong>Thương lượng trực tiếp:</strong> Ưu tiên giải quyết thông qua đối thoại giữa khách hàng và Điện Máy Hiếu.</li>
+    <li><strong>Hòa giải:</strong> Nếu cần, mời trung gian hòa giải tại địa phương.</li>
+    <li><strong>Tòa án:</strong> Nếu các biện pháp trên không thành, tranh chấp được đưa ra cơ quan có thẩm quyền.</li>
 </ul>
 
-<h2>2. Các loại tranh chấp thường gặp</h2>
+<h2>2. Các loại khiếu nại thường gặp</h2>
 <ul>
-    <li>Khiếu nại về chất lượng hàng hóa, dịch vụ không đúng mô tả.</li>
-    <li>Khiếu nại về thời gian giao hàng, lắp đặt chậm trễ.</li>
-    <li>Tranh chấp về thanh toán: chưa nhận được hàng, hàng bị lỗi nhưng người bán không đổi/trả.</li>
-    <li>Tranh chấp về bảo hành, bảo trì sau bán hàng.</li>
-    <li>Khiếu nại về hành vi gian lận, lừa đảo.</li>
+    <li>Khiếu nại về chất lượng dịch vụ không đúng cam kết.</li>
+    <li>Khiếu nại về thời gian thực hiện/lắp đặt chậm trễ.</li>
+    <li>Tranh chấp về thanh toán, hóa đơn, bảo hành.</li>
+    <li>Khiếu nại về linh kiện/phụ kiện không rõ nguồn gốc.</li>
 </ul>
 
 <h2>3. Quy trình tiếp nhận và giải quyết khiếu nại</h2>
 
 <h3>Bước 1: Gửi khiếu nại</h3>
-<p>Người khiếu nại gửi yêu cầu qua một trong các kênh:</p>
+<p>Khách hàng gửi yêu cầu qua một trong các kênh:</p>
 <ul>
-    <li>Hệ thống chat/email trên website</li>
     <li>Hotline: 0979.553.289 (giờ hành chính)</li>
     <li>Email: congvinh298@gmail.com</li>
+    <li>Tính năng chat trên website (khi đã đăng nhập)</li>
 </ul>
-<p>Nội dung khiếu nại cần bao gồm: thông tin đơn hàng, mô tả vấn đề, bằng chứng (ảnh, video, tin nhắn).</p>
+<p>Nội dung khiếu nại cần bao gồm: thông tin đơn hàng/dịch vụ, mô tả vấn đề, bằng chứng (ảnh, video, tin nhắn).</p>
 
 <h3>Bước 2: Tiếp nhận và xác minh</h3>
 <ul>
-    <li>Sàn tiếp nhận khiếu nại trong vòng 24 giờ.</li>
-    <li>Xác minh thông tin đơn hàng, liên hệ cả hai bên trong vòng 48 giờ.</li>
+    <li>Điện Máy Hiếu tiếp nhận khiếu nại trong vòng 24 giờ.</li>
+    <li>Xác minh thông tin đơn hàng, dịch vụ trong vòng 48 giờ.</li>
     <li>Yêu cầu bổ sung bằng chứng nếu cần.</li>
 </ul>
 
-<h3>Bước 3: Hòa giải</h3>
+<h3>Bước 3: Hòa giải và đề xuất phương án</h3>
 <ul>
-    <li>Sàn điều phối thương lượng giữa người mua và người bán.</li>
-    <li>Đề xuất phương án giải quyết: đổi hàng, hoàn tiền, bồi thường, giao hàng lại...</li>
+    <li>Điện Máy Hiếu đề xuất phương án: sửa chữa, đổi linh kiện, hoàn tiền, thực hiện lại dịch vụ...</li>
     <li>Thời gian hòa giải tối đa 07 ngày làm việc.</li>
 </ul>
 
 <h3>Bước 4: Quyết định cuối cùng</h3>
 <ul>
-    <li>Nếu hòa giải thành: lập biên bản thỏa thuận, giám sát thực hiện.</li>
-    <li>Nếu hòa giải không thành: chuyển cơ quan có thẩm quyền (Công an, Tòa án, Trung tâm hòa giải).</li>
+    <li>Nếu thỏa thuận thành: lập biên bản ghi nhận, giám sát thực hiện.</li>
+    <li>Nếu không thỏa thuận được: chuyển cơ quan có thẩm quyền (Tòa án, Trung tâm hòa giải).</li>
 </ul>
 
 <h2>4. Trách nhiệm của các bên</h2>
-<h3>Người mua</h3>
+<h3>Khách hàng</h3>
 <ul>
     <li>Cung cấp thông tin, bằng chứng chính xác, trung thực.</li>
-    <li>Phối hợp trong quá trình hòa giải.</li>
+    <li>Phối hợp trong quá trình xác minh và hòa giải.</li>
 </ul>
 
-<h3>Người bán</h3>
+<h3>Điện Máy Hiếu</h3>
 <ul>
-    <li>Chịu trách nhiệm chính trong việc chứng minh chất lượng hàng hóa/dịch vụ.</li>
-    <li>Thực hiện theo cam kết bảo hành, đổi trả.</li>
-</ul>
-
-<h3>Chủ sàn (Công ty ĐIỆN MÁY HIẾU)</h3>
-<ul>
-    <li>Hỗ trợ, điều phối giải quyết tranh chấp một cách khách quan.</li>
+    <li>Tiếp nhận và giải quyết khiếu nại khách quan, kịp thời.</li>
     <li>Bảo vệ quyền lợi người tiêu dùng theo quy định pháp luật.</li>
-    <li>Không chịu trách nhiệm bồi thường trực tiếp nếu tranh chấp do lỗi của một trong hai bên giao dịch.</li>
+    <li>Chịu trách nhiệm về lỗi thuộc về dịch vụ/sản phẩm do mình cung cấp.</li>
 </ul>
 
 <h2>5. Thông tin liên hệ giải quyết tranh chấp</h2>
-<p><strong>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</strong><br>
-Người đại diện: Trần Công Vinh<br>
+<p><strong>Điện Máy Hiếu</strong><br>
+Chủ cửa hàng: Trần Công Vinh<br>
 Hotline: 0979.553.289<br>
 Email: congvinh298@gmail.com<br>
 Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>

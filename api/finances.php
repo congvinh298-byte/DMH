@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 // Module: finances
 
 
@@ -536,9 +536,9 @@ function admin_stats(PDO $pdo): array
     $totalWorkers = 0;
     $blockedWorkers = 0;
     if (table_exists($pdo, 'worker_profiles')) {
-        $totalWorkers = (int)$pdo->query("SELECT COUNT(*) FROM worker_profiles WHERE is_admin = 0 AND role IN ('worker', 'bike', 'drone')")->fetchColumn();
-        $activeWorkers = (int)$pdo->query("SELECT COUNT(*) FROM worker_profiles WHERE is_admin = 0 AND role IN ('worker', 'bike', 'drone') AND is_receive_blocked = 0 AND payment_blocked = 0")->fetchColumn();
-        $blockedWorkers = (int)$pdo->query("SELECT COUNT(*) FROM worker_profiles WHERE is_admin = 0 AND role IN ('worker', 'bike', 'drone') AND (is_receive_blocked = 1 OR payment_blocked = 1)")->fetchColumn();
+        $totalWorkers = (int)$pdo->query("SELECT COUNT(*) FROM worker_profiles WHERE is_admin = 0 AND role IN ('worker')")->fetchColumn();
+        $activeWorkers = (int)$pdo->query("SELECT COUNT(*) FROM worker_profiles WHERE is_admin = 0 AND role IN ('worker') AND is_receive_blocked = 0 AND payment_blocked = 0")->fetchColumn();
+        $blockedWorkers = (int)$pdo->query("SELECT COUNT(*) FROM worker_profiles WHERE is_admin = 0 AND role IN ('worker') AND (is_receive_blocked = 1 OR payment_blocked = 1)")->fetchColumn();
     }
     $feesPaidToday = table_exists($pdo, 'worker_payments')
         ? (int)$pdo->query("SELECT COALESCE(SUM(applied_amount),0) FROM worker_payments WHERE status = 'confirmed' AND DATE(confirmed_at) = CURDATE()")->fetchColumn()

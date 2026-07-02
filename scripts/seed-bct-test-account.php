@@ -108,5 +108,5 @@ if ($existingStore) {
 
 echo "\n=== HOAN TAT SEEDING ===\n";
 echo "1. Dang nhap Admin: https://dienmayhieu.com/admin/login.php (qltmdt@moit.gov.vn / Admin@123)\n";
-echo "2. Dang nhap Seller: qlhdtmdt@gmail.com / Admin@123 (Chuyển hướng đến vendor.php)\n";
+echo "2. Dang nhap Seller: qlhdtmdt@gmail.com / Admin@123 (Chuyen huong den admin_xxx.php)\n";
 echo "3. Dang nhap Buyer: khachtest@gmail.com / Admin@123\n";

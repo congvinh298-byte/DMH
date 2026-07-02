@@ -265,7 +265,7 @@ document.getElementById('askGeminiButton')?.addEventListener('click', async () =
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                message: question || selected || 'Tư vấn Chợ Lấp Vò',
+                message: question || selected || 'Tư vấn Điện Máy Hiếu',
                 service_type: document.getElementById('service_type').value,
                 selected_service: selected,
                 public_price: document.getElementById('customer_price_display').value,
@@ -368,44 +368,44 @@ const policies = {
         title: 'Quy Chế Hoạt Động',
         body: `
             <h4>1. Nguyên tắc chung</h4>
-            <p>Nền tảng Chợ Lấp Vò Online là ứng dụng số hỗ trợ kết nối khách hàng với thợ kỹ thuật sửa chữa, lắp đặt thiết bị điện tử, điện lạnh, gia dụng tại địa bàn cấp xã và khu vực lân cận.</p>
+            <p>Điện Máy Hiếu là website hỗ trợ kết nối khách hàng với thợ kỹ thuật sửa chữa, lắp đặt thiết bị điện tử, điện lạnh, gia dụng tại địa bàn Lấp Vò, Đồng Tháp và khu vực lân cận.</p>
             <h4>2. Quy định dành cho Khách Hàng</h4>
             <ul>
                 <li>Cung cấp thông tin liên hệ và tình trạng sự cố trung thực, chính xác.</li>
                 <li>Thanh toán đầy đủ chi phí dịch vụ và vật tư trực tiếp cho thợ sau khi nghiệm thu công việc.</li>
-                <li>Có quyền đánh giá, phản ánh chất lượng dịch vụ trực tiếp lên hệ thống Hotline để công ty xử lý.</li>
+                <li>Có quyền đánh giá, phản ánh chất lượng dịch vụ trực tiếp lên hệ thống Hotline để Điện Máy Hiếu xử lý.</li>
             </ul>
-            <h4>3. Quy định dành cho Đối Tác Thợ Kỹ Thuật</h4>
+            <h4>3. Quy định dành cho Thợ Kỹ Thuật</h4>
             <ul>
-                <li><strong>Ký kết hợp tác:</strong> Các thợ tham gia hệ thống phải ký kết hợp đồng hợp tác lao động với CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU, cung cấp đầy đủ hồ sơ nhân thân để đảm bảo an toàn cho khách hàng.</li>
-                <li><strong>Tiếp nhận công việc:</strong> Nhận lệnh điều phối tự động qua nền tảng ứng dụng nhóm chat Telegram do công ty quản lý và sử dụng bot Telegram để hỗ trợ báo cáo, cập nhật trạng thái đơn hàng.</li>
+                <li><strong>Ký kết hợp tác:</strong> Các thợ tham gia hệ thống phải ký kết hợp đồng lao động/hợp tác với Trần Công Vinh (Điện Máy Hiếu), cung cấp đầy đủ hồ sơ nhân thân để đảm bảo an toàn cho khách hàng.</li>
+                <li><strong>Tiếp nhận công việc:</strong> Nhận lệnh điều phối tự động qua website ứng dụng nhóm chat Telegram do Điện Máy Hiếu quản lý và sử dụng bot Telegram để hỗ trợ báo cáo, cập nhật trạng thái đơn hàng.</li>
                 <li><strong>Trách nhiệm:</strong> Tuân thủ đạo đức nghề nghiệp, thái độ phục vụ chuẩn mực. Cam kết bảo hành các linh kiện và dịch vụ đã thi công.</li>
-                <li><strong>Nghĩa vụ tài chính:</strong> Tuân thủ nghĩa vụ thanh toán chiết khấu (phí nền tảng) đúng hạn để duy trì quyền lợi nhận ca.</li>
+                <li><strong>Nghĩa vụ tài chính:</strong> Tuân thủ nghĩa vụ thanh toán chiết khấu (phí website) đúng hạn để duy trì quyền lợi nhận ca.</li>
             </ul>
             <h4>4. Giải quyết tranh chấp</h4>
-            <p>Mọi tranh chấp phát sinh giữa khách hàng và thợ sẽ được CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU đứng ra làm trung gian tiếp nhận, hòa giải dựa trên quy định pháp luật và quyền lợi chính đáng của người tiêu dùng.</p>
+            <p>Mọi tranh chấp phát sinh giữa khách hàng và thợ sẽ được Trần Công Vinh (Điện Máy Hiếu) đứng ra làm trung gian tiếp nhận, hòa giải dựa trên quy định pháp luật và quyền lợi chính đáng của người tiêu dùng.</p>
         `
     },
     'dean': {
         title: 'Đề Án Hoạt Động & Tầm Nhìn',
         body: `
             <h4>1. Tên đề án</h4>
-            <p><strong>Xây dựng Nền tảng số Dịch vụ Kỹ thuật và Thương mại Điện tử tại địa bàn Nông thôn mới.</strong></p>
+            <p><strong>Xây dựng website số Dịch vụ Kỹ thuật và Thương mại Điện tử tại địa bàn Nông thôn mới.</strong></p>
             <h4>2. Mục tiêu đề án</h4>
             <ul>
                 <li>Ứng dụng công nghệ thông tin vào đời sống thiết thực, mang lại trải nghiệm <em>"gọi thợ số"</em> nhanh chóng, tiện lợi và minh bạch cho người dân trong khu vực xã và huyện.</li>
                 <li>Số hóa quy trình làm việc truyền thống của các thợ kỹ thuật tại địa phương.</li>
             </ul>
             <h4>3. Đơn vị phát triển</h4>
-            <p>Đề án được đầu tư, nghiên cứu và phát triển bởi Đơn vị tư nhân <strong>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</strong>. Chúng tôi mang khát vọng phát triển quê hương bằng tri thức công nghệ, đóng góp vào công cuộc chuyển đổi số quốc gia từ cấp cơ sở.</p>
+            <p>Đề án được đầu tư, nghiên cứu và phát triển bởi Đơn vị tư nhân <strong>Trần Công Vinh (Điện Máy Hiếu)</strong>. Chúng tôi mang khát vọng phát triển quê hương bằng tri thức công nghệ, đóng góp vào công cuộc chuyển đổi số quốc gia từ cấp cơ sở.</p>
             <h4>4. Mô hình hoạt động</h4>
             <ul>
-                <li><strong>Hệ sinh thái Kinh tế chia sẻ (Sharing Economy):</strong> Nền tảng hoạt động như một cầu nối. Công ty đầu tư hạ tầng phần mềm, máy chủ, marketing. Thợ địa phương tham gia với tư cách đối tác tự do.</li>
+                <li><strong>Mô hình cá nhân:</strong> website do Trần Công Vinh (Điện Máy Hiếu) trực tiếp vận hành. Thợ kỹ thuật tham gia theo hợp đồng lao động/hợp tác với chủ cơ sở.</li>
                 <li>Tạo ra công ăn việc làm ổn định, tăng thu nhập cho lao động có tay nghề tại địa phương mà không gò bó thời gian.</li>
                 <li>Ứng dụng tự động hóa thông qua Telegram Bot để tiết giảm tối đa chi phí vận hành, từ đó mang lại mức giá dịch vụ tốt nhất cho bà con.</li>
             </ul>
             <h4>5. Tầm nhìn chiến lược</h4>
-            <p>Chợ Lấp Vò Online hướng tới mục tiêu trở thành nền tảng ứng dụng số kiểu mẫu phục vụ thiết thực cho đời sống, dễ dàng nhân rộng sang các địa bàn cấp xã khác, góp sức kiến tạo nên bức tranh Nông Thôn Mới hiện đại, số hóa và văn minh.</p>
+            <p>Điện Máy Hiếu hướng tới mục tiêu trở thành website dịch vụ kiểu mẫu phục vụ thiết thực cho đời sống, dễ dàng nhân rộng sang các địa bàn cấp xã khác, góp sức kiến tạo nên bức tranh Nông Thôn Mới hiện đại, số hóa và văn minh.</p>
         `
     },
     'baomat': {
@@ -415,16 +415,16 @@ const policies = {
             <p>Chúng tôi thu thập các thông tin bao gồm Tên, Số điện thoại, Địa chỉ và Tọa độ GPS của khách hàng duy nhất cho mục đích: xử lý đơn đặt hàng, điều phối thợ kỹ thuật đến đúng vị trí, và chăm sóc bảo hành sau dịch vụ.</p>
             <h4>2. Phạm vi sử dụng dữ liệu</h4>
             <ul>
-                <li>Thông tin được lưu chuyển nội bộ trên hệ thống máy chủ công ty và gửi thông báo qua kênh Telegram bảo mật riêng của nhóm thợ.</li>
-                <li>Tất cả thợ tham gia đều đã ký cam kết bảo mật thông tin khách hàng trong hợp đồng hợp tác lao động.</li>
+                <li>Thông tin được lưu chuyển nội bộ trên hệ thống máy chủ Điện Máy Hiếu và gửi thông báo qua kênh Telegram bảo mật riêng của nhóm thợ.</li>
+                <li>Tất cả thợ tham gia đều đã ký cam kết bảo mật thông tin khách hàng trong hợp đồng lao động/hợp tác.</li>
                 <li>Tuyệt đối <strong>KHÔNG</strong> bán, trao đổi hay chia sẻ dữ liệu cá nhân của khách hàng cho bất kỳ bên thứ 3 nào với mục đích thương mại.</li>
             </ul>
             <h4>3. Thời gian lưu trữ</h4>
-            <p>Dữ liệu khách hàng được lưu trữ an toàn trên máy chủ cho đến khi khách hàng có yêu cầu hủy bỏ hoặc công ty ngừng cung cấp dịch vụ theo quy định pháp luật.</p>
+            <p>Dữ liệu khách hàng được lưu trữ an toàn trên máy chủ cho đến khi khách hàng có yêu cầu hủy bỏ hoặc Điện Máy Hiếu ngừng cung cấp dịch vụ theo quy định pháp luật.</p>
             <h4>4. Cam kết bảo mật</h4>
             <p>Chúng tôi áp dụng các chuẩn mực bảo mật dữ liệu trên website và hệ thống API để ngăn ngừa mọi hành vi truy cập trái phép, rò rỉ dữ liệu.</p>
             <h4>5. Quyền lợi của khách hàng</h4>
-            <p>Khách hàng có quyền yêu cầu tra cứu, chỉnh sửa hoặc xóa bỏ hoàn toàn thông tin cá nhân của mình khỏi hệ thống bằng cách liên hệ trực tiếp qua Hotline của công ty.</p>
+            <p>Khách hàng có quyền yêu cầu tra cứu, chỉnh sửa hoặc xóa bỏ hoàn toàn thông tin cá nhân của mình khỏi hệ thống bằng cách liên hệ trực tiếp qua Hotline của Điện Máy Hiếu.</p>
         `
     }
 };

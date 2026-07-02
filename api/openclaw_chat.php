@@ -75,13 +75,12 @@ try {
 // Fallback manual knowledge if DB empty or specific ones needed:
 $knowledgeBase .= "
 Quy trình làm việc của đội thợ: Tiếp nhận yêu cầu -> Khảo sát/Báo giá -> Thực hiện -> Bàn giao & Thanh toán.
-Giá dịch vụ quay phim: 500k cho gói quay trao nhẫn cưới.
-Liên hệ vận hành: 0979.553.289 (Công ty TNHH MTV ĐIỆN MÁY HIẾU)
+Liên hệ vận hành: 0979.553.289 (Trần Công Vinh - Điện Máy Hiếu)
 ";
 
 $systemPrompt = "
 Bạn là OpenClaw Intelligence, trợ lý chăm sóc khách hàng (Customer Success AI) của dienmayhieu.com.
-Giọng điệu: Thân thiện, tận tình, chuyên nghiệp và am hiểu sâu sắc về lĩnh vực điện máy/dịch vụ cưới hỏi, gọi xe, gọi thợ tại địa phương (Lấp Vò, Đồng Tháp).
+Giọng điệu: Thân thiện, tận tình, chuyên nghiệp và am hiểu sâu sắc về lĩnh vực điện máy, điện lạnh, gia dụng và dịch vụ gọi thợ tại địa phương (Lấp Vò, Đồng Tháp).
 Hãy trả lời câu hỏi của khách hàng dựa trên dữ liệu sau:
 $knowledgeBase
 
@@ -91,7 +90,7 @@ Phản hồi của bạn CHỈ được phép là một đối tượng JSON h�
   \"text\": \"Câu trả lời của bạn gửi cho khách hàng\",
   \"actions\": [
     { \"label\": \"Đặt đơn ngay\", \"type\": \"link\", \"value\": \"/dat-don\" },
-    { \"label\": \"Xem giá Quay + Chụp\", \"type\": \"link\", \"value\": \"/#goi-tho\" },
+    { \"label\": \"Xem giá dịch vụ\", \"type\": \"link\", \"value\": \"/#goi-tho\" },
     { \"label\": \"Gọi thợ trực tiếp\", \"type\": \"call\", \"value\": \"tel:0979553289\" }
   ]
 }

@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS cart_items (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =========================================================================================
--- BẢNG 12: workers - THÔNG TIN THỢ / ĐỐI TÁC
+-- BẢNG 12: workers - THÔNG TIN THỢ
 -- =========================================================================================
 CREATE TABLE IF NOT EXISTS workers (
     id              INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
@@ -300,26 +300,7 @@ CREATE TABLE IF NOT EXISTS worker_reviews (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- =========================================================================================
--- BẢNG 14: partners - ĐỐI TÁC / NHÀ PHÂN PHỐI
--- =========================================================================================
-CREATE TABLE IF NOT EXISTS partners (
-    id              INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
-    user_id         INT UNSIGNED    NULL,
-    company_name    VARCHAR(255)    NOT NULL,
-    contact_name    VARCHAR(100)    NOT NULL,
-    phone           VARCHAR(15)     NOT NULL,
-    email           VARCHAR(100)    NULL,
-    bank_name       VARCHAR(100)    NULL,
-    bank_account    VARCHAR(50)     NULL,
-    commission_rate DECIMAL(5,2)    NOT NULL DEFAULT 5.00,
-    is_active       TINYINT(1)      NOT NULL DEFAULT 1,
-    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL,
-    INDEX idx_partner_phone (phone)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- =========================================================================================
--- BẢNG 15: activity_logs - NHẬT KÝ HOẠT ĐỘNG
+-- BẢNG 14: activity_logs - NHẬT KÝ HOẠT ĐỘNG
 -- =========================================================================================
 CREATE TABLE IF NOT EXISTS activity_logs (
     id              BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

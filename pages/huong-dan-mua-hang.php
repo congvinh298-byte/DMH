@@ -1,48 +1,35 @@
 ﻿<?php
-$PAGE_TITLE = 'Hướng dẫn mua hàng';
-$PAGE_DESC = 'Hướng dẫn chi tiết cách mua hàng trên Chợ Lấp Vò Online';
+$PAGE_TITLE = 'Hướng dẫn đặt dịch vụ / mua hàng';
+$PAGE_DESC = 'Hướng dẫn đặt dịch vụ và mua hàng tại Điện Máy Hiếu';
 require_once __DIR__ . '/inc/header.php';
 ?>
 
-<h2>Bước 1: Tìm kiếm sản phẩm/dịch vụ</h2>
-<p>Truy cập trang chủ dienmayhieu.com, sử dụng thanh tìm kiếm hoặc duyệt theo danh mục để tìm sản phẩm/dịch vụ phù hợp.</p>
+<h2>Bước 1: Chọn dịch vụ hoặc sản phẩm</h2>
+<p>Truy cập trang chủ dienmayhieu.com, chọn dịch vụ cần đặt (vệ sinh máy lạnh, lắp đặt, sửa chữa...) hoặc duyệt sản phẩm điện máy.</p>
 
 <h2>Bước 2: Xem thông tin chi tiết</h2>
-<p>Nhấn vào sản phẩm để xem giá, mô tả, hình ảnh, đánh giá từ người mua trước. Kiểm tra thông tin người bán (thợ) để đảm bảo uy tín.</p>
+<p>Kiểm tra giá công khai, mô tả dịch vụ, hình ảnh sản phẩm và chính sách bảo hành. Mọi dịch vụ đều do Điện Máy Hiếu trực tiếp thực hiện.</p>
 
-<h2>Bước 3: Thêm vào giỏ hàng</h2>
-<p>Chọn số lượng và nhấn "Thêm vào giỏ hàng". Bạn có thể tiếp tục mua sắm hoặc đến giỏ hàng để thanh toán.</p>
+<h2>Bước 3: Điền thông tin liên hệ</h2>
+<p>Nhập số điện thoại, địa chỉ, mô tả yêu cầu. Bạn có thể đăng nhập bằng số điện thoại để tích lũy điểm và nhận QR khuyến mãi cá nhân.</p>
 
-<h2>Bước 4: Tiến hành đặt hàng</h2>
-<p>Trong giỏ hàng, kiểm tra lại các sản phẩm đã chọn. Nhấn "Đặt hàng" để chuyển sang trang thanh toán.</p>
+<h2>Bước 4: Xác nhận đặt lịch / đặt hàng</h2>
+<p>Điện Máy Hiếu sẽ gọi điện hoặc nhắn tin xác nhận, báo giá và thống nhất lịch thực hiện trong vòng 2 giờ làm việc.</p>
 
-<h2>Bước 5: Chọn phương thức thanh toán</h2>
+<h2>Bước 5: Thanh toán</h2>
 <ul>
-    <li><strong>COD (Thanh toán khi nhận hàng):</strong> Phù hợp với hàng hóa vật lý. Bạn trả tiền khi nhận được hàng.</li>
-    <li><strong>Chuyển khoản ngân hàng:</strong> Chuyển khoản trước cho người bán qua thông tin tài khoản được cung cấp.</li>
+    <li><strong>COD:</strong> Thanh toán tiền mặt sau khi hoàn thành dịch vụ hoặc khi nhận hàng.</li>
+    <li><strong>Chuyển khoản:</strong> Quét QR thanh toán hoặc chuyển khoản theo thông tin trên hóa đơn.</li>
 </ul>
 
-<h2>Bước 6: Xác nhận đơn hàng</h2>
-<p>Sau khi đặt hàng, bạn sẽ nhận được thông báo xác nhận qua email/SMS. Người bán sẽ liên hệ để xác nhận và sắp xếp giao hàng.</p>
-
-<h2>Bước 7: Nhận hàng và đánh giá</h2>
-<p>Kiểm tra hàng hóa khi nhận. Sau khi hoàn tất giao dịch, đánh giá 1-5 sao và viết nhận xét để giúp người mua khác.</p>
+<h2>Bước 6: Hoàn thành và đánh giá</h2>
+<p>Sau khi dịch vụ hoàn tất hoặc nhận hàng, bạn xác nhận trên hệ thống (nếu có) và đánh giá chất lượng.</p>
 
 <h2>Lưu ý quan trọng</h2>
 <ul>
-    <li>Kiểm tra kỹ thông tin người bán trước khi đặt hàng.</li>
-    <li>Giữ lại tin nhắn, email xác nhận đơn hàng làm bằng chứng.</li>
+    <li>Giữ lại tin nhắn, hóa đơn hoặc biên lai làm bằng chứng.</li>
+    <li>Yêu cầu báo giá trước khi thực hiện các dịch vụ phát sinh thêm.</li>
     <li>Liên hệ hotline 0979.553.289 nếu gặp vấn đề.</li>
 </ul>
 
 <?php require_once __DIR__ . '/inc/footer.php'; ?>
-
-
-<h3>Thông tin doanh nghiệp</h3>
-<ul>
-    <li><strong>Công ty:</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</li>
-    <li><strong>Mã số thuế:</strong> 1402228630</li>
-    <li><strong>Ngày thành lập:</strong> 06/04/2026</li>
-    <li><strong>Email:</strong> congvinh298@gmail.com</li>
-    <li><strong>Hotline:</strong> 0979.553.289</li>
-</ul>

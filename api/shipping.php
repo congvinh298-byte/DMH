@@ -91,9 +91,9 @@ try {
 
             $payload = [
                 'payment_type_id' => 2,
-                'note' => 'Đơn hàng từ Chợ Lấp Vò Online',
+                'note' => 'Đơn hàng từ Điện Máy Hiếu',
                 'required_note' => 'CHOXEMHANGKHONGTHU',
-                'from_name' => app_env('COMPANY_NAME', 'Chợ Lấp Vò Online'),
+                'from_name' => app_env('COMPANY_NAME', 'Điện Máy Hiếu'),
                 'from_phone' => app_env('COMPANY_PHONE', '0979553289'),
                 'from_address' => app_env('COMPANY_ADDRESS', 'Lấp Vò, Đồng Tháp'),
                 'to_name' => $toName,

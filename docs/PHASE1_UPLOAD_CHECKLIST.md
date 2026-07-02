@@ -1,4 +1,4 @@
-# Phase 1 Upload Checklist
+﻿# Phase 1 Upload Checklist
 
 ## Files to upload
 - Upload `.htaccess` to the hosting document root.
@@ -24,8 +24,8 @@
 - Remove legacy aliases from the server `.env` if present:
   - `DB_USER_BAOCAO`
   - `DB_PASS_BAOCAO`
-  - `DB_USER_SHIPPER`
-  - `DB_PASS_SHIPPER`
+  - `DB_USER_BAOCAO`
+  - `DB_PASS_BAOCAO`
 - `DB_NAME` must exactly match the cPanel database name, including letter case.
 - In cPanel MySQL Databases, confirm `DB_USER` is assigned to `DB_NAME` and has the required privileges.
 - Do not commit or upload `.env` through git. Edit it directly in hosting file manager or SFTP.

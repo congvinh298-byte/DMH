@@ -1,4 +1,4 @@
-# Deploy dienmayhieu.com (DTH) → VinaHost
+﻿# Deploy dienmayhieu.com (DTH) → VinaHost
 
 Hai cach deploy code len hosting VinaHost.
 
@@ -71,7 +71,7 @@ cd C:\Users\pcpv\OneDrive\Desktop\DTH
 
 - [ ] File `.env` tren host co dung thong tin that (DB_PASS, BOT_TOKEN, ...)
 - [ ] `.htaccess` duoc upload
-- [ ] Database `kwkrbcce_Choxalapvo` da duoc import schema (`database_migration.sql`)
+- [ ] Database `kwkrbcce_Choxalapvo (hoac dienmayhieu khi doi ten DB)` da duoc import schema (`database_migration.sql`)
 - [ ] Test: `https://dienmayhieu.com` load trang chu
 - [ ] Test: `https://dienmayhieu.com/pages/dieu-khoan-su-dung.php`
 - [ ] Test: `https://dienmayhieu.com/pages/gioi-thieu.php`

@@ -403,7 +403,7 @@ if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTEC
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Khu vực Thử nghiệm - Chợ Lấp Vò Online</title>
+    <title>Khu vực Thử nghiệm - Điện Máy Hiếu</title>
     <style>
         *{box-sizing:border-box}
         body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fef2f2;color:#111827;font-family:system-ui,-apple-system,sans-serif;padding:20px}
@@ -419,7 +419,7 @@ if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTEC
 </head>
 <body>
 <main>
-    <img src="/LOGO.png" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
+    <img src="/LOGO.svg" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
     <h1>Khu vực Thử nghiệm</h1>
     <p>Website đang trong chế độ thử nghiệm nội bộ để cơ quan quản lý duyệt hồ sơ. Vui lòng nhập mật khẩu được cung cấp để tiếp tục.</p>
     ' . $errorHtml . '
@@ -498,26 +498,7 @@ try {
 
 $stores = array();
 $storeProducts = array();
-if ($pdo instanceof PDO) {
-    try {
-        $stmt = $pdo->query("SELECT id, store_name, store_type FROM marketplace_stores WHERE status = 'active' ORDER BY id DESC LIMIT 100");
-        $stores = $stmt ? $stmt->fetchAll(PDO::FETCH_ASSOC) : array();
-
-        $stores = array_filter($stores, function($s) {
-            return !in_array($s['store_name'], ['Quán Ăn Sáng Cô Bảy', 'Tiệm Nước Giải Khát Lấp Vò']);
-        });
-
-        $stmt2 = $pdo->query("SELECT * FROM marketplace_products WHERE status = 'active' AND store_id IN (SELECT id FROM marketplace_stores WHERE status = 'active') ORDER BY store_id DESC, id DESC");
-        $products = $stmt2 ? $stmt2->fetchAll(PDO::FETCH_ASSOC) : array();
-
-        foreach ($products as $p) {
-            $storeProducts[$p['store_id']][] = $p;
-        }
-    } catch (Exception $e) {
-        error_log('[index stores] ' . $e->getMessage());
-        $productError = 'Kho gian hàng đang được cập nhật.';
-    }
-}
+$products = array();
 
 $qrWeb = asset_data_uri(array('QR.png', 'QR.jpg', 'QR.jpeg', 'QR.webp'));
 $qrPay = asset_data_uri(array('QR_THANH_TOAN.png', 'QR_THANH_TOAN.jpg', 'QR_THANH_TOAN.jpeg', 'QR_THANH_TOAN.webp'));
@@ -541,10 +522,6 @@ $services = array(
     array('group' => 'Thợ máy lọc nước', 'name' => 'Lắp máy lọc nước', 'base' => 200000, 'note' => 'Công thợ + phụ kiện'),
     array('group' => 'Thợ gia dụng', 'name' => 'Lắp máy giặt', 'base' => 200000, 'note' => 'Công thợ + phụ kiện'),
     array('group' => 'Thợ điện thoại', 'name' => 'Kiểm tra / sửa điện thoại', 'base' => 200000, 'note' => 'Công thợ + linh kiện nếu có'),
-    array('group' => 'Quay + Chụp', 'name' => 'Quay + chụp trao nhẫn cưới', 'base' => 500000, 'note' => 'Gói quay chụp 500k'),
-    array('group' => 'Gọi xe', 'name' => 'Đơn đồ ăn / Đi chợ thay (2km đầu: 13k, vượt: 3.5k/km)', 'base' => 13000, 'note' => ''),
-    array('group' => 'Gọi xe', 'name' => 'Xe ôm (2km đầu: 15k, vượt: 4k/km)', 'base' => 15000, 'note' => ''),
-    array('group' => 'Gọi xe', 'name' => 'Shipper giao hàng (Km đầu: 16k, vượt: 4k/km)', 'base' => 16000, 'note' => ''),
 );
 ?>
 <!doctype html>
@@ -553,10 +530,10 @@ $services = array(
 <link rel="icon" href="data:,">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Chợ Lấp Vò Online - Chợ Số Thế Hệ Mới</title>
-    <meta name="description" content="Chợ Lấp Vò Online - chốt thợ nhanh, mua hàng nhanh, thanh toán gọn trong một chạm.">
-    <meta property="og:title" content="Chợ Lấp Vò Online - Chợ Số Thế Hệ Mới">
-    <meta property="og:description" content="Mua hàng nhanh, gọi thợ nhanh, giá dịch vụ công khai.">
+    <title>Điện Máy Hiếu - Dịch vụ gọi thợ \u0026 cửa hàng điện máy</title>
+    <meta name="description" content="Điện Máy Hiếu - gọi thợ nhanh, điện máy chính hãng, thanh toán tiện lợi.">
+    <meta property="og:title" content="Điện Máy Hiếu - Dịch vụ gọi thợ \u0026 cửa hàng điện máy">
+    <meta property="og:description" content="Gọi thợ nhanh, điện máy chính hãng, giá dịch vụ công khai.">
     <meta property="og:type" content="website">
     <link rel="icon" href="<?= h($favicon) ?>">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -1227,13 +1204,6 @@ main {
     color: var(--champagne-pale) !important;
 }
 
-#location_vehicle_group,
-#vehicle_pricing_info {
-    background: rgba(255, 255, 255, .07) !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 16px !important;
-}
-
 #bookingForm .btn:not(#bookingSubmit),
 #useCurrentLocation,
 #clearLocation,
@@ -1506,12 +1476,12 @@ footer {
 
 </head>
 <body>
-<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</div>
+<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website cá nhân Điện Máy Hiếu - Chờ duyệt Bộ Công Thương</div>
 <header>
     <div class="wrap head">
         <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">
-            <img src="LOGO.png" alt="Logo Chợ Lấp Vò Online" style="height: 48px; border-radius: 6px; object-fit: contain;">
-            <div>Chợ Lấp Vò Online<small>Chợ số thế hệ mới</small></div>
+            <img src="LOGO.svg" alt="Logo Điện Máy Hiếu" style="height: 48px; border-radius: 6px; object-fit: contain;">
+            <div>Điện Máy Hiếu<small>Dịch vụ gọi thợ \u0026 cửa hàng điện máy</small></div>
         </a>
         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 1; max-width: 520px;">
             <div id="topBarStatus">
@@ -1537,8 +1507,6 @@ footer {
 </style>
         <div class="quick-tabs" style="display: flex; gap: 8px;">
             <a class="btn dark" href="#goi-tho" onclick="selectMainService('worker')" style="flex: 1; padding: 10px 5px; font-size: 14px; text-align: center;">🛠 Gọi thợ</a>
-            <a class="btn" href="#goi-tho" onclick="selectMainService('vehicle')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #2563eb; border: 1px solid #1d4ed8; color: white; text-align: center;">🚖 Gọi xe</a>
-            <a class="btn" href="#goi-tho" onclick="selectMainService('drone')" style="flex: 1; padding: 10px 5px; font-size: 14px; background: #8b5cf6; border: 1px solid #7c3aed; color: white; text-align: center;">📷 Quay + Chụp</a>
         </div>
     </div>
 
@@ -1549,9 +1517,9 @@ footer {
         <div class="row g-4 align-items-stretch">
             <div class="col-lg-7">
                 <div class="glass-panel hero-card">
-                    <img class="hero-logo" src="LOGO.png" alt="Logo Chợ Lấp Vò Online">
-                    <h1 class="hero-title">Chợ Lấp Vò Online</h1>
-                    <p class="hero-slogan">Chợ Lấp Vò Online - Chốt Thợ Trong 1 Nốt Nhạc, Mua Hàng Trong 1 Chạm.</p>
+                    <img class="hero-logo" src="LOGO.svg" alt="Logo Điện Máy Hiếu">
+                    <h1 class="hero-title">Điện Máy Hiếu</h1>
+                    <p class="hero-slogan">Điện Máy Hiếu - Gọi thợ nhanh, điện máy chính hãng, phục vụ tận nhà.</p>
                     <div class="hero-actions">
                         <a class="btn" href="#goi-tho" onclick="selectMainService('worker')">Gọi thợ quick post</a>
                         <a class="btn dark" href="#products">Mua hàng 1 chạm</a>
@@ -1564,7 +1532,7 @@ footer {
                     <div class="qr-grid">
                         <div class="qr-frame">
                             <?php if ($qrWeb !== ''): ?>
-                                <img src="<?= h($qrWeb) ?>" alt="QR truy cập Chợ Lấp Vò Online">
+                                <img src="<?= h($qrWeb) ?>" alt="QR truy cập Điện Máy Hiếu">
                             <?php else: ?>
                                 <div class="qr-empty">QR.png</div>
                             <?php endif; ?>
@@ -1575,7 +1543,7 @@ footer {
                         </div>
                         <div class="qr-frame">
                             <?php if ($qrPay !== ''): ?>
-                                <img src="<?= h($qrPay) ?>" alt="QR thanh toán Chợ Lấp Vò Online">
+                                <img src="<?= h($qrPay) ?>" alt="QR thanh toán Điện Máy Hiếu">
                             <?php else: ?>
                                 <div class="qr-empty">QR_THANH_TOAN.png</div>
                             <?php endif; ?>
@@ -1632,7 +1600,7 @@ footer {
     </div>
 
 
-    <!-- Khu vực nhập vị trí mặc định (Cho Gọi thợ, Quay + Chụp) -->
+    <!-- Khu vực nhập vị trí phục vụ -->
     <div id="location_single_group" style="margin-bottom: 25px;">
         <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Địa chỉ / Vị trí của bạn</label>
         <input type="text" id="address" name="address" required placeholder="Nhập số nhà, tên đường, ấp... hoặc bấm Định Vị bên dưới" style="border: 2px solid #cbd5e1; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
@@ -1643,40 +1611,6 @@ footer {
         </div>
         <div id="locationStatus" style="color: #047857; font-size: 14px; margin-top: 8px; font-weight: 500;"></div>
     </div>
-
-    <!-- Khu vực nhập vị trí Gọi xe (2 điểm) -->
-    <div id="location_vehicle_group" style="display: none; margin-bottom: 25px; padding: 15px; border: 1px dashed #cbd5e1; border-radius: 12px; background: #f8fafc;">
-        <div style="margin-bottom: 15px;">
-            <label style="color: #059669; font-weight: bold; display: block; margin-bottom: 5px;">🟢 Điểm đón / Lấy hàng</label>
-            <input type="text" id="pickup_address" placeholder="Nhập địa chỉ điểm đón..." style="border: 2px solid #a7f3d0; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-            <div style="display: flex; gap: 10px;">
-                <button type="button" id="usePickupLocation" class="btn" style="flex: 1; background: #10b981; color: white; border-radius: 8px; padding: 10px; font-size: 14px;">📍 Lấy tọa độ hiện tại</button>
-                <button type="button" class="btn dark open-map-btn" data-target="pickup" style="flex: 0 0 auto; border-radius: 8px; padding: 10px; font-size: 14px;">🗺️ Chọn trên bản đồ</button>
-            </div>
-            <div id="pickupStatus" style="color: #047857; font-size: 13px; margin-top: 5px;"></div>
-            <input type="hidden" id="pickup_lat">
-            <input type="hidden" id="pickup_lng">
-        </div>
-
-        <div style="margin-bottom: 15px;">
-            <label style="color: #dc2626; font-weight: bold; display: block; margin-bottom: 5px;">🔴 Điểm đến / Giao hàng</label>
-            <input type="text" id="dropoff_address" placeholder="Nhập địa chỉ điểm đến..." style="border: 2px solid #fecaca; border-radius: 8px; padding: 12px; width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-            <div style="display: flex; gap: 10px;">
-                <button type="button" id="useDropoffLocation" class="btn" style="flex: 1; background: #ef4444; color: white; border-radius: 8px; padding: 10px; font-size: 14px;">📍 Lấy tọa độ hiện tại</button>
-                <button type="button" class="btn dark open-map-btn" data-target="dropoff" style="flex: 0 0 auto; border-radius: 8px; padding: 10px; font-size: 14px;">🗺️ Chọn trên bản đồ</button>
-            </div>
-            <div id="dropoffStatus" style="color: #dc2626; font-size: 13px; margin-top: 5px;"></div>
-            <input type="hidden" id="dropoff_lat">
-            <input type="hidden" id="dropoff_lng">
-        </div>
-
-        <div id="vehicle_pricing_info" style="display: none; margin-top: 15px; padding: 15px; background: #fff; border: 2px solid #fbbf24; border-radius: 8px; text-align: center;">
-            <div style="font-size: 15px; color: #475569; margin-bottom: 5px;">Quãng đường: <b id="vehicle_distance_display" style="color: #1e293b;">0 km</b></div>
-            <div style="font-size: 18px; color: #dc2626; font-weight: 900;">Giá cước: <span id="vehicle_price_display">0 đ</span></div>
-            <input type="hidden" id="vehicle_calculated_price" value="0">
-        </div>
-    </div>
-
 
 
     <button type="submit" id="bookingSubmit" class="btn" data-original-text="🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN" style="width: 100%; background: #dc2626; color: #fff; font-size: 18px; padding: 15px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4); text-transform: uppercase;">🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN</button>
@@ -1699,7 +1633,7 @@ footer {
     <section class="section glass-panel category-stage" id="categories">
         <div class="title">
             <h2>Danh mục hot</h2>
-            <span class="muted">Tap để lọc nhanh gian hàng</span>
+            <span class="muted">Tập lọc nhanh sản phẩm</span>
         </div>
         <div class="category-rack" role="list" aria-label="Danh mục sản phẩm và dịch vụ">
             <button type="button" class="category-orb active" data-category="">
@@ -1734,10 +1668,10 @@ footer {
     </section>
 
     <section class="section" id="products">
-        <div class="title"><h2>Sản phẩm</h2><span class="muted"><?= h($productError !== '' ? $productError : (count($stores) . ' gian hàng')) ?></span></div>
+        <div class="title"><h2>Sản phẩm</h2><span class="muted"><?= h($productError !== '' ? $productError : (count($stores) . ' sản phẩm')) ?></span></div>
         <div id="productGrid">
             <?php if (empty($stores)): ?>
-                <div class="empty">Hiện chưa có gian hàng nào đang mở.</div>
+                <div class="empty">Hiện chưa có sản phẩm nào.</div>
             <?php else: ?>
                 <?php foreach ($stores as $store): ?>
                     <?php
@@ -1791,7 +1725,7 @@ footer {
         <div class="glass-panel map-panel">
             <div class="map-header">
                 <h2>🗺️ Phạm vi hoạt động</h2>
-                <p class="map-desc">Chợ Lấp Vò Online hiện đang phục vụ tại <strong>khu vực Lấp Vò, tỉnh Đồng Tháp</strong> và các vùng lân cận. Dự kiến mở rộng toàn tỉnh Đồng Tháp trong thời gian tới.</p>
+                <p class="map-desc">Điện Máy Hiếu hiện đang phục vụ tại <strong>khu vực Lấp Vò, tỉnh Đồng Tháp</strong> và các vùng lân cận. Dự kiến mở rộng toàn tỉnh Đồng Tháp trong thời gian tới.</p>
             </div>
             <div class="map-frame">
                 <div id="service-area-map" style="width:100%; height:420px; border:0; border-radius:12px;"></div>
@@ -1809,7 +1743,7 @@ footer {
                         maxZoom: 19
                     }).addTo(map);
                     L.marker(center).addTo(map)
-                        .bindPopup('<b>Chợ Lấp Vò</b><br>Trung tâm hoạt động').openPopup();
+                        .bindPopup('<b>Điện Máy Hiếu</b><br>Trung tâm hoạt động').openPopup();
                     L.circle(center, {
                         color: '#dc2626',
                         fillColor: '#dc2626',
@@ -1939,7 +1873,7 @@ footer {
 <footer><div class="wrap">
     <div class="footer-grid">
         <div>
-            <h3>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h3>
+            <h3>ĐIỆN MÁY HIẾU</h3>
             <p>Số GCN ĐKKD/MST: 1402228630 do Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp cấp ngày 10/08/2024</p>
             <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</p>
             <p>Đại diện pháp luật: Ông Trần Công Vinh - Giám đốc</p>
@@ -1970,7 +1904,7 @@ footer {
             <?php if ($qrWeb !== ''): ?><img src="<?= h($qrWeb) ?>" alt="QR truy cập" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;"><?php endif; ?>
         </div>
     </div>
-    <div class="footer-bottom"><span>© Chợ Lấp Vò Online</span><span>Website đang trong giai đoạn thử nghiệm - Chờ duyệt Bộ Công Thương</span></div>
+    <div class="footer-bottom"><span>© Điện Máy Hiếu</span><span>Website cá nhân Điện Máy Hiếu - Chờ duyệt Bộ Công Thương</span></div>
 </div></footer>
 
 <div id="modalPolicy" class="dth-modal">
@@ -1985,8 +1919,8 @@ footer {
 <div id="modalLogin" class="dth-modal">
     <div class="dth-modal-content" style="max-width: 420px; text-align: center; border-radius: 20px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
         <span class="dth-modal-close" onclick="document.getElementById('modalLogin').style.display='none'" style="font-size: 30px; right: 20px; top: 15px;">&times;</span>
-        <img src="LOGO.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-        <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Chợ Lấp Vò Online</span></h2>
+        <img src="LOGO.svg" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Điện Máy Hiếu</span></h2>
         <p style="color: #6b7280; font-size: 14px; margin-bottom: 25px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
 
         <div id="loginMethods">
@@ -1994,9 +1928,7 @@ footer {
             <button class="btn" style="width: 100%; margin-bottom: 12px; background: #2563eb; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);" onclick="showEmailLogin()">✉️ Tiếp tục với Email & Mật khẩu</button>
             <button class="btn" style="width: 100%; margin-bottom: 20px; background: #10b981; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
 
-            <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #e5e7eb;">
-                <a href="javascript:void(0)" onclick="showStoreRegister()" style="color: #047857; font-weight: bold; font-size: 14px; text-decoration: underline;">Bạn là chủ Cửa hàng? Đăng ký ngay!</a>
-            </div>
+            
 
             <div style="font-size: 12px; color: #6b7280; text-align: start; background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px solid #fee2e2;">
                 <label style="display: flex; gap: 8px; font-weight: normal; cursor: pointer; align-items: flex-start;">
@@ -2017,112 +1949,7 @@ footer {
             <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('emailLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
         </div>
 
-        <div id="storeRegisterForm" style="display: none; text-align: start;">
-            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng ký Cửa hàng</p>
-
-            <label style="font-size: 13px; font-weight: bold;">Tên Cửa hàng *</label>
-            <input type="text" id="regStoreName" placeholder="VD: Cửa hàng Điện máy A" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-
-            <label style="font-size: 13px; font-weight: bold;">Họ tên Chủ sở hữu / Người đại diện *</label>
-            <input type="text" id="regStoreOwnerName" placeholder="VD: Nguyễn Văn A" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-
-            <label style="font-size: 13px; font-weight: bold;">Số điện thoại liên hệ *</label>
-            <input type="text" id="regStorePhone" placeholder="VD: 0987654321" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-
-            <label style="font-size: 13px; font-weight: bold;">Email liên hệ *</label>
-            <input type="email" id="regStoreEmail" placeholder="VD: email@gmail.com" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-
-            <label style="font-size: 13px; font-weight: bold;">Số ĐKKD / Mã số thuế / CCCD *</label>
-            <input type="text" id="regStoreTax" placeholder="VD: 12345678" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-
-            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
-                <div style="flex: 1;">
-                    <label style="font-size: 13px; font-weight: bold;">Ngày cấp *</label>
-                    <input type="date" id="regStoreTaxDate" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-                </div>
-                <div style="flex: 1;">
-                    <label style="font-size: 13px; font-weight: bold;">Nơi cấp *</label>
-                    <input type="text" id="regStoreTaxPlace" placeholder="Sở KH&ĐT Đồng Tháp" style="width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-                </div>
-            </div>
-
-            <label style="font-size: 13px; font-weight: bold;">Địa chỉ trụ sở / thường trú *</label>
-            <input type="text" id="regStoreAddress" placeholder="VD: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Đồng Tháp" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-
-            <label style="font-size: 13px; font-weight: bold;">Tọa độ (Tính phí ship cho khách mua online)</label>
-            <div style="display: flex; gap: 10px; margin-bottom: 12px;">
-                <input type="text" id="regStoreLat" placeholder="Vĩ độ (Lat)" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-                <input type="text" id="regStoreLng" placeholder="Kinh độ (Lng)" style="flex: 1; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            </div>
-            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #e5e7eb; color: #374151;" onclick="getStoreLocation(event)">📍 Lấy tọa độ hiện tại</button>
-
-            <label style="font-size: 13px; font-weight: bold;">Hạng mục kinh doanh (Tối đa 5)</label>
-            <div id="regStoreCategories" style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 15px; font-size: 13px;">
-                <label><input type="checkbox" value="Quán ăn" onchange="checkMaxCategories(this)"> Quán ăn</label>
-                <label><input type="checkbox" value="Nước giải khát" onchange="checkMaxCategories(this)"> Nước giải khát</label>
-                <label><input type="checkbox" value="Quần áo" onchange="checkMaxCategories(this)"> Quần áo</label>
-                <label><input type="checkbox" value="Giày dép" onchange="checkMaxCategories(this)"> Giày dép</label>
-                <label><input type="checkbox" value="Đồ gia dụng" onchange="checkMaxCategories(this)"> Đồ gia dụng</label>
-                <label><input type="checkbox" value="Thực phẩm" onchange="checkMaxCategories(this)"> Thực phẩm</label>
-                <label><input type="checkbox" value="Tạp hóa" onchange="checkMaxCategories(this)"> Tạp hóa</label>
-                <label><input type="checkbox" value="Dịch vụ" onchange="checkMaxCategories(this)"> Dịch vụ</label>
-            </div>
-
-            <button id="storeRegSubmitBtn" class="btn primary" style="width: 100%; background: #047857;" onclick="submitStoreRegister()">Gửi đơn Đăng ký</button>
-            <div id="storeRegError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
-            <div id="storeRegSuccess" style="display: none; color: #047857; margin-top: 10px; font-size: 13px; text-align: center; font-weight: bold;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('storeRegisterForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
         </div>
-
-        <div id="phoneLoginForm" style="display: none; text-align: start;">
-            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center;">Đăng nhập / Đăng ký</p>
-            <label style="font-size: 13px; font-weight: bold;">Họ và Tên</label>
-            <input type="text" id="loginNameInput" placeholder="VD: Nguyễn Văn A" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
-            <input type="text" id="loginPhoneInput" placeholder="VD: 0987654321" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <button id="phoneLoginSubmitBtn" class="btn primary" style="width: 100%;" onclick="submitPhoneLogin()">Xác nhận</button>
-            <div id="phoneLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('phoneLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
-        </div>
-
-        <div id="qrLoginForm" style="display: none; text-align: center;">
-            <p style="margin-bottom: 15px; font-weight: bold; color: #374151;">Quét mã QR hoặc Nhập Mã Thẻ</p>
-            <div id="qr-reader-login" style="width: 100%; max-width: 300px; margin: 0 auto 15px auto; overflow: hidden; border-radius: 8px;"></div>
-            <p style="margin-bottom: 10px; font-size: 12px; color: #6b7280;">Hoặc nhập mã thẻ thủ công:</p>
-            <input type="text" id="loginKeyInput" placeholder="VD: MK123456" style="width: 100%; margin-bottom: 15px; text-align: center; font-size: 18px; letter-spacing: 1px; font-weight: bold;">
-            <button id="loginSubmitBtn" class="btn dark" style="width: 100%;" onclick="submitLogin()">Xác nhận Đăng nhập</button>
-            <div id="loginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="closeQrLogin()">Quay lại</button>
-        </div>
-
-        <div id="memberQrDisplay" style="display: none;">
-            <h3 style="color: #047857; margin-bottom: 10px;">Đăng nhập thành công!</h3>
-            <p style="font-size: 16px; font-weight: bold; color: #111827;" id="successUserName">Tên Khách</p>
-            <p style="font-size: 13px; color: #dc2626; font-weight: bold; margin-bottom: 5px;"><span id="successUserRank">Thành viên</span> - <span id="successUserPoints">0 điểm</span></p>
-            <p style="font-size: 13px; color: #f59e0b; font-weight: bold; margin-bottom: 15px;">🎁 Bạn có: <span id="successLuckySpins">0 lượt quay</span></p>
-            <button class="btn" style="width: 100%; margin-bottom: 15px; background: #8b5cf6; color: white;" onclick="openWheelModal()">🎡 Chơi Vòng Quay May Mắn</button>
-            <img id="successQrImg" src="" alt="Member QR" style="border-radius: 10px; border: 2px solid #dc2626; padding: 10px; margin-bottom: 15px; display: inline-block;">
-            <p style="font-size: 13px; color: #666; margin-bottom: 20px;">Vui lòng lưu lại và đưa QR này cho thu ngân/thợ quét khi mua hàng hoặc gọi thợ để tích điểm!</p>
-            <button class="btn success" style="width: 100%; margin-bottom: 10px;" onclick="closeLoginModal()">Đóng</button>
-            <button class="btn danger" style="width: 100%;" onclick="logoutCustomer()">Đăng xuất</button>
-        </div>
-    </div>
-</div>
-
-<div id="wheelModal" class="dth-modal">
-    <div class="dth-modal-content" style="max-width: 400px; text-align: center;">
-        <span class="dth-modal-close" onclick="document.getElementById('wheelModal').style.display='none'">&times;</span>
-        <h2 style="color: #8b5cf6; margin-bottom: 10px;">🎡 Vòng Quay May Mắn 🎡</h2>
-        <p style="margin-bottom: 15px; font-weight: bold;">Bạn đang có: <span id="wheelSpinsCount" style="color: #dc2626;">0</span> lượt quay</p>
-
-        <div style="position: relative; width: 300px; height: 300px; margin: 0 auto; border-radius: 50%; overflow: hidden; border: 5px solid #333; box-shadow: 0 0 15px rgba(0,0,0,0.3);">
-            <canvas id="wheelCanvas" width="300" height="300"></canvas>
-            <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-inline-start: 15px solid transparent; border-inline-end: 15px solid transparent; border-top: 30px solid #dc2626; z-index: 10;"></div>
-        </div>
-
-        <button id="spinBtn" onclick="spinWheel()" class="btn success" style="width: 100%; margin-top: 20px; font-size: 18px; background: #8b5cf6; border: none;">CHƠI NGAY (Tốn 1 Lượt)</button>
-    </div>
-</div>
 
 <script>
 'use strict';
@@ -2175,37 +2002,36 @@ function openModal(type) {
 
     const modalContent = {
         quyche: {
-            title: 'Quy chế hoạt động sàn giao dịch',
-            html: `
+            title: 'Quy chế hoạt động website Điện Máy Hiếu',
+            html: 
                 <div class="legal-doc">
                     <div class="legal-lead">
-                        <p><b>Chợ Lấp Vò Online</b> là nền tảng số do CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU xây dựng nhằm kết nối người mua, cửa hàng, đơn vị cung ứng dịch vụ, thợ kỹ thuật và đối tác giao nhận trong khu vực phục vụ. Quy chế này công bố nguyên tắc vận hành, quy trình giao dịch, trách nhiệm của các bên và cơ chế bảo vệ quyền lợi người dùng trên nền tảng.</p>
+                        <p><b>Điện Máy Hiếu</b> là website thương mại điện tử bán hàng và cung cấp dịch vụ do Trần Công Vinh (Điện Máy Hiếu) vận hành. Website chỉ giới thiệu, bán hàng và cung cấp dịch vụ gọi thợ của chính chủ sở hữu, không phải sàn giao dịch thương mại điện tử hay nền tảng kết nối nhiều cửa hàng/đối tác. Quy chế này công bố nguyên tắc vận hành, quy trình giao dịch, trách nhiệm của các bên và cơ chế bảo vệ quyền lợi người dùng.</p>
                     </div>
                     <div class="legal-meta">
-                        <div><b>Đơn vị vận hành</b><br>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</div>
+                        <div><b>Chủ sở hữu website</b><br>Trần Công Vinh (Điện Máy Hiếu)</div>
                         <div><b>Mã số thuế</b><br>1402228630</div>
                         <div><b>Phạm vi phục vụ</b><br>Ưu tiên bán kính 15 km quanh Cầu Lấp Vò, Đồng Tháp</div>
                     </div>
                     <section class="legal-section">
                         <h4>1. Nguyên tắc chung</h4>
                         <ul>
-                            <li>Hoạt động của nền tảng được định hướng theo quy định về thương mại điện tử, giao dịch điện tử, bảo vệ người tiêu dùng và bảo vệ dữ liệu cá nhân tại Việt Nam.</li>
-                            <li>Thông tin hàng hóa, dịch vụ, giá, phí, tình trạng cung ứng và khuyến mại phải được công bố rõ ràng, trung thực, dễ kiểm tra.</li>
-                            <li>Người dùng, cửa hàng, thợ kỹ thuật và đối tác giao nhận phải cung cấp thông tin chính xác, chịu trách nhiệm về nội dung, hàng hóa, dịch vụ và cam kết của mình.</li>
-                            <li>Nền tảng không khuyến khích và không dung túng hành vi gian lận, hàng cấm, hàng giả, lừa đảo, phá giá, spam đơn, hủy đơn bất thường hoặc lợi dụng hệ thống để gây thiệt hại cho bên khác.</li>
+                            <li>Website hoạt động theo quy định về thương mại điện tử, giao dịch điện tử, bảo vệ người tiêu dùng và bảo vệ dữ liệu cá nhân tại Việt Nam.</li>
+                            <li>Thông tin hàng hóa, dịch vụ, giá, phí, tình trạng cung ứng và khuyến mại được công bố rõ ràng, trung thực, dễ kiểm tra.</li>
+                            <li>Khách hàng và Điện Máy Hiếu phải cung cấp thông tin chính xác, chịu trách nhiệm về nội dung, hàng hóa, dịch vụ và cam kết của mình.</li>
+                            <li>Website không khuyến khích và không dung túng hành vi gian lận, hàng cấm, hàng giả, lừa đảo, spam đơn, hủy đơn bất thường hoặc lợi dụng hệ thống để gây thiệt hại.</li>
                         </ul>
                     </section>
                     <section class="legal-section">
-                        <h4>2. Mô hình giao dịch trên nền tảng</h4>
-                        <p>Nền tảng hỗ trợ ba nhóm giao dịch chính: mua bán hàng hóa địa phương; đặt dịch vụ kỹ thuật, điện lạnh, gia dụng, công nghệ; và kết nối các dịch vụ giao nhận, di chuyển, hỗ trợ cộng đồng theo từng giai đoạn triển khai.</p>
-                        <p>Tùy từng giao dịch, Chợ Lấp Vò Online có thể đóng vai trò là đơn vị cung cấp môi trường kết nối, công cụ đặt yêu cầu, công cụ lưu vết giao dịch, công cụ thông báo và hỗ trợ đối soát. Việc thực hiện hàng hóa, dịch vụ cụ thể thuộc trách nhiệm trực tiếp của cửa hàng, người bán, thợ hoặc đối tác nhận việc.</p>
+                        <h4>2. Mô hình giao dịch</h4>
+                        <p>Website cung cấp hai nhóm dịch vụ chính: (1) bán hàng điện máy, điện lạnh, gia dụng; (2) dịch vụ gọi thợ (vệ sinh/lắp đặt/sửa chữa máy lạnh, điện tử, gia dụng, vệ sinh nệm/sofa/thảm, lắp đặt đơn giản). Tất cả dịch vụ do Điện Máy Hiếu trực tiếp thực hiện hoặc điều phối thợ kỹ thuật đã ký hợp đồng/hợp tác với chủ cơ sở.</p>
                     </section>
                     <section class="legal-section">
                         <h4>3. Quy trình đặt hàng và sử dụng dịch vụ</h4>
                         <ul>
-                            <li>Người dùng chọn sản phẩm hoặc dịch vụ, nhập thông tin liên hệ, địa chỉ, vị trí hoặc mô tả yêu cầu cần xử lý.</li>
-                            <li>Hệ thống ghi nhận yêu cầu, gửi thông báo đến bộ phận vận hành, cửa hàng hoặc đối tác phù hợp.</li>
-                            <li>Cửa hàng, thợ hoặc đối tác xác nhận khả năng phục vụ, thời gian dự kiến, chi phí công khai và các điều kiện phát sinh nếu có.</li>
+                            <li>Người dùng chọn sản phẩm hoặc dịch vụ, nhập thông tin liên hệ, địa chỉ, vị trí hoặc mô tả yêu cầu.</li>
+                            <li>Hệ thống ghi nhận yêu cầu, gửi thông báo đến bộ phận vận hành của Điện Máy Hiếu.</li>
+                            <li>Điện Máy Hiếu hoặc thợ kỹ thuật xác nhận khả năng phục vụ, thời gian dự kiến, chi phí công khai và các điều kiện phát sinh nếu có.</li>
                             <li>Người dùng kiểm tra, nghiệm thu hàng hóa hoặc dịch vụ trước khi thanh toán theo phương thức đã thỏa thuận.</li>
                             <li>Thông tin đơn hàng, trạng thái xử lý, lịch sử tích điểm, mã QR hoặc chứng từ nội bộ được lưu để phục vụ chăm sóc khách hàng, bảo hành, khiếu nại và đối soát.</li>
                         </ul>
@@ -2213,10 +2039,9 @@ function openModal(type) {
                     <section class="legal-section">
                         <h4>4. Chính sách giá, thanh toán và hóa đơn</h4>
                         <ul>
-                            <li>Giá hiển thị trên nền tảng là giá tham khảo hoặc giá công bố tại thời điểm đặt, có thể thay đổi khi phát sinh vật tư, linh kiện, khoảng cách, thời gian chờ, điều kiện thi công hoặc yêu cầu ngoài phạm vi ban đầu.</li>
-                            <li>Khoản thanh toán có thể thực hiện trực tiếp cho cửa hàng, thợ, đối tác hoặc qua phương thức chuyển khoản được công ty công bố.</li>
-                            <li>Hóa đơn, phiếu thu, phiếu bảo hành hoặc chứng từ nội bộ được phát hành theo quy định và theo phạm vi giao dịch thực tế.</li>
-                            <li>Nền tảng khuyến khích thanh toán minh bạch, lưu vết, đối soát được và không thanh toán vào tài khoản không được công bố bởi đơn vị vận hành hoặc đối tác đã xác nhận.</li>
+                            <li>Giá hiển thị là giá tham khảo hoặc giá công bố tại thời điểm đặt, có thể thay đổi khi phát sinh vật tư, linh kiện, khoảng cách, thời gian chờ hoặc yêu cầu ngoài phạm vi ban đầu.</li>
+                            <li>Khoản thanh toán thực hiện trực tiếp cho Điện Máy Hiếu hoặc qua phương thức chuyển khoản được công bố.</li>
+                            <li>Hóa đơn, phiếu thu, phiếu bảo hành hoặc chứng từ nội bộ được phát hành theo quy định và phạm vi giao dịch thực tế.</li>
                         </ul>
                     </section>
                     <section class="legal-section">
@@ -2229,18 +2054,18 @@ function openModal(type) {
                         </ul>
                     </section>
                     <section class="legal-section">
-                        <h4>6. Trách nhiệm của cửa hàng, thợ và đối tác</h4>
+                        <h4>6. Trách nhiệm của Điện Máy Hiếu</h4>
                         <ul>
                             <li>Cung cấp hàng hóa, dịch vụ đúng thông tin đã đăng, đúng chất lượng, đúng giá đã xác nhận với khách hàng.</li>
                             <li>Tuân thủ quy định về nguồn gốc hàng hóa, an toàn lao động, bảo hành, đổi trả, trách nhiệm sau bán hàng và chuẩn mực phục vụ.</li>
                             <li>Không tự ý thu thêm phí ngoài thỏa thuận, không sử dụng dữ liệu khách hàng ngoài mục đích thực hiện giao dịch.</li>
-                            <li>Phối hợp với công ty trong xác minh đơn hàng, xử lý phản ánh, đối soát doanh thu, khóa/mở quyền nhận việc khi có vi phạm.</li>
+                            <li>Phối hợp xử lý phản ánh, đối soát doanh thu, khóa/mở quyền nhận việc khi có vi phạm.</li>
                         </ul>
                     </section>
                     <section class="legal-section">
                         <h4>7. Xử lý khiếu nại, tranh chấp và vi phạm</h4>
-                        <p>Khi phát sinh phản ánh, khách hàng có thể liên hệ hotline 0979.553.289 hoặc gửi thông tin qua kênh hỗ trợ của nền tảng. Công ty tiếp nhận, phân loại, yêu cầu các bên cung cấp chứng cứ và hỗ trợ hòa giải trên cơ sở dữ liệu hệ thống, hình ảnh, tin nhắn, hóa đơn, vị trí, lịch sử đơn và xác nhận của các bên.</p>
-                        <p>Tùy mức độ vi phạm, nền tảng có thể cảnh báo, tạm ẩn gian hàng, tạm khóa quyền nhận việc, hủy đơn, thu hồi ưu đãi, chấm dứt tài khoản hoặc chuyển thông tin cho cơ quan có thẩm quyền theo quy định pháp luật.</p>
+                        <p>Khi phát sinh phản ánh, khách hàng liên hệ hotline 0979.553.289 hoặc gửi thông tin qua kênh hỗ trợ của website. Điện Máy Hiếu tiếp nhận, phân loại, yêu cầu các bên cung cấp chứng cứ và hỗ trợ hòa giải trên cơ sở dữ liệu hệ thống, hình ảnh, tin nhắn, hóa đơn, vị trí, lịch sử đơn và xác nhận của các bên.</p>
+                        <p>Tùy mức độ vi phạm, website có thể cảnh báo, tạm khóa quyền nhận việc, hủy đơn, thu hồi ưu đãi, chấm dứt tài khoản hoặc chuyển thông tin cho cơ quan có thẩm quyền.</p>
                     </section>
                     <section class="legal-section">
                         <h4>8. Cập nhật quy chế</h4>
@@ -2248,21 +2073,21 @@ function openModal(type) {
                         <p class="legal-note">Tài liệu được xây dựng theo định hướng tham chiếu Nghị định 52/2013/NĐ-CP, Nghị định 85/2021/NĐ-CP về thương mại điện tử và các quy định pháp luật liên quan.</p>
                     </section>
                 </div>
-            `
+            
         },
         baomat: {
             title: 'Chính sách bảo mật và bảo vệ dữ liệu cá nhân',
-            html: `
+            html: 
                 <div class="legal-doc">
                     <div class="legal-lead">
-                        <p>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU coi dữ liệu người dùng là tài sản cần được bảo vệ. Chính sách này giải thích cách Chợ Lấp Vò Online thu thập, sử dụng, lưu trữ, chia sẻ và bảo vệ dữ liệu cá nhân khi người dùng mua hàng, gọi thợ, gọi xe, đăng nhập QR, tích điểm hoặc tương tác với nền tảng.</p>
+                        <p>Điện Máy Hiếu coi dữ liệu người dùng là tài sản cần được bảo vệ. Chính sách này giải thích cách Điện Máy Hiếu thu thập, sử dụng, lưu trữ, chia sẻ và bảo vệ dữ liệu cá nhân khi người dùng mua hàng, gọi thợ, đăng nhập QR, tích điểm hoặc tương tác với website.</p>
                     </div>
                     <section class="legal-section">
                         <h4>1. Loại dữ liệu có thể được thu thập</h4>
                         <ul>
-                            <li>Thông tin định danh cơ bản: họ tên, số điện thoại, mã đăng nhập, mã QR thành viên, thông tin cửa hàng hoặc đối tác nếu đăng ký tham gia nền tảng.</li>
+                            <li>Thông tin định danh cơ bản: họ tên, số điện thoại, mã đăng nhập, mã QR thành viên.</li>
                             <li>Thông tin giao dịch: sản phẩm, dịch vụ đã chọn, thời gian đặt, trạng thái đơn, giá trị thanh toán, điểm thưởng, mã khuyến mại, lịch sử chăm sóc khách hàng.</li>
-                            <li>Thông tin vị trí và địa chỉ: địa chỉ giao hàng, điểm đón, điểm đến, tọa độ GPS khi người dùng chủ động cấp quyền hoặc chọn trên bản đồ.</li>
+                            <li>Thông tin vị trí và địa chỉ: địa chỉ giao hàng, tọa độ GPS khi người dùng chủ động cấp quyền hoặc chọn trên bản đồ.</li>
                             <li>Thông tin kỹ thuật: thiết bị, trình duyệt, địa chỉ IP, dấu hiệu chống spam/gian lận, log hệ thống, cookie hoặc mã định danh cần thiết cho bảo mật và vận hành.</li>
                             <li>Nội dung phản ánh: ghi chú đơn hàng, mô tả lỗi kỹ thuật, hình ảnh hoặc tài liệu người dùng cung cấp khi yêu cầu hỗ trợ.</li>
                         </ul>
@@ -2270,7 +2095,7 @@ function openModal(type) {
                     <section class="legal-section">
                         <h4>2. Mục đích xử lý dữ liệu</h4>
                         <ul>
-                            <li>Xác minh người dùng, tạo đơn hàng, điều phối cửa hàng, thợ, đối tác giao nhận và hỗ trợ xử lý yêu cầu.</li>
+                            <li>Xác minh người dùng, tạo đơn hàng, điều phối thợ và hỗ trợ xử lý yêu cầu.</li>
                             <li>Liên hệ xác nhận, thông báo trạng thái, chăm sóc sau bán hàng, bảo hành, đổi trả, tích điểm và khuyến mại.</li>
                             <li>Đối soát thanh toán, lập chứng từ, quản lý công nợ, phòng chống gian lận, spam, đơn giả và lạm dụng hệ thống.</li>
                             <li>Cải thiện chất lượng dịch vụ, đo lường hiệu quả vận hành, phát triển sản phẩm số và bảo đảm an toàn hệ thống.</li>
@@ -2283,12 +2108,12 @@ function openModal(type) {
                             <li>Chỉ thu thập dữ liệu phù hợp với mục đích đã công bố và phạm vi dịch vụ mà người dùng sử dụng.</li>
                             <li>Không bán dữ liệu cá nhân cho bên thứ ba. Không chia sẻ dữ liệu ngoài phạm vi cần thiết để thực hiện giao dịch, vận hành hệ thống hoặc tuân thủ pháp luật.</li>
                             <li>Áp dụng phân quyền truy cập, lưu vết xử lý, giới hạn nhân sự được xem dữ liệu và từng bước nâng cấp các biện pháp bảo mật kỹ thuật.</li>
-                            <li>Khi phát hiện rủi ro, thất thoát hoặc truy cập trái phép, công ty sẽ ưu tiên khoanh vùng sự cố, giảm thiểu thiệt hại và phối hợp xử lý theo quy định.</li>
+                            <li>Khi phát hiện rủi ro, thất thoát hoặc truy cập trái phép, Điện Máy Hiếu sẽ ưu tiên khoanh vùng sự cố, giảm thiểu thiệt hại và phối hợp xử lý theo quy định.</li>
                         </ul>
                     </section>
                     <section class="legal-section">
                         <h4>4. Bên được tiếp cận dữ liệu</h4>
-                        <p>Dữ liệu có thể được chia sẻ ở mức cần thiết cho cửa hàng, thợ kỹ thuật, đối tác giao nhận, bộ phận chăm sóc khách hàng, bộ phận kỹ thuật, đơn vị thanh toán, đơn vị hạ tầng công nghệ hoặc cơ quan nhà nước có thẩm quyền. Các bên tiếp cận dữ liệu phải sử dụng đúng mục đích, đúng phạm vi và bảo mật thông tin nhận được.</p>
+                        <p>Dữ liệu có thể được chia sẻ ở mức cần thiết cho thợ kỹ thuật, bộ phận chăm sóc khách hàng, bộ phận kỹ thuật, đơn vị thanh toán, đơn vị hạ tầng công nghệ hoặc cơ quan nhà nước có thẩm quyền. Các bên tiếp cận dữ liệu phải sử dụng đúng mục đích, đúng phạm vi và bảo mật thông tin nhận được.</p>
                     </section>
                     <section class="legal-section">
                         <h4>5. Thời gian lưu trữ</h4>
@@ -2305,43 +2130,43 @@ function openModal(type) {
                     </section>
                     <section class="legal-section">
                         <h4>7. Cookie, vị trí và mã QR</h4>
-                        <p>Nền tảng có thể sử dụng cookie, local storage, mã QR, định danh thiết bị hoặc tọa độ do người dùng cấp quyền để duy trì đăng nhập, tích điểm, chống gian lận, gợi ý vị trí phục vụ và cải thiện trải nghiệm. Người dùng có thể tắt quyền vị trí trên trình duyệt, nhưng một số tính năng như gọi thợ, gọi xe, giao hàng hoặc xác minh phạm vi phục vụ có thể không hoạt động đầy đủ.</p>
+                        <p>Website có thể sử dụng cookie, local storage, mã QR, định danh thiết bị hoặc tọa độ do người dùng cấp quyền để duy trì đăng nhập, tích điểm, chống gian lận, gợi ý vị trí phục vụ và cải thiện trải nghiệm. Người dùng có thể tắt quyền vị trí trên trình duyệt, nhưng một số tính năng như gọi thợ, giao hàng hoặc xác minh phạm vi phục vụ có thể không hoạt động đầy đủ.</p>
                     </section>
                     <section class="legal-section">
                         <h4>8. Liên hệ bảo vệ dữ liệu</h4>
-                        <p>Người dùng có câu hỏi, yêu cầu chỉnh sửa/xóa dữ liệu hoặc phản ánh về bảo mật có thể liên hệ: CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU, địa chỉ 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp, hotline 0979.553.289.</p>
+                        <p>Người dùng có câu hỏi, yêu cầu chỉnh sửa/xóa dữ liệu hoặc phản ánh về bảo mật có thể liên hệ: Trần Công Vinh (Điện Máy Hiếu), địa chỉ 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp, hotline 0979.553.289.</p>
                         <p class="legal-note">Chính sách này được xây dựng theo định hướng tuân thủ Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân và các quy định pháp luật liên quan.</p>
                     </section>
                 </div>
-            `
+            
         },
         dean: {
-            title: 'Đề án hoạt động nền tảng dịch vụ số',
-            html: `
+            title: 'Đề án hoạt động website dịch vụ',
+            html: 
                 <div class="legal-doc">
                     <div class="legal-lead">
-                        <p>Chợ Lấp Vò Online là đề án chuyển đổi số do CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU phát triển theo mô hình nền tảng dịch vụ số tư nhân, kết hợp website, ứng dụng, phần mềm máy tính, hệ thống quản trị, dữ liệu vận hành và công nghệ thông tin để phục vụ thương mại, dịch vụ kỹ thuật và nhu cầu thiết yếu tại địa phương.</p>
+                        <p>Điện Máy Hiếu là đề án chuyển đổi số do Trần Công Vinh phát triển theo mô hình website thương mại điện tử bán hàng/cung cấp dịch vụ của cá nhân, kết hợp website, hệ thống quản trị, dữ liệu vận hành và công nghệ thông tin để phục vụ thương mại, dịch vụ kỹ thuật tại địa phương.</p>
                     </div>
                     <section class="legal-section">
                         <h4>1. Tầm nhìn</h4>
-                        <p>Xây dựng một nền tảng số địa phương có khả năng kết nối người dân, hộ kinh doanh, cửa hàng, thợ kỹ thuật, đối tác giao nhận và doanh nghiệp trong cùng một hệ sinh thái minh bạch, dễ dùng, có dữ liệu đối soát và có khả năng mở rộng thành web/app dịch vụ số chuyên nghiệp.</p>
+                        <p>Xây dựng website dịch vụ điện máy địa phương chuyên nghiệp, minh bạch, có dữ liệu đối soát và khả năng phục vụ khách hàng tại Lấp Vò, Đồng Tháp cùng các khu vực lân cận.</p>
                     </section>
                     <section class="legal-section">
                         <h4>2. Sứ mệnh</h4>
                         <ul>
-                            <li>Đưa dịch vụ mua bán, gọi thợ, giao nhận và chăm sóc sau bán hàng lên môi trường số.</li>
+                            <li>Đưa dịch vụ mua bán hàng điện máy, gọi thợ và chăm sóc sau bán hàng lên môi trường số.</li>
                             <li>Giúp khách hàng tiếp cận dịch vụ nhanh hơn, có giá tham khảo rõ hơn, có lịch sử giao dịch và kênh phản ánh minh bạch.</li>
-                            <li>Giúp cửa hàng, thợ, hộ kinh doanh và đối tác địa phương có thêm công cụ tiếp nhận đơn, quản lý việc, đối soát và phát triển doanh thu.</li>
-                            <li>Tạo nền tảng dữ liệu phục vụ quản trị, báo cáo, phát triển dịch vụ và từng bước chuẩn hóa mô hình sàn giao dịch điện tử địa phương.</li>
+                            <li>Tạo công cụ quản lý đơn hàng, thợ, khách hàng, khuyến mại, bảo hành và đối soát cho chủ cơ sở.</li>
+                            <li>Từng bước chuẩn hóa quy trình vận hành, hồ sơ pháp lý và chất lượng dịch vụ.</li>
                         </ul>
                     </section>
                     <section class="legal-section">
                         <h4>3. Phạm vi sản phẩm công nghệ</h4>
                         <ul>
-                            <li>Website/PWA cho người dùng: tìm sản phẩm, đặt hàng, gọi thợ, gọi xe, định vị, quét QR, tích điểm và theo dõi đơn.</li>
-                            <li>Cổng quản trị nội bộ: quản lý sản phẩm, hóa đơn, khách hàng, cửa hàng, thợ, báo cáo, khuyến mại, đối soát và cảnh báo vận hành.</li>
-                            <li>Hệ thống đối tác: công cụ cho cửa hàng, thợ kỹ thuật, giao nhận và các nhóm dịch vụ địa phương.</li>
-                            <li>Nền tảng dữ liệu: hồ sơ khách hàng, lịch sử giao dịch, điểm thưởng, phản ánh, bảo hành, chất lượng phục vụ và thống kê vận hành.</li>
+                            <li>Website/PWA cho người dùng: xem sản phẩm, đặt hàng, gọi thợ, định vị, quét QR, tích điểm và theo dõi đơn.</li>
+                            <li>Cổng quản trị nội bộ: quản lý sản phẩm, hóa đơn, khách hàng, thợ, báo cáo, khuyến mại, đối soát và cảnh báo vận hành.</li>
+                            <li>Hệ thống thợ: công cụ tiếp nhận báo ca, cập nhật trạng thái, thanh toán và đối soát thu nhập.</li>
+                            <li>Hệ thống dữ liệu: hồ sơ khách hàng, lịch sử giao dịch, điểm thưởng, phản ánh, bảo hành, chất lượng phục vụ và thống kê vận hành.</li>
                             <li>Tích hợp công nghệ: bản đồ, QR, thông báo, chatbot, tự động hóa, API, báo cáo và các công cụ công nghệ thông tin cần thiết.</li>
                         </ul>
                     </section>
@@ -2349,8 +2174,8 @@ function openModal(type) {
                         <h4>4. Lộ trình triển khai</h4>
                         <ul>
                             <li><b>Giai đoạn 1:</b> vận hành website, thử nghiệm quy trình đặt hàng/gọi thợ, tích điểm QR, quản trị đơn và hỗ trợ khách hàng tại khu vực Lấp Vò.</li>
-                            <li><b>Giai đoạn 2:</b> chuẩn hóa hồ sơ cửa hàng, thợ, khách hàng; bổ sung báo cáo, hóa đơn, bảo hành, đánh giá chất lượng và đối soát minh bạch.</li>
-                            <li><b>Giai đoạn 3:</b> phát triển ứng dụng, API, hệ thống phân quyền, chuẩn dữ liệu, tự động hóa điều phối và mô hình vận hành đa nhóm dịch vụ.</li>
+                            <li><b>Giai đoạn 2:</b> chuẩn hóa hồ sơ sản phẩm, thợ, khách hàng; bổ sung báo cáo, hóa đơn, bảo hành, đánh giá chất lượng và đối soát minh bạch.</li>
+                            <li><b>Giai đoạn 3:</b> phát triển ứng dụng di động, API, hệ thống phân quyền, chuẩn dữ liệu và tự động hóa điều phối.</li>
                             <li><b>Giai đoạn 4:</b> hoàn thiện thủ tục pháp lý, tiêu chuẩn bảo mật, năng lực vận hành và mở rộng sang các khu vực hoặc ngành dịch vụ phù hợp.</li>
                         </ul>
                     </section>
@@ -2358,22 +2183,22 @@ function openModal(type) {
                         <h4>5. Mô hình quản trị và kiểm soát chất lượng</h4>
                         <ul>
                             <li>Thiết lập quy trình tiếp nhận, xác minh, phân công, hoàn tất và lưu vết đơn hàng/dịch vụ.</li>
-                            <li>Đánh giá nhà bán, thợ, đối tác theo lịch sử giao dịch, phản ánh, tỷ lệ hoàn tất, thái độ phục vụ và nghĩa vụ đối soát.</li>
-                            <li>Áp dụng cơ chế cảnh báo, tạm khóa, chấm dứt tham gia đối với tài khoản vi phạm hoặc gây rủi ro cho người dùng.</li>
+                            <li>Đánh giá thợ theo lịch sử giao dịch, phản ánh, tỷ lệ hoàn tất, thái độ phục vụ và nghĩa vụ đối soát.</li>
+                            <li>Áp dụng cơ chế cảnh báo, tạm khóa, chấm dứt hợp tác đối với thợ vi phạm hoặc gây rủi ro cho khách hàng.</li>
                             <li>Từng bước chuẩn hóa chính sách bảo hành, đổi trả, xử lý sự cố, bảo vệ dữ liệu và an toàn thông tin.</li>
                         </ul>
                     </section>
                     <section class="legal-section">
                         <h4>6. Cam kết phát triển chuyên nghiệp</h4>
-                        <p>Công ty định hướng phát triển nền tảng như một sản phẩm công nghệ thông tin nghiêm túc: có hệ thống quản trị, dữ liệu, quy trình, trách nhiệm pháp lý, an toàn thông tin, trải nghiệm người dùng và năng lực mở rộng. Mục tiêu không chỉ là một website giới thiệu, mà là một phần mềm dịch vụ số có khả năng phục vụ thực tế, quản trị được rủi ro và tạo giá trị lâu dài cho cộng đồng địa phương.</p>
+                        <p>Điện Máy Hiếu định hướng phát triển website như một sản phẩm công nghệ thông tin nghiêm túc: có hệ thống quản trị, dữ liệu, quy trình, trách nhiệm pháp lý, an toàn thông tin, trải nghiệm người dùng và năng lực mở rộng. Mục tiêu là phần mềm dịch vụ số có khả năng phục vụ thực tế, quản trị được rủi ro và tạo giá trị lâu dài cho khách hàng địa phương.</p>
                     </section>
                     <section class="legal-section">
                         <h4>7. Định hướng pháp lý</h4>
-                        <p>Nền tảng đang trong quá trình hoàn thiện hồ sơ, quy chế, chính sách, quy trình vận hành và năng lực kỹ thuật để đáp ứng yêu cầu quản lý đối với hoạt động thương mại điện tử, dịch vụ số, bảo vệ dữ liệu cá nhân và bảo vệ quyền lợi người tiêu dùng.</p>
+                        <p>Website đang trong quá trình hoàn thiện hồ sơ, quy chế, chính sách, quy trình vận hành và năng lực kỹ thuật để đáp ứng yêu cầu quản lý đối với hoạt động thương mại điện tử, dịch vụ số, bảo vệ dữ liệu cá nhân và bảo vệ quyền lợi người tiêu dùng.</p>
                         <p class="legal-note">Đề án này là bản công bố định hướng phát triển và có thể được cập nhật theo tình hình vận hành, yêu cầu quản lý nhà nước, phản hồi của người dùng và năng lực triển khai thực tế.</p>
                     </section>
                 </div>
-            `
+            
         }
     };
 
@@ -2400,7 +2225,6 @@ let loginQrScanner = null;
 function showEmailLogin() {
     document.getElementById('loginMethods').style.display = 'none';
     document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('storeRegisterForm').style.display = 'none';
     document.getElementById('phoneLoginForm').style.display = 'none';
     document.getElementById('emailLoginForm').style.display = 'block';
     document.getElementById('emailLoginError').style.display = 'none';
@@ -2409,127 +2233,8 @@ function showEmailLogin() {
 function showPhoneLogin() {
     document.getElementById('loginMethods').style.display = 'none';
     document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('storeRegisterForm').style.display = 'none';
     document.getElementById('phoneLoginForm').style.display = 'block';
     document.getElementById('phoneLoginError').style.display = 'none';
-}
-
-function showStoreRegister() {
-    document.getElementById('loginMethods').style.display = 'none';
-    document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('phoneLoginForm').style.display = 'none';
-    document.getElementById('storeRegisterForm').style.display = 'block';
-    document.getElementById('storeRegError').style.display = 'none';
-    document.getElementById('storeRegSuccess').style.display = 'none';
-}
-
-function checkMaxCategories(checkbox) {
-    const checked = document.querySelectorAll('#regStoreCategories input[type="checkbox"]:checked');
-    if (checked.length > 5) {
-        alert('Chỉ được chọn tối đa 5 hạng mục.');
-        checkbox.checked = false;
-    }
-}
-
-function getStoreLocation(e) {
-    e.preventDefault();
-    if (navigator.geolocation) {
-        e.target.textContent = 'Đang lấy...';
-        navigator.geolocation.getCurrentPosition(function(position) {
-            document.getElementById('regStoreLat').value = position.coords.latitude;
-            document.getElementById('regStoreLng').value = position.coords.longitude;
-            e.target.textContent = '📍 Đã lấy tọa độ';
-            setTimeout(() => { e.target.textContent = '📍 Lấy tọa độ hiện tại'; }, 2000);
-        }, function(error) {
-            alert('Không thể lấy tọa độ: ' + error.message);
-            e.target.textContent = '📍 Lấy tọa độ hiện tại';
-        }, { enableHighAccuracy: true });
-    } else {
-        alert("Trình duyệt không hỗ trợ lấy tọa độ.");
-    }
-}
-
-function submitStoreRegister() {
-    const name = document.getElementById('regStoreName').value.trim();
-    const ownerName = document.getElementById('regStoreOwnerName').value.trim();
-    const phone = document.getElementById('regStorePhone').value.trim();
-    const email = document.getElementById('regStoreEmail').value.trim();
-    const tax = document.getElementById('regStoreTax').value.trim();
-    const taxDate = document.getElementById('regStoreTaxDate').value.trim();
-    const taxPlace = document.getElementById('regStoreTaxPlace').value.trim();
-    const address = document.getElementById('regStoreAddress').value.trim();
-    const lat = document.getElementById('regStoreLat').value.trim();
-    const lng = document.getElementById('regStoreLng').value.trim();
-
-    const checkedCats = document.querySelectorAll('#regStoreCategories input[type="checkbox"]:checked');
-    const categories = Array.from(checkedCats).map(cb => cb.value).join(', ');
-
-    const err = document.getElementById('storeRegError');
-    const succ = document.getElementById('storeRegSuccess');
-    err.style.display = 'none';
-    succ.style.display = 'none';
-
-    if (!name || !ownerName || !phone || !email || !tax || !taxDate || !taxPlace || !address) {
-        err.textContent = 'Vui lòng nhập đầy đủ tất cả các trường có dấu (*).';
-        err.style.display = 'block';
-        return;
-    }
-    if (categories === '') {
-        err.textContent = 'Vui lòng chọn ít nhất 1 hạng mục kinh doanh.';
-        err.style.display = 'block';
-        return;
-    }
-
-    document.getElementById('storeRegSubmitBtn').disabled = true;
-    document.getElementById('storeRegSubmitBtn').textContent = 'Đang gửi đăng ký...';
-
-    fetch('api_master.php?action=app_store_register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            store_name: name,
-            owner_name: ownerName,
-            phone: phone,
-            email: email,
-            tax_code: tax,
-            tax_code_date: taxDate,
-            tax_code_place: taxPlace,
-            address: address,
-            store_type: categories,
-            lat: lat,
-            lng: lng
-        })
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        document.getElementById('storeRegSubmitBtn').disabled = false;
-        document.getElementById('storeRegSubmitBtn').textContent = 'Gửi đơn Đăng ký';
-        if (d.status !== 'success') {
-            err.textContent = d.message || 'Lỗi đăng ký.';
-            err.style.display = 'block';
-            return;
-        }
-        succ.textContent = 'Gửi đơn thành công! Vui lòng chờ giám đốc phê duyệt.';
-        succ.style.display = 'block';
-        // Reset form
-        document.getElementById('regStoreName').value = '';
-        document.getElementById('regStoreOwnerName').value = '';
-        document.getElementById('regStorePhone').value = '';
-        document.getElementById('regStoreEmail').value = '';
-        document.getElementById('regStoreTax').value = '';
-        document.getElementById('regStoreTaxDate').value = '';
-        document.getElementById('regStoreTaxPlace').value = '';
-        document.getElementById('regStoreAddress').value = '';
-        document.getElementById('regStoreLat').value = '';
-        document.getElementById('regStoreLng').value = '';
-        checkedCats.forEach(cb => cb.checked = false);
-    })
-    .catch(e => {
-        document.getElementById('storeRegSubmitBtn').disabled = false;
-        document.getElementById('storeRegSubmitBtn').textContent = 'Gửi đơn Đăng ký';
-        err.textContent = 'Lỗi kết nối. Vui lòng thử lại.';
-        err.style.display = 'block';
-    });
 }
 
 function submitPhoneLogin() {
@@ -2610,7 +2315,6 @@ function submitEmailLogin() {
 function showQrLogin() {
     document.getElementById('loginMethods').style.display = 'none';
     document.getElementById('phoneLoginForm').style.display = 'none';
-    document.getElementById('storeRegisterForm').style.display = 'none';
     document.getElementById('qrLoginForm').style.display = 'block';
     document.getElementById('loginError').style.display = 'none';
 
@@ -2691,8 +2395,8 @@ function submitLogin() {
 function handleLoginSuccess(data) {
     if (data.type === 'store') {
         localStorage.setItem('dth_store_key', data.login_key);
-        alert('Đăng nhập cửa hàng thành công! Chuyển hướng đến Quản lý Cửa Hàng...');
-        window.location.href = 'vendor.php';
+        alert('Đăng nhập quản trị thành công! Chuyển hướng đến trang quản trị...');
+        window.location.href = 'admin_xxx.php';
         return;
     }
 
@@ -2889,8 +2593,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const validUserKey = localStorage.getItem('dth_user_key');
 
     if (storedStoreKey) {
-        // Just redirect to vendor.php
-        window.location.href = 'vendor.php';
+        // Quản trị viên chuyển về trang quản trị
+        window.location.href = 'admin_xxx.php';
     } else if (validUserKey) {
         fetch('api_master.php?action=verify_login_key', {
             method: 'POST',
@@ -3005,16 +2709,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (serviceSelectorTrigger && serviceModal) {
         serviceSelectorTrigger.addEventListener('click', () => {
             serviceModal.querySelectorAll('.service-group-container').forEach(el => {
-                const group = el.getAttribute('data-group-name');
-                if (currentMainService === 'vehicle') {
-                    el.style.display = (group === 'Gọi xe') ? 'block' : 'none';
-                } else if (currentMainService === 'worker') {
-                    el.style.display = (group !== 'Gọi xe' && group !== 'Drone' && group !== 'Quay phim' && group !== 'Quay + Chụp') ? 'block' : 'none';
-                } else if (currentMainService === 'drone') {
-                    el.style.display = (group === 'Quay + Chụp' || group === 'Quay phim' || group === 'Drone') ? 'block' : 'none';
-                } else {
-                    el.style.display = 'block';
-                }
+                el.style.display = 'block';
             });
             serviceModal.style.display = 'flex';
         });
@@ -3047,7 +2742,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
                 serviceModal.style.display = 'none';
-                if (typeof calculateVehicleRouteAndPrice === 'function') calculateVehicleRouteAndPrice();
             });
         });
     }
@@ -3146,7 +2840,6 @@ function selectMainService(type) {
     const selectorTrigger = document.getElementById('serviceSelectorTrigger');
     const selectorText = document.getElementById('serviceSelectorText');
 
-    // Đặt lại các giá trị ban đầu
     selectorTrigger.style.pointerEvents = 'auto';
     selectorTrigger.style.opacity = '1';
 
@@ -3162,214 +2855,7 @@ function selectMainService(type) {
         document.getElementById('tech_target_base').value = '';
         document.getElementById('selected_service_name').value = '';
         document.getElementById('location_single_group').style.display = 'block';
-        document.getElementById('location_vehicle_group').style.display = 'none';
         document.getElementById('address').required = true;
-    } else if (type === 'vehicle') {
-        if (roleInput) roleInput.value = 'bike';
-        sectionTitle.innerHTML = '🚖 GỌI XE';
-        sectionDesc.textContent = 'Gọi xe di chuyển, xe ôm, giao hàng nhanh chóng';
-        formTitle.textContent = '📋 Điền thông tin gọi xe';
-        submitBtn.innerHTML = '🚀 GỬI YÊU CẦU GỌI XE';
-        submitBtn.dataset.originalText = '🚀 GỬI YÊU CẦU GỌI XE';
-        selectorText.innerHTML = '-- Bấm vào đây để chọn loại xe --';
-        document.getElementById('service_type').value = 'vehicle';
-        document.getElementById('tech_target_base').value = '';
-        document.getElementById('selected_service_name').value = 'Gọi xe';
-        document.getElementById('location_single_group').style.display = 'none';
-        document.getElementById('location_vehicle_group').style.display = 'block';
-        document.getElementById('address').required = false;
-    } else if (type === 'drone') {
-        if (roleInput) roleInput.value = 'drone';
-        sectionTitle.innerHTML = '📷 QUAY + CHỤP';
-        sectionDesc.textContent = 'Dịch vụ quay phim và chụp ảnh, ghi lại khoảnh khắc trọng đại';
-        formTitle.textContent = '📋 Điền thông tin đặt dịch vụ quay + chụp';
-        submitBtn.innerHTML = '🚀 ĐẶT QUAY + CHỤP NGAY';
-        submitBtn.dataset.originalText = '🚀 ĐẶT QUAY + CHỤP NGAY';
-        document.getElementById('location_single_group').style.display = 'block';
-        document.getElementById('location_vehicle_group').style.display = 'none';
-        document.getElementById('address').required = true;
-        // Gán cứng giá và dịch vụ cho Quay + Chụp
-        const droneService = 'Quay + chụp trao nhẫn cưới';
-        const dronePrice = 500000;
-        document.getElementById('service_type').value = 'Quay + Chụp';
-        document.getElementById('tech_target_base').value = dronePrice;
-        document.getElementById('selected_service_name').value = droneService;
-
-        selectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${droneService}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - 500.000 đ</span>`;
-        selectorTrigger.style.borderColor = '#D4AF37';
-        selectorTrigger.style.background = 'rgba(255,255,255,.06)';
-        selectorTrigger.style.pointerEvents = 'none'; // Khoá nút chọn
-        selectorTrigger.style.opacity = '0.8';
-
-    }
-}
-
-function getLocationFor(type) {
-    if (!navigator.geolocation) return alert('Trình duyệt không hỗ trợ GPS.');
-    const ls = document.getElementById(type + 'Status');
-    ls.textContent = 'Đang lấy vị trí...';
-    navigator.geolocation.getCurrentPosition(async position => {
-        const lat = position.coords.latitude;
-        const lng = position.coords.longitude;
-        if (!checkLocationRadius(lat, lng)) {
-            ls.textContent = 'Vị trí nằm ngoài vùng phục vụ (15km quanh Lấp Vò).';
-            return;
-        }
-        document.getElementById(type + '_lat').value = lat;
-        document.getElementById(type + '_lng').value = lng;
-        ls.textContent = 'Đã lấy tọa độ. Đang tải địa chỉ...';
-        try {
-            const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=' + lat + '&lon=' + lng);
-            const data = await response.json();
-            if (data && data.display_name) {
-                document.getElementById(type + '_address').value = data.display_name;
-            } else {
-                document.getElementById(type + '_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
-            }
-            ls.textContent = 'Đã nhận diện: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
-        } catch (e) {
-            document.getElementById(type + '_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
-            ls.textContent = 'Đã lấy tọa độ: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
-        }
-        calculateVehicleRouteAndPrice();
-    }, () => ls.textContent = 'Lỗi GPS. Vui lòng cấp quyền.');
-}
-
-document.getElementById('usePickupLocation')?.addEventListener('click', () => getLocationFor('pickup'));
-document.getElementById('useDropoffLocation')?.addEventListener('click', () => getLocationFor('dropoff'));
-
-let pickerMap = null;
-let pickerMarker = null;
-let currentPickerTarget = null;
-
-document.querySelectorAll('.open-map-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        currentPickerTarget = btn.dataset.target;
-        document.getElementById('mapPickerTitle').textContent = currentPickerTarget === 'pickup' ? 'Chọn Điểm Đón' : 'Chọn Điểm Đến';
-        document.getElementById('mapPickerModal').style.display = 'flex';
-
-        setTimeout(() => {
-            if (!pickerMap) {
-                pickerMap = L.map('mapPickerContainer').setView([10.762622, 106.660172], 13);
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© OpenStreetMap contributors'
-                }).addTo(pickerMap);
-                pickerMarker = L.marker([10.762622, 106.660172], {draggable: true}).addTo(pickerMap);
-
-                pickerMap.on('click', function(e) {
-                    pickerMarker.setLatLng(e.latlng);
-                });
-            } else {
-                pickerMap.invalidateSize();
-            }
-
-            const existLat = document.getElementById(currentPickerTarget + '_lat').value;
-            const existLng = document.getElementById(currentPickerTarget + '_lng').value;
-            if (existLat && existLng) {
-                pickerMap.setView([existLat, existLng], 15);
-                pickerMarker.setLatLng([existLat, existLng]);
-            } else {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(pos => {
-                        pickerMap.setView([pos.coords.latitude, pos.coords.longitude], 15);
-                        pickerMarker.setLatLng([pos.coords.latitude, pos.coords.longitude]);
-                    });
-                }
-            }
-        }, 100);
-    });
-});
-
-document.getElementById('closeMapPicker')?.addEventListener('click', () => {
-    document.getElementById('mapPickerModal').style.display = 'none';
-});
-
-document.getElementById('confirmMapPicker')?.addEventListener('click', async () => {
-    if (!currentPickerTarget || !pickerMarker) return;
-    const latlng = pickerMarker.getLatLng();
-    const lat = latlng.lat;
-    const lng = latlng.lng;
-
-    if (!checkLocationRadius(lat, lng)) {
-        return; // Don't close modal, let user re-pick
-    }
-
-    document.getElementById(currentPickerTarget + '_lat').value = lat;
-    document.getElementById(currentPickerTarget + '_lng').value = lng;
-    document.getElementById('mapPickerModal').style.display = 'none';
-
-    const ls = document.getElementById(currentPickerTarget + 'Status');
-    ls.textContent = 'Đang lấy địa chỉ từ bản đồ...';
-
-    try {
-        const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${lat}&lon=${lng}`);
-        const data = await response.json();
-        if (data && data.display_name) {
-            document.getElementById(currentPickerTarget + '_address').value = data.display_name;
-        } else {
-            document.getElementById(currentPickerTarget + '_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
-        }
-        ls.textContent = 'Đã chọn từ bản đồ: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
-    } catch (e) {
-        document.getElementById(currentPickerTarget + '_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
-        ls.textContent = 'Đã chọn tọa độ: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
-    }
-
-    calculateVehicleRouteAndPrice();
-});
-
-async function calculateVehicleRouteAndPrice() {
-    if (currentMainService !== 'vehicle') return;
-    const pLat = document.getElementById('pickup_lat').value;
-    const pLng = document.getElementById('pickup_lng').value;
-    const dLat = document.getElementById('dropoff_lat').value;
-    const dLng = document.getElementById('dropoff_lng').value;
-
-    if (!pLat || !pLng || !dLat || !dLng) return;
-
-    const serviceName = document.getElementById('selected_service_name').value.trim();
-    if (!serviceName || serviceName === 'Gọi xe') return;
-
-    document.getElementById('vehicle_pricing_info').style.display = 'block';
-    document.getElementById('vehicle_distance_display').textContent = 'Đang tính toán...';
-
-    try {
-        const url = `https://router.project-osrm.org/route/v1/driving/${pLng},${pLat};${dLng},${dLat}?overview=false`;
-        const res = await fetch(url);
-        const data = await res.json();
-        if (data.code === 'Ok' && data.routes && data.routes.length > 0) {
-            const distanceKm = data.routes[0].distance / 1000;
-            document.getElementById('vehicle_distance_display').textContent = distanceKm.toFixed(2) + ' km';
-
-            let price = 0;
-            let exactExtraPrice = 0;
-            const km = distanceKm;
-
-            if (serviceName.includes('Đơn đồ ăn') || serviceName.includes('Đi chợ thay')) {
-                price = 13000;
-                if (km > 2) exactExtraPrice = (km - 2) * 3500;
-            } else if (serviceName.includes('Xe ôm')) {
-                price = 15000;
-                if (km > 2) exactExtraPrice = (km - 2) * 4000;
-            } else if (serviceName.includes('Shipper')) {
-                price = 16000;
-                if (km > 1) exactExtraPrice = (km - 1) * 4000;
-            } else {
-                price = 15000;
-                if (km > 2) exactExtraPrice = (km - 2) * 4000;
-            }
-
-            const total = price + exactExtraPrice;
-            const finalPrice = Math.round(total / 1000) * 1000;
-
-            document.getElementById('vehicle_calculated_price').value = finalPrice;
-            document.getElementById('vehicle_price_display').textContent = new Intl.NumberFormat('vi-VN').format(finalPrice) + ' đ';
-        } else {
-            throw new Error('Routing fail');
-        }
-    } catch (e) {
-        document.getElementById('vehicle_distance_display').textContent = 'Không tìm được tuyến đường';
-        document.getElementById('vehicle_price_display').textContent = 'Liên hệ tài xế báo giá';
     }
 }
 
@@ -3381,7 +2867,7 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
     const phone = document.getElementById('phone').value.trim();
     const selectedService = document.getElementById('selected_service_name').value.trim();
 
-    if (!selectedService || selectedService === 'Gọi xe') {
+    if (!selectedService) {
         showBookingStatus('err', 'Vui lòng chọn dịch vụ cụ thể trong danh sách phía trên trước khi gửi form.');
         return;
     }
@@ -3391,36 +2877,14 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         return;
     }
 
-    if (currentMainService === 'vehicle') {
-        const pLat = document.getElementById('pickup_lat').value.trim();
-        const pLng = document.getElementById('pickup_lng').value.trim();
-        const dLat = document.getElementById('dropoff_lat').value.trim();
-        const dLng = document.getElementById('dropoff_lng').value.trim();
-        const pAddress = document.getElementById('pickup_address').value.trim();
-        const dAddress = document.getElementById('dropoff_address').value.trim();
-
-        if (!pLat || !pLng || !dLat || !dLng) {
-            showBookingStatus('err', 'Vui lòng lấy tọa độ cho cả Điểm đón và Điểm đến.');
-            return;
-        }
-
-        document.getElementById('map_lat').value = pLat;
-        document.getElementById('map_lng').value = pLng;
-        document.getElementById('address').value = `Từ: ${pAddress || pLat+','+pLng} -> Đến: ${dAddress || dLat+','+dLng}`;
-
-        if (!document.getElementById('customer_price_hidden')) {
-            const cp = document.createElement('input');
-            cp.type = 'hidden';
-            cp.id = 'customer_price_hidden';
-            cp.name = 'customer_price';
-            form.appendChild(cp);
-        }
-        document.getElementById('customer_price_hidden').value = document.getElementById('vehicle_calculated_price').value;
-    } else if (false) {
-            showBookingStatus('err', 'Vui lòng bấm chọn và xác nhận tọa độ trên bản đồ trước khi gửi yêu cầu.');
-            locationStatus?.scrollIntoView({behavior: 'smooth', block: 'center'});
-            return;
-        }
+    const lat = document.getElementById('map_lat').value.trim();
+    const lng = document.getElementById('map_lng').value.trim();
+    const address = document.getElementById('address').value.trim();
+    if (!address) {
+        showBookingStatus('err', 'Vui lòng nhập địa chỉ hoặc lấy tọa độ hiện tại.');
+        document.getElementById('address').focus();
+        return;
+    }
 
     // Điền mô tả = tên dịch vụ đã chọn
     document.getElementById('description').value = selectedService;
@@ -3443,22 +2907,13 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         if (!response.ok || !(data.status === 'success' || data.success === true)) {
             throw new Error(data.message || 'Không gửi được yêu cầu.');
         }
-        alert('Đã báo ca thành công!');
+        alert('Đã báo cáo thành công!');
         form.reset();
         selectMainService('worker');
-        ['pickup_lat','pickup_lng','dropoff_lat','dropoff_lng','pickup_address','dropoff_address','vehicle_calculated_price'].forEach(id => {
-            const el = document.getElementById(id);
-            if (el) el.value = id === 'vehicle_calculated_price' ? '0' : '';
-        });
-        const vehiclePricing = document.getElementById('vehicle_pricing_info');
-        if (vehiclePricing) vehiclePricing.style.display = 'none';
-
-
         document.getElementById('map_lat').value = '';
         document.getElementById('map_lng').value = '';
         document.querySelectorAll('.choose-service').forEach(item => item.classList.remove('selected'));
-
-        setLocationStatus('Bấm vào bản đồ hoặc dùng vị trí hiện tại.');
+        setLocationStatus('Vui lòng nhập địa chỉ hoặc lấy tọa độ hiện tại.');
         showBookingStatus('ok', 'Yêu cầu đã gửi thành công.');
     } catch (error) {
         showBookingStatus('err', error.message || 'Lỗi kết nối backend.');
@@ -3839,21 +3294,8 @@ async function spinWheel() {
                     <?php foreach ($groupItems as $svc):
                         $base = (int)$svc['base'];
                         $publicPrice = $base;
-                        $isVehicle = ($svc['group'] === 'Gọi xe');
-
-                        if ($isVehicle) {
-                            if (stripos($svc['name'], '2km đầu') !== false) {
-                                $priceLabel = money_vnd($publicPrice) . ' / 2km đầu';
-                            } else if (stripos($svc['name'], 'Km đầu') !== false) {
-                                $priceLabel = money_vnd($publicPrice) . ' / Km đầu';
-                            } else {
-                                $priceLabel = money_vnd($publicPrice) . ' (mở cửa)';
-                            }
-                            $priceData = 'Tính cước theo km';
-                        } else {
-                            $priceLabel = $publicPrice > 0 ? money_vnd($publicPrice) : 'Liên hệ';
-                            $priceData = $publicPrice > 0 ? money_vnd($publicPrice) . ' (Đã gồm VAT)' : 'Liên hệ báo giá';
-                        }
+                        $priceLabel = $publicPrice > 0 ? money_vnd($publicPrice) : 'Liên hệ';
+                        $priceData = $publicPrice > 0 ? money_vnd($publicPrice) . ' (Đã gồm VAT)' : 'Liên hệ báo giá';
                     ?>
                     <div class="custom-service-item" data-name="<?= h($svc['name']) ?>" data-group="<?= h($svc['group']) ?>" data-base="<?= $base ?>" data-price="<?= $priceData ?>" style="background: #fff; border: 1px solid #cbd5e1; border-radius: 16px; padding: 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
                         <span style="font-weight: 700; color: #1e293b; font-size: 15px; flex: 1; padding-right: 10px; line-height: 1.4;"><?= h($svc['name']) ?></span>

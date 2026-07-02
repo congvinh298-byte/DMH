@@ -232,7 +232,7 @@ function app_check_site_password()
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Khu vực Thử nghiệm - Chợ Lấp Vò Online</title>
+    <title>Khu vực Thử nghiệm - Điện Máy Hiếu</title>
     <style>
         *{box-sizing:border-box}
         body{margin:0;min-height:100vh;display:grid;place-items:center;background:#fef2f2;color:#111827;font-family:system-ui,-apple-system,sans-serif;padding:20px}
@@ -1452,19 +1452,6 @@ function telegram_normalize_role(string $role): string
         case 'tech':
         case 'worker':
             return 'worker';
-        case '2':
-        case 'xe':
-        case 'shipper':
-        case 'vehicle':
-        case 'bike':
-            return 'bike';
-        case '3':
-        case 'quay':
-        case 'camera':
-        case 'cameraman':
-        case 'flycam':
-        case 'drone':
-            return 'drone';
         case '4':
         case 'boss':
         case 'bao-cao':
@@ -1483,25 +1470,17 @@ function telegram_normalize_role(string $role): string
 function telegram_role_label(string $role): string
 {
     switch (telegram_normalize_role($role)) {
-        case 'bike':
-            return 'Anh Thien 2 - Goi xe';
-        case 'drone':
-            return 'Anh Thien 3 - Goi quay';
         case 'report':
-            return 'Anh Thien 4 - Bao cao / AI';
+            return 'Anh Thien - Bao cao / AI';
         case 'worker':
         default:
-            return 'Anh Thien 1 - Goi tho';
+            return 'Anh Thien - Goi tho';
     }
 }
 
 function telegram_token(string $role): string
 {
     switch (telegram_normalize_role($role)) {
-        case 'bike':
-            return app_env('BOT_BIKE_TOKEN', '');
-        case 'drone':
-            return app_env('BOT_DRONE_TOKEN', '');
         case 'report':
             return app_env('BOT_REPORT_TOKEN', '');
         case 'worker':
@@ -1513,10 +1492,6 @@ function telegram_token(string $role): string
 function telegram_chat(string $role): string
 {
     switch (telegram_normalize_role($role)) {
-        case 'bike':
-            return app_env('BIKE_CHAT_ID', '-1003789262706');
-        case 'drone':
-            return app_env('DRONE_CHAT_ID', '-1003947453214');
         case 'report':
             return app_env('BOSS_CHAT_ID', '-1003754511106');
         case 'worker':
@@ -1779,7 +1754,7 @@ function handle_telegram_message(PDO $pdo, string $role, array $message): void
     $text = trim((string)($message['text'] ?? $message['caption'] ?? ''));
     $key = service_name_key($text);
 
-    if (in_array($role, ['worker', 'bike', 'drone'], true)) {
+    if (in_array($role, ['worker'], true)) {
         upsert_worker($pdo, $senderId, $name, $username, $role);
     }
 
@@ -1793,7 +1768,7 @@ function handle_telegram_message(PDO $pdo, string $role, array $message): void
     }
 
     if (dth_starts_with($key, 'idtelegram')) {
-        $registerRole = in_array($role, ['worker', 'bike', 'drone'], true) ? $role : 'worker';
+        $registerRole = in_array($role, ['worker'], true) ? $role : 'worker';
         $result = register_worker_from_admin_command($pdo, $senderId, $text, $registerRole);
         tg_send($role, $chatId, esc_html((string)($result['message'] ?? 'Da xu ly.')));
         return;

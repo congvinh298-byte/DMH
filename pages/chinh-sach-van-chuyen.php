@@ -26,9 +26,9 @@ require_once __DIR__ . '/_legal_header.php';
 
 <h3>Thông tin doanh nghiệp</h3>
 <ul>
-    <li><strong>Công ty:</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</li>
+    <li><strong>Chủ cửa hàng:</strong> Trần Công Vinh (Điện Máy Hiếu)</li>
     <li><strong>Mã số thuế:</strong> 1402228630</li>
-    <li><strong>Ngày thành lập:</strong> 06/04/2026</li>
+    <li><strong>Ngày cấp ĐKKD:</strong> 10/08/2024</li>
     <li><strong>Email:</strong> congvinh298@gmail.com</li>
     <li><strong>Hotline:</strong> 0979.553.289</li>
 </ul>

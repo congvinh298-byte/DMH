@@ -7,10 +7,10 @@
     <div class="wrap">
         <div class="footer-grid">
             <div>
-                <h3>CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h3>
+                <h3>ĐIỆN MÁY HIẾU</h3>
                 <p>Số GCN ĐKKD/MST: 1402228630 do Sở Kế hoạch và Đầu tư tỉnh Đồng Tháp cấp ngày 10/08/2024</p>
                 <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Huyện Lấp Vò, Tỉnh Đồng Tháp</p>
-                <p>Đại diện pháp luật: Ông Trần Công Vinh - Giám đốc</p>
+                <p>Chủ cửa hàng: Ông Trần Công Vinh</p>
                 <p>Khu vực phục vụ: bán kính 15 km tính từ Cầu Lấp Vò</p>
             </div>
             <div>
@@ -28,15 +28,14 @@
             </div>
             <div>
                 <h3>Hướng dẫn</h3>
-                <p><a href="/pages/huong-dan-mua-hang">Hướng dẫn mua hàng</a></p>
-                <p><a href="/pages/huong-dan-ban-hang">Hướng dẫn bán hàng</a></p>
+                <p><a href="/pages/huong-dan-mua-hang">Hướng dẫn đặt dịch vụ</a></p>
                 <p><a href="/pages/lien-he">Liên hệ</a></p>
                 <p><a href="/pages/gioi-thieu">Giới thiệu</a></p>
             </div>
         </div>
         <div class="footer-bottom">
-            <span>&copy; 2026 Cho Lap Vo Online - dienmayhieu.com</span>
-            <span>Website dang cho duyet | So DKKD: 1402228630</span>
+            <span>&copy; 2026 Điện Máy Hiếu - dienmayhieu.com</span>
+            <span>Website đang chờ duyệt | MST: 1402228630</span>
         </div>
     </div>
 </footer>

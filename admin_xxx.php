@@ -90,7 +90,7 @@ $csrfToken = esc_html($_SESSION['csrf_token'] ?? '');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin Dashboard - Chợ Lấp Vò Online</title>
+    <title>Admin Dashboard - Điện Máy Hiếu</title>
     <style>
         :root {
             --primary: #dc2626;
@@ -283,7 +283,7 @@ $csrfToken = esc_html($_SESSION['csrf_token'] ?? '');
         <div class="login-header">
             <div class="logo">&#128722;</div>
             <h1>Đăng nhập Admin</h1>
-            <p>Chợ Lấp Vò Online - Trang quản trị</p>
+            <p>Điện Máy Hiếu - Trang quản trị</p>
         </div>
         <div class="login-body">
             <?php if ($error !== ''): ?>
@@ -311,7 +311,7 @@ $csrfToken = esc_html($_SESSION['csrf_token'] ?? '');
         <div class="sidebar-brand">
             <span class="logo">&#128722;</span>
             <div>
-                <div class="brand-text">Chợ Lấp Vò</div>
+                <div class="brand-text">Điện Máy Hiếu</div>
                 <div class="brand-sub">Admin Dashboard</div>
             </div>
         </div>
@@ -631,7 +631,7 @@ $csrfToken = esc_html($_SESSION['csrf_token'] ?? '');
             </div>
 
             <footer style="text-align:center;margin-top:40px;font-size:13px;color:var(--muted);">
-                &copy; <?= date('Y') ?> Chợ Lấp Vò Online — Admin Dashboard
+                &copy; <?= date('Y') ?> Điện Máy Hiếu - Admin Dashboard
             </footer>
         </div>
     </main>

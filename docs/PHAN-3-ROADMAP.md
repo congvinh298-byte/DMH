@@ -1,4 +1,4 @@
-# PHẦN 3 - KẾ HOẠCH PHÁT TRIỂN TÍNH NĂNG (MARKETPLACE)
+﻿# PHẦN 3 - KẾ HOẠCH PHÁT TRIỂN TÍNH NĂNG (MARKETPLACE)
 
 > Cập nhật: 24/06/2026
 > Trạng thái: SẴN SÀNG TRIỂN KHAI
@@ -8,7 +8,7 @@
 | # | Tính năng | Trạng thái | File liên quan |
 |---|---|---|---|
 | 1 | Đăng ký/đăng nhập (OTP phone) | ✅ **ĐÃ CÓ** | `api/users.php` (login_or_register_phone_action, app_customer_register_action) |
-| 2 | Quản lý gian hàng | ✅ **ĐÃ CÓ** | `api/workers.php` (worker CRUD, marketplace_products_for_store) |
+| 2 | Quản lý sản phẩm/dịch vụ | ✅ **ĐÃ CÓ** | `api/workers.php` (worker CRUD, marketplace_products_for_store) |
 | 3 | Tìm kiếm/filter sản phẩm | ✅ **ĐÃ CÓ** | `api/products.php` (search, filter, keyword, 13 hits) |
 | 4 | Đơn hàng + trạng thái | ✅ **ĐÃ CÓ** | `api/orders.php` (next_order_code, create_order, order_status 6 hits) |
 | 5 | Đánh giá/review | ✅ **ĐÃ CÓ** | `review/rating` (2 hits) |
