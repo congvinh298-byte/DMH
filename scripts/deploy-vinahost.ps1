@@ -104,21 +104,16 @@ Write-Host "   Zip size: $zipSize MB"
 Write-Host "[4/4] Uploading to FTP..." -ForegroundColor Yellow
 $ftpUrl = "ftp://$FtpServer$RemotePath/$ZipName"
 
-# Dung curl (co san tren Windows 10+)
-$curlArgs = @(
-    "-T", "`"$zipPath`""
-    "--user", "`"$FtpUser`:$FtpPassword`""
-    "--ftp-create-dirs"
-    "-sS"
-    "`"$ftpUrl`""
-)
-$result = & curl @curlArgs 2>&1
-if ($LASTEXITCODE -ne 0) {
-    Write-Host "`n   FTP upload FAILED: $result" -ForegroundColor Red
+try {
+    $webclient = New-Object System.Net.WebClient
+    $webclient.Credentials = New-Object System.Net.NetworkCredential($FtpUser, $FtpPassword)
+    $webclient.UploadFile($ftpUrl, $zipPath)
+    Write-Host "   Uploaded $ZipName to $ftpUrl"
+} catch {
+    Write-Host "   FTP upload FAILED: $_" -ForegroundColor Red
     Write-Host "   Kiem tra lai FTP_SERVER / FTP_USERNAME / FTP_PASSWORD" -ForegroundColor Red
     exit 1
 }
-Write-Host "   Uploaded $ZipName to $ftpUrl"
 
 # --- BUOC 5: Cleanup ---
 Remove-Item -Recurse -Force $staging
