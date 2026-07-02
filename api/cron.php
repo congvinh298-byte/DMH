@@ -12,65 +12,6 @@ function verify_cron_secret()
     }
 }
 
-function cron_vendor_daily_closing(PDO $pdo): array
-{
-    $date = date('Y-m-d');
-    $cols = column_exists($pdo, 'marketplace_stores', 'vendor_telegram_chat_id') ? 'id, store_name, vendor_telegram_chat_id' : 'id, store_name';
-    $stmt = $pdo->query("SELECT {$cols} FROM marketplace_stores WHERE status = 'active'");
-    $stores = $stmt->fetchAll();
-    $processed = 0;
-    foreach ($stores as $store) {
-        $storeId = (int)$store['id'];
-        
-        // Skip if already closed
-        $checkStmt = $pdo->prepare("SELECT id FROM store_daily_reports WHERE store_id = ? AND report_date = ? AND is_closed = 1 LIMIT 1");
-        $checkStmt->execute([$storeId, $date]);
-        if ($checkStmt->fetch()) continue;
-        
-        // Get products
-        $prodStmt = $pdo->prepare("SELECT id FROM marketplace_products WHERE store_id = ?");
-        $prodStmt->execute([$storeId]);
-        $productIds = $prodStmt->fetchAll(PDO::FETCH_COLUMN);
-        
-        $totalOrders = 0;
-        $totalRevenue = 0;
-        
-        if (!empty($productIds)) {
-            $in = str_repeat('?,', count($productIds) - 1) . '?';
-            $params = array_merge([$date . ' 00:00:00', $date . ' 23:59:59'], $productIds);
-            $orderStmt = $pdo->prepare("
-                SELECT count(id) as total_orders, sum(total_price) as total_revenue
-                FROM orders
-                WHERE created_at BETWEEN ? AND ?
-                AND status IN ('confirmed', 'completed', 'Dã xác nhận', 'Hoàn thành')
-                AND product_id IN ($in)
-            ");
-            $orderStmt->execute($params);
-            $stats = $orderStmt->fetch();
-            $totalOrders = (int)($stats['total_orders'] ?? 0);
-            $totalRevenue = (int)($stats['total_revenue'] ?? 0);
-        }
-        
-        try {
-            $pdo->exec("INSERT INTO store_daily_reports (store_id, report_date, total_orders, total_revenue, is_closed, closed_at) 
-                        VALUES ($storeId, '$date', $totalOrders, $totalRevenue, 1, NOW()) 
-                        ON DUPLICATE KEY UPDATE total_orders = $totalOrders, total_revenue = $totalRevenue, is_closed = 1, closed_at = NOW()");
-                        
-            if (!empty($store['vendor_telegram_chat_id']) && $totalOrders > 0) {
-                $msg = "<b>[TỔNG KẾT NGÀY ".date('d/m/Y')."]</b>\n"
-                     . "Cửa hàng: <b>".esc_html($store['store_name'])."</b>\n"
-                     . "Tổng đơn: $totalOrders\n"
-                     . "Doanh thu: ".fmt_money($totalRevenue)."\n\n"
-                     . "<i>Hệ thống tự động chốt sổ cuối ngày. Cảm ơn bạn đã đồng hành!</i>";
-                tg_send('vendor', $store['vendor_telegram_chat_id'], $msg);
-            }
-            $processed++;
-        } catch (PDOException $e) {}
-    }
-    
-    return ['processed' => $processed, 'date' => $date];
-}
-
 function send_daily_business_report(PDO $pdo): array
 {
     $stats = admin_stats($pdo);

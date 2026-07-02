@@ -251,7 +251,7 @@ function create_order(array $input): array
                 'description'     => $jobDesc,
                 'customer_total'  => $shippingFee,
                 'final_total'     => $shippingFee,
-                'bot_role'        => 'bike',
+                'bot_role'        => 'worker',
             ]);
             update_compat($pdo, 'job_posts', ['status' => 'pending'], 'id = ?', [$jobId]);
             

@@ -1460,8 +1460,6 @@ function telegram_normalize_role(string $role): string
         case 'ai':
         case 'report':
             return 'report';
-        case 'vendor':
-            return 'report';
         default:
             return 'worker';
     }

@@ -71,7 +71,7 @@ cd C:\Users\pcpv\OneDrive\Desktop\DTH
 
 - [ ] File `.env` tren host co dung thong tin that (DB_PASS, BOT_TOKEN, ...)
 - [ ] `.htaccess` duoc upload
-- [ ] Database `kwkrbcce_Choxalapvo (hoac dienmayhieu khi doi ten DB)` da duoc import schema (`database_migration.sql`)
+- [ ] Database `kwkrbcce_Choxalapvo` (co the doi ten thanh `dienmayhieu` sau) da duoc cap nhat schema tu `database/schema.sql` hoac migration tu dong qua index.php.
 - [ ] Test: `https://dienmayhieu.com` load trang chu
 - [ ] Test: `https://dienmayhieu.com/pages/dieu-khoan-su-dung.php`
 - [ ] Test: `https://dienmayhieu.com/pages/gioi-thieu.php`

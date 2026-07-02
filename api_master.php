@@ -162,7 +162,7 @@ if ($action === 'momo_ipn') {
     }
 }
 
-if (in_array($action, ['cron_worker_fee_notice', 'cron_worker_fee_lock', 'cron_baocao_ngay', 'cron_vendor_daily_closing'], true)) {
+if (in_array($action, ['cron_worker_fee_notice', 'cron_worker_fee_lock', 'cron_baocao_ngay'], true)) {
     try {
         verify_cron_secret();
         $pdo = pdo();
@@ -172,10 +172,9 @@ if (in_array($action, ['cron_worker_fee_notice', 'cron_worker_fee_lock', 'cron_b
         if ($action === 'cron_worker_fee_lock') {
             json_out(['status' => 'success', 'result' => lock_all_workers_with_debt($pdo)]);
         }
-        if ($action === 'cron_vendor_daily_closing') {
-            json_out(['status' => 'success', 'result' => cron_vendor_daily_closing($pdo)]);
+        if ($action === 'cron_baocao_ngay') {
+            json_out(['status' => 'success', 'result' => send_daily_business_report($pdo)]);
         }
-        json_out(['status' => 'success', 'result' => send_daily_business_report($pdo)]);
     } catch (Throwable $e) {
         api_exception_out($e);
     }
