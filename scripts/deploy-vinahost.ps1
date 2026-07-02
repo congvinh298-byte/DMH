@@ -51,16 +51,16 @@ New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
 # Copy tat ca file, tru .git, .github, deploy scripts, .env thuc, node_modules, storage logs
 $exclude = @(
-    "\.git\", "\.github\", "\.vscode\",
-    "\.env$", "\.env\.local$",
+    "\\.git[\\\\/]", "\\.github[\\\\/]", "\\.vscode[\\\\/]",
+    "\\.env$", "\\.env\\.local$",
     "node_modules", "vendor", "dist", "build",
-    "storage\\logs", "storage\\cache",
-    "uploads\", "public\\uploads\\",
-    "scripts\\deploy-", "scripts\\codex-",
-    "error_log", "bot_log.txt", "*.log",
-    "AutoSign\\.*\.exe$", "AutoSign\\.*\.pdb$",
-    "test\.php$", "debug_.*\.php$", "alter_.*\.php$", "fix_.*\.php$",
-    "temp.*", "\.bak$", "old_.*\.php$", "khach_hang.*\.json$"
+    "storage\\\\logs", "storage\\\\cache",
+    "uploads[\\\\/]", "public\\\\uploads[\\\\/]",
+    "scripts\\\\deploy-", "scripts\\\\codex-",
+    "error_log", "bot_log\.txt", "\\*\.log",
+    "AutoSign\\\\.*\\.exe$", "AutoSign\\\\.*\\.pdb$",
+    "test\\.php$", "debug_.*\\.php$", "alter_.*\\.php$", "fix_.*\\.php$",
+    "temp.*", "\\.bak$", "old_.*\\.php$", "khach_hang.*\\.json$"
 )
 
 Write-Host "[1/4] Copying files to staging..." -ForegroundColor Yellow
