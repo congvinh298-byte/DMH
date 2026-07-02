@@ -66,6 +66,6 @@ require_once __DIR__ . '/inc/header.php';
     <li><strong>Công ty:</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</li>
     <li><strong>Mã số thuế:</strong> 1402228630</li>
     <li><strong>Ngày thành lập:</strong> 06/04/2026</li>
-    <li><strong>Email:</strong> Congvinh298@gmail.com</li>
+    <li><strong>Email:</strong> congvinh298@gmail.com</li>
     <li><strong>Hotline:</strong> 0979.553.289</li>
 </ul>
