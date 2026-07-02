@@ -58,7 +58,7 @@ $exclude = @(
     "uploads[\\\\/]", "public\\\\uploads[\\\\/]",
     "scripts\\\\deploy-", "scripts\\\\codex-",
     "error_log", "bot_log\.txt", "\\*\.log",
-    "AutoSign\\\\.*\\.exe$", "AutoSign\\\\.*\\.pdb$",
+    "AutoSign[\\\\/]", "AutoSign\\\\.*\\.exe$", "AutoSign\\\\.*\\.pdb$",
     "test\\.php$", "debug_.*\\.php$", "alter_.*\\.php$", "fix_.*\\.php$",
     "temp.*", "\\.bak$", "old_.*\\.php$", "khach_hang.*\\.json$"
 )
