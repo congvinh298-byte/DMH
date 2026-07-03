@@ -16,7 +16,6 @@
     # Website operates in demo/test mode with password access before official BCT approval.
     # If mod_php is active, auto-prepend the demo gate to every PHP request.
     <IfModule mod_php.c>
-        php_value auto_prepend_file demo_gate.php
     </IfModule>
 
     # ---- 1. ÉP BUỘC HTTPS ----
