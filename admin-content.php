@@ -218,13 +218,13 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
     <div class="sidebar">
         <div class="brand">🏪 Điện Máy Hiếu</div>
         <nav>
-            <a class="active" href="/admin#dashboard" onclick="showSection('dashboard'); return false;">📊 Tổng quan</a>
-            <a href="/admin#ctv" onclick="showSection('ctv'); return false;">👷 Quản lý CTV / Thợ</a>
-            <a href="/admin#qr" onclick="showSection('qr'); return false;">🎁 Tạo QR khuyến mãi</a>
-            <a href="/admin#hoadon" onclick="showSection('hoadon'); return false;">🧾 Hóa đơn bán lẻ</a>
-            <a href="/admin#gtgt" onclick="showSection('gtgt'); return false;">📑 Hóa đơn GTGT</a>
-            <a href="/admin#nhap" onclick="showSection('nhap'); return false;">📝 Hóa đơn nháp</a>
-            <a href="/admin#hopdong" onclick="showSection('hopdong'); return false;">📄 Hợp đồng lao động</a>
+            <a class="active" href="/admin#dashboard" onclick="showSection('dashboard', event); return false;">📊 Tổng quan</a>
+            <a href="/admin#ctv" onclick="showSection('ctv', event); return false;">👷 Quản lý CTV / Thợ</a>
+            <a href="/admin#qr" onclick="showSection('qr', event); return false;">🎁 Tạo QR khuyến mãi</a>
+            <a href="/admin#hoadon" onclick="showSection('hoadon', event); return false;">🧾 Hóa đơn bán lẻ</a>
+            <a href="/admin#gtgt" onclick="showSection('gtgt', event); return false;">📑 Hóa đơn GTGT</a>
+            <a href="/admin#nhap" onclick="showSection('nhap', event); return false;">📝 Hóa đơn nháp</a>
+            <a href="/admin#hopdong" onclick="showSection('hopdong', event); return false;">📄 Hợp đồng lao động</a>
             <a href="/admin/index.php?logout=1">🔓 Đăng xuất</a>
         </nav>
     </div>
@@ -393,11 +393,11 @@ const LS = {
 };
 function getData(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
 function setData(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
-function showSection(id){
+function showSection(id, ev){
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
-    event.target.classList.add('active');
+    if (ev && ev.target) ev.target.classList.add('active');
     const titles = {
         dashboard: 'Tổng quan', ctv: 'Quản lý CTV / Thợ', qr: 'Tạo QR khuyến mãi',
         hoadon: 'Hóa đơn bán lẻ', gtgt: 'Hóa đơn GTGT', nhap: 'Hóa đơn nháp', hopdong: 'Hợp đồng lao động'
