@@ -310,20 +310,12 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             </div>
             <div class="form-group"><label>Tổng tiền: <strong id="hdTotal">0 ₫</strong></label></div>
             <button onclick="createHoaDon()">Tạo hóa đơn</button>
-            <button onclick="createNhapFromRetail()" class="btn-blue" style="margin-left: 10px;">Lưu hóa đơn nháp</button>
+            <button onclick="previewHoaDon()" class="btn-blue" style="margin-left: 10px;">Xem hóa đơn nháp</button>
             <div class="print-area" id="hdPrintArea"></div>
             <div class="table-wrap">
                 <table>
                     <thead><tr><th>Khách</th><th>Sản phẩm</th><th>Tổng</th><th>Ngày</th><th></th></tr></thead>
                     <tbody id="hdList"></tbody>
-                </table>
-            </div>
-
-            <h3 style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">📝 Hóa đơn nháp</h3>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Khách</th><th>Ghi chú / Sản phẩm</th><th>Tạm tính</th><th>Ngày</th><th>Hành động</th></tr></thead>
-                    <tbody id="nhapList"></tbody>
                 </table>
             </div>
         </div>
@@ -352,7 +344,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
                 Tổng cộng: <strong id="gtgtTotal">0 ₫</strong>
             </div>
             <button onclick="createGtgt()">Lập hóa đơn GTGT</button>
-            <button onclick="createNhapFromGtgt()" class="btn-blue" style="margin-left: 10px;">Lưu hóa đơn nháp</button>
+            <button onclick="previewGtgt()" class="btn-blue" style="margin-left: 10px;">Xem hóa đơn nháp</button>
             <div class="print-area" id="gtgtPrintArea"></div>
         </div>
 
@@ -405,14 +397,14 @@ function showSection(id, ev){
     if (ev && ev.target) ev.target.classList.add('active');
     const titles = {
         dashboard: 'Tổng quan', ctv: 'Quản lý CTV / Thợ', qr: 'Tạo QR khuyến mãi',
-        hoadon: 'Hóa đơn bán lẻ', gtgt: 'Hóa đơn GTGT', nhap: 'Hóa đơn nháp', hopdong: 'Hợp đồng lao động'
+        hoadon: 'Hóa đơn bán lẻ', gtgt: 'Hóa đơn GTGT', hopdong: 'Hợp đồng lao động'
     };
     document.getElementById('page-title').textContent = titles[id];
     updateDashboard();
 }
 function updateDashboard(){
     document.getElementById('dashCtv').textContent = getData(LS.ctv).length;
-    document.getElementById('dashHoaDon').textContent = getData(LS.hd).length + getData(LS.gtgt).length + getData(LS.nhap).length;
+    document.getElementById('dashHoaDon').textContent = getData(LS.hd).length + getData(LS.gtgt).length;
     document.getElementById('dashHopDong').textContent = getData(LS.hdld).length;
     document.getElementById('dashQr').textContent = getData(LS.qr).length;
 }
@@ -567,61 +559,230 @@ async function checkTaxCode(){
         statusEl.textContent = '⚠️ Lỗi tra cứu: ' + e.message + '. Anh nhập thủ công.';
     }
 }
-function createNhap(name, note, price){
-    if(!name) return alert('Vui lòng nhập tên khách');
-    const data = getData(LS.nhap);
-    data.push({name, note, price, date: new Date().toLocaleString('vi-VN')});
-    setData(LS.nhap, data);
-    renderNhap();
+function docSoTien(so) {
+    if (so === 0) return 'Không đồng';
+    const mangSo = ['không', 'một', 'hai', 'ba', 'bốn', 'năm', 'sáu', 'bảy', 'tám', 'chín'];
+    function doc3So(baso) {
+        let tram = Math.floor(baso / 100);
+        let chuc = Math.floor((baso % 100) / 10);
+        let donvi = baso % 10;
+        let kq = '';
+        if (tram === 0 && chuc === 0 && donvi === 0) return '';
+        if (tram !== 0) {
+            kq += mangSo[tram] + ' trăm ';
+            if (chuc === 0 && donvi !== 0) kq += 'lẻ ';
+        }
+        if (chuc !== 0 && chuc !== 1) {
+            kq += mangSo[chuc] + ' mươi ';
+            if (chuc === 0 && donvi !== 0) kq = kq + ' lẻ ';
+        }
+        if (chuc === 1) kq += 'mười ';
+        switch (donvi) {
+            case 1:
+                if (chuc !== 0 && chuc !== 1) kq += 'mốt';
+                else kq += 'một';
+                break;
+            case 5:
+                if (chuc === 0) kq += 'năm';
+                else kq += 'lăm';
+                break;
+            default:
+                if (donvi !== 0) kq += mangSo[donvi];
+                break;
+        }
+        return kq;
+    }
+    let s = Math.abs(so).toString();
+    while (s.length % 3 !== 0) s = '0' + s;
+    let mang = [];
+    for (let i = 0; i < s.length; i += 3) {
+        mang.push(parseInt(s.substr(i, 3)));
+    }
+    const mangDonVi = ['', ' nghìn', ' triệu', ' tỷ', ' nghìn tỷ', ' triệu tỷ'];
+    let kq = '';
+    let viTri = mang.length;
+    for (let i = 0; i < mang.length; i++) {
+        viTri--;
+        let temp = doc3So(mang[i]);
+        if (temp !== '') {
+            kq += temp + mangDonVi[viTri] + ' ';
+        }
+    }
+    kq = kq.trim();
+    if (kq === '') return 'Không đồng';
+    kq = kq.charAt(0).toUpperCase() + kq.slice(1) + ' đồng';
+    return kq.replace(/\s+/g, ' ');
 }
-function createNhapFromRetail(){
+
+function previewHoaDon(){
     const name = document.getElementById('hdName').value;
-    const prod = document.getElementById('hdProduct').value;
+    const product = document.getElementById('hdProduct').value;
     const price = parseFloat(document.getElementById('hdPrice').value) || 0;
-    const qty = parseInt(document.getElementById('hdQty').value) || 1;
-    if(!name) return alert('Vui lòng nhập tên khách hàng');
-    createNhap(name, prod + (qty > 1 ? ' (x' + qty + ')' : ''), price * qty);
-    document.getElementById('hdName').value='';
-    document.getElementById('hdProduct').value='';
-    document.getElementById('hdPrice').value='';
-    document.getElementById('hdQty').value=1;
-    document.getElementById('hdTotal').textContent='0 ₫';
+    const qty = parseFloat(document.getElementById('hdQty').value) || 1;
+    if(!name || !product) return alert('Vui lòng nhập đủ thông tin (tên khách hàng, sản phẩm)');
+    const total = price * qty;
+    const now = new Date();
+    const formattedDate = `Ngày ${String(now.getDate()).padStart(2, '0')} tháng ${String(now.getMonth() + 1).padStart(2, '0')} năm ${now.getFullYear()}`;
+    const dStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+    const tStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    
+    document.getElementById('hdPrintArea').innerHTML = `
+        <div style="border: 2px dashed #ff4d4d; padding: 20px; border-radius: 8px; background: #fff9f9; position: relative; margin-top:20px;">
+            <div style="color: red; border: 2px dashed red; padding: 8px; text-align: center; font-size: 16px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase;">
+                ⚠️ HÓA ĐƠN NHÁP (DRAFT) - CHƯA CÓ GIÁ TRỊ THANH TOÁN
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #333; padding-bottom: 15px; margin-bottom: 15px;">
+                <div>
+                    <h2 style="margin:0; color:#333;">HÓA ĐƠN BẢN LẺ (BẢN NHÁP)</h2>
+                    <p style="margin:5px 0 0 0; font-size:14px; color:#555;"><strong>Đơn vị bán:</strong> Điện Máy Hiếu</p>
+                    <p style="margin:3px 0 0 0; font-size:13px; color:#666;">Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
+                </div>
+                <div style="text-align: right;">
+                    <p style="margin:0; font-size:14px;">Ký hiệu: <strong>BL-NHAP</strong></p>
+                    <p style="margin:3px 0 0 0; font-size:14px;">Số: <strong>0000000</strong></p>
+                </div>
+            </div>
+            <p><strong>Khách hàng:</strong> ${name}</p>
+            <p><strong>Ngày lập:</strong> ${formattedDate}</p>
+            <table style="width:100%; border-collapse:collapse; margin:15px 0;">
+                <thead>
+                    <tr style="background:#f2f2f2;">
+                        <th style="border:1px solid #ddd; padding:8px; text-align:left;">Sản phẩm</th>
+                        <th style="border:1px solid #ddd; padding:8px; text-align:center;">SL</th>
+                        <th style="border:1px solid #ddd; padding:8px; text-align:right;">Đơn giá</th>
+                        <th style="border:1px solid #ddd; padding:8px; text-align:right;">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border:1px solid #ddd; padding:8px;">${product}</td>
+                        <td style="border:1px solid #ddd; padding:8px; text-align:center;">${qty}</td>
+                        <td style="border:1px solid #ddd; padding:8px; text-align:right;">${price.toLocaleString('vi-VN')} ₫</td>
+                        <td style="border:1px solid #ddd; padding:8px; text-align:right;">${total.toLocaleString('vi-VN')} ₫</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="text-align:right; font-size:18px; margin-top:20px;"><strong>TỔNG CỘNG: ${total.toLocaleString('vi-VN')} ₫</strong></p>
+            <div style="display: flex; justify-content: space-between; margin-top: 40px; border-top: 1px dashed #ccc; padding-top: 20px;">
+                <div style="text-align: center; width: 45%;">
+                    <p style="margin: 0; font-weight: bold;">NGƯỜI MUA HÀNG</p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #777;">(Ký, ghi rõ họ tên)</p>
+                </div>
+                <div style="text-align: center; width: 45%;">
+                    <p style="margin: 0; font-weight: bold;">NGƯỜI BÁN HÀNG</p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #777;">(Ký, đóng dấu)</p>
+                    <div style="border: 2px solid red; color: red; display: inline-block; padding: 5px; margin-top: 10px; font-weight: bold; border-radius: 4px; font-size: 11px;">
+                        KÝ BỞI: ĐIỆN MÁY HIẾU<br>Ngày ký: ${dStr} ${tStr}
+                    </div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-top:30px;"><button class="btn" onclick="window.print()">In hóa đơn nháp</button></div>
+        </div>`;
 }
-function createNhapFromGtgt(){
+
+function previewGtgt(){
     const name = document.getElementById('gtgtName').value;
-    const prod = document.getElementById('gtgtProduct').value;
+    const tax = document.getElementById('gtgtTax').value;
+    const address = document.getElementById('gtgtAddress').value;
+    const product = document.getElementById('gtgtProduct').value;
     const price = parseFloat(document.getElementById('gtgtPrice').value) || 0;
-    const qty = parseInt(document.getElementById('gtgtQty').value) || 1;
-    if(!name) return alert('Vui lòng nhập tên công ty / khách hàng');
-    createNhap(name, prod + (qty > 1 ? ' (x' + qty + ')' : ''), price * qty);
-    document.getElementById('gtgtName').value='';
-    document.getElementById('gtgtTax').value='';
-    document.getElementById('gtgtTaxStatus').textContent='';
-    document.getElementById('gtgtAddress').value='';
-    document.getElementById('gtgtProduct').value='';
-    document.getElementById('gtgtPrice').value='';
-    document.getElementById('gtgtQty').value=1;
-    document.getElementById('gtgtNet').textContent='0 ₫';
-    document.getElementById('gtgtVat').textContent='0 ₫';
-    document.getElementById('gtgtTotal').textContent='0 ₫';
-}
-function renderNhap(){
-    const data = getData(LS.nhap);
-    const tbody = document.getElementById('nhapList');
-    tbody.innerHTML = data.map((n, i) => `<tr><td>${n.name}</td><td>${n.note}</td><td>${n.price.toLocaleString('vi-VN')} ₫</td><td>${n.date}</td>
-        <td><button class="btn-small btn-blue" onclick="convertNhap(${i})">Chuyển hóa đơn</button>
-        <button class="btn-small btn-red" onclick="deleteItem('${LS.nhap}', ${i}, renderNhap)">Xóa</button></td></tr>`).join('');
-    updateDashboard();
-}
-function convertNhap(i){
-    const data = getData(LS.nhap);
-    const item = data[i];
-    document.getElementById('hdName').value = item.name;
-    document.getElementById('hdProduct').value = item.note;
-    document.getElementById('hdPrice').value = item.price;
-    document.getElementById('hdQty').value = 1;
-    calcHoaDon();
-    showSection('hoadon');
+    const qty = parseFloat(document.getElementById('gtgtQty').value) || 1;
+    if(!name || !tax || !address || !product) return alert('Vui lòng nhập đủ thông tin (tên, MST, địa chỉ, sản phẩm)');
+    const net = price * qty;
+    const vat = net * 0.1;
+    const total = net + vat;
+    const totalWords = docSoTien(total);
+    const now = new Date();
+    const formattedDate = `Ngày ${String(now.getDate()).padStart(2, '0')} tháng ${String(now.getMonth() + 1).padStart(2, '0')} năm ${now.getFullYear()}`;
+    const dStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+    const tStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+    
+    document.getElementById('gtgtPrintArea').innerHTML = `
+        <div style="border: 2px dashed #ff4d4d; padding: 25px; border-radius: 12px; background: #fff9f9; position: relative; margin-top:20px;">
+            <div style="color: red; border: 2px dashed red; padding: 10px; text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 25px; text-transform: uppercase;">
+                ⚠️ HÓA ĐƠN NHÁP (DRAFT) - CHƯA CÓ GIÁ TRỊ PHÁP LÝ & THANH TOÁN
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #d4a76e; padding-bottom: 15px; margin-bottom: 20px;">
+                <div style="width: 65%;">
+                    <h2 style="margin: 0 0 10px 0; color: #b8860b; font-size: 18px; text-transform: uppercase;">CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h2>
+                    <p style="margin: 3px 0; font-size: 13px;"><strong>Mã số thuế:</strong> 1402228630</p>
+                    <p style="margin: 3px 0; font-size: 13px;"><strong>Địa chỉ:</strong> 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
+                    <p style="margin: 3px 0; font-size: 13px;"><strong>Điện thoại:</strong> 0979.553.289 &nbsp;|&nbsp; <strong>Tài khoản:</strong> 115003056025 (VietinBank)</p>
+                </div>
+                <div style="text-align: right; width: 32%;">
+                    <h2 style="margin: 0; font-size: 16px; color: #b8860b;">HÓA ĐƠN GIÁ TRỊ GIA TĂNG</h2>
+                    <p style="margin: 5px 0 0 0; font-size: 13px; color: red; font-weight: bold;">(BẢN NHÁP - DRAFT)</p>
+                    <p style="margin: 5px 0 0 0; font-size: 13px;">Ký hiệu: <strong>C26MTH</strong></p>
+                    <p style="margin: 3px 0 0 0; font-size: 13px;">Số: <strong>0000000</strong></p>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 20px; font-size: 14px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                <h3 style="margin: 0 0 10px 0; font-size: 15px; text-transform: uppercase; color: #555;">Thông tin người mua hàng:</h3>
+                <p style="margin: 5px 0;"><strong>Tên đơn vị mua:</strong> ${name}</p>
+                <p style="margin: 5px 0;"><strong>Mã số thuế:</strong> ${tax}</p>
+                <p style="margin: 5px 0;"><strong>Địa chỉ:</strong> ${address}</p>
+                <p style="margin: 5px 0;"><strong>Ngày lập:</strong> ${formattedDate}</p>
+            </div>
+            
+            <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px;">
+                <thead>
+                    <tr style="background: #fdf5e6; border-bottom: 2px solid #d4a76e;">
+                        <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 5%;">STT</th>
+                        <th style="border: 1px solid #ddd; padding: 10px; text-align: left; width: 45%;">Tên hàng hóa, dịch vụ</th>
+                        <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 10%;">ĐVT</th>
+                        <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 10%;">SL</th>
+                        <th style="border: 1px solid #ddd; padding: 10px; text-align: right; width: 15%;">Đơn giá</th>
+                        <th style="border: 1px solid #ddd; padding: 10px; text-align: right; width: 15%;">Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">1</td>
+                        <td style="border: 1px solid #ddd; padding: 10px;">${product}</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">Lần</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${qty}</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${price.toLocaleString('vi-VN')} ₫</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${net.toLocaleString('vi-VN')} ₫</td>
+                    </tr>
+                    <tr style="font-weight: bold;">
+                        <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;">Cộng tiền hàng (chưa VAT):</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${net.toLocaleString('vi-VN')} ₫</td>
+                    </tr>
+                    <tr style="font-weight: bold; color: #555;">
+                        <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;">Thuế suất GTGT: 10% &nbsp;|&nbsp; Tiền thuế GTGT:</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${vat.toLocaleString('vi-VN')} ₫</td>
+                    </tr>
+                    <tr style="font-weight: bold; background: #fffdf5; font-size: 15px;">
+                        <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right; color: #b8860b;">Tổng cộng tiền thanh toán:</td>
+                        <td style="border: 1px solid #ddd; padding: 10px; text-align: right; color: #b8860b;">${total.toLocaleString('vi-VN')} ₫</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p style="font-style: italic; font-size: 13px; margin: 10px 0;"><strong>Số tiền viết bằng chữ:</strong> ${totalWords}</p>
+            
+            <div style="display: flex; justify-content: space-between; margin-top: 40px; border-top: 1px dashed #d4a76e; padding-top: 25px;">
+                <div style="text-align: center; width: 45%;">
+                    <p style="margin: 0; font-weight: bold; font-size: 14px;">NGƯỜI MUA HÀNG</p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #777;">(Ký, ghi rõ họ tên)</p>
+                </div>
+                <div style="text-align: center; width: 45%;">
+                    <p style="margin: 0; font-weight: bold; font-size: 14px;">NGƯỜI BÁN HÀNG</p>
+                    <p style="margin: 5px 0 0 0; font-size: 12px; color: #777;">(Ký, đóng dấu)</p>
+                    <div style="border: 2px solid red; color: red; display: inline-block; padding: 8px; margin-top: 15px; font-weight: bold; border-radius: 4px; font-size: 11px; text-align: left; background: #fff5f5;">
+                        <strong>Signature Verified</strong><br>
+                        Ký bởi: CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU<br>
+                        Ngày ký: ${dStr} ${tStr}
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 35px;">
+                <button class="btn" onclick="window.print()">In hóa đơn nháp GTGT</button>
+            </div>
+        </div>`;
 }
 function createHopDong(){
     const name = document.getElementById('hdldName').value;
@@ -687,7 +848,7 @@ function deleteItem(key, index, renderFn){
     renderFn();
 }
 window.onload = function(){
-    renderCtv(); renderQr(); renderHoaDon(); renderNhap(); renderHopDong(); updateDashboard();
+    renderCtv(); renderQr(); renderHoaDon(); renderHopDong(); updateDashboard();
 };
 </script>
 
