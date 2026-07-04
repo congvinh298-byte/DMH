@@ -8,8 +8,8 @@ require_once __DIR__ . '/demo_gate.php';
 // Route admin dashboard inside index.php (host rewrites all requests here)
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 $requestPath = parse_url($requestUri, PHP_URL_PATH) ?: '';
-if (stripos($requestPath, '/admin') === 0 && is_file(__DIR__ . '/admin-content.php')) {
-    require_once __DIR__ . '/admin-content.php';
+if (stripos($requestPath, '/admin') === 0 && is_file(__DIR__ . '/admin/index.php')) {
+    require_once __DIR__ . '/admin/index.php';
     exit;
 }
 

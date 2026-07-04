@@ -1,4 +1,7 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // Admin dashboard content for dienmayhieu.com
 // Included by index.php when route is /admin
 
@@ -223,7 +226,6 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             <a href="/admin#qr" onclick="showSection('qr', event); return false;">🎁 Tạo QR khuyến mãi</a>
             <a href="/admin#hoadon" onclick="showSection('hoadon', event); return false;">🧾 Hóa đơn bán lẻ</a>
             <a href="/admin#gtgt" onclick="showSection('gtgt', event); return false;">📑 Hóa đơn GTGT</a>
-            <a href="/admin#nhap" onclick="showSection('nhap', event); return false;">📝 Hóa đơn nháp</a>
             <a href="/admin#hopdong" onclick="showSection('hopdong', event); return false;">📄 Hợp đồng lao động</a>
             <a href="/admin/index.php?logout=1">🔓 Đăng xuất</a>
         </nav>
@@ -308,11 +310,20 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             </div>
             <div class="form-group"><label>Tổng tiền: <strong id="hdTotal">0 ₫</strong></label></div>
             <button onclick="createHoaDon()">Tạo hóa đơn</button>
+            <button onclick="createNhapFromRetail()" class="btn-blue" style="margin-left: 10px;">Lưu hóa đơn nháp</button>
             <div class="print-area" id="hdPrintArea"></div>
             <div class="table-wrap">
                 <table>
                     <thead><tr><th>Khách</th><th>Sản phẩm</th><th>Tổng</th><th>Ngày</th><th></th></tr></thead>
                     <tbody id="hdList"></tbody>
+                </table>
+            </div>
+
+            <h3 style="margin-top: 40px; border-top: 1px solid #ddd; padding-top: 20px;">📝 Hóa đơn nháp</h3>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Khách</th><th>Ghi chú / Sản phẩm</th><th>Tạm tính</th><th>Ngày</th><th>Hành động</th></tr></thead>
+                    <tbody id="nhapList"></tbody>
                 </table>
             </div>
         </div>
@@ -341,22 +352,8 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
                 Tổng cộng: <strong id="gtgtTotal">0 ₫</strong>
             </div>
             <button onclick="createGtgt()">Lập hóa đơn GTGT</button>
+            <button onclick="createNhapFromGtgt()" class="btn-blue" style="margin-left: 10px;">Lưu hóa đơn nháp</button>
             <div class="print-area" id="gtgtPrintArea"></div>
-        </div>
-
-        <!-- HÓA ĐƠN NHÁP -->
-        <div id="nhap" class="section">
-            <h3>📝 Hóa đơn nháp</h3>
-            <div class="form-group"><label>Tên khách hàng</label><input type="text" id="nhapName"></div>
-            <div class="form-group"><label>Ghi chú sản phẩm / dịch vụ</label><textarea id="nhapNote" rows="3"></textarea></div>
-            <div class="form-group"><label>Số tiền tạm tính</label><input type="number" id="nhapPrice"></div>
-            <button onclick="createNhap()">Lưu hóa đơn nháp</button>
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>Khách</th><th>Ghi chú</th><th>Tạm tính</th><th>Ngày</th><th></th></tr></thead>
-                    <tbody id="nhapList"></tbody>
-                </table>
-            </div>
         </div>
 
         <!-- HỢP ĐỒNG LAO ĐỘNG -->
@@ -570,16 +567,43 @@ async function checkTaxCode(){
         statusEl.textContent = '⚠️ Lỗi tra cứu: ' + e.message + '. Anh nhập thủ công.';
     }
 }
-function createNhap(){
-    const name = document.getElementById('nhapName').value;
-    const note = document.getElementById('nhapNote').value;
-    const price = parseFloat(document.getElementById('nhapPrice').value) || 0;
+function createNhap(name, note, price){
     if(!name) return alert('Vui lòng nhập tên khách');
     const data = getData(LS.nhap);
     data.push({name, note, price, date: new Date().toLocaleString('vi-VN')});
     setData(LS.nhap, data);
-    document.getElementById('nhapName').value=''; document.getElementById('nhapNote').value=''; document.getElementById('nhapPrice').value='';
     renderNhap();
+}
+function createNhapFromRetail(){
+    const name = document.getElementById('hdName').value;
+    const prod = document.getElementById('hdProduct').value;
+    const price = parseFloat(document.getElementById('hdPrice').value) || 0;
+    const qty = parseInt(document.getElementById('hdQty').value) || 1;
+    if(!name) return alert('Vui lòng nhập tên khách hàng');
+    createNhap(name, prod + (qty > 1 ? ' (x' + qty + ')' : ''), price * qty);
+    document.getElementById('hdName').value='';
+    document.getElementById('hdProduct').value='';
+    document.getElementById('hdPrice').value='';
+    document.getElementById('hdQty').value=1;
+    document.getElementById('hdTotal').textContent='0 ₫';
+}
+function createNhapFromGtgt(){
+    const name = document.getElementById('gtgtName').value;
+    const prod = document.getElementById('gtgtProduct').value;
+    const price = parseFloat(document.getElementById('gtgtPrice').value) || 0;
+    const qty = parseInt(document.getElementById('gtgtQty').value) || 1;
+    if(!name) return alert('Vui lòng nhập tên công ty / khách hàng');
+    createNhap(name, prod + (qty > 1 ? ' (x' + qty + ')' : ''), price * qty);
+    document.getElementById('gtgtName').value='';
+    document.getElementById('gtgtTax').value='';
+    document.getElementById('gtgtTaxStatus').textContent='';
+    document.getElementById('gtgtAddress').value='';
+    document.getElementById('gtgtProduct').value='';
+    document.getElementById('gtgtPrice').value='';
+    document.getElementById('gtgtQty').value=1;
+    document.getElementById('gtgtNet').textContent='0 ₫';
+    document.getElementById('gtgtVat').textContent='0 ₫';
+    document.getElementById('gtgtTotal').textContent='0 ₫';
 }
 function renderNhap(){
     const data = getData(LS.nhap);
