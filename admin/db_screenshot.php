@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * BCT Compliance Utility: Database Hashed Password Screenshot Helper
  * URL: /admin/db_screenshot.php?token=bct_view

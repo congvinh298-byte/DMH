@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../demo_gate.php';
 $PAGE_TITLE = 'Giới thiệu';
 $PAGE_DESC = 'Giới thiệu về Điện Máy Hiếu - cửa hàng dịch vụ gọi thợ tại dienmayhieu.com';

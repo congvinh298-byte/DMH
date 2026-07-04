@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 require_once __DIR__ . '/../api/core.php';
 header('Content-Type: text/plain; charset=utf-8');
 
