@@ -173,6 +173,17 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             border-radius: 10px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+        .dash-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .dash-card.active-card {
+            border-color: #d4a76e;
+            background: #fffbf5;
         }
         .dash-card .number { font-size: 28px; font-weight: bold; color: #d4a76e; }
         .dash-card .label { color: #777; font-size: 14px; }
@@ -242,10 +253,23 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             <h3>Chào mừng Chủ cửa hàng điện máy Hiếu</h3>
             <p>Hệ thống quản lý tự động — anh chỉ cần nhập dữ liệu, mọi việc còn lại đã được xử lý.</p>
             <div class="dashboard-cards">
-                <div class="dash-card"><div class="number" id="dashCtv">0</div><div class="label">CTV / Thợ</div></div>
-                <div class="dash-card"><div class="number" id="dashHoaDon">0</div><div class="label">Hóa đơn</div></div>
-                <div class="dash-card"><div class="number" id="dashHopDong">0</div><div class="label">Hợp đồng</div></div>
-                <div class="dash-card"><div class="number" id="dashQr">0</div><div class="label">QR khuyến mãi</div></div>
+                <div class="dash-card" id="cardCtv" onclick="showDashboardDetail('ctv')"><div class="number" id="dashCtv">0</div><div class="label">CTV / Thợ</div></div>
+                <div class="dash-card" id="cardHoaDon" onclick="showDashboardDetail('hoadon')"><div class="number" id="dashHoaDon">0</div><div class="label">Hóa đơn</div></div>
+                <div class="dash-card" id="cardHopDong" onclick="showDashboardDetail('hopdong')"><div class="number" id="dashHopDong">0</div><div class="label">Hợp đồng</div></div>
+                <div class="dash-card" id="cardQr" onclick="showDashboardDetail('qr')"><div class="number" id="dashQr">0</div><div class="label">QR khuyến mãi</div></div>
+            </div>
+
+            <!-- DETAIL AREA -->
+            <div id="dashboard-detail" style="margin-top: 35px; display: none; border-top: 2px solid #eee; padding-top: 25px;">
+                <h3 id="dash-detail-title" style="margin: 0 0 15px 0; font-size: 18px; color: #d4a76e;">Chi tiết</h3>
+                <p style="font-size: 13px; color: #777; margin-bottom: 15px;">Anh có thể xem nhanh danh sách, xem chi tiết hóa đơn/hợp đồng hoặc thực hiện xóa trực tiếp tại đây.</p>
+                <div class="table-wrap">
+                    <table>
+                        <thead id="dash-detail-thead"></thead>
+                        <tbody id="dash-detail-tbody"></tbody>
+                    </table>
+                </div>
+                <div id="dash-detail-preview"></div>
             </div>
         </div>
 
@@ -841,6 +865,268 @@ function reprintHopDong(i){
     document.getElementById('hdldStart').value = h.start;
     createHopDong();
 }
+let currentDashType = '';
+function showDashboardDetail(type) {
+    currentDashType = type;
+    const detailEl = document.getElementById('dashboard-detail');
+    const titleEl = document.getElementById('dash-detail-title');
+    const thead = document.getElementById('dash-detail-thead');
+    const tbody = document.getElementById('dash-detail-tbody');
+    const previewEl = document.getElementById('dash-detail-preview');
+    
+    previewEl.innerHTML = '';
+    detailEl.style.display = 'block';
+    
+    document.querySelectorAll('.dash-card').forEach(c => c.classList.remove('active-card'));
+    
+    if (type === 'ctv') {
+        document.getElementById('cardCtv').classList.add('active-card');
+        titleEl.textContent = '👷 Chi tiết CTV / Thợ';
+        thead.innerHTML = '<tr><th>Họ tên</th><th>Số điện thoại</th><th>CCCD</th><th>Ngành</th><th>Hành động</th></tr>';
+        const data = getData(LS.ctv);
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+        } else {
+            tbody.innerHTML = data.map((c, i) => `<tr>
+                <td>${c.name}</td>
+                <td>${c.phone}</td>
+                <td>${c.id}</td>
+                <td>${c.job}</td>
+                <td><button class="btn-small btn-red" onclick="deleteDashboardItem('ctv', ${i})">Xóa</button></td>
+            </tr>`).join('');
+        }
+    } else if (type === 'hoadon') {
+        document.getElementById('cardHoaDon').classList.add('active-card');
+        titleEl.textContent = '🧾 Chi tiết Hóa đơn đã lập';
+        thead.innerHTML = '<tr><th>Loại</th><th>Khách hàng / Công ty</th><th>Tổng tiền</th><th>Ngày lập</th><th>Hành động</th></tr>';
+        const hds = getData(LS.hd).map((h, i) => ({...h, type: 'retail', index: i}));
+        const gts = getData(LS.gtgt).map((g, i) => ({...g, type: 'gtgt', index: i}));
+        const combined = [...hds, ...gts].sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        if (combined.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+        } else {
+            tbody.innerHTML = combined.map(h => `<tr>
+                <td>${h.type === 'retail' ? '🧾 Bán lẻ' : '📑 GTGT'}</td>
+                <td>${h.name}</td>
+                <td>${h.total.toLocaleString('vi-VN')} ₫</td>
+                <td>${h.date}</td>
+                <td>
+                    <button class="btn-small btn-blue" onclick="previewSavedInvoice('${h.type}', ${h.index})">Xem</button>
+                    <button class="btn-small btn-red" onclick="deleteDashboardItem('${h.type}', ${h.index})">Xóa</button>
+                </td>
+            </tr>`).join('');
+        }
+    } else if (type === 'hopdong') {
+        document.getElementById('cardHopDong').classList.add('active-card');
+        titleEl.textContent = '📄 Chi tiết Hợp đồng lao động';
+        thead.innerHTML = '<tr><th>Đối tác</th><th>SĐT</th><th>CCCD</th><th>Ngành</th><th>Ngày bắt đầu</th><th>Hành động</th></tr>';
+        const data = getData(LS.hdld);
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+        } else {
+            tbody.innerHTML = data.map((h, i) => `<tr>
+                <td>${h.name}</td>
+                <td>${h.phone}</td>
+                <td>${h.id}</td>
+                <td>${h.job}</td>
+                <td>${h.start}</td>
+                <td>
+                    <button class="btn-small btn-blue" onclick="previewSavedContract(${i})">Xem</button>
+                    <button class="btn-small btn-red" onclick="deleteDashboardItem('hdld', ${i})">Xóa</button>
+                </td>
+            </tr>`).join('');
+        }
+    } else if (type === 'qr') {
+        document.getElementById('cardQr').classList.add('active-card');
+        titleEl.textContent = '🎁 Chi tiết Chương trình Khuyến mãi';
+        thead.innerHTML = '<tr><th>Chương trình</th><th>Mã</th><th>Giảm giá</th><th>Hành động</th></tr>';
+        const data = getData(LS.qr);
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+        } else {
+            tbody.innerHTML = data.map((q, i) => `<tr>
+                <td>${q.name}</td>
+                <td><code>${q.code}</code></td>
+                <td>${q.value}</td>
+                <td>
+                    <button class="btn-small btn-blue" onclick="previewSavedQr('${q.code}')">Xem QR</button>
+                    <button class="btn-small btn-red" onclick="deleteDashboardItem('qr', ${i})">Xóa</button>
+                </td>
+            </tr>`).join('');
+        }
+    }
+}
+
+function deleteDashboardItem(key, index) {
+    if (!confirm('Anh chắc chắn muốn xóa mục này chứ?')) return;
+    let lsKey = '';
+    if (key === 'ctv') lsKey = LS.ctv;
+    else if (key === 'retail') lsKey = LS.hd;
+    else if (key === 'gtgt') lsKey = LS.gtgt;
+    else if (key === 'hdld') lsKey = LS.hdld;
+    else if (key === 'qr') lsKey = LS.qr;
+    
+    const data = getData(lsKey);
+    data.splice(index, 1);
+    setData(lsKey, data);
+    
+    if (key === 'ctv') renderCtv();
+    else if (key === 'retail') renderHoaDon();
+    else if (key === 'hdld') renderHopDong();
+    else if (key === 'qr') renderQr();
+    
+    updateDashboard();
+    showDashboardDetail(currentDashType);
+}
+
+function previewSavedInvoice(type, index) {
+    const previewEl = document.getElementById('dash-detail-preview');
+    if (type === 'retail') {
+        const item = getData(LS.hd)[index];
+        previewEl.innerHTML = `
+            <div style="border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #fff; margin-top: 20px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                <div style="text-align:center; border-bottom:2px solid #d4a76e; padding-bottom:15px; margin-bottom:20px;">
+                    <h2>HÓA ĐƠN BÁN LẺ</h2>
+                    <p>Điện Máy Hiếu - Khu vực Lấp Vò, Đồng Tháp</p>
+                </div>
+                <p><strong>Khách hàng:</strong> ${item.name}</p>
+                <p><strong>Ngày lập:</strong> ${item.date}</p>
+                <table style="width:100%; border-collapse: collapse; margin: 15px 0;">
+                    <thead>
+                        <tr style="background:#f2f2f2;">
+                            <th style="border:1px solid #ddd; padding:8px; text-align:left;">Sản phẩm</th>
+                            <th style="border:1px solid #ddd; padding:8px; text-align:center;">SL</th>
+                            <th style="border:1px solid #ddd; padding:8px; text-align:right;">Đơn giá</th>
+                            <th style="border:1px solid #ddd; padding:8px; text-align:right;">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border:1px solid #ddd; padding:8px;">${item.product}</td>
+                            <td style="border:1px solid #ddd; padding:8px; text-align:center;">${item.qty}</td>
+                            <td style="border:1px solid #ddd; padding:8px; text-align:right;">${item.price.toLocaleString('vi-VN')} ₫</td>
+                            <td style="border:1px solid #ddd; padding:8px; text-align:right;">${item.total.toLocaleString('vi-VN')} ₫</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="text-align:right; font-size:18px; margin-top:20px;"><strong>TỔNG CỘNG: ${item.total.toLocaleString('vi-VN')} ₫</strong></p>
+                <div style="text-align:center; margin-top:20px;"><button class="btn" onclick="window.print()">In hóa đơn</button></div>
+            </div>`;
+    } else {
+        const item = getData(LS.gtgt)[index];
+        const totalWords = docSoTien(item.total);
+        previewEl.innerHTML = `
+            <div style="border: 1px solid #ccc; padding: 25px; border-radius: 12px; background: #fff; margin-top: 20px; max-width: 700px; margin-left: auto; margin-right: auto;">
+                <div style="display: flex; justify-content: space-between; border-bottom: 2px solid #d4a76e; padding-bottom: 15px; margin-bottom: 20px;">
+                    <div style="width: 65%;">
+                        <h2 style="margin: 0 0 10px 0; color: #b8860b; font-size: 18px; text-transform: uppercase;">CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</h2>
+                        <p style="margin: 3px 0; font-size: 13px;"><strong>Mã số thuế:</strong> 1402228630</p>
+                        <p style="margin: 3px 0; font-size: 13px;"><strong>Địa chỉ:</strong> 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
+                    </div>
+                    <div style="text-align: right; width: 32%;">
+                        <h2 style="margin: 0; font-size: 16px; color: #b8860b;">HÓA ĐƠN GTGT</h2>
+                        <p style="margin: 5px 0 0 0; font-size: 13px;">Ký hiệu: <strong>C26MTH</strong></p>
+                        <p style="margin: 3px 0 0 0; font-size: 13px;">Số: <strong>${String(index + 1).padStart(7, '0')}</strong></p>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px; font-size: 14px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                    <p style="margin: 5px 0;"><strong>Tên đơn vị mua:</strong> ${item.name}</p>
+                    <p style="margin: 5px 0;"><strong>Mã số thuế:</strong> ${item.tax}</p>
+                    <p style="margin: 5px 0;"><strong>Địa chỉ:</strong> ${item.address}</p>
+                    <p style="margin: 5px 0;"><strong>Ngày lập:</strong> ${item.date}</p>
+                </div>
+                
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0; font-size: 14px;">
+                    <thead>
+                        <tr style="background: #fdf5e6; border-bottom: 2px solid #d4a76e;">
+                            <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 5%;">STT</th>
+                            <th style="border: 1px solid #ddd; padding: 10px; text-align: left; width: 45%;">Tên hàng hóa, dịch vụ</th>
+                            <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 10%;">ĐVT</th>
+                            <th style="border: 1px solid #ddd; padding: 10px; text-align: center; width: 10%;">SL</th>
+                            <th style="border: 1px solid #ddd; padding: 10px; text-align: right; width: 15%;">Đơn giá</th>
+                            <th style="border: 1px solid #ddd; padding: 10px; text-align: right; width: 15%;">Thành tiền</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">1</td>
+                            <td style="border: 1px solid #ddd; padding: 10px;">${item.product}</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">Lần</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: center;">${item.qty}</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${item.price.toLocaleString('vi-VN')} ₫</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${item.net.toLocaleString('vi-VN')} ₫</td>
+                        </tr>
+                        <tr style="font-weight: bold;">
+                            <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;">Cộng tiền hàng (chưa VAT):</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${item.net.toLocaleString('vi-VN')} ₫</td>
+                        </tr>
+                        <tr style="font-weight: bold; color: #555;">
+                            <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right;">Thuếu suất GTGT: 10% &nbsp;|&nbsp; Tiền thuế GTGT:</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: right;">${item.vat.toLocaleString('vi-VN')} ₫</td>
+                        </tr>
+                        <tr style="font-weight: bold; background: #fffdf5; font-size: 15px;">
+                            <td colspan="5" style="border: 1px solid #ddd; padding: 10px; text-align: right; color: #b8860b;">Tổng cộng tiền thanh toán:</td>
+                            <td style="border: 1px solid #ddd; padding: 10px; text-align: right; color: #b8860b;">${item.total.toLocaleString('vi-VN')} ₫</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-style: italic; font-size: 13px; margin: 10px 0;"><strong>Số tiền viết bằng chữ:</strong> ${totalWords}</p>
+                
+                <div style="display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px dashed #d4a76e; padding-top: 20px;">
+                    <div style="text-align: center; width: 45%;">
+                        <p style="margin: 0; font-weight: bold; font-size: 14px;">NGƯỜI MUA HÀNG</p>
+                        <p style="margin: 5px 0 0 0; font-size: 12px; color: #777;">(Ký, ghi rõ họ tên)</p>
+                    </div>
+                    <div style="text-align: center; width: 45%;">
+                        <p style="margin: 0; font-weight: bold; font-size: 14px;">NGƯỜI BÁN HÀNG</p>
+                        <div style="border: 2px solid red; color: red; display: inline-block; padding: 8px; margin-top: 10px; font-weight: bold; border-radius: 4px; font-size: 11px; text-align: left; background: #fff5f5;">
+                            <strong>Signature Verified</strong><br>
+                            Ký bởi: CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU<br>
+                            Ngày ký: ${item.date}
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:20px;"><button class="btn" onclick="window.print()">In hóa đơn</button></div>
+            </div>`;
+    }
+}
+
+function previewSavedContract(index) {
+    const h = getData(LS.hdld)[index];
+    const previewEl = document.getElementById('dash-detail-preview');
+    previewEl.innerHTML = `
+        <div style="border: 1px solid #ccc; padding: 25px; border-radius: 8px; background: #fff; margin-top: 20px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+            <h3 style="text-align: center; margin: 0 0 5px 0; text-transform: uppercase;">CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h3>
+            <p style="text-align: center; margin: 0 0 20px 0; font-weight: bold; border-bottom: 1px solid #333; padding-bottom: 10px;">Độc lập - Tự do - Hạnh phúc</p>
+            <h4 style="text-align: center; font-size: 18px; margin-bottom: 20px;">HỢP ĐỒNG HỢP TÁC KINH DOANH</h4>
+            <p>Hôm nay, ngày ${h.start.split('-')[2]} tháng ${h.start.split('-')[1]} năm ${h.start.split('-')[0]}, chúng tôi gồm có:</p>
+            <p><strong>Bên A (Chủ cửa hàng):</strong> CÔNG TY TNHH MTV ĐIỆN MÁY HIẾU</p>
+            <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
+            <p><strong>Bên B (Đối tác liên kết):</strong> Ông/Bà: <strong>${h.name}</strong></p>
+            <p>Số điện thoại: ${h.phone} &nbsp;|&nbsp; Số CCCD: ${h.id}</p>
+            <p>Ngành nghề liên kết hợp tác: <strong>${h.job}</strong></p>
+            <p><strong>Điều khoản chung:</strong> Bên B cam kết thực hiện đúng quy chế chất lượng dịch vụ của hệ thống Điện Máy Hiếu. Hai bên cùng chia sẻ doanh thu dựa trên từng đơn hàng hoàn thành thực tế.</p>
+            <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+                <div style="text-align: center; width: 45%; font-weight: bold;">ĐẠI DIỆN BÊN B</div>
+                <div style="text-align: center; width: 45%; font-weight: bold;">ĐẠI DIỆN BÊN A</div>
+            </div>
+            <div style="text-align:center; margin-top:30px;"><button class="btn" onclick="window.print()">In hợp đồng</button></div>
+        </div>`;
+}
+
+function previewSavedQr(code) {
+    const previewEl = document.getElementById('dash-detail-preview');
+    const url = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(code);
+    previewEl.innerHTML = `
+        <div style="text-align: center; border: 1px solid #ccc; padding: 20px; border-radius: 8px; background: #fff; max-width: 300px; margin-left: auto; margin-right: auto; margin-top: 20px;">
+            <img src="${url}" alt="QR" style="margin-bottom: 10px;">
+            <p style="font-weight: bold; margin: 0;">Mã: ${code}</p>
+            <button class="btn" style="margin-top: 15px;" onclick="window.print()">In mã QR</button>
+        </div>`;
+}
+
 function deleteItem(key, index, renderFn){
     const data = getData(key);
     data.splice(index, 1);
