@@ -20,7 +20,7 @@ if (isset($_POST['login'])) {
 // Xử lý đăng xuất
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: /admin');
+    header('Location: /admin/index.php');
     exit;
 }
 
@@ -192,7 +192,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
         <?php if (!empty($error)): ?>
             <p class="error"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
-        <form method="POST" action="/admin">
+        <form method="POST" action="/admin/index.php">
             <label>Tên đăng nhập</label>
             <input type="text" name="username" required>
             <label>Mật khẩu</label>
@@ -225,7 +225,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             <a href="/admin#gtgt" onclick="showSection('gtgt'); return false;">📑 Hóa đơn GTGT</a>
             <a href="/admin#nhap" onclick="showSection('nhap'); return false;">📝 Hóa đơn nháp</a>
             <a href="/admin#hopdong" onclick="showSection('hopdong'); return false;">📄 Hợp đồng lao động</a>
-            <a href="/admin?logout=1">🔓 Đăng xuất</a>
+            <a href="/admin/index.php?logout=1">🔓 Đăng xuất</a>
         </nav>
     </div>
 
