@@ -48,17 +48,21 @@ function app_load_env($path = null)
         return;
     }
     foreach ($lines as $line) {
-        $line = trim(str_replace("\xEF\xBB\xBF", '', $line));
+        $line = str_replace(["\xEF\xBB\xBF", "\r", "\n"], '', $line);
+        $line = trim($line);
         if ($line === '' || $line[0] === '#' || strpos($line, '=') === false) {
             continue;
         }
-        list($key, $value) = array_map('trim', explode('=', $line, 2));
+        list($key, $value) = array_map(function($v) {
+            return trim(str_replace(["\r", "\n"], '', $v));
+        }, explode('=', $line, 2));
         if ($key === '') {
             continue;
         }
         if ((substr($value, 0, 1) === '"' && substr($value, -1) === '"') || (substr($value, 0, 1) === "'" && substr($value, -1) === "'")) {
             $value = substr($value, 1, -1);
         }
+        $value = trim($value);
         putenv($key . '=' . $value);
         $_ENV[$key] = $value;
         $_SERVER[$key] = $value;
