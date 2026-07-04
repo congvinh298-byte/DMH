@@ -1888,6 +1888,9 @@ footer {
         </div>
         <div>
             <h3>Thông tin pháp lý</h3>
+            <p>Mã số thuế / Số ĐKKD: <strong>1402228630</strong></p>
+            <p>Đại diện pháp lý: Ông Trần Công Vinh - Giám đốc</p>
+            <p>Đã thông báo với Bộ Công Thương theo Nghị định 52/2013/NĐ-CP về thương mại điện tử và Thông tư 47/2014/TT-BCT.</p>
             <p><a href="/pages/dieu-khoan-su-dung">Điều khoản sử dụng</a></p>
             <p><a href="/pages/quy-che-hoat-dong">Quy chế hoạt động</a></p>
             <p><a href="/pages/chinh-sach-bao-mat">Chính sách bảo mật</a></p>
@@ -1905,7 +1908,7 @@ footer {
             <?php if ($qrWeb !== ''): ?><img src="<?= h($qrWeb) ?>" alt="QR truy cập" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;"><?php endif; ?>
         </div>
     </div>
-    <div class="footer-bottom"><span>© Điện Máy Hiếu</span><span>Website cá nhân Điện Máy Hiếu - Chờ duyệt Bộ Công Thương</span></div>
+    <div class="footer-bottom"><span>© Điện Máy Hiếu - MST 1402228630</span><span>Tuân thủ Nghị định 52/2013/NĐ-CP & Thông tư 47/2014/TT-BCT | Đã thông báo Bộ Công Thương</span></div>
 </div></footer>
 
 <div id="modalPolicy" class="dth-modal">
