@@ -7,6 +7,14 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Permissions-Policy: camera=(self), microphone=(), geolocation=(self)');
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
+// Admin dashboard route — bypass server-level rewrite that sends all requests to index.php
+$requestUri = $_SERVER['REQUEST_URI'] ?? '';
+$requestPath = parse_url($requestUri, PHP_URL_PATH) ?: '';
+if (stripos($requestPath, '/admin') === 0 && is_file(__DIR__ . '/admin/index.php')) {
+    require_once __DIR__ . '/admin/index.php';
+    exit;
+}
+
 /*
  * DIEN MAY HIEU - Public Storefront.
  * Do not require api_master.php here. This page calls the backend only by fetch().
