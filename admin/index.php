@@ -1,5 +1,6 @@
 <?php
-session_start();
+// Admin dashboard content for dienmayhieu.com
+// Included by index.php when route is /admin
 
 // Thông tin đăng nhập admin
 $admin_user = 'anhthien';
@@ -19,7 +20,7 @@ if (isset($_POST['login'])) {
 // Xử lý đăng xuất
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: index.php');
+    header('Location: /admin');
     exit;
 }
 
@@ -156,15 +157,12 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             border-radius: 8px;
             max-width: 800px;
         }
-        .hidden-print { display: none; }
         @media print {
             body * { visibility: hidden; }
             .print-area, .print-area * { visibility: visible; }
             .print-area { position: absolute; left: 0; top: 0; width: 100%; border: none; }
         }
         .qr-preview { text-align: center; margin: 15px 0; }
-        .status-msg { padding: 10px; border-radius: 6px; margin-bottom: 15px; display: none; }
-        .status-success { background: #d4edda; color: #155724; display: block; }
         .dashboard-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 20px; }
         .dash-card {
             background: white;
@@ -194,7 +192,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
         <?php if (!empty($error)): ?>
             <p class="error"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
-        <form method="POST" action="">
+        <form method="POST" action="/admin">
             <label>Tên đăng nhập</label>
             <input type="text" name="username" required>
             <label>Mật khẩu</label>
@@ -208,8 +206,6 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
                 <li><strong>Chủ sở hữu:</strong> Vinh Tran</li>
                 <li><strong>Tên cửa hàng:</strong> Điện Máy Hiếu</li>
                 <li><strong>Địa chỉ:</strong> Khu vực Lấp Vò, Đồng Tháp</li>
-                <li><strong>Điện thoại:</strong> 0909.xxx.xxx</li>
-                <li><strong>Email:</strong> hotro@dienmayhieu.com</li>
                 <li><strong>Thông báo Bộ Công Thương:</strong> Đã đăng ký / đang hoàn thiện theo Nghị định 52/2013/NĐ-CP và Thông tư 47/2014/TT-BCT</li>
             </ul>
         </div>
@@ -222,14 +218,14 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
     <div class="sidebar">
         <div class="brand">🏪 Điện Máy Hiếu</div>
         <nav>
-            <a class="active" onclick="showSection('dashboard')">📊 Tổng quan</a>
-            <a onclick="showSection('ctv')">👷 Quản lý CTV / Thợ</a>
-            <a onclick="showSection('qr')">🎁 Tạo QR khuyến mãi</a>
-            <a onclick="showSection('hoadon')">🧾 Hóa đơn bán lẻ</a>
-            <a onclick="showSection('gtgt')">📑 Hóa đơn GTGT</a>
-            <a onclick="showSection('nhap')">📝 Hóa đơn nháp</a>
-            <a onclick="showSection('hopdong')">📄 Hợp đồng lao động</a>
-            <a href="?logout=1">🔓 Đăng xuất</a>
+            <a class="active" href="/admin#dashboard" onclick="showSection('dashboard'); return false;">📊 Tổng quan</a>
+            <a href="/admin#ctv" onclick="showSection('ctv'); return false;">👷 Quản lý CTV / Thợ</a>
+            <a href="/admin#qr" onclick="showSection('qr'); return false;">🎁 Tạo QR khuyến mãi</a>
+            <a href="/admin#hoadon" onclick="showSection('hoadon'); return false;">🧾 Hóa đơn bán lẻ</a>
+            <a href="/admin#gtgt" onclick="showSection('gtgt'); return false;">📑 Hóa đơn GTGT</a>
+            <a href="/admin#nhap" onclick="showSection('nhap'); return false;">📝 Hóa đơn nháp</a>
+            <a href="/admin#hopdong" onclick="showSection('hopdong'); return false;">📄 Hợp đồng lao động</a>
+            <a href="/admin?logout=1">🔓 Đăng xuất</a>
         </nav>
     </div>
 
@@ -256,20 +252,10 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             <h3>👷 Quản lý CTV / Thợ sửa chữa</h3>
             <div class="grid-2">
                 <div>
-                    <div class="form-group">
-                        <label>Họ tên</label>
-                        <input type="text" id="ctvName">
-                    </div>
-                    <div class="form-group">
-                        <label>Số điện thoại</label>
-                        <input type="text" id="ctvPhone">
-                    </div>
-                    <div class="form-group">
-                        <label>Số CCCD</label>
-                        <input type="text" id="ctvId">
-                    </div>
-                    <div class="form-group">
-                        <label>Ngành đăng ký</label>
+                    <div class="form-group"><label>Họ tên</label><input type="text" id="ctvName"></div>
+                    <div class="form-group"><label>Số điện thoại</label><input type="text" id="ctvPhone"></div>
+                    <div class="form-group"><label>Số CCCD</label><input type="text" id="ctvId"></div>
+                    <div class="form-group"><label>Ngành đăng ký</label>
                         <select id="ctvJob">
                             <option value="Điện lạnh">Điện lạnh</option>
                             <option value="Điện tử">Điện tử</option>
@@ -321,7 +307,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
                 <div class="form-group"><label>Số lượng</label><input type="number" id="hdQty" value="1" oninput="calcHoaDon()"></div>
             </div>
             <div class="form-group"><label>Tổng tiền: <strong id="hdTotal">0 ₫</strong></label></div>
-            <button onclick="createHoaDon('hoadon')">Tạo hóa đơn</button>
+            <button onclick="createHoaDon()">Tạo hóa đơn</button>
             <div class="print-area" id="hdPrintArea"></div>
             <div class="table-wrap">
                 <table>
@@ -403,17 +389,10 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
 
 <script>
 const LS = {
-    ctv: 'dmh_ctv',
-    qr: 'dmh_qr',
-    hd: 'dmh_hd',
-    gtgt: 'dmh_gtgt',
-    nhap: 'dmh_nhap',
-    hdld: 'dmh_hdld'
+    ctv: 'dmh_ctv', qr: 'dmh_qr', hd: 'dmh_hd', gtgt: 'dmh_gtgt', nhap: 'dmh_nhap', hdld: 'dmh_hdld'
 };
-
 function getData(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
 function setData(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
-
 function showSection(id){
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -426,15 +405,12 @@ function showSection(id){
     document.getElementById('page-title').textContent = titles[id];
     updateDashboard();
 }
-
 function updateDashboard(){
     document.getElementById('dashCtv').textContent = getData(LS.ctv).length;
     document.getElementById('dashHoaDon').textContent = getData(LS.hd).length + getData(LS.gtgt).length + getData(LS.nhap).length;
     document.getElementById('dashHopDong').textContent = getData(LS.hdld).length;
     document.getElementById('dashQr').textContent = getData(LS.qr).length;
 }
-
-// ===== CTV =====
 function renderCtv(){
     const data = getData(LS.ctv);
     const tbody = document.getElementById('ctvList');
@@ -453,8 +429,6 @@ function addCtv(){
     document.getElementById('ctvName').value=''; document.getElementById('ctvPhone').value=''; document.getElementById('ctvId').value='';
     renderCtv();
 }
-
-// ===== QR =====
 function renderQr(){
     const data = getData(LS.qr);
     const tbody = document.getElementById('qrList');
@@ -478,14 +452,12 @@ function showQr(code){
     document.getElementById('qrPreview').innerHTML = `<img src="${url}" alt="QR"><p><strong>${code}</strong></p>`;
 }
 function printQr(){ window.print(); }
-
-// ===== HÓA ĐƠN BÁN LẺ =====
 function calcHoaDon(){
     const price = parseFloat(document.getElementById('hdPrice').value) || 0;
     const qty = parseFloat(document.getElementById('hdQty').value) || 0;
     document.getElementById('hdTotal').textContent = (price*qty).toLocaleString('vi-VN') + ' ₫';
 }
-function createHoaDon(type){
+function createHoaDon(){
     const name = document.getElementById('hdName').value;
     const product = document.getElementById('hdProduct').value;
     const price = parseFloat(document.getElementById('hdPrice').value) || 0;
@@ -495,7 +467,6 @@ function createHoaDon(type){
     const data = getData(LS.hd);
     const item = {name, product, price, qty, total, date: new Date().toLocaleString('vi-VN')};
     data.push(item); setData(LS.hd, data);
-
     document.getElementById('hdPrintArea').innerHTML = `
         <div style="text-align:center; border-bottom:2px solid #d4a76e; padding-bottom:15px; margin-bottom:20px;">
             <h2>HÓA ĐƠN BÁN LẺ</h2>
@@ -509,9 +480,7 @@ function createHoaDon(type){
         </table>
         <p style="text-align:right; font-size:18px;"><strong>TỔNG CỘNG: ${total.toLocaleString('vi-VN')} ₫</strong></p>
         <p style="text-align:center; margin-top:40px;">Cảm ơn quý khách đã mua hàng tại Điện Máy Hiếu!</p>
-        <div style="text-align:center; margin-top:20px;">
-            <button class="btn" onclick="window.print()">In hóa đơn</button>
-        </div>`;
+        <div style="text-align:center; margin-top:20px;"><button class="btn" onclick="window.print()">In hóa đơn</button></div>`;
     renderHoaDon();
     document.getElementById('hdName').value=''; document.getElementById('hdProduct').value='';
     document.getElementById('hdPrice').value=''; document.getElementById('hdQty').value='1';
@@ -524,8 +493,6 @@ function renderHoaDon(){
         <td><button class="btn-small btn-red" onclick="deleteItem('${LS.hd}', ${i}, renderHoaDon)">Xóa</button></td></tr>`).join('');
     updateDashboard();
 }
-
-// ===== HÓA ĐƠN GTGT =====
 function calcGtgt(){
     const price = parseFloat(document.getElementById('gtgtPrice').value) || 0;
     const qty = parseFloat(document.getElementById('gtgtQty').value) || 0;
@@ -549,7 +516,6 @@ function createGtgt(){
     const data = getData(LS.gtgt);
     data.push({name, tax, product, price, qty, net, vat, total, date});
     setData(LS.gtgt, data);
-
     document.getElementById('gtgtPrintArea').innerHTML = `
         <div style="text-align:center; border-bottom:2px solid #d4a76e; padding-bottom:15px; margin-bottom:20px;">
             <h2>HÓA ĐƠN GIÁ TRỊ GIA TĂNG</h2>
@@ -565,17 +531,12 @@ function createGtgt(){
             <tr><td colspan="3"><strong>Thuế GTGT 10%</strong></td><td><strong>${vat.toLocaleString('vi-VN')} ₫</strong></td></tr>
             <tr><td colspan="3"><strong>TỔNG CỘNG</strong></td><td><strong>${total.toLocaleString('vi-VN')} ₫</strong></td></tr>
         </table>
-        <div style="text-align:center; margin-top:20px;">
-            <button class="btn" onclick="window.print()">In hóa đơn GTGT</button>
-        </div>`;
-
+        <div style="text-align:center; margin-top:20px;"><button class="btn" onclick="window.print()">In hóa đơn GTGT</button></div>`;
     document.getElementById('gtgtName').value=''; document.getElementById('gtgtTax').value='';
     document.getElementById('gtgtProduct').value=''; document.getElementById('gtgtPrice').value='';
     document.getElementById('gtgtQty').value='1'; calcGtgt();
     updateDashboard();
 }
-
-// ===== HÓA ĐƠN NHÁP =====
 function createNhap(){
     const name = document.getElementById('nhapName').value;
     const note = document.getElementById('nhapNote').value;
@@ -605,8 +566,6 @@ function convertNhap(i){
     calcHoaDon();
     showSection('hoadon');
 }
-
-// ===== HỢP ĐỒNG LAO ĐỘNG =====
 function createHopDong(){
     const name = document.getElementById('hdldName').value;
     const phone = document.getElementById('hdldPhone').value;
@@ -614,13 +573,11 @@ function createHopDong(){
     const job = document.getElementById('hdldJob').value;
     const start = document.getElementById('hdldStart').value;
     if(!name || !phone || !id || !start) return alert('Vui lòng nhập đủ thông tin');
-
     const date = new Date(start);
     const dateStr = date.toLocaleDateString('vi-VN');
     const data = getData(LS.hdld);
     data.push({name, phone, id, job, start, created: new Date().toLocaleString('vi-VN')});
     setData(LS.hdld, data);
-
     document.getElementById('hdldPrintArea').innerHTML = `
         <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:15px; margin-bottom:25px;">
             <h2>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</h2>
@@ -641,19 +598,10 @@ function createHopDong(){
         <p><strong>Thanh toán:</strong> Theo từng công việc, sau khi nghiệm thu và khách hàng xác nhận.</p>
         <p style="margin-top:30px;">Hợp đồng được lập thành 02 bản, mỗi bên giữ 01 bản, có giá trị pháp lý như nhau.</p>
         <div style="display:flex; justify-content:space-between; margin-top:60px;">
-            <div style="text-align:center;">
-                <p><strong>BÊN A</strong><br>(Ký tên)</p>
-                <p style="margin-top:60px;">Vinh Tran</p>
-            </div>
-            <div style="text-align:center;">
-                <p><strong>BÊN B</strong><br>(Ký tên)</p>
-                <p style="margin-top:60px;">${name}</p>
-            </div>
+            <div style="text-align:center;"><p><strong>BÊN A</strong><br>(Ký tên)</p><p style="margin-top:60px;">Vinh Tran</p></div>
+            <div style="text-align:center;"><p><strong>BÊN B</strong><br>(Ký tên)</p><p style="margin-top:60px;">${name}</p></div>
         </div>
-        <div style="text-align:center; margin-top:30px;">
-            <button class="btn" onclick="window.print()">In hợp đồng</button>
-        </div>`;
-
+        <div style="text-align:center; margin-top:30px;"><button class="btn" onclick="window.print()">In hợp đồng</button></div>`;
     document.getElementById('hdldName').value=''; document.getElementById('hdldPhone').value='';
     document.getElementById('hdldId').value=''; document.getElementById('hdldStart').value='';
     renderHopDong();
@@ -675,20 +623,15 @@ function reprintHopDong(i){
     document.getElementById('hdldStart').value = h.start;
     createHopDong();
 }
-
 function deleteItem(key, index, renderFn){
     const data = getData(key);
     data.splice(index, 1);
     setData(key, data);
     renderFn();
 }
-
 window.onload = function(){
     renderCtv(); renderQr(); renderHoaDon(); renderNhap(); renderHopDong(); updateDashboard();
 };
 </script>
 
 <?php endif; ?>
-
-</body>
-</html>

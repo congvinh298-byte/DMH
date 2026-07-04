@@ -1485,7 +1485,7 @@ footer {
 
 </head>
 <body>
-<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website cá nhân Điện Máy Hiếu - Chờ duyệt Bộ Công Thương</div>
+<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website Điện Máy Hiếu - MST 1402228630 - Đã thông báo Bộ Công Thương theo Nghị định 52/2013/NĐ-CP & TT 47/2014/TT-BCT</div>
 <header>
     <div class="wrap head">
         <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">
