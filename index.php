@@ -7,11 +7,11 @@ header('Referrer-Policy: strict-origin-when-cross-origin');
 header('Permissions-Policy: camera=(self), microphone=(), geolocation=(self)');
 date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-// Admin dashboard route — bypass server-level rewrite that sends all requests to index.php
+// Route admin dashboard inside index.php (host rewrites all requests here)
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 $requestPath = parse_url($requestUri, PHP_URL_PATH) ?: '';
-if (stripos($requestPath, '/admin') === 0 && is_file(__DIR__ . '/admin/index.php')) {
-    require_once __DIR__ . '/admin/index.php';
+if (stripos($requestPath, '/admin') === 0 && is_file(__DIR__ . '/admin-content.php')) {
+    require_once __DIR__ . '/admin-content.php';
     exit;
 }
 
