@@ -1,11 +1,5 @@
 <?php
 require_once __DIR__ . '/demo_gate.php';
-header('Content-Type: text/html; charset=utf-8');
-header('X-Frame-Options: SAMEORIGIN');
-header('X-Content-Type-Options: nosniff');
-header('Referrer-Policy: strict-origin-when-cross-origin');
-header('Permissions-Policy: camera=(self), microphone=(), geolocation=(self)');
-date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 // Route admin dashboard inside index.php (host rewrites all requests here)
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
@@ -14,6 +8,13 @@ if (stripos($requestPath, '/admin') === 0 && is_file(__DIR__ . '/admin-content.p
     require_once __DIR__ . '/admin-content.php';
     exit;
 }
+
+header('Content-Type: text/html; charset=utf-8');
+header('X-Frame-Options: SAMEORIGIN');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: strict-origin-when-cross-origin');
+header('Permissions-Policy: camera=(self), microphone=(), geolocation=(self)');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
 
 /*
  * DIEN MAY HIEU - Public Storefront.
@@ -1485,7 +1486,7 @@ footer {
 
 </head>
 <body>
-<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website Điện Máy Hiếu - MST 1402228630 - Đã thông báo Bộ Công Thương theo Nghị định 52/2013/NĐ-CP & TT 47/2014/TT-BCT</div>
+<div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website Điện Máy Hiếu - MST 1402228630 - Đã thông báo Bộ Công Thương</div>
 <header>
     <div class="wrap head">
         <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">

@@ -20,7 +20,7 @@ if (isset($_POST['login'])) {
 // Xử lý đăng xuất
 if (isset($_GET['logout'])) {
     session_destroy();
-    header('Location: /admin');
+    header('Location: /admin/index.php');
     exit;
 }
 
@@ -192,7 +192,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
         <?php if (!empty($error)): ?>
             <p class="error"><?php echo htmlspecialchars($error); ?></p>
         <?php endif; ?>
-        <form method="POST" action="/admin">
+        <form method="POST" action="/admin/index.php">
             <label>Tên đăng nhập</label>
             <input type="text" name="username" required>
             <label>Mật khẩu</label>
@@ -218,14 +218,14 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
     <div class="sidebar">
         <div class="brand">🏪 Điện Máy Hiếu</div>
         <nav>
-            <a class="active" href="/admin#dashboard" onclick="showSection('dashboard'); return false;">📊 Tổng quan</a>
-            <a href="/admin#ctv" onclick="showSection('ctv'); return false;">👷 Quản lý CTV / Thợ</a>
-            <a href="/admin#qr" onclick="showSection('qr'); return false;">🎁 Tạo QR khuyến mãi</a>
-            <a href="/admin#hoadon" onclick="showSection('hoadon'); return false;">🧾 Hóa đơn bán lẻ</a>
-            <a href="/admin#gtgt" onclick="showSection('gtgt'); return false;">📑 Hóa đơn GTGT</a>
-            <a href="/admin#nhap" onclick="showSection('nhap'); return false;">📝 Hóa đơn nháp</a>
-            <a href="/admin#hopdong" onclick="showSection('hopdong'); return false;">📄 Hợp đồng lao động</a>
-            <a href="/admin?logout=1">🔓 Đăng xuất</a>
+            <a class="active" href="/admin#dashboard" onclick="showSection('dashboard', event); return false;">📊 Tổng quan</a>
+            <a href="/admin#ctv" onclick="showSection('ctv', event); return false;">👷 Quản lý CTV / Thợ</a>
+            <a href="/admin#qr" onclick="showSection('qr', event); return false;">🎁 Tạo QR khuyến mãi</a>
+            <a href="/admin#hoadon" onclick="showSection('hoadon', event); return false;">🧾 Hóa đơn bán lẻ</a>
+            <a href="/admin#gtgt" onclick="showSection('gtgt', event); return false;">📑 Hóa đơn GTGT</a>
+            <a href="/admin#nhap" onclick="showSection('nhap', event); return false;">📝 Hóa đơn nháp</a>
+            <a href="/admin#hopdong" onclick="showSection('hopdong', event); return false;">📄 Hợp đồng lao động</a>
+            <a href="/admin/index.php?logout=1">🔓 Đăng xuất</a>
         </nav>
     </div>
 
@@ -321,7 +321,15 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
         <div id="gtgt" class="section">
             <h3>📑 Hóa đơn GTGT</h3>
             <div class="form-group"><label>Tên công ty / khách hàng</label><input type="text" id="gtgtName"></div>
-            <div class="form-group"><label>Mã số thuế</label><input type="text" id="gtgtTax"></div>
+            <div class="form-group">
+                <label>Mã số thuế</label>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="gtgtTax" style="flex:1;">
+                    <button type="button" class="btn-blue" onclick="checkTaxCode()">🔍 Kiểm tra MST</button>
+                </div>
+                <div id="gtgtTaxStatus" style="margin-top:6px; font-size:13px; color:#555;"></div>
+            </div>
+            <div class="form-group"><label>Địa chỉ công ty / khách hàng</label><input type="text" id="gtgtAddress"></div>
             <div class="form-group"><label>Sản phẩm / dịch vụ</label><input type="text" id="gtgtProduct"></div>
             <div class="grid-2">
                 <div class="form-group"><label>Đơn giá (chưa VAT)</label><input type="number" id="gtgtPrice" oninput="calcGtgt()"></div>
@@ -393,11 +401,11 @@ const LS = {
 };
 function getData(key){ return JSON.parse(localStorage.getItem(key) || '[]'); }
 function setData(key, data){ localStorage.setItem(key, JSON.stringify(data)); }
-function showSection(id){
+function showSection(id, ev){
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
     document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
-    event.target.classList.add('active');
+    if (ev && ev.target) ev.target.classList.add('active');
     const titles = {
         dashboard: 'Tổng quan', ctv: 'Quản lý CTV / Thợ', qr: 'Tạo QR khuyến mãi',
         hoadon: 'Hóa đơn bán lẻ', gtgt: 'Hóa đơn GTGT', nhap: 'Hóa đơn nháp', hopdong: 'Hợp đồng lao động'
@@ -505,24 +513,26 @@ function calcGtgt(){
 function createGtgt(){
     const name = document.getElementById('gtgtName').value;
     const tax = document.getElementById('gtgtTax').value;
+    const address = document.getElementById('gtgtAddress').value;
     const product = document.getElementById('gtgtProduct').value;
     const price = parseFloat(document.getElementById('gtgtPrice').value) || 0;
     const qty = parseFloat(document.getElementById('gtgtQty').value) || 1;
-    if(!name || !product) return alert('Vui lòng nhập đủ thông tin');
+    if(!name || !tax || !address || !product) return alert('Vui lòng nhập đủ thông tin (tên, MST, địa chỉ, sản phẩm)');
     const net = price * qty;
     const vat = net * 0.1;
     const total = net + vat;
     const date = new Date().toLocaleString('vi-VN');
     const data = getData(LS.gtgt);
-    data.push({name, tax, product, price, qty, net, vat, total, date});
+    data.push({name, tax, address, product, price, qty, net, vat, total, date});
     setData(LS.gtgt, data);
     document.getElementById('gtgtPrintArea').innerHTML = `
         <div style="text-align:center; border-bottom:2px solid #d4a76e; padding-bottom:15px; margin-bottom:20px;">
             <h2>HÓA ĐƠN GIÁ TRỊ GIA TĂNG</h2>
-            <p>Điện Máy Hiếu - Mã số thuế: [cập nhật sau]</p>
+            <p>Điện Máy Hiếu - Mã số thuế: 1402228630</p>
         </div>
         <p><strong>Đơn vị mua:</strong> ${name}</p>
         <p><strong>Mã số thuế:</strong> ${tax}</p>
+        <p><strong>Địa chỉ:</strong> ${address}</p>
         <p><strong>Ngày:</strong> ${date}</p>
         <table style="width:100%; margin:15px 0;">
             <tr><th>Sản phẩm</th><th>SL</th><th>Đơn giá</th><th>Thành tiền</th></tr>
@@ -533,9 +543,32 @@ function createGtgt(){
         </table>
         <div style="text-align:center; margin-top:20px;"><button class="btn" onclick="window.print()">In hóa đơn GTGT</button></div>`;
     document.getElementById('gtgtName').value=''; document.getElementById('gtgtTax').value='';
-    document.getElementById('gtgtProduct').value=''; document.getElementById('gtgtPrice').value='';
-    document.getElementById('gtgtQty').value='1'; calcGtgt();
+    document.getElementById('gtgtAddress').value=''; document.getElementById('gtgtProduct').value='';
+    document.getElementById('gtgtPrice').value=''; document.getElementById('gtgtQty').value='1'; calcGtgt();
+    document.getElementById('gtgtTaxStatus').textContent = '';
     updateDashboard();
+}
+
+async function checkTaxCode(){
+    const tax = document.getElementById('gtgtTax').value.trim();
+    const statusEl = document.getElementById('gtgtTaxStatus');
+    if(!tax) return statusEl.textContent = 'Vui lòng nhập mã số thuế.';
+    statusEl.textContent = 'Đang kiểm tra...';
+    try {
+        const response = await fetch('https://api.vietqr.io/v2/business/' + encodeURIComponent(tax), { method: 'GET' });
+        if(!response.ok) throw new Error('Không tra cứu được');
+        const data = await response.json();
+        if(data.code === '00' && data.data){
+            const d = data.data;
+            document.getElementById('gtgtName').value = d.name || '';
+            document.getElementById('gtgtAddress').value = d.address || '';
+            statusEl.textContent = '✅ Tìm thấy: ' + (d.name || '') + ' - ' + (d.address || '');
+        } else {
+            statusEl.textContent = '⚠️ Không tìm thấy MST này. Anh có thể nhập thủ công.';
+        }
+    } catch(e) {
+        statusEl.textContent = '⚠️ Lỗi tra cứu: ' + e.message + '. Anh nhập thủ công.';
+    }
 }
 function createNhap(){
     const name = document.getElementById('nhapName').value;
