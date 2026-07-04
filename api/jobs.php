@@ -182,7 +182,7 @@ function insert_repair_job(PDO $pdo, array $job): int
     $description = clean_string($job['description'] ?? '', 3000);
     $finalTotal = (int)($job['final_total'] ?? 0);
     $customerTotal = (int)($job['customer_total'] ?? $finalTotal);
-    
+
     $botRole = telegram_normalize_role(clean_string($job['bot_role'] ?? 'worker', 30));
     $targetGroupId = clean_string($job['target_group_id'] ?? get_bot_group_chat_id($botRole), 50);
 
@@ -296,11 +296,19 @@ function send_worker_job_to_group(PDO $pdo, int $jobId): bool
     $coordinates = worker_map_coordinates($job);
     $mapsUrl = worker_google_maps_url($job);
     $job['customer_phone'] = mask_phone((string)($job['customer_phone'] ?? ''));
-    
+
+    // Address shown to the worker group must NOT contain GPS coords or Google Maps links.
+    $publicAddress = (string)($job['address'] ?? '');
+    if (($pos = strpos($publicAddress, ' | Tọa độ:')) !== false) {
+        $publicAddress = substr($publicAddress, 0, $pos);
+    }
+    $publicAddress = trim($publicAddress);
+    $mapsUrl = ''; // keep URL hidden until a worker claims the job
+
     $text = "<b>BÁO CA MỚI #{$jobId}</b>\n"
         . "Loại dịch vụ: " . esc_html($job['service_type'] ?? '') . "\n"
         . "SĐT khách: " . esc_html((string)($job['customer_phone'] ?? '')) . "\n"
-        . "Địa chỉ: " . esc_html((string)($job['address'] ?? '')) . "\n"
+        . "Địa chỉ: " . esc_html($publicAddress) . "\n"
         . "Ghi chú: " . esc_html($publicDescription) . "\n\n"
         . "Giá trị đơn: <b>" . fmt_money((int)($job['final_total'] ?? $pricing['final_customer_price'] ?? 0)) . "</b>\n"
         . "Thợ nhận được: <b>" . fmt_money((int)($pricing['tech_net_income'] ?? 0)) . "</b>\n\n"
@@ -377,11 +385,11 @@ function claim_job(PDO $pdo, int $jobId, int $workerId, string $workerName, stri
 
     // Trigger synchronous claim job notification
     $dmSuccess = process_async_claim_job(pdo(), $jobId, $workerId, $workerName, $username, $role);
-    
+
     if (!$dmSuccess) {
         return ['ok' => false, 'message' => 'LỖI: Bot chưa thể gửi tin nhắn cho bạn! Vui lòng bấm vào tên Bot, chọn NHẮN TIN (hoặc /start), sau đó quay lại đây bấm NHẬN CA lại nhé!'];
     }
-    
+
     return ['ok' => true, 'message' => "Đã xác nhận bạn nhận ca #{$jobId}. Vui lòng kiểm tra tin nhắn riêng của Bot!"];
 }
 
@@ -391,7 +399,7 @@ function process_async_claim_job(PDO $pdo, int $jobId, int $workerId, string $wo
     if (!$job || job_display_status($job) !== 'assigned' || job_worker_telegram_id($job) !== $workerId) {
         return false; // Job is not in the correct state to notify worker
     }
-    
+
     $pricing = get_job_pricing($pdo, $jobId);
     $coordinates = worker_map_coordinates($job);
     $mapsUrl = worker_google_maps_url($job);
@@ -567,7 +575,7 @@ function create_job_action(array $input): array
     }
 
     // ----------------------------------------------------------------
-    // BƯỚC 1: VALIDATE ĐẦU VÀO — trả về JSON 400 nếu thiếu trường bắt buộc.
+    // BƯỚC 1: VALIDATE ĐẦU VÀO - trả về JSON 400 nếu thiếu trường bắt buộc.
     // Tuyệt đối KHÔNG để hệ thống sập 500 vì thiếu dữ liệu.
     // ----------------------------------------------------------------
     $errors = [];
@@ -636,7 +644,7 @@ function create_job_action(array $input): array
     update_compat($pdo, 'job_posts', ['status' => 'pending'], 'id = ?', [$jobId]);
 
     // ----------------------------------------------------------------
-    // BƯỚC 4: DISPATCH — gửi Telegram đến nhóm Thợ
+    // BƯỚC 4: DISPATCH - gửi Telegram đến nhóm Thợ
     // Nếu thành công → chuyển sang "matching" (đang khớp thợ)
     // Nếu thất bại   → giữ "pending", kích async để thử lại
     // ----------------------------------------------------------------
@@ -648,7 +656,7 @@ function create_job_action(array $input): array
     }
 
     // ----------------------------------------------------------------
-    // BƯỚC 5: RESPONSE — Chuẩn JSON { success, message, data }
+    // BƯỚC 5: RESPONSE - Chuẩn JSON { success, message, data }
     // Tuyệt đối không trả về HTML hoặc để trống khi có lỗi.
     // ----------------------------------------------------------------
     return [

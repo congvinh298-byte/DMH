@@ -1,4 +1,5 @@
 <?php
+define('DTH_API_LIBRARY_ONLY', true);
 require_once __DIR__ . '/../api_master.php';
 
 // Assuming admin authentication is handled via session or some other method, but for this basic view we just check if it's accessed (you should add actual auth check here).

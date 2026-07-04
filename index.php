@@ -433,7 +433,7 @@ if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTEC
 </head>
 <body>
 <main>
-    <img src="/LOGO.svg" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
+    <img src="//assets/images/logo.png" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
     <h1>Khu vực Thử nghiệm</h1>
     <p>Website đang trong chế độ thử nghiệm nội bộ để cơ quan quản lý duyệt hồ sơ. Vui lòng nhập mật khẩu được cung cấp để tiếp tục.</p>
     ' . $errorHtml . '
@@ -553,939 +553,7 @@ $services = array(
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <style>
-:root {
-    --gold: #fbbf24;
-    --red-dark: #b91c1c;--bg:#f6f7f9;--panel:#fff;--line:#e5e7eb;--text:#111827;--muted:#667085;--brand:#dc2626;--dark:#111827;--ok:#047857}
-*{box-sizing:border-box}
-body,button,input,textarea,select{font-family:Arial,Helvetica,sans-serif}
-body {
-    background: #fef2f2; /* Light red tint for empty spaces */
-color:var(--text);line-height:1.5}
-a{text-decoration:none;color:inherit}.wrap{width:min(1180px,calc(100% - 32px));margin:0 auto}
-.top{background:var(--dark);color:#fff;font-size:13px}.top .wrap{min-height:38px;display:flex;justify-content:space-between;align-items:center;gap:12px}.approval-line{background:#fff7ed;color:#9a3412;border-bottom:1px solid #fed7aa;text-align:center;padding:7px 12px;font-size:13px;font-weight:800}
-header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line)}
-.head{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:14px}
-.logo{font-size:22px;font-weight:900;color:var(--brand)}.logo small{display:block;color:var(--muted);font-size:12px}
-.search{display:flex;gap:8px;flex:1;max-width:520px}.search input{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font-size:15px}
-.btn,button{border:0;border-radius:8px;background:var(--brand);color:#fff;font-weight:800;padding:11px 16px;cursor:pointer}.btn.dark{background:var(--dark)}
-nav{border-top:1px solid var(--line)}nav .wrap{display:flex;gap:8px;overflow:auto;padding:10px 0}nav button{background:#fff;color:#344054;border:1px solid var(--line);white-space:nowrap}nav button.active{color:var(--brand);border-color:var(--brand);background:#fff5f5}
-main{padding:24px 0 44px}.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 24px rgba(15,23,42,.06)}
-.hero{display:grid;grid-template-columns:1.35fr .9fr;gap:18px}.hero-main{min-height:260px;padding:28px;background:linear-gradient(120deg,#111827,#b42318);color:#fff;display:flex;flex-direction:column;justify-content:center}.hero-main h1{font-size:clamp(32px,4vw,50px);line-height:1;margin:0 0 12px}.hero-main p{max-width:640px;color:#f3f4f6;margin:0 0 18px}.hero-actions{display:flex;gap:8px;flex-wrap:wrap}.hero-actions .btn{text-align:center}
-.qr{padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:12px}.qr-box{border:1px solid var(--line);border-radius:8px;padding:12px}.qr-box h3{margin:0 0 8px;font-size:15px}.qr-box p{margin:0 0 10px;color:var(--muted);font-size:13px}.qr-box img{width:150px;height:150px;object-fit:contain;background:#fff;border:1px solid var(--line);padding:6px}.qr-empty{height:150px;display:grid;place-items:center;background:#fff;border:1px dashed #cbd5e1;border-radius:8px;color:#98a2b3;text-align:center;font-size:13px}
-.storefront{display:flex;flex-direction:column}
-.section{margin-top:22px}.title{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;margin-bottom:12px}.title h2{margin:0;font-size:23px}.muted{color:var(--muted);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.product{background:#fff;border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;}.img{height:160px;display:flex;justify-content:center;align-items:center;background:#fff;border-bottom:1px solid var(--line);color:#98a2b3;overflow:hidden;}.img img{max-width:100%;height:100%;object-fit:contain;padding:10px}.sim-face{font-size:24px;font-weight:900;color:var(--ok);letter-spacing:.5px}.body{padding:12px;flex:1;display:flex;flex-direction:column;}.name{font-weight:900;min-height:42px}.cat{font-size:13px;color:var(--muted)}.price{font-size:17px;color:var(--brand);font-weight:900}.buy-row{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:10px;}.buy-row .btn{width:100%;text-align:center;padding:9px 12px}.suggest{display:inline-block;color:var(--ok);font-size:12px;font-weight:800}.empty{grid-column:1/-1;background:#fff;border:1px dashed #cbd5e1;border-radius:10px;padding:24px;text-align:center;color:var(--muted)}
-.booking-shell{padding:18px}.service-head{display:grid;grid-template-columns:minmax(220px,1fr) auto;gap:10px;margin-bottom:10px}.service-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:14px}.service-option{display:grid;grid-template-columns:1fr auto;gap:5px 10px;min-height:64px;padding:10px 12px;text-align:start;background:#fff;color:var(--text);border:1px solid var(--line);border-radius:8px}.service-option:hover,.service-option.selected{border-color:var(--brand);background:#fff7f7}.service-option small{color:var(--muted);font-weight:700}.service-option strong{align-self:center;color:var(--brand);white-space:nowrap}.service-option span{font-size:13px;font-weight:900}.service-option.is-contact strong{color:var(--muted)}
-.gemini-panel{display:none;margin:0 0 14px;border:1px solid #c7d2fe;background:#f8fafc;border-radius:8px;padding:12px}.gemini-panel.active{display:grid;gap:10px}.gemini-actions{display:flex;gap:8px;flex-wrap:wrap}.gemini-reply{display:none;border:1px solid var(--line);border-radius:8px;background:#fff;padding:10px;white-space:pre-wrap}.gemini-reply.active{display:block}
-.gemini-message p:last-child { margin-bottom: 0; }
-.gemini-message pre { background: #f1f5f9; padding: 10px; border-radius: 6px; overflow-x: auto; margin: 10px 0; font-size: 13px; }
-.gemini-message code { font-family: monospace; }
-.typing-indicator { display: none; padding: 8px 12px; font-style: italic; color: #64748b; font-size: 13px; }
-.dth-modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); backdrop-filter: blur(4px); overflow: auto; }
-.dth-modal-content { background-color: #fff; margin: 5% auto; padding: 24px; border-radius: 12px; width: 90%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); position: relative; animation: modalFadeIn 0.3s ease; }
-@keyframes modalFadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-.dth-modal-close { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: bold; color: #666; cursor: pointer; }
-.dth-modal-close:hover { color: #dc2626; }
-.dth-modal-title { font-size: 22px; font-weight: 800; margin-bottom: 20px; color: #111827; border-bottom: 2px solid #dc2626; padding-bottom: 10px; display: inline-block; }
-.dth-modal-body { font-size: 15px; line-height: 1.6; color: #374151; }
-.dth-modal-body h4 { margin-top: 15px; margin-bottom: 8px; color: #1f2937; font-size: 16px; }
-.dth-modal-body ul { padding-left: 20px; margin-top: 5px; margin-bottom: 15px; }
-.legal-doc{display:grid;gap:16px;text-align:start;color:#374151}.legal-lead{background:#f8fafc;border:1px solid #e2e8f0;border-inline-start:4px solid #dc2626;border-radius:10px;padding:14px 16px}.legal-lead p{margin:0}.legal-section{border:1px solid #e5e7eb;border-radius:10px;padding:14px 16px;background:#fff}.legal-section h4{margin:0 0 8px!important;color:#111827!important;font-size:16px!important}.legal-section p{margin:0 0 8px}.legal-section p:last-child{margin-bottom:0}.legal-section ul{margin:0!important;padding-left:20px!important}.legal-section li{margin-bottom:6px}.legal-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.legal-meta div{background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;padding:10px;font-size:13px}.legal-note{font-size:13px;color:#64748b;font-style:italic}
-.form{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:grid;gap:6px}.full{grid-column:1/-1}label{font-size:13px;font-weight:800}input,textarea,select{width:100%;border:1px solid var(--line);border-radius:8px;padding:11px 12px;font:inherit;background:#fff}textarea{min-height:100px;resize:vertical}.readonly-price{background:#f8fafc;color:#047857;font-weight:900}.map-actions{display:flex;gap:8px;flex-wrap:wrap}.map-actions .btn{padding:9px 12px}.map-preview{margin-top:4px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#f8fafc}.location-map{width:100%;height:260px}.location-status{padding:8px 10px;background:#f8fafc;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}.status{display:none;margin-top:12px;padding:10px 12px;border-radius:8px}.status.ok{display:block;background:#ecfdf3;color:#047857;border:1px solid #a7f3d0}.status.err{display:block;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
-.legal-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.legal-item{background:#fff;border:1px solid var(--line);border-radius:8px;padding:0 12px}.legal-item summary{cursor:pointer;font-weight:900;padding:12px 0}.legal-content{border-top:1px solid var(--line);padding:10px 0 12px;color:#475569;font-size:13px}.legal-content p{margin:0 0 8px}.legal-content p:last-child{margin-bottom:0}
-footer{background:#111827;color:#d1d5db;padding:24px 0;font-size:13px}.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:18px}.footer-grid h3{margin:0 0 8px;color:#fff;font-size:15px}.footer-grid p{margin:4px 0}.footer-bottom{border-top:1px solid #374151;margin-top:18px;padding-top:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-@media(max-width:900px){.head,.hero{display:grid;grid-template-columns:1fr}.search{max-width:none}.grid,.qr,.service-list,.legal-grid,.footer-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:620px){header{position:static}.top .wrap{min-height:auto;padding:6px 0;flex-wrap:wrap}.head{padding:12px 0}.title{display:grid;grid-template-columns:1fr;align-items:start;gap:2px}.grid,.qr,.form,.service-head,.service-list,.legal-grid,.footer-grid{grid-template-columns:1fr}.hero-actions .btn{flex:1 1 180px}.full{grid-column:auto}.wrap{width:min(100% - 22px,1180px)}.location-map{height:230px}}
-
-
-/* Theme Đỏ Vàng Tự Hào */
-.red-gold-btn {
-    background: #fff;
-    border: 2px solid var(--gold) !important;
-    border-radius: 8px;
-    color: var(--red-dark);
-    transition: all 0.3s;
-}
-.red-gold-btn.selected {
-    background: var(--gold) !important;
-    color: #991b1b !important;
-    border-color: #d97706 !important;
-    box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
-}
-.booking-shell .service-head input {
-    border: 2px solid var(--gold);
-    border-radius: 8px;
-}
-.booking-shell .title h2 { color: var(--gold); }
-
-/* Emerald Champagne Gen Z Theme */
-:root {
-    --emerald-950: #062A1D;
-    --emerald-900: #0B3D2B;
-    --emerald-800: #0F5138;
-    --emerald-700: #126846;
-    --champagne: #D4AF37;
-    --champagne-soft: #F7D978;
-    --champagne-pale: #FFF3BF;
-    --glass: rgba(255, 255, 255, 0.08);
-    --glass-strong: rgba(255, 255, 255, 0.13);
-    --glass-dark: rgba(4, 31, 22, 0.74);
-    --line-gold: rgba(212, 175, 55, 0.42);
-    --white-soft: rgba(255, 255, 255, 0.86);
-    --muted-light: rgba(255, 255, 255, 0.68);
-    --aqua: #8DF5CE;
-}
-
-html { scroll-behavior: smooth; }
-
-body, button, input, textarea, select {
-    font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, Arial, sans-serif !important;
-}
-
-body {
-    min-height: 100vh;
-    margin: 0;
-    color: #fff !important;
-    background:
-        radial-gradient(circle at 14% 5%, rgba(212, 175, 55, 0.20), transparent 30%),
-        radial-gradient(circle at 92% 12%, rgba(141, 245, 206, 0.15), transparent 34%),
-        radial-gradient(circle at 50% 105%, rgba(212, 175, 55, 0.14), transparent 38%),
-        linear-gradient(145deg, var(--emerald-950) 0%, var(--emerald-900) 48%, #03150F 100%) !important;
-    overflow-x: hidden;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(circle at 50% 20%, #000 0%, transparent 70%);
-}
-
-.wrap {
-    width: min(1180px, calc(100% - 32px)) !important;
-}
-
-.approval-line {
-    background: linear-gradient(90deg, rgba(6,42,29,.96), rgba(11,61,43,.96)) !important;
-    color: var(--champagne-pale) !important;
-    border-bottom: 1px solid var(--line-gold) !important;
-    letter-spacing: .04em;
-}
-
-header {
-    background: rgba(6, 42, 29, 0.76) !important;
-    border-bottom: 1px solid var(--line-gold) !important;
-    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
-    backdrop-filter: blur(22px);
-}
-
-.head {
-    min-height: 86px !important;
-    align-items: center !important;
-}
-
-.logo {
-    color: #fff !important;
-    letter-spacing: .01em;
-}
-
-.logo small,
-.muted,
-.cat,
-.suggest {
-    color: var(--muted-light) !important;
-}
-
-.logo img {
-    height: 58px !important;
-    width: 58px;
-    border: 1px solid rgba(212, 175, 55, .55);
-    border-radius: 18px !important;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, .25), 0 0 0 6px rgba(212, 175, 55, .08);
-}
-
-#topBarStatus button {
-    background: rgba(255, 255, 255, .08) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 999px !important;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, .18) !important;
-}
-
-.search input {
-    min-height: 46px;
-    background: rgba(255, 255, 255, .08) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 999px !important;
-    padding-inline: 18px !important;
-    outline: none;
-}
-
-.search input::placeholder {
-    color: rgba(255, 255, 255, .58);
-}
-
-.search input:focus {
-    border-color: var(--champagne) !important;
-    box-shadow: 0 0 0 4px rgba(212, 175, 55, .14) !important;
-}
-
-.btn,
-button {
-    border-radius: 14px !important;
-    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
-}
-
-.btn:hover,
-button:hover {
-    transform: translateY(-1px);
-}
-
-.search button,
-.hero-actions .btn,
-.buy-row .btn,
-#orderSubmit,
-#phoneLoginSubmitBtn,
-#loginSubmitBtn,
-#storeRegSubmitBtn {
-    background: linear-gradient(135deg, var(--champagne-soft), var(--champagne)) !important;
-    color: var(--emerald-950) !important;
-    border: 1px solid rgba(255, 243, 191, .65) !important;
-    box-shadow: 0 14px 32px rgba(212, 175, 55, .20) !important;
-}
-
-.btn.dark {
-    background: rgba(255, 255, 255, .09) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-}
-
-.quick-tabs .btn {
-    background: rgba(255, 255, 255, .09) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, .18) !important;
-}
-
-.quick-tabs .btn:hover {
-    background: rgba(212, 175, 55, .18) !important;
-    color: var(--champagne-pale) !important;
-}
-
-main {
-    padding: clamp(18px, 4vw, 42px) 0 56px !important;
-}
-
-.storefront {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(18px, 3vw, 28px);
-}
-
-.storefront > section {
-    order: initial !important;
-}
-
-.section {
-    margin-top: 0 !important;
-}
-
-.glass-panel,
-.panel,
-.store-block,
-.product,
-.qr-box,
-.legal-item,
-.empty {
-    background: var(--glass) !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 16px !important;
-    box-shadow: 0 24px 70px rgba(0, 0, 0, .24);
-    backdrop-filter: blur(20px);
-}
-
-.hero-stage {
-    position: relative;
-}
-
-.hero-card {
-    min-height: clamp(390px, 48vw, 540px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: clamp(24px, 5vw, 56px);
-    overflow: hidden;
-}
-
-.hero-card::after {
-    content: "";
-    position: absolute;
-    width: 360px;
-    height: 360px;
-    right: -130px;
-    top: -130px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(212, 175, 55, .23), transparent 68%);
-    pointer-events: none;
-}
-
-.hero-logo {
-    width: min(220px, 52vw);
-    aspect-ratio: 1;
-    object-fit: contain;
-    border-radius: 999px;
-    filter: drop-shadow(0 26px 44px rgba(0, 0, 0, .42));
-    margin-bottom: clamp(18px, 3vw, 28px);
-}
-
-.hero-title {
-    max-width: 760px;
-    margin: 0 0 16px;
-    color: #fff;
-    font-size: clamp(38px, 7vw, 78px);
-    line-height: .94;
-    font-weight: 950;
-    letter-spacing: 0;
-}
-
-.hero-slogan {
-    max-width: 720px;
-    margin: 0 0 26px;
-    color: var(--white-soft);
-    font-size: clamp(17px, 2.4vw, 24px);
-    line-height: 1.45;
-    font-weight: 650;
-}
-
-.hero-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-}
-
-.hero-actions .btn {
-    min-height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding-inline: 20px;
-}
-
-.qr-showcase {
-    min-height: 100%;
-    padding: clamp(18px, 3vw, 28px);
-}
-
-.qr-showcase h2,
-.category-stage h2,
-#products .title h2 {
-    color: #fff !important;
-    font-weight: 900;
-    letter-spacing: 0;
-}
-
-.qr-grid {
-    display: grid;
-    gap: 16px;
-}
-
-.qr-frame {
-    position: relative;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 14px;
-    align-items: center;
-    min-height: 178px;
-    padding: 16px;
-    overflow: hidden;
-    background: rgba(255, 255, 255, .08);
-    border: 1px solid var(--line-gold);
-    border-radius: 18px;
-}
-
-.qr-frame::before {
-    content: "";
-    position: absolute;
-    inset: 10px;
-    border: 1px solid rgba(212, 175, 55, .18);
-    border-radius: 14px;
-    pointer-events: none;
-}
-
-.qr-frame img,
-.footer-grid img {
-    width: 132px !important;
-    height: 132px !important;
-    object-fit: contain;
-    background: #fff !important;
-    border: 1px solid rgba(212, 175, 55, .65) !important;
-    border-radius: 16px !important;
-    padding: 8px !important;
-    box-shadow: 0 18px 34px rgba(0, 0, 0, .30);
-}
-
-.qr-label {
-    position: relative;
-    z-index: 1;
-}
-
-.qr-label strong {
-    display: block;
-    color: var(--champagne-pale);
-    font-size: 17px;
-}
-
-.qr-label span {
-    display: block;
-    margin-top: 5px;
-    color: var(--muted-light);
-    font-size: 14px;
-}
-
-.qr-empty {
-    width: 132px;
-    height: 132px;
-    display: grid;
-    place-items: center;
-    background: rgba(255, 255, 255, .08) !important;
-    color: var(--muted-light) !important;
-    border: 1px dashed var(--line-gold) !important;
-    border-radius: 16px !important;
-    text-align: center;
-    font-size: 13px;
-}
-
-/* Map service area */
-.map-stage {
-    padding: clamp(18px, 3vw, 28px) 0;
-}
-
-.map-panel {
-    background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);
-    border: 1px solid rgba(52, 211, 153, .25);
-    border-radius: 18px;
-    padding: clamp(18px, 3vw, 28px);
-    box-shadow: 0 14px 30px rgba(0, 0, 0, .20);
-}
-
-.map-panel h2 {
-    color: #fde047 !important;
-    font-weight: 900;
-    margin: 0 0 10px;
-    font-size: clamp(22px, 3vw, 28px);
-}
-
-.map-desc {
-    color: #d1fae5;
-    font-size: 15px;
-    margin: 0 0 18px;
-    max-width: 760px;
-}
-
-.map-desc strong {
-    color: #fde047;
-}
-
-.map-frame {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 24px rgba(0, 0, 0, .25);
-    margin-bottom: 18px;
-}
-
-.map-frame iframe {
-    display: block;
-    width: 100%;
-    height: 420px;
-    border: 0;
-    border-radius: 12px;
-}
-
-#serviceModal {
-    align-items: center !important;
-    padding: 20px;
-}
-#serviceModalInner {
-    width: 100% !important;
-    max-width: 1050px !important;
-    height: auto !important;
-    max-height: 90vh !important;
-    border-radius: 24px;
-}
-.service-items-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 12px;
-}
-
-@media(max-width:620px){
-    #serviceModal {
-        align-items: flex-end !important;
-        padding: 0 !important;
-    }
-    #serviceModalInner {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 85vh !important;
-        max-height: 85vh !important;
-        border-radius: 24px 24px 0 0 !important;
-    }
-    .service-items-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
-.map-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-}
-
-.map-stat {
-    background: rgba(255, 255, 255, .08);
-    border: 1px solid rgba(52, 211, 153, .20);
-    border-radius: 12px;
-    padding: 14px;
-    text-align: center;
-}
-
-.map-stat strong {
-    display: block;
-    color: #fde047;
-    font-size: 14px;
-    margin-bottom: 4px;
-}
-
-.map-stat span {
-    display: block;
-    color: #d1fae5;
-    font-size: 13px;
-}
-
-@media (max-width: 768px) {
-    .map-stats {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .map-frame iframe {
-        height: 280px;
-    }
-}
-
-.category-stage {
-    padding: clamp(18px, 3vw, 28px);
-}
-
-.category-rack {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 12px;
-}
-
-.category-orb {
-    min-height: 136px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    padding: 14px 10px;
-    background: rgba(255, 255, 255, .08) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 18px !important;
-    box-shadow: 0 16px 34px rgba(0, 0, 0, .20);
-    -webkit-tap-highlight-color: transparent;
-}
-
-.category-orb:hover,
-.category-orb.active {
-    background: rgba(212, 175, 55, .18) !important;
-    border-color: var(--champagne) !important;
-    box-shadow: 0 20px 42px rgba(212, 175, 55, .18), inset 0 0 0 1px rgba(255, 243, 191, .15);
-}
-
-.category-orb:active {
-    transform: scale(.94);
-}
-
-.category-icon {
-    width: 62px;
-    height: 62px;
-    display: grid;
-    place-items: center;
-    border-radius: 999px;
-    background: linear-gradient(145deg, rgba(255, 255, 255, .13), rgba(255, 255, 255, .04));
-    border: 1px solid rgba(212, 175, 55, .55);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .20), 0 12px 24px rgba(0, 0, 0, .20);
-    color: var(--champagne-pale);
-    font-size: 27px;
-}
-
-.category-orb strong {
-    font-size: 13px;
-    color: #fff;
-    line-height: 1.15;
-}
-
-#goi-tho.booking-shell {
-    position: relative;
-    overflow: hidden;
-    padding: clamp(18px, 4vw, 34px) !important;
-    background:
-        radial-gradient(circle at 10% 0%, rgba(212, 175, 55, .20), transparent 36%),
-        linear-gradient(135deg, rgba(6, 42, 29, .92), rgba(11, 61, 43, .82)) !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 24px !important;
-    box-shadow: 0 28px 80px rgba(0, 0, 0, .32) !important;
-}
-
-#sectionMainTitle {
-    color: var(--champagne-pale) !important;
-    font-size: clamp(25px, 4vw, 38px) !important;
-    text-shadow: 0 10px 28px rgba(0, 0, 0, .35) !important;
-}
-
-#sectionMainDesc {
-    color: var(--white-soft) !important;
-}
-
-#bookingForm {
-    padding: clamp(18px, 4vw, 30px) !important;
-    background: rgba(2, 28, 20, .62) !important;
-    border: 1px solid var(--line-gold) !important;
-    border-radius: 20px !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 24px 54px rgba(0, 0, 0, .26) !important;
-    backdrop-filter: blur(18px);
-}
-
-#formMainTitle {
-    color: #fff !important;
-    border-bottom: 1px solid rgba(212, 175, 55, .32) !important;
-    letter-spacing: .01em !important;
-}
-
-#bookingForm label {
-    color: var(--champagne-pale) !important;
-    font-size: 13px !important;
-    letter-spacing: .02em;
-}
-
-#bookingForm input:not([type="hidden"]),
-#bookingForm textarea,
-#bookingForm select {
-    background: transparent !important;
-    color: #fff !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(212, 175, 55, .70) !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    padding: 13px 4px 12px !important;
-}
-
-#bookingForm input::placeholder,
-#bookingForm textarea::placeholder {
-    color: rgba(255, 255, 255, .46) !important;
-}
-
-#bookingForm input:focus,
-#bookingForm textarea:focus,
-#bookingForm select:focus {
-    outline: none !important;
-    border-bottom-color: var(--champagne) !important;
-    box-shadow: 0 14px 24px -22px var(--champagne), 0 1px 0 var(--champagne) !important;
-}
-
-#serviceSelectorTrigger {
-    background: rgba(255, 255, 255, .06) !important;
-    color: #fff !important;
-    border: 0 !important;
-    border-bottom: 1px solid rgba(212, 175, 55, .70) !important;
-    border-radius: 0 !important;
-    padding: 14px 4px !important;
-}
-
-#serviceSelectorTrigger span,
-#serviceSelectorText,
-#serviceSelectorText span {
-    color: var(--champagne-pale) !important;
-}
-
-#bookingForm .btn:not(#bookingSubmit),
-#useCurrentLocation,
-#clearLocation,
-#usePickupLocation,
-#useDropoffLocation,
-.open-map-btn,
-#confirmMapPicker,
-#btnScanQR,
-#orderUseCurrentLocation {
-    background: rgba(255, 255, 255, .10) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-    box-shadow: 0 12px 26px rgba(0, 0, 0, .18) !important;
-}
-
-#bookingSubmit {
-    position: relative;
-    min-height: 60px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--champagne-soft), var(--champagne)) !important;
-    color: var(--emerald-950) !important;
-    border: 1px solid rgba(255, 243, 191, .76) !important;
-    border-radius: 18px !important;
-    box-shadow: 0 22px 44px rgba(212, 175, 55, .26), inset 0 1px 0 rgba(255, 255, 255, .35) !important;
-    text-transform: uppercase;
-}
-
-#bookingSubmit::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(110deg, transparent 0%, rgba(255, 255, 255, .42) 45%, transparent 70%);
-    transform: translateX(-130%);
-    transition: transform .65s ease;
-}
-
-#bookingSubmit:hover::after {
-    transform: translateX(130%);
-}
-
-#bookingSubmit:disabled {
-    opacity: .78;
-    cursor: wait;
-}
-
-.dth-spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid rgba(6, 42, 29, .24);
-    border-top-color: var(--emerald-950);
-    border-radius: 50%;
-    animation: dthSpin .72s linear infinite;
-}
-
-@keyframes dthSpin {
-    to { transform: rotate(360deg); }
-}
-
-.custom-service-item {
-    background: rgba(255, 255, 255, .08) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-}
-
-.custom-service-item span {
-    color: #fff !important;
-}
-
-.custom-service-item span:last-child {
-    color: var(--emerald-950) !important;
-    background: linear-gradient(135deg, var(--champagne-soft), var(--champagne)) !important;
-}
-
-#serviceModal > div,
-#mapPickerModal > div,
-.dth-modal-content {
-    background: linear-gradient(145deg, rgba(6,42,29,.96), rgba(3,21,15,.96)) !important;
-    color: #fff !important;
-    border: 1px solid var(--line-gold) !important;
-    box-shadow: 0 28px 90px rgba(0, 0, 0, .42) !important;
-}
-
-#serviceModal > div > div,
-#mapPickerModal > div > div {
-    background: transparent !important;
-    border-color: var(--line-gold) !important;
-}
-
-.dth-modal-title,
-.dth-modal-body,
-.dth-modal-body h4,
-.dth-modal-content h2,
-.dth-modal-content h3,
-.dth-modal-content p,
-.dth-modal-content label {
-    color: #fff !important;
-}
-
-.dth-modal-close {
-    color: var(--champagne-pale) !important;
-}
-
-.legal-lead,
-.legal-section,
-.legal-meta div,
-.legal-item,
-.legal-content {
-    background: rgba(255, 255, 255, .07) !important;
-    color: var(--white-soft) !important;
-    border-color: var(--line-gold) !important;
-}
-
-.store-block {
-    padding: clamp(16px, 3vw, 24px) !important;
-}
-
-.store-block > div:first-child {
-    border-bottom: 1px solid var(--line-gold) !important;
-}
-
-.store-block h3,
-.store-block h3 span,
-.store-block div {
-    color: #fff !important;
-}
-
-.grid {
-    gap: 16px !important;
-}
-
-.product {
-    min-height: 100%;
-    overflow: hidden;
-    transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
-}
-
-.product:hover {
-    transform: translateY(-4px);
-    border-color: var(--champagne) !important;
-    box-shadow: 0 26px 60px rgba(0, 0, 0, .34);
-}
-
-.product .img {
-    background: linear-gradient(145deg, rgba(255,255,255,.12), rgba(255,255,255,.04)) !important;
-    border-bottom: 1px solid rgba(212, 175, 55, .22) !important;
-}
-
-.product .body,
-.product .name {
-    color: #fff !important;
-}
-
-.price {
-    color: var(--champagne-pale) !important;
-}
-
-.empty {
-    color: var(--muted-light) !important;
-}
-
-footer {
-    background: rgba(3, 21, 15, .94) !important;
-    color: var(--muted-light) !important;
-    border-top: 1px solid var(--line-gold);
-}
-
-.footer-grid h3,
-.footer-bottom {
-    color: #fff !important;
-}
-
-.footer-bottom {
-    border-top-color: rgba(212, 175, 55, .28) !important;
-}
-
-@media (max-width: 992px) {
-    .head {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
-        padding-block: 14px !important;
-    }
-
-    .head > div[style*="align-items: flex-end"] {
-        align-items: stretch !important;
-        max-width: none !important;
-    }
-
-    .head > div:last-child {
-        justify-content: stretch;
-    }
-
-    .category-rack {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-}
-
-@media (max-width: 620px) {
-    .wrap {
-        width: min(100% - 22px, 1180px) !important;
-    }
-
-    header {
-        position: sticky !important;
-    }
-
-    .logo {
-        font-size: 18px !important;
-    }
-
-    .hero-card {
-        min-height: auto;
-        padding: 24px;
-    }
-
-    .hero-logo {
-        width: min(180px, 68vw);
-    }
-
-    .hero-title {
-        font-size: clamp(36px, 13vw, 54px);
-    }
-
-    .hero-actions .btn {
-        width: 100%;
-    }
-
-    .qr-frame {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .qr-frame img,
-    .qr-empty {
-        margin-inline: auto;
-    }
-
-    .category-rack {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-    }
-
-    .category-orb {
-        min-height: 106px;
-        padding: 10px 6px;
-    }
-
-    .category-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 23px;
-    }
-
-    #goi-tho .title {
-        display: grid !important;
-        gap: 6px;
-    }
-
-    #bookingForm [style*="display: flex; gap: 10px"],
-    #bookingForm [style*="display: flex; gap: 8px"] {
-        flex-direction: column !important;
-    }
-}
-
-</style>
+    <link rel="stylesheet" href="/assets/css/dmh-style.css?v=13">
 <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 
 </head>
@@ -1493,8 +561,8 @@ footer {
 <div class="approval-line" style="border-bottom: 1px solid #fed7aa;">Website Điện Máy Hiếu - MST 1402228630 - Đã thông báo Bộ Công Thương</div>
 <header>
     <div class="wrap head">
-        <a class="logo" href="#" style="display:flex; align-items:center; gap: 8px;">
-            <img src="LOGO.svg" alt="Logo Điện Máy Hiếu" style="height: 48px; border-radius: 6px; object-fit: contain;">
+        <a class="logo" href="#">
+            <img src="/assets/images/logo.png" alt="Logo Điện Máy Hiếu">
             <div>Điện Máy Hiếu<small>Dịch vụ gọi thợ \u0026 cửa hàng điện máy</small></div>
         </a>
         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 6px; flex: 1; max-width: 520px;">
@@ -1506,19 +574,6 @@ footer {
             <form class="search" id="searchForm" style="width: 100%; max-width: 100%;"><input id="searchInput" type="search" placeholder="Tìm sản phẩm..."><button type="submit">Tìm</button></form>
         </div>
 
-<style>
-@keyframes slideUp {
-    from { transform: translateY(100%); }
-    to { transform: translateY(0); }
-}
-.custom-service-item:hover {
-    border-color: #D4AF37 !important;
-    background: rgba(212, 175, 55, 0.16) !important;
-}
-.custom-service-item:active {
-    transform: scale(0.98);
-}
-</style>
         <div class="quick-tabs" style="display: flex; gap: 8px;">
             <a class="btn dark" href="#goi-tho" onclick="selectMainService('worker')" style="flex: 1; padding: 10px 5px; font-size: 14px; text-align: center;">🛠 Gọi thợ</a>
         </div>
@@ -1531,7 +586,7 @@ footer {
         <div class="row g-4 align-items-stretch">
             <div class="col-lg-7">
                 <div class="glass-panel hero-card">
-                    <img class="hero-logo" src="LOGO.svg" alt="Logo Điện Máy Hiếu">
+                    <img class="hero-logo" src="/assets/images/logo.png" alt="Logo Điện Máy Hiếu">
                     <h1 class="hero-title">Điện Máy Hiếu</h1>
                     <p class="hero-slogan">Điện Máy Hiếu - Gọi thợ nhanh, điện máy chính hãng, phục vụ tận nhà.</p>
                     <div class="hero-actions">
@@ -1572,14 +627,14 @@ footer {
         </div>
     </section>
 
-    <section class="section panel booking-shell" id="goi-tho" style="background: linear-gradient(135deg, #b91c1c, #dc2626); border: 3px solid #fbbf24; border-radius: 12px; box-shadow: 0 10px 25px rgba(220, 38, 38, 0.3); margin-top: 0; margin-bottom: 25px; padding: 25px;">
+    <section class="section panel booking-shell" id="goi-tho">
         <div class="title">
-            <h2 id="sectionMainTitle" style="color: #fde047; text-transform: uppercase; letter-spacing: 1px; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); font-size: 26px; margin: 0;">GỌI THỢ QUICK POST</h2>
-            <span id="sectionMainDesc" style="color: #fef08a; font-size: 15px;">Chốt thợ nhanh chóng, minh bạch giá cả</span>
+            <h2 id="sectionMainTitle">GỌI THỢ QUICK POST</h2>
+            <span id="sectionMainDesc">Chốt thợ nhanh chóng, minh bạch giá cả</span>
         </div>
 
-<form id="bookingForm" style="margin-top: 10px; padding: 25px; background: #fff; border: 2px solid #fca5a5; border-radius: 12px; box-shadow: 0 4px 15px rgba(220,38,38,0.1);">
-    <h3 id="formMainTitle" style="color: #dc2626; margin-top: 0; margin-bottom: 20px; font-size: 22px; text-transform: uppercase; border-bottom: 2px solid #fee2e2; padding-bottom: 10px;">📋 Điền thông tin quick post</h3>
+<form id="bookingForm">
+    <h3 id="formMainTitle">📋 Điền thông tin quick post</h3>
 
     <input type="hidden" id="service_type" name="service_type">
     <input type="hidden" id="tech_target_base" name="tech_target_base">
@@ -1593,10 +648,124 @@ footer {
     <div style="margin-bottom: 15px;">
         <label style="color: #475569; font-weight: bold; display: block; margin-bottom: 5px;">Chọn dịch vụ yêu cầu</label>
 
-        <div id="serviceSelectorTrigger" style="background: #f8fafc; color: #1e293b; border: 2px solid #cbd5e1; border-radius: 10px; padding: 14px; width: 100%; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; transition: all 0.2s;">
-            <span id="serviceSelectorText" style="color: #64748b; font-weight: 500;">-- Bấm vào đây để chọn dịch vụ --</span>
-            <span style="color: #cbd5e1; font-size: 12px;">▼</span>
+        <div class="dm-custom-select" id="serviceSelector">
+            <div class="dm-select-trigger" id="serviceSelectorTrigger" tabindex="0" role="button" aria-expanded="false" aria-haspopup="listbox" onclick="toggleServicePanel()">
+                <span class="dm-select-label" id="serviceSelectorText">-- Chọn dịch vụ --</span>
+                <span class="dm-select-arrow">▼</span>
+            </div>
+            <div class="dm-select-panel" id="serviceSelectorPanel" role="listbox" aria-label="Bảng giá dịch vụ">
+                <?php
+                $groupIcons = [
+                    'Thợ điện lạnh' => '❄️',
+                    'Thợ tivi' => '📺',
+                    'Thợ máy lọc nước' => '💧',
+                    'Thợ gia dụng' => '🔧',
+                    'Thợ điện thoại' => '📱',
+                ];
+                $groupColors = [
+                    'Thợ điện lạnh' => '#E3F2FD',
+                    'Thợ tivi' => '#EDE9FE',
+                    'Thợ máy lọc nước' => '#CCFBF1',
+                    'Thợ gia dụng' => '#FFF3E0',
+                    'Thợ điện thoại' => '#FEF3C7',
+                ];
+                $groupedServices = [];
+                foreach ($services as $svc) {
+                    $groupedServices[$svc['group']][] = $svc;
+                }
+                foreach ($groupedServices as $groupName => $groupItems):
+                    $icon = $groupIcons[$groupName] ?? '🛠️';
+                    $bgColor = $groupColors[$groupName] ?? '#F3F4F6';
+                ?>
+                <div class="dm-select-group" data-group="<?= h($groupName) ?>" style="--group-bg: <?= $bgColor ?>">
+                    <div class="dm-group-header">
+                        <span class="dm-group-icon"><?= $icon ?></span>
+                        <span class="dm-group-name"><?= h($groupName) ?></span>
+                    </div>
+                    <div class="dm-group-items">
+                        <?php foreach ($groupItems as $svc):
+                            $base = (int)$svc['base'];
+                            $priceLabel = $base > 0 ? money_vnd($base) : 'Liên hệ';
+                            $priceData = $base > 0 ? money_vnd($base) . ' (Đã gồm VAT)' : 'Liên hệ báo giá';
+                        ?>
+                        <button type="button" class="dm-select-option" data-name="<?= h($svc['name']) ?>" data-group="<?= h($svc['group']) ?>" data-base="<?= $base ?>" data-price="<?= $priceData ?>" onclick="selectServiceOption(this)">
+                            <span class="dm-option-name"><?= h($svc['name']) ?></span>
+                            <span class="dm-option-price"><?= $priceLabel ?></span>
+                        </button>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <?php endforeach; ?>
+            </div>
         </div>
+        <p class="dm-select-hint">💡 Bảng giá công khai minh bạch. Chi phí phát sinh sẽ được thợ báo trước khi làm.</p>
+
+<script>
+(function() {
+    var trigger = document.getElementById('serviceSelectorTrigger');
+    var panel = document.getElementById('serviceSelectorPanel');
+    var sel = document.getElementById('serviceSelector');
+    if (!trigger || !panel || !sel) return;
+
+    function toggle() {
+        if (panel.style.display === 'block') {
+            panel.style.display = 'none';
+            sel.classList.remove('open');
+            trigger.setAttribute('aria-expanded', 'false');
+        } else {
+            panel.style.display = 'block';
+            sel.classList.add('open');
+            trigger.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    trigger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggle();
+    });
+
+    var options = panel.querySelectorAll('.dm-select-option');
+    options.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            var name = btn.getAttribute('data-name') || '';
+            var group = btn.getAttribute('data-group') || '';
+            var base = btn.getAttribute('data-base') || '0';
+            var priceText = btn.getAttribute('data-price') || '';
+
+            var serviceType = document.getElementById('service_type');
+            var techTargetBase = document.getElementById('tech_target_base');
+            var selectedServiceName = document.getElementById('selected_service_name');
+            var serviceSelectorText = document.getElementById('serviceSelectorText');
+
+            if (serviceType) serviceType.value = group;
+            if (techTargetBase) techTargetBase.value = base;
+            if (selectedServiceName) selectedServiceName.value = name;
+
+            if (serviceSelectorText) {
+                serviceSelectorText.innerHTML = '<span style="color:var(--dmh-orange);font-weight:800;">' + name + '</span> <span style="font-size:13px;color:var(--dmh-gray-500);"> - ' + priceText + '</span>';
+            }
+
+            options.forEach(function(opt) { opt.classList.remove('selected'); });
+            btn.classList.add('selected');
+            sel.classList.add('has-selection');
+
+            panel.style.display = 'none';
+            sel.classList.remove('open');
+            trigger.setAttribute('aria-expanded', 'false');
+        });
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!sel.contains(e.target) && panel.style.display === 'block') {
+            panel.style.display = 'none';
+            sel.classList.remove('open');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    });
+})();
+</script>
 
     </div>
 
@@ -1627,7 +796,7 @@ footer {
     </div>
 
 
-    <button type="submit" id="bookingSubmit" class="btn" data-original-text="🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN" style="width: 100%; background: #dc2626; color: #fff; font-size: 18px; padding: 15px; border-radius: 8px; font-weight: bold; box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4); text-transform: uppercase;">🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN</button>
+    <button type="submit" id="bookingSubmit" class="btn" data-original-text="🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN">🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN</button>
     <div id="bookingStatus" style="margin-top: 15px; font-weight: bold; text-align: center;"></div>
 </form>
 
@@ -1936,7 +1105,7 @@ footer {
 <div id="modalLogin" class="dth-modal">
     <div class="dth-modal-content" style="max-width: 420px; text-align: center; border-radius: 20px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
         <span class="dth-modal-close" onclick="document.getElementById('modalLogin').style.display='none'" style="font-size: 30px; right: 20px; top: 15px;">&times;</span>
-        <img src="LOGO.svg" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+        <img src="/assets/images/logo.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
         <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Điện Máy Hiếu</span></h2>
         <p style="color: #6b7280; font-size: 14px; margin-bottom: 25px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
 
@@ -2020,7 +1189,7 @@ function openModal(type) {
     const modalContent = {
         quyche: {
             title: 'Quy chế hoạt động website Điện Máy Hiếu',
-            html: 
+            html: `
                 <div class="legal-doc">
                     <div class="legal-lead">
                         <p><b>Điện Máy Hiếu</b> là website thương mại điện tử bán hàng và cung cấp dịch vụ do Trần Công Vinh (Điện Máy Hiếu) vận hành. Website chỉ giới thiệu, bán hàng và cung cấp dịch vụ gọi thợ của chính chủ sở hữu, không phải sàn giao dịch thương mại điện tử hay nền tảng kết nối nhiều cửa hàng/đối tác. Quy chế này công bố nguyên tắc vận hành, quy trình giao dịch, trách nhiệm của các bên và cơ chế bảo vệ quyền lợi người dùng.</p>
@@ -2089,12 +1258,11 @@ function openModal(type) {
                         <p>Quy chế có thể được điều chỉnh để phù hợp với quy định pháp luật, yêu cầu quản lý, phạm vi dịch vụ và quá trình nâng cấp hệ thống. Phiên bản mới sẽ được công bố trên website trước hoặc tại thời điểm áp dụng.</p>
                         <p class="legal-note">Tài liệu được xây dựng theo định hướng tham chiếu Nghị định 52/2013/NĐ-CP, Nghị định 85/2021/NĐ-CP về thương mại điện tử và các quy định pháp luật liên quan.</p>
                     </section>
-                </div>
-            
+                </div>`
         },
         baomat: {
             title: 'Chính sách bảo mật và bảo vệ dữ liệu cá nhân',
-            html: 
+            html: `
                 <div class="legal-doc">
                     <div class="legal-lead">
                         <p>Điện Máy Hiếu coi dữ liệu người dùng là tài sản cần được bảo vệ. Chính sách này giải thích cách Điện Máy Hiếu thu thập, sử dụng, lưu trữ, chia sẻ và bảo vệ dữ liệu cá nhân khi người dùng mua hàng, gọi thợ, đăng nhập QR, tích điểm hoặc tương tác với website.</p>
@@ -2154,12 +1322,11 @@ function openModal(type) {
                         <p>Người dùng có câu hỏi, yêu cầu chỉnh sửa/xóa dữ liệu hoặc phản ánh về bảo mật có thể liên hệ: Trần Công Vinh (Điện Máy Hiếu), địa chỉ 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp, hotline 0979.553.289.</p>
                         <p class="legal-note">Chính sách này được xây dựng theo định hướng tuân thủ Nghị định 13/2023/NĐ-CP về bảo vệ dữ liệu cá nhân và các quy định pháp luật liên quan.</p>
                     </section>
-                </div>
-            
+                </div>`
         },
         dean: {
             title: 'Đề án hoạt động website dịch vụ',
-            html: 
+            html: `
                 <div class="legal-doc">
                     <div class="legal-lead">
                         <p>Điện Máy Hiếu là đề án chuyển đổi số do Trần Công Vinh phát triển theo mô hình website thương mại điện tử bán hàng/cung cấp dịch vụ của cá nhân, kết hợp website, hệ thống quản trị, dữ liệu vận hành và công nghệ thông tin để phục vụ thương mại, dịch vụ kỹ thuật tại địa phương.</p>
@@ -2214,8 +1381,7 @@ function openModal(type) {
                         <p>Website đang trong quá trình hoàn thiện hồ sơ, quy chế, chính sách, quy trình vận hành và năng lực kỹ thuật để đáp ứng yêu cầu quản lý đối với hoạt động thương mại điện tử, dịch vụ số, bảo vệ dữ liệu cá nhân và bảo vệ quyền lợi người tiêu dùng.</p>
                         <p class="legal-note">Đề án này là bản công bố định hướng phát triển và có thể được cập nhật theo tình hình vận hành, yêu cầu quản lý nhà nước, phản hồi của người dùng và năng lực triển khai thực tế.</p>
                     </section>
-                </div>
-            
+                </div>`
         }
     };
 
@@ -2718,45 +1884,104 @@ if (serviceSearchInput) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    const serviceSelector = document.getElementById('serviceSelector');
     const serviceSelectorTrigger = document.getElementById('serviceSelectorTrigger');
-    const serviceModal = document.getElementById('serviceModal');
-    const closeServiceModal = serviceModal ? serviceModal.querySelector('#closeServiceModal') : null;
+    const serviceSelectorPanel = document.getElementById('serviceSelectorPanel');
+    const serviceType = document.getElementById('service_type');
+    const techTargetBase = document.getElementById('tech_target_base');
+    const selectedServiceName = document.getElementById('selected_service_name');
     const serviceSelectorText = document.getElementById('serviceSelectorText');
 
-    if (serviceSelectorTrigger && serviceModal) {
-        serviceSelectorTrigger.addEventListener('click', () => {
-            serviceModal.querySelectorAll('.service-group-container').forEach(el => {
-                el.style.display = 'block';
-            });
-            serviceModal.style.display = 'flex';
-        });
-
-        if (closeServiceModal) {
-            closeServiceModal.addEventListener('click', () => {
-                serviceModal.style.display = 'none';
-            });
+    if (serviceSelector && serviceSelectorTrigger && serviceSelectorPanel) {
+        function openPanel() {
+            serviceSelector.classList.add('open');
+            serviceSelectorTrigger.setAttribute('aria-expanded', 'true');
+            serviceSelectorPanel.style.display = 'block';
         }
 
-        // Close on backdrop click
+        function closePanel() {
+            serviceSelector.classList.remove('open');
+            serviceSelectorTrigger.setAttribute('aria-expanded', 'false');
+            serviceSelectorPanel.style.display = 'none';
+        }
+
+        function togglePanel() {
+            if (serviceSelector.classList.contains('open')) {
+                closePanel();
+            } else {
+                openPanel();
+            }
+        }
+
+        serviceSelectorTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            togglePanel();
+        });
+
+        serviceSelectorTrigger.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                togglePanel();
+            }
+        });
+
+        const options = serviceSelectorPanel.querySelectorAll('.dm-select-option');
+        options.forEach(option => {
+            option.addEventListener('click', () => {
+                const name = option.dataset.name || '';
+                const group = option.dataset.group || '';
+                const base = option.dataset.base || '0';
+                const priceText = option.dataset.price || '';
+
+                if (serviceType) serviceType.value = group;
+                if (techTargetBase) techTargetBase.value = base;
+                if (selectedServiceName) selectedServiceName.value = name;
+
+                if (serviceSelectorText) {
+                    serviceSelectorText.innerHTML = '<span style="color:var(--dmh-orange);font-weight:800;">' + name + '</span> <span style="font-size:13px;color:var(--dmh-gray-500);"> - ' + priceText + '</span>';
+                }
+
+                options.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                serviceSelector.classList.add('has-selection');
+                serviceSelectorTrigger.focus();
+                closePanel();
+            });
+        });
+
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!serviceSelector.contains(e.target)) {
+                closePanel();
+            }
+        });
+
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && serviceSelector.classList.contains('open')) {
+                closePanel();
+            }
+        });
+    }
+
+    const serviceModal = document.getElementById('serviceModal');
+    const closeServiceModal = serviceModal ? serviceModal.querySelector('#closeServiceModal') : null;
+    if (serviceModal && closeServiceModal) {
+        closeServiceModal.addEventListener('click', () => {
+            serviceModal.style.display = 'none';
+        });
         serviceModal.addEventListener('click', (e) => {
             if (e.target === serviceModal) serviceModal.style.display = 'none';
         });
-
         serviceModal.querySelectorAll('.custom-service-item').forEach(item => {
             item.addEventListener('click', () => {
                 const name = item.dataset.name || '';
                 const group = item.dataset.group || '';
                 const base = item.dataset.base || '0';
-                const priceText = item.dataset.price || '';
 
-                document.getElementById('service_type').value = group;
-                document.getElementById('tech_target_base').value = base;
-                document.getElementById('selected_service_name').value = name;
-
-                serviceSelectorText.innerHTML = `<span style="color:#D4AF37;font-weight:700;">${name}</span> <span style="font-size:13px;color:rgba(255,255,255,.68);"> - ${priceText}</span>`;
-                serviceSelectorTrigger.style.borderColor = '#D4AF37';
-                serviceSelectorTrigger.style.background = 'rgba(255,255,255,.06)';
-
+                if (serviceType) serviceType.value = group;
+                if (techTargetBase) techTargetBase.value = base;
+                if (selectedServiceName) selectedServiceName.value = name;
 
                 serviceModal.style.display = 'none';
             });
@@ -2765,9 +1990,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-
-const addressInput = document.getElementById('address');
-const locationStatus = document.getElementById('locationStatus');
+const addressInput = document.getElementById('address');const locationStatus = document.getElementById('locationStatus');
 
 function setLocationStatus(text) {
     const ls = document.getElementById('locationStatus');
@@ -2810,8 +2033,7 @@ document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
 document.getElementById('clearLocation')?.addEventListener('click', () => {
     document.getElementById('map_lat').value = '';
     document.getElementById('map_lng').value = '';
-    const addressInput = document.getElementById('address');
-    if (addressInput) addressInput.value = '';
+        if (addressInput) addressInput.value = '';
     setLocationStatus('');
 });
 
@@ -2854,11 +2076,15 @@ function selectMainService(type) {
     const sectionTitle = document.getElementById('sectionMainTitle');
     const sectionDesc = document.getElementById('sectionMainDesc');
     const submitBtn = document.getElementById('bookingSubmit');
-    const selectorTrigger = document.getElementById('serviceSelectorTrigger');
-    const selectorText = document.getElementById('serviceSelectorText');
+    const serviceSelector = document.getElementById('serviceSelector');
+    const serviceSelectorText = document.getElementById('serviceSelectorText');
 
-    selectorTrigger.style.pointerEvents = 'auto';
-    selectorTrigger.style.opacity = '1';
+    function resetServiceSelector() {
+        if (!serviceSelector) return;
+        serviceSelector.querySelectorAll('.dm-select-option').forEach(opt => opt.classList.remove('selected'));
+        serviceSelector.classList.remove('has-selection');
+        if (serviceSelectorText) serviceSelectorText.textContent = '-- Chọn dịch vụ --';
+    }
 
     if (type === 'worker') {
         if (roleInput) roleInput.value = 'worker';
@@ -2867,7 +2093,7 @@ function selectMainService(type) {
         formTitle.textContent = '📋 Điền thông tin quick post';
         submitBtn.innerHTML = '🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN';
         submitBtn.dataset.originalText = '🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN';
-        selectorText.innerHTML = '-- Bấm vào đây để chọn dịch vụ --';
+        resetServiceSelector();
         document.getElementById('service_type').value = '';
         document.getElementById('tech_target_base').value = '';
         document.getElementById('selected_service_name').value = '';
@@ -3325,6 +2551,65 @@ async function spinWheel() {
         </div>
     </div>
 </div>
+
+<script>
+function toggleServicePanel() {
+    var panel = document.getElementById('serviceSelectorPanel');
+    var sel = document.getElementById('serviceSelector');
+    var trigger = document.getElementById('serviceSelectorTrigger');
+    if (!panel || !sel || !trigger) return;
+    if (panel.style.display === 'block') {
+        panel.style.display = 'none';
+        sel.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+    } else {
+        panel.style.display = 'block';
+        sel.classList.add('open');
+        trigger.setAttribute('aria-expanded', 'true');
+    }
+}
+
+function selectServiceOption(btn) {
+    var name = btn.getAttribute('data-name') || '';
+    var group = btn.getAttribute('data-group') || '';
+    var base = btn.getAttribute('data-base') || '0';
+    var priceText = btn.getAttribute('data-price') || '';
+
+    var serviceType = document.getElementById('service_type');
+    var techTargetBase = document.getElementById('tech_target_base');
+    var selectedServiceName = document.getElementById('selected_service_name');
+    var serviceSelectorText = document.getElementById('serviceSelectorText');
+
+    if (serviceType) serviceType.value = group;
+    if (techTargetBase) techTargetBase.value = base;
+    if (selectedServiceName) selectedServiceName.value = name;
+
+    if (serviceSelectorText) {
+        serviceSelectorText.innerHTML = '<span style="color:var(--dmh-orange);font-weight:800;">' + name + '</span> <span style="font-size:13px;color:var(--dmh-gray-500);"> - ' + priceText + '</span>';
+    }
+
+    var options = document.querySelectorAll('.dm-select-option');
+    options.forEach(function(opt) { opt.classList.remove('selected'); });
+    btn.classList.add('selected');
+
+    var sel = document.getElementById('serviceSelector');
+    if (sel) sel.classList.add('has-selection');
+
+    toggleServicePanel();
+}
+
+// Close panel when clicking outside
+window.addEventListener('click', function(e) {
+    var sel = document.getElementById('serviceSelector');
+    var panel = document.getElementById('serviceSelectorPanel');
+    var trigger = document.getElementById('serviceSelectorTrigger');
+    if (sel && panel && trigger && !sel.contains(e.target) && panel.style.display === 'block') {
+        panel.style.display = 'none';
+        sel.classList.remove('open');
+        trigger.setAttribute('aria-expanded', 'false');
+    }
+});
+</script>
 
 </body>
 </html>
