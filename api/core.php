@@ -1280,6 +1280,7 @@ function ensure_core_schema(PDO $pdo)
     add_index_if_missing($pdo, 'marketplace_stores', 'idx_store_login_key', '(login_key)');
 
     add_column_if_missing($pdo, 'worker_profiles', 'is_active', 'TINYINT(1) NOT NULL DEFAULT 1');
+    $pdo->exec("UPDATE worker_profiles SET is_active = 1 WHERE is_active IS NULL");
 
     $pdo->exec("UPDATE job_pricing SET paid_amount = platform_fee, paid_at = COALESCE(paid_at, created_at)
         WHERE payment_status = 'paid' AND paid_amount = 0");
