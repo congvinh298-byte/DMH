@@ -596,6 +596,7 @@ function ensure_core_schema(PDO $pdo)
         worker_type VARCHAR(80) NULL DEFAULT 'ho_kinh_doanh',
         role VARCHAR(30) NOT NULL DEFAULT 'worker',
         is_admin TINYINT(1) NOT NULL DEFAULT 0,
+        is_active TINYINT(1) NOT NULL DEFAULT 1,
         registered_by BIGINT NULL,
         last_seen_bot VARCHAR(30) NULL,
         last_seen_at DATETIME NULL,
@@ -1277,6 +1278,8 @@ function ensure_core_schema(PDO $pdo)
     add_index_if_missing($pdo, 'marketplace_stores', 'idx_store_tax', '(tax_code)');
     add_index_if_missing($pdo, 'marketplace_stores', 'idx_store_status', '(status)');
     add_index_if_missing($pdo, 'marketplace_stores', 'idx_store_login_key', '(login_key)');
+
+    add_column_if_missing($pdo, 'worker_profiles', 'is_active', 'TINYINT(1) NOT NULL DEFAULT 1');
 
     $pdo->exec("UPDATE job_pricing SET paid_amount = platform_fee, paid_at = COALESCE(paid_at, created_at)
         WHERE payment_status = 'paid' AND paid_amount = 0");
