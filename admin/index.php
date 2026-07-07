@@ -462,6 +462,7 @@ function showSection(id, ev){
     };
     document.getElementById('page-title').textContent = titles[id];
     updateDashboard();
+    if (id === 'dashboard') showDashboardDetail('ctv');
     if (id === 'ctv') loadCtv();
 }
 function updateDashboard(){
@@ -1245,8 +1246,13 @@ function deleteItem(key, index, renderFn){
     setData(key, data);
     renderFn();
 }
-window.onload = function(){
-    loadDashWorkers(); loadCtv(); renderQr(); renderHoaDon(); renderHopDong(); updateDashboard();
+window.onload = async function(){
+    renderQr(); renderHoaDon(); renderHopDong(); updateDashboard();
+    await loadDashWorkers();
+    currentDashType = 'ctv';
+    renderDashCtvDetail();
+    document.getElementById('dashboard-detail').style.display = 'block';
+    document.getElementById('cardCtv').classList.add('active-card');
 };
 </script>
 
