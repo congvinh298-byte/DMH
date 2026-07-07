@@ -2150,14 +2150,19 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         if (!response.ok || !(data.status === 'success' || data.success === true)) {
             throw new Error(data.message || 'Không gửi được yêu cầu.');
         }
-        alert('Đã báo cáo thành công!');
+        const jobId = data.data?.job_id;
         form.reset();
         selectMainService('worker');
         document.getElementById('map_lat').value = '';
         document.getElementById('map_lng').value = '';
         document.querySelectorAll('.choose-service').forEach(item => item.classList.remove('selected'));
         setLocationStatus('Vui lòng nhập địa chỉ hoặc lấy tọa độ hiện tại.');
-        showBookingStatus('ok', 'Yêu cầu đã gửi thành công.');
+        if (jobId) {
+            showBookingStatus('ok', `Đã báo ca #${jobId} đến nhóm thợ. Đang chờ thợ nhận...`);
+            startJobPolling(jobId);
+        } else {
+            showBookingStatus('ok', 'Yêu cầu đã gửi thành công.');
+        }
     } catch (error) {
         showBookingStatus('err', error.message || 'Lỗi kết nối backend.');
     } finally {
@@ -2166,6 +2171,50 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         submitButton.innerHTML = submitButton.dataset.originalText || '🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN';
     }
 });
+
+function startJobPolling(jobId) {
+    const statusEl = document.getElementById('bookingStatus');
+    let attempts = 0;
+    const maxAttempts = 60;
+    const interval = setInterval(async () => {
+        attempts++;
+        if (attempts > maxAttempts) {
+            clearInterval(interval);
+            if (statusEl) statusEl.textContent = 'Hệ thống vẫn đang tìm thợ. Bạn sẽ được gọi điện xác nhận sau ít phút.';
+            return;
+        }
+        try {
+            const res = await fetch('api_master.php?action=app_job_status', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ booking_id: jobId })
+            });
+            const data = await readJsonResponse(res);
+            if (!res.ok || data.status !== 'success') return;
+            const job = data.data;
+            if (statusEl) {
+                if (job.status_code === 'assigned') {
+                    statusEl.innerHTML = `<span class="dth-status-assigned">✅ Đã có thợ nhận ca #${jobId}: ${job.worker?.name || 'Thợ'} (<a href="tel:${job.worker?.phone || ''}">${job.worker?.phone || ''}</a>)</span>`;
+                } else if (job.status_code === 'completed') {
+                    statusEl.innerHTML = `<span class="dth-status-completed">✅ Ca #${jobId} đã hoàn thành. Cảm ơn anh/chị đã tin tưởng!</span>`;
+                    clearInterval(interval);
+                } else if (job.status_code === 'cancelled' || job.status_code === 'spam') {
+                    statusEl.innerHTML = `<span class="dth-status-error">Ca #${jobId} đã bị hủy/bỏ. Vui lòng gọi hotline 0979.553.289.</span>`;
+                    clearInterval(interval);
+                } else if (job.status_code === 'failed') {
+                    statusEl.innerHTML = `<span class="dth-status-error">Chưa gửi được ca vào nhóm thợ. Admin sẽ can thiệp ngay.</span>`;
+                } else {
+                    statusEl.textContent = `${job.status_text} (#${jobId})...`;
+                }
+            }
+            if (job.status_code === 'assigned' || job.status_code === 'completed' || job.status_code === 'cancelled' || job.status_code === 'spam') {
+                clearInterval(interval);
+            }
+        } catch (e) {
+            // ignore polling errors
+        }
+    }, 5000);
+}
 
 
 </script>

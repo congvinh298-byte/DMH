@@ -68,6 +68,53 @@ if ($action === '') {
     json_out(['status' => 'ok', 'message' => 'api_master v2']);
 }
 
+if ($action === 'telegram_webhook_info') {
+    $role = telegram_request_role();
+    $token = telegram_token($role);
+    $info = ['role' => $role, 'token_present' => $token !== '', 'token_length' => strlen($token)];
+    if ($token !== '' && function_exists('curl_init')) {
+        $ch = curl_init('https://api.telegram.org/bot' . $token . '/getWebhookInfo');
+        curl_setopt_array($ch, [CURLOPT_RETURNTRANSFER => true, CURLOPT_TIMEOUT => 10]);
+        $raw = curl_exec($ch);
+        curl_close($ch);
+        $decoded = json_decode((string)$raw, true);
+        if (is_array($decoded) && !empty($decoded['ok']) && is_array($decoded['result'])) {
+            $info['webhook'] = $decoded['result'];
+        } else {
+            $info['error'] = $decoded['description'] ?? 'Unable to fetch webhook info';
+        }
+    }
+    json_out(['status' => 'ok', 'info' => $info]);
+}
+
+if ($action === 'telegram_set_webhook') {
+    try {
+        $secret = (string)($_GET['secret'] ?? $_SERVER['HTTP_X_CRON_SECRET'] ?? '');
+        $expected = app_env('CRON_SECRET', '');
+        if ($expected === '' || !hash_equals($expected, $secret)) {
+            json_out(['status' => 'error', 'message' => 'Invalid cron secret.'], 403);
+        }
+        $role = telegram_request_role();
+        $token = telegram_token($role);
+        if ($token === '') {
+            json_out(['status' => 'error', 'message' => 'Missing bot token'], 400);
+        }
+        $url = app_public_url() . '/api_master.php?action=telegram_webhook&bot=' . $role;
+        $webhookSecret = app_env('TELEGRAM_WEBHOOK_SECRET', '');
+        $payload = ['url' => $url];
+        if ($webhookSecret !== '') {
+            $payload['secret_token'] = $webhookSecret;
+        }
+        $resp = tg_request($role, 'setWebhook', $payload);
+        if (!empty($resp['ok'])) {
+            json_out(['status' => 'success', 'message' => 'Webhook configured.', 'url' => $url, 'role' => $role]);
+        }
+        json_out(['status' => 'error', 'message' => $resp['description'] ?? 'Unknown error', 'telegram_response' => $resp], 502);
+    } catch (Throwable $e) {
+        api_exception_out($e);
+    }
+}
+
 if ($action === 'telegram_webhook') {
     try {
         handle_telegram_webhook();
@@ -81,7 +128,27 @@ if ($action === 'async_dispatch_job') {
     set_time_limit(0);
     $jobId = (int)($_GET['job_id'] ?? 0);
     if ($jobId > 0) {
-        send_worker_job_to_group(pdo(), $jobId);
+        $pdo = pdo();
+        $job = get_job_row($pdo, $jobId);
+        if ($job && job_display_status($job) === 'pending') {
+            $sent = send_worker_job_to_group($pdo, $jobId);
+            if ($sent) {
+                update_compat($pdo, 'job_posts', ['status' => 'matching'], 'id = ?', [$jobId]);
+            } else {
+                // Re-queue another attempt in ~30 seconds via recursive async call
+                $retryUrl = app_public_url() . '/api_master.php?action=async_dispatch_job&job_id=' . $jobId;
+                if (function_exists('curl_init')) {
+                    $ch = curl_init($retryUrl);
+                    curl_setopt_array($ch, [
+                        CURLOPT_TIMEOUT_MS => 200,
+                        CURLOPT_RETURNTRANSFER => true,
+                        CURLOPT_SSL_VERIFYPEER => false,
+                    ]);
+                    curl_exec($ch);
+                    curl_close($ch);
+                }
+            }
+        }
     }
     json_out(['status' => 'ok']);
 }
@@ -190,7 +257,48 @@ try {
 
     switch ($action) {
     case 'health':
-        json_out(['status' => 'ok', 'time' => date('c')]);
+        $pdo = pdo();
+        $workerOk = false;
+        $reportOk = false;
+        $workerError = '';
+        $reportError = '';
+        try {
+            $workerChat = telegram_chat('worker');
+            $workerToken = telegram_token('worker');
+            if ($workerToken !== '' && $workerChat !== '') {
+                $me = tg_request('worker', 'getMe', []);
+                $workerOk = !empty($me['ok']);
+                if (!$workerOk) {
+                    $workerError = $me['description'] ?? 'getMe failed';
+                }
+            } else {
+                $workerError = 'Missing worker token or chat id';
+            }
+        } catch (Throwable $e) {
+            $workerError = $e->getMessage();
+        }
+        try {
+            $reportChat = telegram_chat('report');
+            $reportToken = telegram_token('report');
+            if ($reportToken !== '' && $reportChat !== '') {
+                $me = tg_request('report', 'getMe', []);
+                $reportOk = !empty($me['ok']);
+                if (!$reportOk) {
+                    $reportError = $me['description'] ?? 'getMe failed';
+                }
+            } else {
+                $reportError = 'Missing report token or chat id';
+            }
+        } catch (Throwable $e) {
+            $reportError = $e->getMessage();
+        }
+        json_out([
+            'status' => ($workerOk || $reportOk) ? 'ok' : 'degraded',
+            'time' => date('c'),
+            'database' => $pdo ? 'connected' : 'disconnected',
+            'telegram_worker' => ['ok' => $workerOk, 'error' => $workerError],
+            'telegram_report' => ['ok' => $reportOk, 'error' => $reportError],
+        ]);
 
     case 'get_products':
         json_out(['status' => 'success', 'data' => products_for_store($pdo, $input)]);
@@ -242,6 +350,9 @@ try {
             'completed' => 'Hoàn thành',
             'cancelled' => 'Đã hủy',
             'spam' => 'Yêu cầu không hợp lệ',
+            'failed' => 'Chưa gửi được đến nhóm thợ',
+            'notified' => 'Đã báo nhóm thợ, chờ nhận',
+            'matching' => 'Đang tìm thợ',
         ][$statusCode] ?? 'Đang cập nhật';
         $worker = null;
         $workerId = job_worker_telegram_id($job);
@@ -249,7 +360,7 @@ try {
             $profile = get_worker_profile($pdo, $workerId);
             $worker = [
                 'id' => $workerId,
-                'name' => (string)($profile['telegram_name'] ?? "Tho {$workerId}"),
+                'name' => (string)($profile['telegram_name'] ?? "Thợ {$workerId}"),
                 'phone' => (string)($profile['phone'] ?? ''),
                 'rating_score' => (float)($profile['rating_score'] ?? 5.0),
                 'rating_count' => (int)($profile['rating_count'] ?? 0),
@@ -261,7 +372,10 @@ try {
                 'status_code' => $statusCode,
                 'status_text' => $statusText,
                 'amount' => fmt_money((int)($job['final_total'] ?? $job['customer_total'] ?? 0)),
-                'worker' => $worker
+                'worker' => $worker,
+                'created_at' => (string)($job['created_at'] ?? ''),
+                'assigned_at' => (string)($job['assigned_at'] ?? ''),
+                'completed_at' => (string)($job['completed_at'] ?? ''),
             ]
         ]);
 

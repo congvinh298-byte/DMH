@@ -1524,8 +1524,8 @@ function tg_request(string $role, string $method, array $payload): array
             CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
             CURLOPT_POSTFIELDS => $body,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_CONNECTTIMEOUT => 5,
-            CURLOPT_TIMEOUT => 12,
+            CURLOPT_CONNECTTIMEOUT => 8,
+            CURLOPT_TIMEOUT => 20,
         ]);
         $raw = curl_exec($ch);
         $error = curl_error($ch);
@@ -1537,7 +1537,7 @@ function tg_request(string $role, string $method, array $payload): array
                 'method' => 'POST',
                 'header' => "Content-Type: application/json\r\n",
                 'content' => $body,
-                'timeout' => 12,
+                'timeout' => 20,
                 'ignore_errors' => true,
             ],
         ]);

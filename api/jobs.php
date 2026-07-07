@@ -278,10 +278,11 @@ function booking_bot_role(array $input, string $serviceType, string $selectedSer
     return 'worker';
 }
 
-function send_worker_job_to_group(PDO $pdo, int $jobId): bool
+function send_worker_job_to_group(PDO $pdo, int $jobId, int $attempt = 1): bool
 {
     $job = get_job_row($pdo, $jobId);
     if (!$job) {
+        error_log("[job_dispatch] Job {$jobId} not found");
         return false;
     }
     $role = telegram_normalize_role((string)($job['bot_role'] ?? 'worker'));
@@ -289,12 +290,15 @@ function send_worker_job_to_group(PDO $pdo, int $jobId): bool
     if ($chatId === '') {
         $chatId = get_bot_group_chat_id($role);
     }
+    if ($chatId === '') {
+        error_log("[job_dispatch] Job {$jobId} missing target group chat id");
+        update_compat($pdo, 'job_posts', ['status' => 'failed', 'cancel_reason' => 'Missing target group chat id'], 'id = ?', [$jobId]);
+        return false;
+    }
 
     $pricing = get_job_pricing($pdo, $jobId);
 
     $publicDescription = mask_phone_like_text((string)($job['description'] ?? ''));
-    $coordinates = worker_map_coordinates($job);
-    $mapsUrl = worker_google_maps_url($job);
     $job['customer_phone'] = mask_phone((string)($job['customer_phone'] ?? ''));
 
     // Address shown to the worker group must NOT contain GPS coords or Google Maps links.
@@ -303,7 +307,6 @@ function send_worker_job_to_group(PDO $pdo, int $jobId): bool
         $publicAddress = substr($publicAddress, 0, $pos);
     }
     $publicAddress = trim($publicAddress);
-    $mapsUrl = ''; // keep URL hidden until a worker claims the job
 
     $text = "<b>BÁO CA MỚI #{$jobId}</b>\n"
         . "Loại dịch vụ: " . esc_html($job['service_type'] ?? '') . "\n"
@@ -323,14 +326,29 @@ function send_worker_job_to_group(PDO $pdo, int $jobId): bool
             ],
         ],
     ];
+
     $resp = tg_send($role, $chatId, $text, $keyboard);
     $messageId = (int)($resp['result']['message_id'] ?? 0);
     if (!empty($resp['ok']) && $messageId > 0) {
         save_tg_map($pdo, $role, (string)$chatId, $messageId, 'job', $jobId);
         update_compat($pdo, 'job_posts', ['status' => 'notified', 'tg_message_id' => $messageId], 'id = ?', [$jobId]);
+        error_log("[job_dispatch] Job {$jobId} sent to group {$chatId} message_id={$messageId} attempt={$attempt}");
         return true;
     }
-    update_compat($pdo, 'job_posts', ['status' => 'failed', 'cancel_reason' => 'Lỗi gửi Telegram báo ca'], 'id = ?', [$jobId]);
+
+    $errorDesc = $resp['description'] ?? 'Unknown Telegram error';
+    error_log("[job_dispatch] Job {$jobId} attempt={$attempt} failed: " . $errorDesc);
+
+    if ($attempt < 3) {
+        usleep(500000); // 500ms before retry
+        return send_worker_job_to_group($pdo, $jobId, $attempt + 1);
+    }
+
+    // Mark as failed only after internal retries exhausted
+    update_compat($pdo, 'job_posts', [
+        'status' => 'failed',
+        'cancel_reason' => 'Lỗi gửi Telegram báo ca: ' . clean_string($errorDesc, 250),
+    ], 'id = ?', [$jobId]);
     return false;
 }
 
@@ -343,6 +361,7 @@ function claim_job(PDO $pdo, int $jobId, int $workerId, string $workerName, stri
         return ['ok' => false, 'message' => $debt > 0 ? 'Tai khoan dang bi khoa nhan ca. No phi nen tang: ' . fmt_money($debt) . '.' : 'Tai khoan tho dang bi khoa nhan ca. Lien he admin.'];
     }
 
+    $claimId = 0;
     $pdo->beginTransaction();
     try {
         $job = get_job_row($pdo, $jobId, true);
@@ -366,7 +385,7 @@ function claim_job(PDO $pdo, int $jobId, int $workerId, string $workerName, stri
             'status' => job_status($pdo, 'assigned'),
         ], 'id = ?', [$jobId], ['assigned_at' => 'NOW()', 'updated_at' => 'NOW()']);
 
-        insert_compat($pdo, 'job_claims', [
+        $claimId = insert_compat($pdo, 'job_claims', [
             'job_id' => $jobId,
             'telegram_user_id' => $workerId,
             'telegram_name' => $workerName,
@@ -383,10 +402,22 @@ function claim_job(PDO $pdo, int $jobId, int $workerId, string $workerName, stri
         throw $e;
     }
 
-    // Trigger synchronous claim job notification
-    $dmSuccess = process_async_claim_job(pdo(), $jobId, $workerId, $workerName, $username, $role);
+    // Notify worker via DM with full customer details
+    $dmSuccess = process_async_claim_job($pdo, $jobId, $workerId, $workerName, $username, $role);
 
     if (!$dmSuccess) {
+        // Rollback assignment so another worker can claim or worker can retry after /start
+        update_compat($pdo, 'job_posts', [
+            'worker_id' => null,
+            'telegram_worker_id' => null,
+            'status' => job_status($pdo, 'pending'),
+            'cancel_reason' => 'DM to worker failed; worker may need /start.',
+        ], 'id = ?', [$jobId], ['updated_at' => 'NOW()']);
+        if ($claimId > 0) {
+            update_compat($pdo, 'job_claims', ['outcome' => 'dm_failed'], 'id = ?', [$claimId]);
+        }
+        $pdo->prepare('UPDATE worker_profiles SET jobs_claimed = GREATEST(jobs_claimed - 1, 0), updated_at = NOW() WHERE telegram_user_id = ?')
+            ->execute([$workerId]);
         return ['ok' => false, 'message' => 'LỖI: Bot chưa thể gửi tin nhắn cho bạn! Vui lòng bấm vào tên Bot, chọn NHẮN TIN (hoặc /start), sau đó quay lại đây bấm NHẬN CA lại nhé!'];
     }
 
@@ -397,7 +428,8 @@ function process_async_claim_job(PDO $pdo, int $jobId, int $workerId, string $wo
 {
     $job = get_job_row($pdo, $jobId) ?: [];
     if (!$job || job_display_status($job) !== 'assigned' || job_worker_telegram_id($job) !== $workerId) {
-        return false; // Job is not in the correct state to notify worker
+        error_log("[job_claim_dm] Job {$jobId} not in assigned state for worker {$workerId}");
+        return false;
     }
 
     $pricing = get_job_pricing($pdo, $jobId);
@@ -423,18 +455,28 @@ function process_async_claim_job(PDO $pdo, int $jobId, int $workerId, string $wo
     if ($mapsUrl !== '') {
         $dmKeyboard['inline_keyboard'][] = [['text' => 'Mo Google Maps den nha khach', 'url' => $mapsUrl]];
     }
-    $resp = tg_send($role, (string)$workerId, $dm, $dmKeyboard);
-    $messageId = (int)($resp['result']['message_id'] ?? 0);
-    if (empty($resp['ok']) || $messageId <= 0) {
-        update_compat($pdo, 'job_posts', [
-            'worker_id' => null,
-            'telegram_worker_id' => null,
-            'status' => 'new',
-            'cancel_reason' => 'DM to worker failed; worker may need /start.',
-        ], 'id = ?', [$jobId], ['updated_at' => 'NOW()']);
+
+    // Retry DM up to 3 times because first message to a worker sometimes fails
+    $attempt = 1;
+    $resp = [];
+    while ($attempt <= 3) {
+        $resp = tg_send($role, (string)$workerId, $dm, $dmKeyboard);
+        $messageId = (int)($resp['result']['message_id'] ?? 0);
+        if (!empty($resp['ok']) && $messageId > 0) {
+            save_tg_map($pdo, $role, (string)$workerId, $messageId, 'job', $jobId);
+            break;
+        }
+        error_log("[job_claim_dm] Job {$jobId} worker {$workerId} attempt {$attempt} failed: " . ($resp['description'] ?? 'unknown'));
+        if ($attempt < 3) {
+            usleep(800000); // 800ms backoff
+        }
+        $attempt++;
+    }
+
+    if (empty($resp['ok']) || (int)($resp['result']['message_id'] ?? 0) <= 0) {
+        error_log("[job_claim_dm] Job {$jobId} worker {$workerId} DM failed after 3 attempts");
         return false;
     }
-    save_tg_map($pdo, $role, (string)$workerId, $messageId, 'job', $jobId);
 
     $groupChat = (string)($job['target_group_id'] ?? get_bot_group_chat_id($role));
     if ($groupChat !== '') {
