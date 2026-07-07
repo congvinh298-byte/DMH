@@ -1044,7 +1044,12 @@ async function reloadWorkerHistory(){
     body.innerHTML = '<tr><td colspan="7" style="text-align:center;">Đang tải...</td></tr>';
     summary.innerHTML = '';
     try {
-        const res = await fetch('/api_master.php?action=admin_worker_history&worker_id=' + encodeURIComponent(currentHistoryWorkerId) + '&month=' + encodeURIComponent(month), { credentials: 'same-origin' });
+        const res = await fetch('/api_master.php?action=admin_worker_history', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ worker_id: currentHistoryWorkerId, month: month })
+        });
         const json = await res.json();
         if (json.status !== 'success') {
             body.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">' + (json.message || 'Lỗi tải dữ liệu') + '</td></tr>';
