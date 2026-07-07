@@ -1026,6 +1026,47 @@ try {
     case 'admin_worker_payments':
         json_out(['status' => 'success', 'data' => admin_worker_payments($pdo)]);
 
+    case 'admin_worker_history':
+        $workerId = (int)digits_only($input['worker_id'] ?? '');
+        $month = clean_string($input['month'] ?? date('Y-m'), 7);
+        if (!preg_match('/^\d{4}-\d{2}$/', $month)) {
+            $month = date('Y-m');
+        }
+        if ($workerId <= 0) {
+            json_out(['status' => 'error', 'message' => 'Worker ID khong hop le.'], 400);
+        }
+        $start = "{$month}-01 00:00:00";
+        $end = date('Y-m-t 23:59:59', strtotime($start));
+        $stmt = $pdo->prepare("SELECT j.id, j.customer_name, j.customer_phone, j.service_name, j.address, j.created_at, j.completed_at,
+                jp.final_customer_price, jp.platform_fee, jp.tech_net_income, jp.paid_amount
+            FROM job_posts j
+            JOIN job_pricing jp ON jp.job_id = j.id
+            WHERE COALESCE(j.telegram_worker_id, j.worker_id) = ? AND j.completed_at IS NOT NULL AND j.completed_at BETWEEN ? AND ?
+            ORDER BY j.completed_at DESC");
+        $stmt->execute([$workerId, $start, $end]);
+        $jobs = $stmt->fetchAll();
+        $totalIncome = 0;
+        $totalCustomer = 0;
+        $totalFee = 0;
+        foreach ($jobs as $job) {
+            $totalIncome += (int)($job['tech_net_income'] ?? 0);
+            $totalCustomer += (int)($job['final_customer_price'] ?? 0);
+            $totalFee += (int)($job['platform_fee'] ?? 0);
+        }
+        json_out([
+            'status' => 'success',
+            'worker_id' => $workerId,
+            'month' => $month,
+            'period' => ['start' => $start, 'end' => $end],
+            'jobs' => $jobs,
+            'summary' => [
+                'total_customer_price' => $totalCustomer,
+                'total_platform_fee' => $totalFee,
+                'total_worker_income' => $totalIncome,
+                'job_count' => count($jobs),
+            ],
+        ]);
+
     case 'admin_register_worker':
         $workerId = (int)digits_only($input['worker_id'] ?? '');
         $phone = digits_only($input['phone'] ?? '');

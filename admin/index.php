@@ -326,9 +326,40 @@ if ($is_logged_in && empty($_SESSION['csrf_token'])) {
                                 <th>Ca</th>
                                 <th>Nợ phí</th>
                                 <th>Trạng thái</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody id="ctvList"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL LỊCH SỬ HOẠT ĐỘNG THỢ -->
+        <div id="workerHistoryModal" style="display:none; position:fixed; z-index:9999; left:0; top:0; width:100%; height:100%; background:rgba(0,0,0,0.5); overflow:auto;">
+            <div style="background:white; margin:40px auto; max-width:900px; border-radius:12px; padding:25px; position:relative; max-height:85vh; overflow-y:auto;">
+                <span onclick="closeWorkerHistory()" style="position:absolute; top:15px; right:20px; font-size:24px; cursor:pointer;">&times;</span>
+                <h3 id="workerHistoryTitle">📋 Lịch sử hoạt động</h3>
+                <div style="margin-bottom:15px;">
+                    <label>Tháng: </label>
+                    <input type="month" id="workerHistoryMonth" onchange="reloadWorkerHistory()">
+                    <button class="btn-small btn-blue" style="margin-left:10px;" onclick="reloadWorkerHistory()">Tính lại</button>
+                </div>
+                <div id="workerHistorySummary" style="background:#fff9f0; border-left:4px solid #d4a76e; padding:12px; margin-bottom:15px; border-radius:0 8px 8px 0;"></div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mã ca</th>
+                                <th>Khách hàng</th>
+                                <th>Dịch vụ</th>
+                                <th>Hoàn thành</th>
+                                <th>Thu của khách</th>
+                                <th>Phí nền tảng</th>
+                                <th>Thợ thực nhận</th>
+                            </tr>
+                        </thead>
+                        <tbody id="workerHistoryBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -505,6 +536,7 @@ function renderWorkerRow(w){
     const isAdmin = parseInt(w.is_admin, 10) === 1;
     const roleLabel = isAdmin ? '👑 Admin' : (w.role || 'worker');
     const status = parseInt(w.is_active, 10) === 0 ? '⛔ Đã rời nhóm' : '✅ Hoạt động';
+    const historyBtn = `<button class="btn-small btn-blue" onclick="openWorkerHistory(${w.worker_id}, '${escHtml(w.telegram_name || 'Thợ')}')">Lịch sử</button>`;
     return `<tr>
         <td>${w.worker_id || ''}</td>
         <td>${escHtml(w.telegram_name || '')}</td>
@@ -515,6 +547,7 @@ function renderWorkerRow(w){
         <td>${w.job_count || 0}</td>
         <td>${fmtMoney(w.unpaid_fee || 0)}</td>
         <td>${status}</td>
+        <td>${historyBtn}</td>
     </tr>`;
 }
 function renderDashCtvDetail() {
@@ -522,9 +555,9 @@ function renderDashCtvDetail() {
     const thead = document.getElementById('dash-detail-thead');
     const tbody = document.getElementById('dash-detail-tbody');
     titleEl.textContent = '👷 Chi tiết CTV / Thợ';
-    thead.innerHTML = '<tr><th>Telegram ID</th><th>Họ tên</th><th>Username</th><th>SĐT</th><th>Loại</th><th>Vai trò</th><th>Ca</th><th>Nợ phí</th><th>Trạng thái</th></tr>';
+    thead.innerHTML = '<tr><th>Telegram ID</th><th>Họ tên</th><th>Username</th><th>SĐT</th><th>Loại</th><th>Vai trò</th><th>Ca</th><th>Nợ phí</th><th>Trạng thái</th><th>Hành động</th></tr>';
     if (dashWorkers.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">Chưa có dữ liệu</td></tr>';
         return;
     }
     tbody.innerHTML = dashWorkers.map(w => renderWorkerRow(w)).join('');
@@ -989,6 +1022,53 @@ function reprintHopDong(i){
     document.getElementById('hdldJob').value = h.job;
     document.getElementById('hdldStart').value = h.start;
     createHopDong();
+}
+let currentHistoryWorkerId = null;
+function openWorkerHistory(workerId, name){
+    currentHistoryWorkerId = workerId;
+    document.getElementById('workerHistoryTitle').textContent = '📋 Lịch sử hoạt động — ' + name;
+    const now = new Date();
+    document.getElementById('workerHistoryMonth').value = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0');
+    document.getElementById('workerHistoryModal').style.display = 'block';
+    reloadWorkerHistory();
+}
+function closeWorkerHistory(){
+    document.getElementById('workerHistoryModal').style.display = 'none';
+    currentHistoryWorkerId = null;
+}
+async function reloadWorkerHistory(){
+    if (!currentHistoryWorkerId) return;
+    const month = document.getElementById('workerHistoryMonth').value;
+    const body = document.getElementById('workerHistoryBody');
+    const summary = document.getElementById('workerHistorySummary');
+    body.innerHTML = '<tr><td colspan="7" style="text-align:center;">Đang tải...</td></tr>';
+    summary.innerHTML = '';
+    try {
+        const res = await fetch('/api_master.php?action=admin_worker_history&worker_id=' + encodeURIComponent(currentHistoryWorkerId) + '&month=' + encodeURIComponent(month), { credentials: 'same-origin' });
+        const json = await res.json();
+        if (json.status !== 'success') {
+            body.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">' + (json.message || 'Lỗi tải dữ liệu') + '</td></tr>';
+            return;
+        }
+        const jobs = json.jobs || [];
+        if (jobs.length === 0) {
+            body.innerHTML = '<tr><td colspan="7" style="text-align:center;">Chưa có ca hoàn thành trong tháng này.</td></tr>';
+        } else {
+            body.innerHTML = jobs.map(j => `<tr>
+                <td>#${j.id}</td>
+                <td>${escHtml(j.customer_name || '')} ${escHtml(j.customer_phone ? '('+j.customer_phone+')' : '')}</td>
+                <td>${escHtml(j.service_name || '')}</td>
+                <td>${j.completed_at ? new Date(j.completed_at).toLocaleString('vi-VN') : ''}</td>
+                <td>${fmtMoney(j.final_customer_price || 0)}</td>
+                <td>${fmtMoney(j.platform_fee || 0)}</td>
+                <td><strong>${fmtMoney(j.tech_net_income || 0)}</strong></td>
+            </tr>`).join('');
+        }
+        const s = json.summary || {};
+        summary.innerHTML = `<strong>Tháng ${json.month}:</strong> ${s.job_count || 0} ca hoàn thành · Thu của khách ${fmtMoney(s.total_customer_price || 0)} · Phí nền tảng ${fmtMoney(s.total_platform_fee || 0)} · <span style="color:#27ae60;"><strong>Thợ thực nhận ${fmtMoney(s.total_worker_income || 0)}</strong></span>`;
+    } catch(e) {
+        body.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">Lỗi: ' + e.message + '</td></tr>';
+    }
 }
 function showDashboardDetail(type) {
     currentDashType = type;
