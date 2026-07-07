@@ -1756,6 +1756,29 @@ function handle_telegram_message(PDO $pdo, string $role, array $message): void
     $text = trim((string)($message['text'] ?? $message['caption'] ?? ''));
     $key = service_name_key($text);
 
+    // Auto-register anyone added to the worker group, and mark anyone who leaves as inactive.
+    $newMembers = $message['new_chat_members'] ?? [];
+    if (is_array($newMembers) && in_array($role, ['worker'], true)) {
+        foreach ($newMembers as $member) {
+            if (!is_array($member) || empty($member['id'])) {
+                continue;
+            }
+            upsert_worker($pdo, (int)$member['id'], worker_name($member), clean_string((string)($member['username'] ?? ''), 150), $role);
+        }
+    }
+    $leftMember = $message['left_chat_member'] ?? null;
+    if (is_array($leftMember) && in_array($role, ['worker'], true)) {
+        $leftId = (int)($leftMember['id'] ?? 0);
+        if ($leftId > 0) {
+            try {
+                add_column_if_missing($pdo, 'worker_profiles', 'is_active', 'TINYINT(1) NOT NULL DEFAULT 1');
+                $pdo->prepare('UPDATE worker_profiles SET is_active = 0, updated_at = NOW() WHERE telegram_user_id = ?')->execute([$leftId]);
+            } catch (Throwable $e) {
+                error_log('[worker] failed to mark left member inactive: ' . $e->getMessage());
+            }
+        }
+    }
+
     if (in_array($role, ['worker'], true)) {
         upsert_worker($pdo, $senderId, $name, $username, $role);
     }
@@ -1815,6 +1838,42 @@ function handle_telegram_message(PDO $pdo, string $role, array $message): void
     }
 }
 
+function handle_telegram_chat_member(PDO $pdo, string $role, array $update): void
+{
+    if (!in_array($role, ['worker'], true)) {
+        return;
+    }
+    $newMember = is_array($update['new_chat_member'] ?? null) ? $update['new_chat_member'] : [];
+    if (empty($newMember['id'])) {
+        return;
+    }
+    $status = (string)($newMember['status'] ?? '');
+    $memberId = (int)$newMember['id'];
+    $name = worker_name($newMember);
+    $username = clean_string((string)($newMember['username'] ?? ''), 150);
+
+    $activeStatuses = ['member', 'administrator', 'creator'];
+    $isAdmin = in_array($status, ['administrator', 'creator'], true) || is_admin_telegram_id($memberId);
+
+    if (in_array($status, $activeStatuses, true)) {
+        upsert_worker($pdo, $memberId, $name, $username, $role);
+        if ($isAdmin) {
+            try {
+                $pdo->prepare("UPDATE worker_profiles SET is_admin = 1, role = 'admin', updated_at = NOW() WHERE telegram_user_id = ?")->execute([$memberId]);
+            } catch (Throwable $e) {
+                error_log('[worker] failed to promote group admin: ' . $e->getMessage());
+            }
+        }
+    } elseif (in_array($status, ['left', 'kicked'], true)) {
+        try {
+            add_column_if_missing($pdo, 'worker_profiles', 'is_active', 'TINYINT(1) NOT NULL DEFAULT 1');
+            $pdo->prepare('UPDATE worker_profiles SET is_active = 0, updated_at = NOW() WHERE telegram_user_id = ?')->execute([$memberId]);
+        } catch (Throwable $e) {
+            error_log('[worker] failed to mark departed member inactive: ' . $e->getMessage());
+        }
+    }
+}
+
 function handle_telegram_webhook(): void
 {
     telegram_verify_webhook_secret();
@@ -1828,6 +1887,13 @@ function handle_telegram_webhook(): void
         handle_telegram_callback($pdo, $role, $payload['callback_query']);
     } elseif (is_array($payload['message'] ?? null)) {
         handle_telegram_message($pdo, $role, $payload['message']);
+    } elseif (is_array($payload['chat_member'] ?? null)) {
+        handle_telegram_chat_member($pdo, $role, $payload['chat_member']);
+    } elseif (is_array($payload['my_chat_member'] ?? null)) {
+        // Bot status changed; optionally log but no worker action needed.
+        $chatId = (string)($payload['my_chat_member']['chat']['id'] ?? '');
+        $status = (string)($payload['my_chat_member']['new_chat_member']['status'] ?? '');
+        error_log("[telegram] my_chat_member bot status={$status} chat={$chatId}");
     }
     json_out(['ok' => true]);
 }

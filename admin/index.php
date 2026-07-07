@@ -28,6 +28,9 @@ if (isset($_GET['logout'])) {
 }
 
 $is_logged_in = !empty($_SESSION['admin_logged_in']);
+if ($is_logged_in && empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -278,22 +281,53 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
             <h3>👷 Quản lý CTV / Thợ sửa chữa</h3>
             <div class="grid-2">
                 <div>
-                    <div class="form-group"><label>Họ tên</label><input type="text" id="ctvName"></div>
-                    <div class="form-group"><label>Số điện thoại</label><input type="text" id="ctvPhone"></div>
-                    <div class="form-group"><label>Số CCCD</label><input type="text" id="ctvId"></div>
-                    <div class="form-group"><label>Ngành đăng ký</label>
-                        <select id="ctvJob">
-                            <option value="Điện lạnh">Điện lạnh</option>
-                            <option value="Điện tử">Điện tử</option>
-                            <option value="Điện nước">Điện nước</option>
-                            <option value="Tổng hợp">Tổng hợp</option>
+                    <div class="form-group">
+                        <label>Telegram ID (số)</label>
+                        <input type="text" id="ctvTelegramId" placeholder="VD: 123456789">
+                    </div>
+                    <div class="form-group">
+                        <label>Họ tên hiển thị</label>
+                        <input type="text" id="ctvName">
+                    </div>
+                    <div class="form-group">
+                        <label>Số điện thoại</label>
+                        <input type="text" id="ctvPhone" placeholder="VD: 0901234567">
+                    </div>
+                    <div class="form-group">
+                        <label>Loại thợ</label>
+                        <select id="ctvType">
+                            <option value="ho_kinh_doanh">Hộ kinh doanh</option>
+                            <option value="ca_nhan">Cá nhân / Tự do</option>
+                            <option value="ctv">CTV giới thiệu</option>
+                            <option value="cong_ty">Công ty đối tác</option>
                         </select>
                     </div>
-                    <button onclick="addCtv()">Thêm CTV / Thợ</button>
+                    <div class="form-group">
+                        <label>Vai trò</label>
+                        <select id="ctvRole">
+                            <option value="worker">Thợ / CTV</option>
+                            <option value="admin">Admin</option>
+                        </select>
+                    </div>
+                    <button onclick="addCtv()">Đăng ký / Cập nhật</button>
+                    <button class="btn-blue" style="margin-left: 10px;" onclick="syncCtv()">🔄 Đồng bộ nhóm Telegram</button>
+                    <p id="ctvStatus" style="margin-top:10px;font-size:13px;color:#555;"></p>
                 </div>
                 <div class="table-wrap">
                     <table>
-                        <thead><tr><th>Tên</th><th>SĐT</th><th>CCCD</th><th>Ngành</th><th></th></tr></thead>
+                        <thead>
+                            <tr>
+                                <th>TG ID</th>
+                                <th>Tên</th>
+                                <th>Username</th>
+                                <th>SĐT</th>
+                                <th>Loại</th>
+                                <th>Vai trò</th>
+                                <th>Ca</th>
+                                <th>Nợ phí</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
                         <tbody id="ctvList"></tbody>
                     </table>
                 </div>
@@ -409,6 +443,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
 </div>
 
 <script>
+window.CSRF_TOKEN = "<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8'); ?>";
 const LS = {
     ctv: 'dmh_ctv', qr: 'dmh_qr', hd: 'dmh_hd', gtgt: 'dmh_gtgt', nhap: 'dmh_nhap', hdld: 'dmh_hdld'
 };
@@ -425,6 +460,7 @@ function showSection(id, ev){
     };
     document.getElementById('page-title').textContent = titles[id];
     updateDashboard();
+    if (id === 'ctv') loadCtv();
 }
 function updateDashboard(){
     document.getElementById('dashCtv').textContent = getData(LS.ctv).length;
@@ -433,23 +469,84 @@ function updateDashboard(){
     document.getElementById('dashQr').textContent = getData(LS.qr).length;
 }
 function renderCtv(){
-    const data = getData(LS.ctv);
-    const tbody = document.getElementById('ctvList');
-    tbody.innerHTML = data.map((c, i) => `<tr><td>${c.name}</td><td>${c.phone}</td><td>${c.id}</td><td>${c.job}</td>
-        <td><button class="btn-small btn-red" onclick="deleteItem('${LS.ctv}', ${i}, renderCtv)">Xóa</button></td></tr>`).join('');
-    updateDashboard();
+    loadCtv();
 }
-function addCtv(){
-    const name = document.getElementById('ctvName').value;
-    const phone = document.getElementById('ctvPhone').value;
-    const id = document.getElementById('ctvId').value;
-    const job = document.getElementById('ctvJob').value;
-    if(!name || !phone || !id) return alert('Vui lòng nhập đủ thông tin');
-    const data = getData(LS.ctv); data.push({name, phone, id, job});
-    setData(LS.ctv, data);
-    document.getElementById('ctvName').value=''; document.getElementById('ctvPhone').value=''; document.getElementById('ctvId').value='';
-    renderCtv();
+async function loadCtv(){
+    const statusEl = document.getElementById('ctvStatus');
+    statusEl.textContent = 'Đang tải danh sách...';
+    try {
+        const res = await fetch('/api_master.php?action=admin_workers', { credentials: 'same-origin' });
+        const json = await res.json();
+        const data = (json.data || []);
+        const tbody = document.getElementById('ctvList');
+        tbody.innerHTML = data.map(w => {
+            const isAdmin = parseInt(w.is_admin, 10) === 1;
+            const roleLabel = isAdmin ? '👑 Admin' : (w.role || 'worker');
+            const status = parseInt(w.is_active, 10) === 0 ? '⛔ Đã rời nhóm' : '✅ Hoạt động';
+            return `<tr>
+                <td>${w.worker_id || ''}</td>
+                <td>${escHtml(w.telegram_name || '')}</td>
+                <td>@${escHtml(w.telegram_username || '')}</td>
+                <td>${escHtml(w.phone || '')}</td>
+                <td>${escHtml(w.worker_type || '')}</td>
+                <td><strong>${roleLabel}</strong></td>
+                <td>${w.job_count || 0}</td>
+                <td>${fmtMoney(w.unpaid_fee || 0)}</td>
+                <td>${status}</td>
+            </tr>`;
+        }).join('');
+        document.getElementById('dashCtv').textContent = data.length;
+        statusEl.textContent = `Tải xong ${data.length} thợ.`;
+    } catch(e) {
+        statusEl.textContent = 'Lỗi tải danh sách: ' + e.message;
+    }
 }
+async function syncCtv(){
+    const statusEl = document.getElementById('ctvStatus');
+    statusEl.textContent = 'Đang đồng bộ từ nhóm Telegram...';
+    try {
+        const res = await fetch('/api_master.php?action=admin_sync_telegram_group', { credentials: 'same-origin' });
+        const json = await res.json();
+        statusEl.textContent = json.status === 'success'
+            ? `Đồng bộ xong ${json.synced || 0} admin/thành viên.`
+            : 'Lỗi đồng bộ: ' + (json.message || 'Unknown');
+        loadCtv();
+    } catch(e) {
+        statusEl.textContent = 'Lỗi đồng bộ: ' + e.message;
+    }
+}
+async function addCtv(){
+    const workerId = document.getElementById('ctvTelegramId').value.replace(/\D/g, '');
+    const name = document.getElementById('ctvName').value.trim();
+    const phone = document.getElementById('ctvPhone').value.replace(/\D/g, '');
+    const workerType = document.getElementById('ctvType').value;
+    const role = document.getElementById('ctvRole').value;
+    const statusEl = document.getElementById('ctvStatus');
+    if(!workerId || workerId.length < 6) return alert('Vui lòng nhập Telegram ID hợp lệ (tối thiểu 6 chữ số)');
+    if(!name) return alert('Vui lòng nhập họ tên');
+    if(phone.length < 8) return alert('Vui lòng nhập số điện thoại hợp lệ');
+    statusEl.textContent = 'Đang lưu...';
+    try {
+        const res = await fetch('/api_master.php?action=admin_register_worker', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': window.CSRF_TOKEN },
+            body: JSON.stringify({ worker_id: workerId, name, phone, worker_type: workerType, role })
+        });
+        const json = await res.json();
+        statusEl.textContent = json.status === 'success' ? 'Đã đăng ký/cập nhật thợ.' : 'Lỗi: ' + (json.message || 'Unknown');
+        if(json.status === 'success'){
+            document.getElementById('ctvTelegramId').value='';
+            document.getElementById('ctvName').value='';
+            document.getElementById('ctvPhone').value='';
+            loadCtv();
+        }
+    } catch(e) {
+        statusEl.textContent = 'Lỗi gửi dữ liệu: ' + e.message;
+    }
+}
+function escHtml(str){ return (str || '').replace(/[<>&"']/g, c => ({'<':'\u0026lt;','>':'\u0026gt;','\u0026':'\u0026amp;','"':'\u0026quot;',"'":'\u0026#39;'}[c])); }
+function fmtMoney(n){ return parseInt(n || 0, 10).toLocaleString('vi-VN') + ' ₫'; }
 function renderQr(){
     const data = getData(LS.qr);
     const tbody = document.getElementById('qrList');

@@ -103,7 +103,7 @@ if ($action === 'telegram_set_webhook') {
         $webhookSecret = app_env('TELEGRAM_WEBHOOK_SECRET', '');
         $payload = [
             'url' => $url,
-            'allowed_updates' => ['message', 'callback_query', 'edited_message', 'channel_post', 'my_chat_member'],
+            'allowed_updates' => ['message', 'callback_query', 'edited_message', 'channel_post', 'my_chat_member', 'chat_member'],
         ];
         if ($webhookSecret !== '') {
             $payload['secret_token'] = $webhookSecret;
@@ -1043,6 +1043,32 @@ try {
                 worker_type = 'ho_kinh_doanh', role = VALUES(role), is_admin = 0, registered_by = VALUES(registered_by), updated_at = NOW()")
             ->execute([$workerId, $name, $phone, (string)$workerId, $role, admin_telegram_id()]);
         json_out(['status' => 'success', 'message' => 'Da dang ky/cap nhat tho.']);
+
+    case 'admin_sync_telegram_group':
+        $groupChat = telegram_chat('worker');
+        if ($groupChat === '') {
+            json_out(['status' => 'error', 'message' => 'Chua cau hinh WORKER_CHAT_ID.'], 400);
+        }
+        $synced = 0;
+        $admins = tg_request('worker', 'getChatAdministrators', ['chat_id' => $groupChat]);
+        if (!empty($admins['ok']) && is_array($admins['result'])) {
+            foreach ($admins['result'] as $member) {
+                $user = is_array($member['user'] ?? null) ? $member['user'] : [];
+                $status = (string)($member['status'] ?? '');
+                $uid = (int)($user['id'] ?? 0);
+                if ($uid <= 0 || !empty($user['is_bot'])) {
+                    continue;
+                }
+                $name = worker_name($user);
+                $username = clean_string((string)($user['username'] ?? ''), 150);
+                upsert_worker($pdo, $uid, $name, $username, 'worker');
+                if (in_array($status, ['administrator', 'creator'], true)) {
+                    $pdo->prepare("UPDATE worker_profiles SET is_admin = 1, role = 'admin', updated_at = NOW() WHERE telegram_user_id = ?")->execute([$uid]);
+                }
+                $synced++;
+            }
+        }
+        json_out(['status' => 'success', 'synced' => $synced, 'group_chat' => $groupChat, 'telegram_response' => $admins]);
 
     case 'admin_mark_worker_paid':
         $workerId = (int)($input['worker_id'] ?? 0);
