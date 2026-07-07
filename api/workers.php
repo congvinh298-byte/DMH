@@ -1027,7 +1027,7 @@ function admin_worker_rows(PDO $pdo): array
         return [];
     }
     $stmt = $pdo->query("SELECT wp.telegram_user_id AS worker_id, wp.telegram_name, wp.telegram_username, wp.phone, wp.identity_code,
-        wp.worker_type, wp.role, wp.is_admin, wp.cancel_count, wp.is_receive_blocked, wp.payment_blocked, wp.block_reason,
+        wp.worker_type, wp.role, wp.is_admin, wp.is_active, wp.cancel_count, wp.is_receive_blocked, wp.payment_blocked, wp.block_reason,
         wp.jobs_claimed, wp.jobs_completed, wp.total_paid_fee, wp.last_payment_amount, wp.last_payment_at, wp.last_fee_notice_at,
         wp.last_seen_bot, wp.last_seen_at, wp.created_at,
         COALESCE((SELECT COUNT(*) FROM job_posts j WHERE COALESCE(j.telegram_worker_id, j.worker_id) = wp.telegram_user_id), 0) AS job_count,
