@@ -101,7 +101,10 @@ if ($action === 'telegram_set_webhook') {
         }
         $url = app_public_url() . '/api_master.php?action=telegram_webhook&bot=' . $role;
         $webhookSecret = app_env('TELEGRAM_WEBHOOK_SECRET', '');
-        $payload = ['url' => $url];
+        $payload = [
+            'url' => $url,
+            'allowed_updates' => ['message', 'callback_query', 'edited_message', 'channel_post', 'my_chat_member'],
+        ];
         if ($webhookSecret !== '') {
             $payload['secret_token'] = $webhookSecret;
         }
