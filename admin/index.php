@@ -444,6 +444,8 @@ if ($is_logged_in && empty($_SESSION['csrf_token'])) {
 
 <script>
 window.CSRF_TOKEN = "<?php echo htmlspecialchars($_SESSION['csrf_token'] ?? '', ENT_QUOTES, 'UTF-8'); ?>";
+let dashWorkers = [];
+let currentDashType = '';
 const LS = {
     ctv: 'dmh_ctv', qr: 'dmh_qr', hd: 'dmh_hd', gtgt: 'dmh_gtgt', nhap: 'dmh_nhap', hdld: 'dmh_hdld'
 };
@@ -463,10 +465,21 @@ function showSection(id, ev){
     if (id === 'ctv') loadCtv();
 }
 function updateDashboard(){
-    document.getElementById('dashCtv').textContent = getData(LS.ctv).length;
+    document.getElementById('dashCtv').textContent = dashWorkers.length || getData(LS.ctv).length;
     document.getElementById('dashHoaDon').textContent = getData(LS.hd).length + getData(LS.gtgt).length;
     document.getElementById('dashHopDong').textContent = getData(LS.hdld).length;
     document.getElementById('dashQr').textContent = getData(LS.qr).length;
+}
+async function loadDashWorkers() {
+    try {
+        const res = await fetch('/api_master.php?action=admin_workers', { credentials: 'same-origin' });
+        const json = await res.json();
+        dashWorkers = Array.isArray(json.data) ? json.data : [];
+    } catch (e) {
+        dashWorkers = [];
+    }
+    updateDashboard();
+    if (currentDashType === 'ctv') renderDashCtvDetail();
 }
 function renderCtv(){
     loadCtv();
@@ -478,28 +491,42 @@ async function loadCtv(){
         const res = await fetch('/api_master.php?action=admin_workers', { credentials: 'same-origin' });
         const json = await res.json();
         const data = (json.data || []);
+        dashWorkers = data;
         const tbody = document.getElementById('ctvList');
-        tbody.innerHTML = data.map(w => {
-            const isAdmin = parseInt(w.is_admin, 10) === 1;
-            const roleLabel = isAdmin ? '👑 Admin' : (w.role || 'worker');
-            const status = parseInt(w.is_active, 10) === 0 ? '⛔ Đã rời nhóm' : '✅ Hoạt động';
-            return `<tr>
-                <td>${w.worker_id || ''}</td>
-                <td>${escHtml(w.telegram_name || '')}</td>
-                <td>@${escHtml(w.telegram_username || '')}</td>
-                <td>${escHtml(w.phone || '')}</td>
-                <td>${escHtml(w.worker_type || '')}</td>
-                <td><strong>${roleLabel}</strong></td>
-                <td>${w.job_count || 0}</td>
-                <td>${fmtMoney(w.unpaid_fee || 0)}</td>
-                <td>${status}</td>
-            </tr>`;
-        }).join('');
-        document.getElementById('dashCtv').textContent = data.length;
+        tbody.innerHTML = data.map(w => renderWorkerRow(w)).join('');
+        updateDashboard();
         statusEl.textContent = `Tải xong ${data.length} thợ.`;
     } catch(e) {
         statusEl.textContent = 'Lỗi tải danh sách: ' + e.message;
     }
+}
+function renderWorkerRow(w){
+    const isAdmin = parseInt(w.is_admin, 10) === 1;
+    const roleLabel = isAdmin ? '👑 Admin' : (w.role || 'worker');
+    const status = parseInt(w.is_active, 10) === 0 ? '⛔ Đã rời nhóm' : '✅ Hoạt động';
+    return `<tr>
+        <td>${w.worker_id || ''}</td>
+        <td>${escHtml(w.telegram_name || '')}</td>
+        <td>@${escHtml(w.telegram_username || '')}</td>
+        <td>${escHtml(w.phone || '')}</td>
+        <td>${escHtml(w.worker_type || '')}</td>
+        <td><strong>${roleLabel}</strong></td>
+        <td>${w.job_count || 0}</td>
+        <td>${fmtMoney(w.unpaid_fee || 0)}</td>
+        <td>${status}</td>
+    </tr>`;
+}
+function renderDashCtvDetail() {
+    const titleEl = document.getElementById('dash-detail-title');
+    const thead = document.getElementById('dash-detail-thead');
+    const tbody = document.getElementById('dash-detail-tbody');
+    titleEl.textContent = '👷 Chi tiết CTV / Thợ';
+    thead.innerHTML = '<tr><th>Telegram ID</th><th>Họ tên</th><th>Username</th><th>SĐT</th><th>Loại</th><th>Vai trò</th><th>Ca</th><th>Nợ phí</th><th>Trạng thái</th></tr>';
+    if (dashWorkers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Chưa có dữ liệu</td></tr>';
+        return;
+    }
+    tbody.innerHTML = dashWorkers.map(w => renderWorkerRow(w)).join('');
 }
 async function syncCtv(){
     const statusEl = document.getElementById('ctvStatus');
@@ -510,7 +537,7 @@ async function syncCtv(){
         statusEl.textContent = json.status === 'success'
             ? `Đồng bộ xong ${json.synced || 0} admin/thành viên.`
             : 'Lỗi đồng bộ: ' + (json.message || 'Unknown');
-        loadCtv();
+        await loadCtv();
     } catch(e) {
         statusEl.textContent = 'Lỗi đồng bộ: ' + e.message;
     }
@@ -539,7 +566,7 @@ async function addCtv(){
             document.getElementById('ctvTelegramId').value='';
             document.getElementById('ctvName').value='';
             document.getElementById('ctvPhone').value='';
-            loadCtv();
+            await loadCtv();
         }
     } catch(e) {
         statusEl.textContent = 'Lỗi gửi dữ liệu: ' + e.message;
@@ -962,7 +989,6 @@ function reprintHopDong(i){
     document.getElementById('hdldStart').value = h.start;
     createHopDong();
 }
-let currentDashType = '';
 function showDashboardDetail(type) {
     currentDashType = type;
     const detailEl = document.getElementById('dashboard-detail');
@@ -978,20 +1004,9 @@ function showDashboardDetail(type) {
     
     if (type === 'ctv') {
         document.getElementById('cardCtv').classList.add('active-card');
-        titleEl.textContent = '👷 Chi tiết CTV / Thợ';
-        thead.innerHTML = '<tr><th>Họ tên</th><th>Số điện thoại</th><th>CCCD</th><th>Ngành</th><th>Hành động</th></tr>';
-        const data = getData(LS.ctv);
-        if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Chưa có dữ liệu</td></tr>';
-        } else {
-            tbody.innerHTML = data.map((c, i) => `<tr>
-                <td>${c.name}</td>
-                <td>${c.phone}</td>
-                <td>${c.id}</td>
-                <td>${c.job}</td>
-                <td><button class="btn-small btn-red" onclick="deleteDashboardItem('ctv', ${i})">Xóa</button></td>
-            </tr>`).join('');
-        }
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">Đang tải...</td></tr>';
+        loadDashWorkers();
+        return;
     } else if (type === 'hoadon') {
         document.getElementById('cardHoaDon').classList.add('active-card');
         titleEl.textContent = '🧾 Chi tiết Hóa đơn đã lập';
@@ -1231,7 +1246,7 @@ function deleteItem(key, index, renderFn){
     renderFn();
 }
 window.onload = function(){
-    renderCtv(); renderQr(); renderHoaDon(); renderHopDong(); updateDashboard();
+    loadDashWorkers(); loadCtv(); renderQr(); renderHoaDon(); renderHopDong(); updateDashboard();
 };
 </script>
 
