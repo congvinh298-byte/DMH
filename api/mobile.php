@@ -455,16 +455,16 @@ function mobile_customer_create_job_action(PDO $pdo, array $input): array
     $user = $stmt->fetch();
 
     $payload = [
-        'service_type' => $input['service_type'] ?? $input['selected_service_name'] ?? $input['service_name'] ?? '',
-        'selected_service_name' => $input['selected_service_name'] ?? $input['service_name'] ?? '',
-        'issue_description' => $input['issue_description'] ?? $input['description'] ?? '',
+        'service_type' => $input['service_type'] ?? $input['service_id'] ?? $input['selected_service_name'] ?? $input['service_name'] ?? '',
+        'selected_service_name' => $input['selected_service_name'] ?? $input['service_name'] ?? $input['service_id'] ?? '',
+        'issue_description' => $input['issue_description'] ?? $input['description'] ?? $input['title'] ?? '',
         'customer_name' => $input['customer_name'] ?? $user['fullname'] ?? '',
         'customer_phone' => $input['customer_phone'] ?? $user['phone'] ?? '',
         'phone' => $input['customer_phone'] ?? $user['phone'] ?? '',
         'address' => $input['address'] ?? '',
-        'map_lat' => $input['map_lat'] ?? null,
-        'map_lng' => $input['map_lng'] ?? null,
-        'preferred_time' => $input['preferred_time'] ?? '',
+        'map_lat' => $input['map_lat'] ?? $input['lat'] ?? null,
+        'map_lng' => $input['map_lng'] ?? $input['lng'] ?? null,
+        'preferred_time' => $input['preferred_time'] ?? $input['scheduled_at'] ?? '',
         'images' => $input['images'] ?? [],
     ];
 

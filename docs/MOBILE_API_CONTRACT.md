@@ -70,21 +70,27 @@
 ### Customer
 
 #### `mobile_create_job`
-- **Body**:
+- **Body** (các trường linh hoạt, backend chấp nhận nhiều alias):
 ```json
 {
   "token": "dmh_c_xxx",
-  "service_type": "dien_lanh",
-  "issue_description": "Máy lạnh không lạnh",
+  "service_id": "dien_lanh",
+  "title": "Máy lạnh không lạnh",
+  "description": "Máy lạnh không lạnh, đã vệ sinh vẫn không đỡ",
   "customer_name": "Anh Vinh",
   "customer_phone": "0901234567",
   "address": "ấp Mỹ Hòa, Lấp Vò, Đồng Tháp",
-  "map_lat": 10.3574,
-  "map_lng": 105.5221,
-  "images": ["base64...", "base64..."],
-  "preferred_time": "2026-07-09 14:00"
+  "lat": 10.3574,
+  "lng": 105.5221,
+  "scheduled_at": "2026-07-09 14:00",
+  "images": ["base64...", "base64..."]
 }
 ```
+- **Alias được hỗ trợ**:
+  - `service_id` / `service_type` / `service_name` / `selected_service_name`
+  - `title` / `issue_description` / `description`
+  - `scheduled_at` / `preferred_time`
+  - `lat` / `map_lat`, `lng` / `map_lng`
 - **Response**: 
 ```json
 {
