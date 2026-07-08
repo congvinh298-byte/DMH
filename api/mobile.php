@@ -482,7 +482,7 @@ function mobile_customer_create_job_action(PDO $pdo, array $input): array
         'job_id' => $jobId,
         'platform_fee' => (int)($pricing['platform_fee'] ?? 0),
         'estimated_net' => (int)($pricing['tech_net_income'] ?? 0),
-        'status' => 'pending',
+        'job_status' => 'pending',
         'job' => $job ? mobile_job_row($pdo, $job) : null,
     ];
 }
@@ -503,11 +503,11 @@ function mobile_customer_jobs_action(PDO $pdo, array $input): array
     $params = [$phone];
     if ($statusFilter !== '') {
         if ($statusFilter === 'pending') {
-            $where .= " AND COALESCE(telegram_worker_id, worker_id) = 0 AND status NOT IN ('completed','cancelled','spam','failed')";
+            $where .= " AND COALESCE(telegram_worker_id, worker_id, 0) = 0 AND status NOT IN ('completed','cancelled','spam','failed')";
         } elseif ($statusFilter === 'assigned') {
-            $where .= " AND COALESCE(telegram_worker_id, worker_id) > 0 AND status NOT IN ('completed','cancelled','spam')";
+            $where .= " AND COALESCE(telegram_worker_id, worker_id, 0) > 0 AND status NOT IN ('completed','cancelled','spam')";
         } elseif ($statusFilter === 'in_progress') {
-            $where .= " AND COALESCE(telegram_worker_id, worker_id) > 0 AND status NOT IN ('completed','cancelled','spam')";
+            $where .= " AND COALESCE(telegram_worker_id, worker_id, 0) > 0 AND status NOT IN ('completed','cancelled','spam')";
         } elseif ($statusFilter === 'completed') {
             $where .= " AND (status = 'completed' OR completed_at IS NOT NULL)";
         } elseif ($statusFilter === 'cancelled') {
@@ -630,7 +630,7 @@ function mobile_customer_review_worker_action(PDO $pdo, array $input): array
 
 function mobile_update_worker_rating(PDO $pdo, int $workerId, int $newRating): void
 {
-    $stmt = $pdo->prepare('SELECT AVG(review_score) AS avg_score, COUNT(*) AS cnt FROM job_posts WHERE review_score IS NOT NULL AND COALESCE(telegram_worker_id, worker_id) = ?');
+    $stmt = $pdo->prepare('SELECT AVG(review_score) AS avg_score, COUNT(*) AS cnt FROM job_posts WHERE review_score IS NOT NULL AND COALESCE(telegram_worker_id, worker_id, 0) = ?');
     $stmt->execute([$workerId]);
     $row = $stmt->fetch();
     $avg = $row['avg_score'] ?? 5;
@@ -655,7 +655,7 @@ function mobile_worker_jobs_pending_action(PDO $pdo, array $input): array
 
     $limit = max(1, min(100, (int)($input['limit'] ?? $_GET['limit'] ?? 50)));
     $stmt = $pdo->prepare("SELECT * FROM job_posts
-        WHERE COALESCE(telegram_worker_id, worker_id) = 0
+        WHERE COALESCE(telegram_worker_id, worker_id, 0) = 0
         AND status NOT IN ('completed','cancelled','spam','failed')
         ORDER BY id DESC LIMIT ?");
     $stmt->execute([$limit]);
@@ -675,8 +675,8 @@ function mobile_worker_jobs_assigned_action(PDO $pdo, array $input): array
     $limit = max(1, min(100, (int)($input['limit'] ?? $_GET['limit'] ?? 50)));
     $offset = max(0, (int)($input['offset'] ?? $_GET['offset'] ?? 0));
 
-    $where = '(telegram_worker_id = ? OR worker_id = ?)';
-    $params = [$workerId, $workerId];
+    $where = 'COALESCE(telegram_worker_id, worker_id, 0) = ?';
+    $params = [$workerId];
 
     if ($statusFilter === 'assigned') {
         $where .= " AND status NOT IN ('completed','cancelled','spam','failed') AND completed_at IS NULL";
