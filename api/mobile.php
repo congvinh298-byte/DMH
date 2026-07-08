@@ -211,6 +211,7 @@ function mobile_job_row(PDO $pdo, array $job): array
         'completed_at' => (string)($job['completed_at'] ?? ''),
         'cancel_reason' => (string)($job['cancel_reason'] ?? ''),
         'review_score' => isset($job['review_score']) ? (int)$job['review_score'] : null,
+        'images' => json_decode((string)($job['images'] ?? ''), true) ?: [],
     ];
 }
 
@@ -482,6 +483,10 @@ function mobile_customer_create_job_action(PDO $pdo, array $input): array
     }
 
     $jobId = (int)($result['data']['job_id'] ?? $result['job_id'] ?? 0);
+    $images = $input['images'] ?? [];
+    if ($jobId > 0 && !empty($images) && is_array($images)) {
+        $pdo->prepare('UPDATE job_posts SET images = ? WHERE id = ?')->execute([json_encode($images), $jobId]);
+    }
     $job = get_job_row($pdo, $jobId);
     $pricing = get_job_pricing($pdo, $jobId);
 
@@ -770,6 +775,15 @@ function mobile_worker_update_status_action(PDO $pdo, array $input): array
         mobile_complete_job($pdo, $jobId, $workerId, $workerName, $note, $amount);
     } elseif ($newStatus === 'cancelled') {
         cancel_worker_job($pdo, $jobId, $workerId, $workerName, $note ?: 'Tho huy ca qua app', (string)($profile['role'] ?? 'worker'));
+    }
+
+    $images = $input['images'] ?? [];
+    if (!empty($images) && is_array($images)) {
+        $existing = (string)($job['images'] ?? '');
+        $existingArr = $existing ? json_decode($existing, true) : [];
+        if (!is_array($existingArr)) $existingArr = [];
+        $merged = array_merge($existingArr, $images);
+        $pdo->prepare('UPDATE job_posts SET images = ? WHERE id = ?')->execute([json_encode($merged), $jobId]);
     }
 
     $job = get_job_row($pdo, $jobId);
