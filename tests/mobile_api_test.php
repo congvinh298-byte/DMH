@@ -102,7 +102,7 @@ class MobileApiTester
 
     private function uniquePhone(): string
     {
-        return '09' . date('mdHis') . random_int(1000, 9999);
+        return '09' . substr(date('mdHis') . random_int(1000, 9999), 0, 8);
     }
 
     private function uniqueWorkerId(): int

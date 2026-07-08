@@ -385,7 +385,7 @@ function mobile_customer_auth_action(PDO $pdo, array $input): array
         if ($name === '') {
             $name = 'Khach ' . substr($phone, -4);
         }
-        $user = retail_customer_by_phone($pdo, $phone, true);
+        $user = retail_customer_by_phone($pdo, $phone, false);
         if (!$user) {
             $customerId = insert_compat($pdo, 'users', [
                 'role' => 'buyer',
@@ -397,7 +397,15 @@ function mobile_customer_auth_action(PDO $pdo, array $input): array
                 'total_spent' => 0,
                 'loyalty_points' => 0,
             ], ['created_at' => 'NOW()']);
-            $user = retail_customer_by_phone($pdo, $phone, false) ?: ['id' => $customerId];
+            $user = retail_customer_by_phone($pdo, $phone, false) ?: [
+                'id' => $customerId,
+                'fullname' => $name,
+                'phone' => $phone,
+                'login_key' => customer_generate_login_key($pdo),
+                'member_rank' => loyalty_member_rank(0),
+                'total_spent' => 0,
+                'loyalty_points' => 0,
+            ];
         }
     }
 
