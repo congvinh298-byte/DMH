@@ -8,12 +8,12 @@
 
 #### `mobile_worker_login`
 - **Method**: POST
-- **Body**: `{ "worker_id": 8729878070, "otp": "123456" | "pin": "1234" }`
+- **Body**: `{ "worker_id": 8729878070, "pin": "1234" }`
 - **Response**:
 ```json
 {
   "status": "success",
-  "token": "dmh_w_xxx",
+  "token": "DTHM...",
   "worker": {
     "worker_id": 8729878070,
     "name": "HỘ KINH DOANH ĐIỆN MÁY HIẾU",
@@ -23,7 +23,12 @@
   }
 }
 ```
-- **Ghi chú**: OTP gửi qua Telegram bot thợ; PIN do admin cấp.
+- **Ghi chú**: PIN do thợ tự đặt lần đầu qua `mobile_worker_set_pin`. Nếu chưa có PIN, login trả về `code: PIN_NOT_SET`.
+
+#### `mobile_worker_set_pin`
+- **Method**: POST
+- **Body**: `{ "worker_id": 8729878070, "pin": "1234", "confirm_pin": "1234" }`
+- **Response**: token + worker (tương tự login).
 
 #### `mobile_worker_profile`
 - **Method**: GET/POST với header `Authorization: Bearer {token}`
@@ -31,12 +36,14 @@
 
 ### Customer
 
-#### `mobile_customer_register`
-- **Body**: `{ "phone": "0901234567", "otp": "123456", "name": "Anh Vinh", "apple_id?": "...", "google_id?": "..." }`
-- **Response**: token + user.
+#### `mobile_customer_send_otp`
+- **Method**: POST
+- **Body**: `{ "phone": "0901234567" }`
+- **Response**: `{ "status": "success", "message": "OTP đã gửi" }`
+- **Ghi chú**: Môi trường dev bật `MOBILE_OTP_MOCK=true` thì OTP luôn là `123456`. Production sẽ gửi qua SMS/Telegram.
 
-#### `mobile_customer_login`
-- **Body**: `{ "phone": "0901234567", "otp": "123456" }`
+#### `mobile_customer_register` / `mobile_customer_login`
+- **Body**: `{ "phone": "0901234567", "otp": "123456", "name": "Anh Vinh" }` (`name` chỉ cần cho register)
 - **Response**: token + user.
 
 #### `mobile_customer_profile`
@@ -78,7 +85,17 @@
   "preferred_time": "2026-07-09 14:00"
 }
 ```
-- **Response**: `{ "job_id": 42, "platform_fee": 22500, "estimated_net": 127500, "status": "pending" }`
+- **Response**: 
+```json
+{
+  "status": "success",
+  "job_id": 42,
+  "platform_fee": 22500,
+  "estimated_net": 127500,
+  "job_status": "pending",
+  "job": { ... }
+}
+```
 
 #### `mobile_customer_jobs`
 - **Query**: `?token=...&status=pending|assigned|in_progress|completed|cancelled&limit=20&offset=0`
@@ -119,10 +136,12 @@
   "job_id": 42,
   "status": "in_progress|completed|cancelled",
   "note": "Đang trên đường",
+  "amount": 150000,
   "images": ["base64..."]
 }
 ```
-- **Response**: success + tổng thu nhập cập nhật.
+- **Response**: success + job cập nhật.
+- **Ghi chú**: `amount` chỉ dùng khi `status=completed` để tính lại giá thực tế.
 
 #### `mobile_worker_location`
 - **Body**: `{ "token": "...", "lat": 10.35, "lng": 105.52 }`
@@ -157,28 +176,11 @@
 - **Body**: `{ "token": "...", "push_token": "ExponentPushToken[xxx]", "platform": "ios|android" }`
 - **Response**: success.
 
-## Thanh toán
+## Thanh toán (Phase 4)
+> `mobile_payment_create`, `mobile_payment_status` — chưa triển khai. Hiện tại khách thanh toán trực tiếp cho thợ hoặc qua VietQR/Momo khi hoàn thành.
 
-#### `mobile_payment_create`
-- **Body**:
-```json
-{
-  "token": "dmh_c_xxx",
-  "job_id": 42,
-  "method": "momo|vnpay|zalopay|bank_transfer",
-  "amount": 150000
-}
-```
-- **Response**: `{ "payment_url": "...", "transaction_id": "..." }`
-
-#### `mobile_payment_status`
-- **Query**: `?token=...&transaction_id=...`
-- **Response**: `{ "status": "pending|paid|failed" }`
-
-## Địa chỉ (Customer)
-
-#### `mobile_addresses_list` / `mobile_address_create` / `mobile_address_delete`
-- CRUD địa chỉ khách hàng.
+## Địa chỉ (Phase 4)
+> `mobile_addresses_list` / `mobile_address_create` / `mobile_address_delete` — chưa triển khai. Khách có thể nhập địa chỉ trực tiếp khi tạo ca.
 
 ## Response lỗi chuẩn
 ```json
