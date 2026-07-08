@@ -178,27 +178,85 @@
 
 ## Push notification
 
+### Đăng ký token
 #### `mobile_register_push_token`
 - **Body**: `{ "token": "...", "push_token": "ExponentPushToken[xxx]", "platform": "ios|android" }`
 - **Response**: success.
+- **Ghi chú**: Cả customer và worker đều gọi API này sau khi đăng nhập. Token được lưu trong bảng `mobile_sessions`.
 
-## Thanh toán (Phase 4)
-> `mobile_payment_create`, `mobile_payment_status` — chưa triển khai. Hiện tại khách thanh toán trực tiếp cho thợ hoặc qua VietQR/Momo khi hoàn thành.
+### Sự kiện gửi push từ backend
+Backend tự động gửi push qua Expo Push Service (`https://exp.host/--/api/v2/push/send`) khi:
 
-## Địa chỉ (Phase 4)
-> `mobile_addresses_list` / `mobile_address_create` / `mobile_address_delete` — chưa triển khai. Khách có thể nhập địa chỉ trực tiếp khi tạo ca.
+| Sự kiện | Người nhận | Nội dung | Deep link data |
+|---------|-----------|----------|----------------|
+| Khách tạo ca mới | Tất cả worker có push token | Title: "Ca mới tại ...", Body: dịch vụ + mô tả | `{ "job_id": 42, "type": "new_job" }` |
+| Worker nhận ca | Khách đặt ca | Title: "Thợ đã nhận ca của bạn", Body: tên thợ đang đến | `{ "job_id": 42, "type": "job_assigned" }` |
+| Worker hoàn thành ca | Khách đặt ca | Title: "Ca đã hoàn thành", Body: nhắc đánh giá | `{ "job_id": 42, "type": "job_completed" }` |
 
-## Response lỗi chuẩn
+App xử lý deep link bằng cách lấy `job_id`/`order_id`/`_id` từ `notification.data` và điều hướng đến màn hình OrderDetail.
+
+## Upload ảnh
+
+### Customer tạo ca (`mobile_create_job`)
+- Thêm trường `images` là mảng base64 JPEG:
 ```json
 {
-  "status": "error",
-  "message": "Mô tả lỗi",
-  "code": "INVALID_TOKEN | JOB_NOT_FOUND | WORKER_BLOCKED | ..."
+  "images": ["data:image/jpeg;base64,/9j/4AAQ...", "data:image/jpeg;base64,/9j/4AAQ..."]
+}
+```
+- Backend lưu toàn bộ mảng JSON vào cột `images` của `job_posts`.
+- Giới hạn đề xuất: tối đa 3 ảnh, mỗi ảnh dưới 500KB.
+
+### Worker hoàn thành ca (`mobile_worker_update_status`)
+- Khi `status=completed`, gửi kèm `images` base64:
+```json
+{
+  "token": "...",
+  "job_id": 42,
+  "status": "completed",
+  "amount": 150000,
+  "images": ["data:image/jpeg;base64,/9j/4AAQ..."]
+}
+```
+- Backend merge ảnh mới vào mảng `images` hiện có.
+
+### Truy xuất ảnh
+- API trả về job object có trường `images` là mảng base64:
+```json
+{
+  "job_id": 42,
+  "images": ["data:image/jpeg;base64,..."]
 }
 ```
 
-## Notes
-- Bearer token do backend sinh và lưu trong bảng `mobile_sessions`.
-- App gửi kèm `Authorization: Bearer {token}` hoặc `token` trong body/query.
-- Push token được lưu để gửi thông báo qua FCM/APNs từ backend PHP.
-- Upload ảnh dùng base64 để đơn giản; nếu nhiều ảnh lớn thì chuyển sang multipart sau.
+## Build & Deploy
+
+### Cấu hình app
+- Google Maps API key đã được thêm vào `app.json` cho cả iOS và Android.
+- EAS projects đã tạo:
+  - Customer: `dth-customer` — projectId `12747770-9dc1-4f81-b857-b22282befc84`
+  - Worker: `dth-worker` — projectId `6fff54a8-bc5c-4859-b8d5-c8938fa8691d`
+- Package IDs:
+  - Customer Android: `com.dienmayhieu.customer`
+  - Worker Android: `com.dienmayhieu.worker`
+  - Customer iOS: `com.dienmayhieu.customer`
+  - Worker iOS: `com.dienmayhieu.worker`
+
+### Build
+- Dùng EAS Dashboard web để build APK/AAB (không chạy `eas build` local vì `eas-cli` mới yêu cầu Node >= 20).
+- Profile:
+  - `preview` → APK (test nội bộ)
+  - `production` → AAB (upload Play Store)
+- Môi trường local preview chạy trong WSL Ubuntu với Node 16.20.2:
+```bash
+wsl
+cd /root/Enatega-DMH/CustomerApp
+nvm use 16.20.2
+npm install --ignore-scripts
+chmod -R +x node_modules/.bin
+./node_modules/.bin/patch-package
+./node_modules/.bin/expo export
+```
+
+## Thanh toán (Phase 4)
+> `mobile_payment_create`, `mobile_payment_status` — chưa triển khai. Hiện tại khách thanh toán trực tiếp cho thợ hoặc qua VietQR/Momo khi hoàn thành.
