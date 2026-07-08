@@ -216,6 +216,57 @@ function mobile_job_row(PDO $pdo, array $job): array
 }
 
 // ============================================================
+// Push Notifications
+// ============================================================
+
+function mobile_send_push(PDO $pdo, string $userType, int $userId, array $message): void
+{
+    $table = $userType === 'worker' ? 'mobile_sessions' : 'mobile_sessions';
+    $stmt = $pdo->prepare("SELECT push_token, platform FROM {$table} WHERE user_id = ? AND push_token IS NOT NULL AND push_token != '' ORDER BY updated_at DESC LIMIT 5");
+    $stmt->execute([$userId]);
+    $tokens = $stmt->fetchAll();
+    if (!$tokens) {
+        return;
+    }
+
+    $expoTokens = [];
+    foreach ($tokens as $t) {
+        $pt = (string)($t['push_token'] ?? '');
+        if ($pt !== '' && !in_array($pt, $expoTokens, true)) {
+            $expoTokens[] = $pt;
+        }
+    }
+    if (!$expoTokens) {
+        return;
+    }
+
+    $chunks = array_chunk($expoTokens, 100);
+    foreach ($chunks as $chunk) {
+        $messages = [];
+        foreach ($chunk as $token) {
+            $messages[] = array_merge([
+                'to' => $token,
+                'sound' => 'default',
+                'priority' => 'high',
+            ], $message);
+        }
+        $json = json_encode($messages);
+        $ch = curl_init('https://exp.host/--/api/v2/push/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Accept-Encoding: gzip, deflate',
+        ]);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+        curl_exec($ch);
+        curl_close($ch);
+    }
+}
+
+// ============================================================
 // Worker Auth
 // ============================================================
 
@@ -487,6 +538,23 @@ function mobile_customer_create_job_action(PDO $pdo, array $input): array
     if ($jobId > 0 && !empty($images) && is_array($images)) {
         $pdo->prepare('UPDATE job_posts SET images = ? WHERE id = ?')->execute([json_encode($images), $jobId]);
     }
+
+    // Push notification to available workers
+    try {
+        $workerStmt = $pdo->prepare("SELECT DISTINCT user_id FROM mobile_sessions WHERE type = 'worker' AND push_token IS NOT NULL AND push_token != ''");
+        $workerStmt->execute();
+        $workers = $workerStmt->fetchAll();
+        foreach ($workers as $w) {
+            mobile_send_push($pdo, 'worker', (int)$w['user_id'], [
+                'title' => 'Ca mới tại ' . ($payload['address'] ?: 'khu vực Lấp Vò'),
+                'body' => 'Dịch vụ: ' . $serviceName . ' - ' . ($payload['issue_description'] ?: 'Khách cần hỗ trợ'),
+                'data' => ['job_id' => $jobId, 'type' => 'new_job'],
+            ]);
+        }
+    } catch (Throwable $e) {
+        error_log('Push new job failed: ' . $e->getMessage());
+    }
+
     $job = get_job_row($pdo, $jobId);
     $pricing = get_job_pricing($pdo, $jobId);
 
@@ -738,6 +806,25 @@ function mobile_worker_claim_job_action(PDO $pdo, array $input): array
         return ['status' => 'error', 'message' => $result['message'] ?? 'Nhan ca that bai.', 'code' => 'CLAIM_FAILED'];
     }
 
+    try {
+        $job = get_job_row($pdo, $jobId);
+        $customerPhone = (string)($job['customer_phone'] ?? '');
+        if ($customerPhone !== '') {
+            $userStmt = $pdo->prepare('SELECT id FROM users WHERE phone = ? LIMIT 1');
+            $userStmt->execute([$customerPhone]);
+            $customerUserId = (int)($userStmt->fetchColumn() ?: 0);
+            if ($customerUserId > 0) {
+                mobile_send_push($pdo, 'customer', $customerUserId, [
+                    'title' => 'Thợ đã nhận ca của bạn',
+                    'body' => "Thợ {$workerName} đang đến địa chỉ của bạn.",
+                    'data' => ['job_id' => $jobId, 'type' => 'job_assigned'],
+                ]);
+            }
+        }
+    } catch (Throwable $e) {
+        error_log('Push claim job failed: ' . $e->getMessage());
+    }
+
     $job = get_job_row($pdo, $jobId);
     return [
         'status' => 'success',
@@ -823,6 +910,26 @@ function mobile_complete_job(PDO $pdo, int $jobId, int $workerId, string $worker
     $groupChat = get_bot_group_chat_id((string)(get_job_row($pdo, $jobId)['bot_role'] ?? 'worker'));
     if ($groupChat !== '') {
         tg_send('worker', $groupChat, "Ca #{$jobId} da hoan thanh boi " . esc_html($workerName) . ".");
+    }
+
+    // Push notification to customer
+    try {
+        $job = get_job_row($pdo, $jobId);
+        $customerPhone = (string)($job['customer_phone'] ?? '');
+        if ($customerPhone !== '') {
+            $userStmt = $pdo->prepare('SELECT id FROM users WHERE phone = ? LIMIT 1');
+            $userStmt->execute([$customerPhone]);
+            $customerUserId = (int)($userStmt->fetchColumn() ?: 0);
+            if ($customerUserId > 0) {
+                mobile_send_push($pdo, 'customer', $customerUserId, [
+                    'title' => 'Ca đã hoàn thành',
+                    'body' => "Thợ {$workerName} đã hoàn thành ca #{$jobId}. Vui lòng đánh giá dịch vụ.",
+                    'data' => ['job_id' => $jobId, 'type' => 'job_completed'],
+                ]);
+            }
+        }
+    } catch (Throwable $e) {
+        error_log('Push complete job failed: ' . $e->getMessage());
     }
 }
 
