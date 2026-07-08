@@ -49,6 +49,7 @@ foreach ([
     'cron.php',
     'ai.php',
     'viettel.php',
+    'mobile.php',
 ] as $apiModule) {
     $apiModulePath = __DIR__ . '/api/' . $apiModule;
     if (!is_file($apiModulePath)) {
@@ -257,6 +258,10 @@ try {
         json_out(['status' => 'success', 'reply' => gemini_quote_reply($input)]);
     }
     $pdo = pdo();
+
+    if (strpos($action, 'mobile_') === 0) {
+        json_out(mobile_handle_action($pdo, $action, $input));
+    }
 
     switch ($action) {
     case 'health':

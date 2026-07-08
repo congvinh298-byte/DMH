@@ -612,8 +612,43 @@ function ensure_core_schema(PDO $pdo)
         total_paid_fee INT NOT NULL DEFAULT 0,
         last_payment_amount INT NOT NULL DEFAULT 0,
         last_payment_at DATETIME NULL,
+        pin_hash VARCHAR(255) NULL,
         created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
         updated_at DATETIME NULL DEFAULT NULL
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    add_column_if_missing($pdo, 'worker_profiles', 'pin_hash', 'VARCHAR(255) NULL');
+    add_column_if_missing($pdo, 'worker_profiles', 'last_lat', 'DECIMAL(10,7) NULL');
+    add_column_if_missing($pdo, 'worker_profiles', 'last_lng', 'DECIMAL(10,7) NULL');
+    add_column_if_missing($pdo, 'worker_profiles', 'rating_score', 'DECIMAL(3,2) NULL DEFAULT 5.00');
+    add_column_if_missing($pdo, 'worker_profiles', 'rating_count', 'INT NULL DEFAULT 0');
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS mobile_sessions (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        token VARCHAR(128) NOT NULL UNIQUE,
+        type VARCHAR(20) NOT NULL COMMENT 'worker|customer',
+        user_id BIGINT NOT NULL,
+        push_token VARCHAR(255) NULL,
+        platform VARCHAR(20) NULL,
+        ip_address VARCHAR(45) NULL,
+        user_agent VARCHAR(300) NULL,
+        expires_at DATETIME NOT NULL,
+        last_active_at DATETIME NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_mobile_sessions_user (type, user_id),
+        INDEX idx_mobile_sessions_token (token)
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS mobile_otp_codes (
+        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        phone VARCHAR(30) NOT NULL,
+        otp VARCHAR(10) NOT NULL,
+        purpose VARCHAR(30) NOT NULL DEFAULT 'login',
+        attempts INT NOT NULL DEFAULT 0,
+        verified TINYINT(1) NOT NULL DEFAULT 0,
+        expires_at DATETIME NOT NULL,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        INDEX idx_mobile_otp_phone (phone)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS worker_payments (
