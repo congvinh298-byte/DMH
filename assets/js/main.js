@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 const cards = Array.from(document.querySelectorAll('.product'));
 const searchInput = document.getElementById('searchInput');
@@ -476,82 +476,7 @@ function logoutCustomer() {
 }
 
 function openLoginModal() {
-    document.getElementById('modalLogin').style.display = 'block';
-    document.getElementById('loginMethods').style.display = 'block';
-    document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('memberQrDisplay').style.display = 'none';
-}
-
-function checkTos() {
-    const tos = document.getElementById('tosCheck');
-    if(tos && !tos.checked) {
-        alert('Vui lòng đồng ý với Điều khoản dịch vụ và Chính sách bảo mật!');
-        return false;
-    }
-    return true;
-}
-
-function alertNotImplemented() {
-    if(checkTos()) {
-        alert('Hệ thống hiện tại chỉ hỗ trợ đăng nhập bằng Mã/QR Thành viên do cửa hàng cấp. Vui lòng quét QR thẻ thành viên của bạn!');
-    }
-}
-
-function showQrLogin() {
-    if(!checkTos()) return;
-    document.getElementById('loginMethods').style.display = 'none';
-    document.getElementById('qrLoginForm').style.display = 'block';
-    document.getElementById('loginKeyInput').value = '';
-    document.getElementById('loginError').style.display = 'none';
-}
-
-async function submitLogin() {
-    const key = document.getElementById('loginKeyInput').value.trim();
-    if (!key) {
-        alert('Vui lòng nhập mã thẻ!');
-        return;
-    }
-    
-    const btn = document.getElementById('loginSubmitBtn');
-    const errBox = document.getElementById('loginError');
-    errBox.style.display = 'none';
-    btn.disabled = true;
-    btn.textContent = 'Đang xác thực...';
-    
-    try {
-        const response = await fetch('api_master.php?action=app_customer_login_qr', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ login_key: key })
-        });
-        const data = await response.json();
-        
-        if (!response.ok || data.status === 'error') {
-            throw new Error(data.message || 'Mã không hợp lệ hoặc lỗi kết nối.');
-        }
-        
-        // Success
-        localStorage.setItem('dth_customer_session', JSON.stringify(data.data));
-        
-        // Show success screen
-        document.getElementById('qrLoginForm').style.display = 'none';
-        document.getElementById('memberQrDisplay').style.display = 'block';
-        document.getElementById('successUserName').textContent = data.data.fullname;
-        document.getElementById('successUserRank').textContent = data.data.member_rank;
-        document.getElementById('successUserPoints').textContent = formatVnd(data.data.loyalty_points) + ' điểm';
-        
-        // Generate actual QR for them to show in store
-        document.getElementById('successQrImg').src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(key);
-        
-        updateLoginState();
-        
-    } catch (error) {
-        errBox.textContent = error.message;
-        errBox.style.display = 'block';
-    } finally {
-        btn.disabled = false;
-        btn.textContent = 'Xác nhận Đăng nhập';
-    }
+    window.location.href = 'auth/guest.php';
 }
 
 // Call on load

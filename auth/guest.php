@@ -73,13 +73,18 @@ header('X-Content-Type-Options: nosniff');
 
     <script>
         function showMethods() {
-            document.querySelectorAll('.form-panel').forEach(el => el.style.display = 'none');
-            document.getElementById('loginMethods').style.display = 'block';
+            document.querySelectorAll('.form-panel').forEach(el => {
+                if (el) el.style.display = 'none';
+            });
+            const loginMethods = document.getElementById('loginMethods');
+            if (loginMethods) loginMethods.style.display = 'block';
         }
 
         function showForm(type) {
-            document.getElementById('loginMethods').style.display = 'none';
-            document.getElementById(type + 'Form').style.display = 'block';
+            const loginMethods = document.getElementById('loginMethods');
+            if (loginMethods) loginMethods.style.display = 'none';
+            const form = document.getElementById(type + 'Form');
+            if (form) form.style.display = 'block';
         }
 
         function submitPhoneLogin() {

@@ -708,7 +708,7 @@ $services = array(
     if (!trigger || !panel || !sel) return;
 
     function toggle() {
-        if (panel.style.display === 'block') {
+        if (panel && panel.style.display === 'block') {
             panel.style.display = 'none';
             sel.classList.remove('open');
             trigger.setAttribute('aria-expanded', 'false');
@@ -758,7 +758,7 @@ $services = array(
     });
 
     document.addEventListener('click', function(e) {
-        if (!sel.contains(e.target) && panel.style.display === 'block') {
+        if (sel && panel && !sel.contains(e.target) && panel.style.display === 'block') {
             panel.style.display = 'none';
             sel.classList.remove('open');
             trigger.setAttribute('aria-expanded', 'false');
@@ -1095,7 +1095,7 @@ $services = array(
 
 <div id="modalPolicy" class="dth-modal">
     <div class="dth-modal-content">
-        <span class="dth-modal-close" onclick="document.getElementById('modalPolicy').style.display='none'">&times;</span>
+        <span class="dth-modal-close" onclick="const _el = document.getElementById('modalPolicy'); if(_el) _el.style.display='none'">&times;</span>
         <div id="modalTitle" class="dth-modal-title">Tiêu đề</div>
         <div id="modalBody" class="dth-modal-body">Nội dung</div>
     </div>
@@ -1681,14 +1681,14 @@ function openOrderModal(card) {
 
     // Default show/hide goods type
     if (card.dataset.productType === 'product' && card.dataset.category) {
-        document.getElementById('order_goods_type_container').style.display = 'block';
+        { const _el = document.getElementById('order_goods_type_container'); if(_el) _el.style.display = 'block'; }
     } else {
-        document.getElementById('order_goods_type_container').style.display = 'block'; // Or always show for all products
+        { const _el = document.getElementById('order_goods_type_container'); if(_el) _el.style.display = 'block'; } // Or always show for all products
     }
 
     updateOrderTotal();
 
-    document.getElementById('orderModal').style.display = 'block';
+    { const _el = document.getElementById('orderModal'); if(_el) _el.style.display = 'block'; }
     document.getElementById('order_customer_name').focus();
 }
 
@@ -2129,7 +2129,7 @@ function selectMainService(type) {
         document.getElementById('service_type').value = '';
         document.getElementById('tech_target_base').value = '';
         document.getElementById('selected_service_name').value = '';
-        document.getElementById('location_single_group').style.display = 'block';
+        { const _el = document.getElementById('location_single_group'); if(_el) _el.style.display = 'block'; }
         document.getElementById('address').required = true;
     }
 }
@@ -2359,7 +2359,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
 </script>
 <div id="customerOrdersModal" class="dth-modal">
     <div class="dth-modal-content" style="max-width: 500px; padding: 20px;">
-        <span class="dth-modal-close" onclick="document.getElementById('customerOrdersModal').style.display='none'">&times;</span>
+        <span class="dth-modal-close" onclick="const _el = document.getElementById('customerOrdersModal'); if(_el) _el.style.display='none'">&times;</span>
         <h3 style="margin-top:0; color:#dc2626; border-bottom:1px solid #fee2e2; padding-bottom:10px;">📦 Đơn hàng của tôi</h3>
         <div id="customerOrdersList" style="max-height: 400px; overflow-y: auto;">
             Đang tải...
@@ -2512,7 +2512,7 @@ function drawWheel() {
 }
 
 function openWheelModal() {
-    document.getElementById('wheelModal').style.display = 'block';
+    { const _el = document.getElementById('wheelModal'); if(_el) _el.style.display = 'block'; }
     const spinsStr = document.getElementById('successLuckySpins').textContent;
     const spins = parseInt(spinsStr) || 0;
     document.getElementById('wheelSpinsCount').textContent = spins;
@@ -2639,7 +2639,7 @@ function toggleServicePanel() {
     var sel = document.getElementById('serviceSelector');
     var trigger = document.getElementById('serviceSelectorTrigger');
     if (!panel || !sel || !trigger) return;
-    if (panel.style.display === 'block') {
+    if (panel && panel.style.display === 'block') {
         panel.style.display = 'none';
         sel.classList.remove('open');
         trigger.setAttribute('aria-expanded', 'false');

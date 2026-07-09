@@ -46,7 +46,7 @@ header('Permissions-Policy: geolocation=(self)');
         function requestGpsAndLogin() {
             const err = document.getElementById('workerLoginError');
             const btn = document.getElementById('workerLoginSubmitBtn');
-            err.style.display = 'none';
+            if (err) err.style.display = 'none';
 
             if (!navigator.geolocation) {
                 err.textContent = 'Trình duyệt của bạn không hỗ trợ định vị GPS.';
