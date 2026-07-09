@@ -6,6 +6,7 @@ function mobile_handle_action(PDO $pdo, string $action, array $input): array
     switch ($action) {
         // ===== Auth Worker =====
         case 'mobile_worker_login':
+        case 'mobile_worker_login_v2':  // alias: luôn ưu tiên phone-based login
             return mobile_worker_login_action($pdo, $input);
         case 'mobile_worker_set_pin':
             return mobile_worker_set_pin_action($pdo, $input);
@@ -62,6 +63,14 @@ function mobile_handle_action(PDO $pdo, string $action, array $input): array
         // ===== CLOSED-LOOP: Auth bằng SĐT (không cần Telegram) =====
         case 'mobile_worker_login_by_phone':
             return mobile_worker_login_by_phone_action($pdo, $input);
+
+        // ===== CLOSED-LOOP: Admin tạo tài khoản thợ mới (không cần Telegram) =====
+        case 'mobile_worker_init_account':
+            return mobile_worker_init_account_action($pdo, $input);
+
+        // ===== CLOSED-LOOP: Reset PIN thợ =====
+        case 'mobile_worker_reset_pin':
+            return mobile_worker_reset_pin_action($pdo, $input);
 
         // ===== CLOSED-LOOP: Quản lý ca làm việc =====
         case 'mobile_worker_shift_start':
@@ -300,46 +309,81 @@ function mobile_send_push(PDO $pdo, string $userType, int $userId, array $messag
 // Worker Auth
 // ============================================================
 
+/**
+ * Login thợ — Smart auto-routing:
+ * - Nếu có `phone` → gọi login by phone (Closed-Loop, không cần Telegram)
+ * - Nếu có `worker_id` (Telegram ID) → login by Telegram ID + PIN
+ * - Alias: mobile_worker_login_v2 cũng route vào đây
+ */
 function mobile_worker_login_action(PDO $pdo, array $input): array
 {
+    $phone    = digits_only((string)($input['phone'] ?? ''));
     $workerId = (int)($input['worker_id'] ?? 0);
-    $pin = (string)($input['pin'] ?? '');
+    $pin      = (string)($input['pin'] ?? '');
 
+    // --- Ưu tiên 1: Login bằng SĐT (Closed-Loop, không cần Telegram) ---
+    if ($phone !== '' && strlen($phone) >= 8) {
+        return mobile_worker_login_by_phone_action($pdo, $input);
+    }
+
+    // --- Ưu tiên 2: Login bằng worker_code nội bộ (DTH-001, ...) ---
+    $workerCode = clean_string($input['worker_code'] ?? '', 20);
+    if ($workerCode !== '' && $pin !== '') {
+        $stmt = $pdo->prepare('SELECT * FROM worker_profiles WHERE worker_code = ? LIMIT 1');
+        $stmt->execute([$workerCode]);
+        $profile = $stmt->fetch() ?: null;
+        if ($profile) {
+            $input['phone'] = (string)($profile['phone'] ?? '');
+            return mobile_worker_login_by_phone_action($pdo, array_merge($input, [
+                'phone' => (string)($profile['phone'] ?? $workerCode),
+            ]));
+        }
+    }
+
+    // --- Fallback: Login bằng Telegram ID + PIN (legacy) ---
     if ($workerId <= 0) {
-        return ['status' => 'error', 'message' => 'Vui long nhap worker_id (Telegram ID).', 'code' => 'MISSING_WORKER_ID'];
+        return [
+            'status'      => 'error',
+            'message'     => 'Vui lòng nhập số điện thoại (phone) hoặc worker_code để đăng nhập.',
+            'code'        => 'MISSING_CREDENTIALS',
+            'hint'        => 'Dùng action mobile_worker_login_by_phone với {phone, pin} hoặc {worker_code, pin}.',
+        ];
     }
     if ($pin === '') {
-        return ['status' => 'error', 'message' => 'Vui long nhap PIN.', 'code' => 'MISSING_PIN'];
+        return ['status' => 'error', 'message' => 'Vui lòng nhập PIN.', 'code' => 'MISSING_PIN'];
     }
 
     $profile = get_worker_profile($pdo, $workerId);
     if (!$profile) {
-        return ['status' => 'error', 'message' => 'Tho chua duoc dang ky.', 'code' => 'WORKER_NOT_FOUND'];
+        return ['status' => 'error', 'message' => 'Tài khoản thợ chưa được đăng ký.', 'code' => 'WORKER_NOT_FOUND'];
     }
     if ((int)($profile['is_active'] ?? 1) !== 1) {
-        return ['status' => 'error', 'message' => 'Tai khoan tho dang bi khoa.', 'code' => 'WORKER_INACTIVE'];
+        return ['status' => 'error', 'message' => 'Tài khoản thợ đang bị khoá.', 'code' => 'WORKER_INACTIVE'];
     }
 
     $pinHash = (string)($profile['pin_hash'] ?? '');
     if ($pinHash === '') {
         return [
-            'status' => 'error',
-            'message' => 'Tai khoan chua dat PIN. Vui long goi action mobile_worker_set_pin truoc.',
-            'code' => 'PIN_NOT_SET',
+            'status'          => 'error',
+            'message'         => 'Tài khoản chưa đặt PIN. Vui lòng gọi action mobile_worker_set_pin để thiết lập.',
+            'code'            => 'PIN_NOT_SET',
             'needs_pin_setup' => true,
+            'worker_id'       => $workerId,
         ];
     }
     if (!password_verify($pin, $pinHash)) {
-        return ['status' => 'error', 'message' => 'PIN khong dung.', 'code' => 'INVALID_PIN'];
+        return ['status' => 'error', 'message' => 'PIN không đúng.', 'code' => 'INVALID_PIN'];
     }
 
     $token = mobile_create_token($pdo, 'worker', $workerId);
     upsert_worker($pdo, $workerId, (string)($profile['telegram_name'] ?? ''), (string)($profile['telegram_username'] ?? ''), (string)($profile['role'] ?? 'worker'));
 
     return [
-        'status' => 'success',
-        'token' => $token,
-        'worker' => mobile_worker_row($profile),
+        'status'       => 'success',
+        'token'        => $token,
+        'worker'       => mobile_worker_row($profile),
+        'shift_status' => (string)($profile['shift_status'] ?? 'off'),
+        'auth_method'  => 'telegram_id',
     ];
 }
 
@@ -399,34 +443,49 @@ function mobile_worker_profile_action(PDO $pdo, array $input): array
 // Customer Auth (OTP)
 // ============================================================
 
+/**
+ * Gửi OTP cho khách hàng — Closed-Loop, không phụ thuộc Telegram.
+ * Dev/Test: nếu MOBILE_OTP_MOCK=true → trả OTP thẳng trong response.
+ * Production: ghi log server-side, OTP lưu DB → khách nhận qua kênh nội bộ.
+ */
 function mobile_customer_send_otp_action(PDO $pdo, array $input): array
 {
     $phone = digits_only((string)($input['phone'] ?? ''));
     if (strlen($phone) < 8) {
-        return ['status' => 'error', 'message' => 'So dien thoai khong hop le.', 'code' => 'INVALID_PHONE'];
+        return ['status' => 'error', 'message' => 'Số điện thoại không hợp lệ.', 'code' => 'INVALID_PHONE'];
     }
 
-    $otp = mobile_generate_otp();
+    $otp     = mobile_generate_otp();
     $expires = date('Y-m-d H:i:s', strtotime('+5 minutes'));
 
     insert_compat($pdo, 'mobile_otp_codes', [
-        'phone' => $phone,
-        'otp' => $otp,
-        'purpose' => 'login',
+        'phone'      => $phone,
+        'otp'        => $otp,
+        'purpose'    => 'login',
         'expires_at' => $expires,
     ], ['created_at' => 'NOW()']);
 
+    // Ghi log nội bộ (không phụ thuộc Telegram)
+    error_log('[OTP] phone=' . mask_phone($phone) . ' otp_sent expires=' . $expires);
+
+    // Dev/Test mode: trả OTP thẳng trong response
     if (mobile_mock_otp_enabled()) {
-        return ['status' => 'success', 'message' => 'OTP (mock): ' . $otp, 'otp' => $otp, 'phone' => $phone];
+        return [
+            'status'  => 'success',
+            'message' => '[DEV] OTP: ' . $otp,
+            'otp'     => $otp,
+            'phone'   => $phone,
+        ];
     }
 
-    // TODO: gửi OTP qua SMS/Telegram trong production
-    $salesChat = telegram_chat('sales');
-    if ($salesChat !== '') {
-        tg_send('sales', $salesChat, "<b>OTP Mobile App</b>\nSDT: " . esc_html($phone) . "\nMa: <code>" . esc_html($otp) . "</code>");
-    }
-
-    return ['status' => 'success', 'message' => 'Da gui OTP. Vui long kiem tra tin nhan.', 'phone' => $phone];
+    // Production: KHÔNG gửi qua Telegram — OTP chỉ lưu DB
+    // SMS gateway hoặc kênh nội bộ tích hợp sau.
+    // Hiện tại: client app tự biết OTP từ kênh ops nội bộ (admin cấp).
+    return [
+        'status'  => 'success',
+        'message' => 'Mã OTP đã được tạo. Vui lòng kiểm tra với quản trị viên hoặc SMS.',
+        'phone'   => $phone,
+    ];
 }
 
 function mobile_customer_auth_action(PDO $pdo, array $input): array
@@ -1575,5 +1634,189 @@ function mobile_worker_dashboard_action(PDO $pdo, array $input): array
         'fee_debt'             => $feeDebt,
         'unread_notifications' => $unreadCount,
         'recent_notifications' => $recentNotifications,
+    ];
+}
+
+// ============================================================
+// CLOSED-LOOP: Admin tạo tài khoản thợ mới (không cần Telegram)
+// ============================================================
+
+/**
+ * Admin tạo hoặc cập nhật tài khoản thợ bằng SĐT + tên.
+ * Không cần Telegram ID. Worker_code được tạo tự động (DTH-001, DTH-002, ...).
+ *
+ * Input (admin session hoặc admin_token):
+ *   - phone: SĐT của thợ (bắt buộc)
+ *   - name: Tên thợ (bắt buộc)
+ *   - worker_type: loại thợ (mặc định: ho_kinh_doanh)
+ *   - pin: PIN ban đầu (4-6 số, mặc định: 123456 nếu không truyền)
+ *   - admin_key: CRON_SECRET để xác thực (hoặc dùng admin session)
+ */
+function mobile_worker_init_account_action(PDO $pdo, array $input): array
+{
+    // Xác thực: admin session hoặc admin_key
+    $adminKey = clean_string($input['admin_key'] ?? '', 100);
+    $cronSecret = app_env('CRON_SECRET', '');
+    $isAdminSession = app_admin_is_authenticated();
+    if (!$isAdminSession && ($adminKey === '' || $adminKey !== $cronSecret)) {
+        return ['status' => 'error', 'message' => 'Không có quyền truy cập.', 'code' => 'UNAUTHORIZED'];
+    }
+
+    $phone = digits_only((string)($input['phone'] ?? ''));
+    if (strlen($phone) < 8) {
+        return ['status' => 'error', 'message' => 'Số điện thoại không hợp lệ.', 'code' => 'INVALID_PHONE'];
+    }
+
+    $name = clean_string($input['name'] ?? '', 150);
+    if ($name === '') {
+        return ['status' => 'error', 'message' => 'Vui lòng nhập tên thợ.', 'code' => 'MISSING_NAME'];
+    }
+
+    $workerType = clean_string($input['worker_type'] ?? 'ho_kinh_doanh', 50);
+    $initialPin = clean_string($input['pin'] ?? '123456', 10);
+    if (!preg_match('/^\d{4,6}$/', $initialPin)) {
+        $initialPin = '123456';
+    }
+
+    // Sinh worker_code tự động (DTH-001, DTH-002, ...)
+    $workerCode = null;
+    if (column_exists($pdo, 'worker_profiles', 'worker_code')) {
+        $lastCode = $pdo->query(
+            "SELECT worker_code FROM worker_profiles WHERE worker_code LIKE 'DTH-%' ORDER BY id DESC LIMIT 1"
+        )->fetchColumn();
+        $nextNum = 1;
+        if ($lastCode && preg_match('/DTH-(\d+)$/', (string)$lastCode, $m)) {
+            $nextNum = (int)$m[1] + 1;
+        }
+        $workerCode = 'DTH-' . str_pad((string)$nextNum, 3, '0', STR_PAD_LEFT);
+    }
+
+    // Dùng phone number làm pseudo telegram_user_id (prefix 9 để tránh trùng)
+    // Lấy 9 số cuối của phone: 0979553289 → 979553289
+    $pseudoId = (int)('9' . substr(preg_replace('/\D/', '', $phone), -8));
+
+    $pinHash = password_hash($initialPin, PASSWORD_BCRYPT);
+
+    $fields = [
+        'telegram_user_id' => $pseudoId,
+        'telegram_name'    => $name,
+        'phone'            => $phone,
+        'identity_code'    => $phone,
+        'worker_type'      => $workerType,
+        'role'             => 'worker',
+        'is_admin'         => 0,
+        'is_active'        => 1,
+        'pin_hash'         => $pinHash,
+    ];
+    if ($workerCode !== null) {
+        $fields['worker_code'] = $workerCode;
+    }
+
+    // Upsert: nếu SĐT đã tồn tại thì cập nhật, không tạo mới
+    $pdo->prepare(
+        "INSERT INTO worker_profiles
+            (telegram_user_id, telegram_name, phone, identity_code, worker_type, role, is_admin, is_active, pin_hash, worker_code, created_at, updated_at)
+         VALUES (?, ?, ?, ?, ?, 'worker', 0, 1, ?, ?, NOW(), NOW())
+         ON DUPLICATE KEY UPDATE
+            telegram_name   = VALUES(telegram_name),
+            phone           = VALUES(phone),
+            identity_code   = COALESCE(identity_code, VALUES(identity_code)),
+            worker_type     = VALUES(worker_type),
+            is_active       = 1,
+            pin_hash        = IF(pin_hash IS NULL OR pin_hash = '', VALUES(pin_hash), pin_hash),
+            worker_code     = COALESCE(worker_code, VALUES(worker_code)),
+            updated_at      = NOW()"
+    )->execute([
+        $pseudoId, $name, $phone, $phone,
+        $workerType, $pinHash, $workerCode,
+    ]);
+
+    // Lấy lại profile vừa tạo/update
+    $stmt = $pdo->prepare('SELECT * FROM worker_profiles WHERE phone = ? LIMIT 1');
+    $stmt->execute([$phone]);
+    $profile = $stmt->fetch() ?: null;
+
+    return [
+        'status'      => 'success',
+        'message'     => 'Tài khoản thợ đã được tạo/cập nhật thành công.',
+        'worker_code' => $workerCode,
+        'phone'       => $phone,
+        'name'        => $name,
+        'pin_default' => $initialPin,
+        'worker_id'   => $pseudoId,
+        'worker'      => $profile ? mobile_worker_row($profile) : null,
+        'note'        => 'Thợ có thể đăng nhập bằng: {action: mobile_worker_login_by_phone, phone: "' . $phone . '", pin: "' . $initialPin . '"}',
+    ];
+}
+
+// ============================================================
+// CLOSED-LOOP: Admin reset PIN thợ
+// ============================================================
+
+/**
+ * Admin reset PIN của thợ về PIN mới (hoặc PIN mặc định).
+ *
+ * Input:
+ *   - phone: SĐT thợ (bắt buộc)
+ *   - new_pin: PIN mới (4-6 số, mặc định: 123456)
+ *   - admin_key: CRON_SECRET
+ */
+function mobile_worker_reset_pin_action(PDO $pdo, array $input): array
+{
+    // Xác thực admin
+    $adminKey = clean_string($input['admin_key'] ?? '', 100);
+    $cronSecret = app_env('CRON_SECRET', '');
+    $isAdminSession = app_admin_is_authenticated();
+    if (!$isAdminSession && ($adminKey === '' || $adminKey !== $cronSecret)) {
+        return ['status' => 'error', 'message' => 'Không có quyền truy cập.', 'code' => 'UNAUTHORIZED'];
+    }
+
+    $phone = digits_only((string)($input['phone'] ?? ''));
+    if (strlen($phone) < 8) {
+        return ['status' => 'error', 'message' => 'Số điện thoại không hợp lệ.', 'code' => 'INVALID_PHONE'];
+    }
+
+    $newPin = clean_string($input['new_pin'] ?? '123456', 10);
+    if (!preg_match('/^\d{4,6}$/', $newPin)) {
+        $newPin = '123456';
+    }
+
+    // Tìm thợ
+    $stmt = $pdo->prepare('SELECT * FROM worker_profiles WHERE phone = ? LIMIT 1');
+    $stmt->execute([$phone]);
+    $profile = $stmt->fetch() ?: null;
+
+    if (!$profile) {
+        // Thử tìm theo telegram_user_id nếu phone là số nguyên
+        $workerId = (int)$phone;
+        if ($workerId > 0) {
+            $profile = get_worker_profile($pdo, $workerId);
+        }
+        if (!$profile) {
+            return ['status' => 'error', 'message' => 'Không tìm thấy thợ với SĐT này.', 'code' => 'WORKER_NOT_FOUND'];
+        }
+    }
+
+    $newHash = password_hash($newPin, PASSWORD_BCRYPT);
+    update_compat(
+        $pdo, 'worker_profiles',
+        ['pin_hash' => $newHash],
+        'telegram_user_id = ?',
+        [(int)$profile['telegram_user_id']],
+        ['updated_at' => 'NOW()']
+    );
+
+    // Xoá toàn bộ session cũ để buộc login lại
+    $pdo->prepare(
+        "DELETE FROM mobile_sessions WHERE type = 'worker' AND user_id = ?"
+    )->execute([(int)$profile['telegram_user_id']]);
+
+    return [
+        'status'    => 'success',
+        'message'   => 'Đã reset PIN thành công. Các phiên đăng nhập cũ đã bị vô hiệu hoá.',
+        'phone'     => $phone,
+        'name'      => (string)($profile['telegram_name'] ?? ''),
+        'new_pin'   => $newPin,
+        'worker_id' => (int)$profile['telegram_user_id'],
     ];
 }

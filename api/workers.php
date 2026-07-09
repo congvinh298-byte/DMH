@@ -25,15 +25,35 @@ if (!function_exists('seed_known_telegram_profiles')) {
     }
 
     $workerId = (int)app_env('INITIAL_WORKER_TELEGRAM_ID', '8729878070');
+    $workerPhone = app_env('INITIAL_WORKER_PHONE', '');
     if ($workerId > 0 && $workerId !== $adminId) {
-        $pdo->prepare("INSERT INTO worker_profiles (telegram_user_id, telegram_name, identity_code, worker_type, role, is_admin, registered_by, created_at, updated_at)
-            VALUES (?, ?, ?, 'ho_kinh_doanh', 'worker', 0, ?, NOW(), NOW())
-            ON DUPLICATE KEY UPDATE role = 'worker', is_admin = 0, worker_type = COALESCE(worker_type, 'ho_kinh_doanh')")
-            ->execute([$workerId, "Ho kinh doanh {$workerId}", (string)$workerId, $adminId]);
+        $pdo->prepare("INSERT INTO worker_profiles (telegram_user_id, telegram_name, phone, identity_code, worker_type, role, is_admin, registered_by, created_at, updated_at)
+            VALUES (?, ?, ?, ?, 'ho_kinh_doanh', 'worker', 0, ?, NOW(), NOW())
+            ON DUPLICATE KEY UPDATE
+                role = 'worker', is_admin = 0,
+                worker_type = COALESCE(worker_type, 'ho_kinh_doanh'),
+                phone = COALESCE(NULLIF(phone,''), VALUES(phone)),
+                identity_code = COALESCE(identity_code, VALUES(identity_code))")
+            ->execute([
+                $workerId,
+                "Ho kinh doanh {$workerId}",
+                $workerPhone ?: (string)$workerId,
+                $workerPhone ?: (string)$workerId,
+                $adminId,
+            ]);
+
+        // Thêm worker_code DTH-001 nếu cột tồn tại và chưa có
+        if (column_exists($pdo, 'worker_profiles', 'worker_code')) {
+            $pdo->prepare("UPDATE worker_profiles SET worker_code = 'DTH-001'
+                WHERE telegram_user_id = ? AND (worker_code IS NULL OR worker_code = '')
+                LIMIT 1")
+                ->execute([$workerId]);
+        }
     }
 }
 
-}function worker_payment_code(int $workerId): string
+}
+function worker_payment_code(int $workerId): string
 {
     return 'DTHP' . $workerId;
 }
