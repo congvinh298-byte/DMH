@@ -198,7 +198,7 @@ function mobile_customer_row(array $user): array
     ];
 }
 
-function mobile_job_row(PDO $pdo, array $job): array
+function mobile_job_row(PDO $pdo, array $job, bool $isWorker = false, int $currentWorkerId = 0): array
 {
     $statusCode = job_display_status($job);
     $statusText = [
@@ -213,13 +213,13 @@ function mobile_job_row(PDO $pdo, array $job): array
     ][$statusCode] ?? 'Đang cập nhật';
 
     $pricing = get_job_pricing($pdo, (int)$job['id']);
-    $workerId = job_worker_telegram_id($job);
+    $jobWorkerId = job_worker_telegram_id($job);
     $worker = null;
-    if ($workerId > 0) {
-        $wp = get_worker_profile($pdo, $workerId);
+    if ($jobWorkerId > 0) {
+        $wp = get_worker_profile($pdo, $jobWorkerId);
         $worker = [
-            'id' => $workerId,
-            'name' => (string)($wp['telegram_name'] ?? "Thợ {$workerId}"),
+            'id' => $jobWorkerId,
+            'name' => (string)($wp['telegram_name'] ?? "Thợ {$jobWorkerId}"),
             'phone' => (string)($wp['phone'] ?? ''),
             'rating_score' => (float)($wp['rating_score'] ?? 5.0),
             'rating_count' => (int)($wp['rating_count'] ?? 0),
@@ -230,6 +230,28 @@ function mobile_job_row(PDO $pdo, array $job): array
     $phoneDigits = digits_only($customerPhone);
     $safeCustomerPhone = strlen($phoneDigits) >= 8 ? mask_phone($customerPhone) : $customerPhone;
 
+    $address = (string)($job['address'] ?? $job['location'] ?? '');
+    $mapLat = isset($job['map_lat']) ? (float)$job['map_lat'] : null;
+    $mapLng = isset($job['map_lng']) ? (float)$job['map_lng'] : null;
+    $amount = (int)($job['final_total'] ?? $pricing['final_customer_price'] ?? 0);
+    $platformFee = (int)($pricing['platform_fee'] ?? 0);
+    $estimatedNet = (int)($pricing['tech_net_income'] ?? 0);
+
+    // ==========================================
+    // DATA SHIELDING: Ẩn thông tin nếu đơn chưa được nhận bởi worker này
+    // ==========================================
+    $isJobAssignedToCurrentWorker = ($jobWorkerId > 0 && $jobWorkerId === $currentWorkerId);
+    $isPending = in_array($statusCode, ['pending', 'notified', 'matching', 'failed']);
+
+    if ($isWorker && $isPending && !$isJobAssignedToCurrentWorker) {
+        $address = '📍 [Bảo mật] Nhận ca để xem địa chỉ cụ thể';
+        $mapLat = null;
+        $mapLng = null;
+        $platformFee = null;
+        $estimatedNet = null;
+        $safeCustomerPhone = '***';
+    }
+
     return [
         'job_id' => (int)$job['id'],
         'status_code' => $statusCode,
@@ -237,13 +259,13 @@ function mobile_job_row(PDO $pdo, array $job): array
         'service_type' => (string)($job['service_type'] ?? ''),
         'customer_name' => (string)($job['customer_name'] ?? ''),
         'customer_phone' => $safeCustomerPhone,
-        'address' => (string)($job['address'] ?? $job['location'] ?? ''),
-        'map_lat' => isset($job['map_lat']) ? (float)$job['map_lat'] : null,
-        'map_lng' => isset($job['map_lng']) ? (float)$job['map_lng'] : null,
+        'address' => $address,
+        'map_lat' => $mapLat,
+        'map_lng' => $mapLng,
         'issue_description' => (string)($job['description'] ?? ''),
-        'amount' => (int)($job['final_total'] ?? $pricing['final_customer_price'] ?? 0),
-        'platform_fee' => (int)($pricing['platform_fee'] ?? 0),
-        'estimated_net' => (int)($pricing['tech_net_income'] ?? 0),
+        'amount' => $amount,
+        'platform_fee' => $platformFee,
+        'estimated_net' => $estimatedNet,
         'worker' => $worker,
         'created_at' => (string)($job['created_at'] ?? ''),
         'assigned_at' => (string)($job['assigned_at'] ?? ''),
@@ -829,8 +851,8 @@ function mobile_worker_jobs_pending_action(PDO $pdo, array $input): array
         AND status NOT IN ('completed','cancelled','spam','failed')
         ORDER BY id DESC LIMIT ?");
     $stmt->execute([$limit]);
-    $jobs = array_map(static function (array $job) use ($pdo): array {
-        return mobile_job_row($pdo, $job);
+    $jobs = array_map(static function (array $job) use ($pdo, $workerId): array {
+        return mobile_job_row($pdo, $job, true, $workerId);
     }, $stmt->fetchAll());
 
     return ['status' => 'success', 'jobs' => $jobs];
@@ -864,8 +886,8 @@ function mobile_worker_jobs_assigned_action(PDO $pdo, array $input): array
 
     $stmt = $pdo->prepare("SELECT * FROM job_posts WHERE {$where} ORDER BY id DESC LIMIT ? OFFSET ?");
     $stmt->execute(array_merge($params, [$limit, $offset]));
-    $jobs = array_map(static function (array $job) use ($pdo): array {
-        return mobile_job_row($pdo, $job);
+    $jobs = array_map(static function (array $job) use ($pdo, $workerId): array {
+        return mobile_job_row($pdo, $job, true, $workerId);
     }, $stmt->fetchAll());
 
     return ['status' => 'success', 'total' => $total, 'limit' => $limit, 'offset' => $offset, 'jobs' => $jobs];
@@ -1583,7 +1605,7 @@ function mobile_worker_dashboard_action(PDO $pdo, array $input): array
     );
     $activeJobsStmt->execute([$workerId]);
     $activeJobs = array_map(
-        static fn(array $job): array => mobile_job_row($pdo, $job),
+        static fn(array $job): array => mobile_job_row($pdo, $job, true, $workerId),
         $activeJobsStmt->fetchAll()
     );
 

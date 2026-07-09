@@ -2123,49 +2123,58 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Auto Login Check
+    const storedWorkerToken = localStorage.getItem('dth_worker_token');
     const storedUserKey = localStorage.getItem('dth_user_key');
     const storedUserTime = localStorage.getItem('dth_user_time');
     const storedStoreKey = localStorage.getItem('dth_store_key');
 
-    // Check 10-minute expiry for customer on init
-    if (storedUserKey && !storedStoreKey) {
-        if (storedUserTime && (Date.now() - parseInt(storedUserTime)) > 600000) {
-            localStorage.removeItem('dth_user_key');
-            localStorage.removeItem('dth_user_time');
-        } else {
-            // Setup periodic check every minute for auto-logout
-            setInterval(() => {
-                const time = localStorage.getItem('dth_user_time');
-                if (time && (Date.now() - parseInt(time)) > 600000) {
-                    localStorage.removeItem('dth_user_key');
-                    localStorage.removeItem('dth_user_time');
-                    window.location.reload();
-                }
-            }, 60000);
-        }
-    }
-
-    // Refresh variable after potential auto-logout
-    const validUserKey = localStorage.getItem('dth_user_key');
-
-    if (storedStoreKey) {
+    if (storedWorkerToken) {
+        // =========================================================
+        // WORKER FLOW: Stateless Authentication (Bỏ qua đếm giờ)
+        // =========================================================
+        const wdata = JSON.parse(localStorage.getItem('dth_worker_data') || '{}');
+        openWorkerDashboard(wdata);
+        // Không kiểm tra user timeout để thợ yên tâm làm việc
+    } else if (storedStoreKey) {
         // Quản trị viên chuyển về trang quản trị
-        window.location.href = 'admin_xxx.php';
-    } else if (validUserKey) {
-        fetch('api_master.php?action=verify_login_key', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ login_key: validUserKey })
-        })
-        .then(readJsonResponse)
-        .then(d => {
-            if (d.status === 'success' && d.data.type === 'user') {
-                updateTopBarState(d.data);
-            } else {
+        window.location.href = 'admin.php';
+    } else {
+        // =========================================================
+        // CUSTOMER FLOW: Giữ nguyên logic Auto-Logout 10 phút
+        // =========================================================
+        if (storedUserKey) {
+            if (storedUserTime && (Date.now() - parseInt(storedUserTime)) > 600000) {
                 localStorage.removeItem('dth_user_key');
                 localStorage.removeItem('dth_user_time');
+            } else {
+                setInterval(() => {
+                    const time = localStorage.getItem('dth_user_time');
+                    if (time && (Date.now() - parseInt(time)) > 600000) {
+                        localStorage.removeItem('dth_user_key');
+                        localStorage.removeItem('dth_user_time');
+                        window.location.reload();
+                    }
+                }, 60000);
             }
-        }).catch(e => console.error(e));
+        }
+
+        const validUserKey = localStorage.getItem('dth_user_key');
+        if (validUserKey) {
+            fetch('api_master.php?action=verify_login_key', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ login_key: validUserKey })
+            })
+            .then(readJsonResponse)
+            .then(d => {
+                if (d.status === 'success' && d.data.type === 'user') {
+                    updateTopBarState(d.data);
+                } else {
+                    localStorage.removeItem('dth_user_key');
+                    localStorage.removeItem('dth_user_time');
+                }
+            }).catch(e => console.error(e));
+        }
     }
 });
 
