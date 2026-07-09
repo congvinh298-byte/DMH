@@ -1111,8 +1111,9 @@ $services = array(
 
         <div id="loginMethods">
             <button class="btn" style="width: 100%; margin-bottom: 12px; background: #dc2626; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
-            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #2563eb; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);" onclick="showEmailLogin()">✉️ Tiếp tục với Email & Mật khẩu</button>
-            <button class="btn" style="width: 100%; margin-bottom: 20px; background: #10b981; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
+            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #2563eb; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);" onclick="showEmailLogin()">✉️ Tiếp tục với Email &amp; Mật khẩu</button>
+            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #10b981; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
+            <button class="btn" style="width: 100%; margin-bottom: 20px; background: #7c3aed; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);" onclick="showWorkerLogin()">🛠️ Đăng nhập Thợ (Nội bộ)</button>
 
             
 
@@ -1124,8 +1125,57 @@ $services = array(
             </div>
         </div>
 
+        <!-- Form đăng nhập SĐT -->
+        <div id="phoneLoginForm" style="display: none; text-align: start;">
+            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập bằng Số điện thoại</p>
+            <label style="font-size: 13px; font-weight: bold;">Họ và Tên</label>
+            <input type="text" id="loginNameInput" placeholder="VD: Nguyễn Văn A" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
+            <input type="tel" id="loginPhoneInput" placeholder="VD: 0979553289" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <button id="phoneLoginSubmitBtn" class="btn primary" style="width: 100%; background: #dc2626;" onclick="submitPhoneLogin()">Đăng nhập / Đăng ký</button>
+            <div id="phoneLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('phoneLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
+        </div>
+
+        <!-- Form QR / Mã thẻ (Khách hàng) -->
+        <div id="qrLoginForm" style="display: none; text-align: start;">
+            <p style="margin-bottom: 10px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập bằng Mã Thẻ / QR</p>
+            <p style="font-size: 13px; color: #6b7280; text-align: center; margin-bottom: 15px;">Nhập mã thẻ hoặc quét QR từ app.</p>
+            <div id="qr-reader-login" style="width:100%; margin-bottom: 12px; border-radius: 8px; overflow: hidden; background: #f3f4f6; min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #9ca3af;">Khởi động camera...</div>
+            <input type="text" id="loginKeyInput" placeholder="Hoặc nhập thủ công: DTH-WORKER:0979553289" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-family: monospace; font-size: 13px;">
+            <button id="loginSubmitBtn" class="btn primary" style="width: 100%; background: #10b981;" onclick="submitLogin()">Xác nhận Đăng nhập</button>
+            <div id="loginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="closeQrLogin()">Quay lại</button>
+        </div>
+
+        <!-- Form Thợ đăng nhập nội bộ (phone + PIN) -->
+        <div id="workerLoginForm" style="display: none; text-align: start;">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <span style="display: inline-block; background: #7c3aed; color: white; border-radius: 50%; width: 48px; height: 48px; line-height: 48px; font-size: 24px;">🛠️</span>
+                <p style="margin: 8px 0 4px; font-weight: bold; color: #374151; font-size: 18px;">Đăng nhập Thợ</p>
+                <p style="font-size: 12px; color: #6b7280;">Hệ thống nội bộ Điện Máy Hiếu</p>
+            </div>
+            <label style="font-size: 13px; font-weight: bold;">Số điện thoại / Mã thợ</label>
+            <input type="tel" id="workerPhoneInput" placeholder="VD: 0979553289 hoặc DTH-001" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
+            <label style="font-size: 13px; font-weight: bold;">PIN (4-6 chữ số)</label>
+            <input type="password" id="workerPinInput" placeholder="Nhập PIN" maxlength="6" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 20px; letter-spacing: 6px; text-align: center;" inputmode="numeric">
+            <button id="workerLoginSubmitBtn" class="btn primary" style="width: 100%; background: #7c3aed;" onclick="submitWorkerLogin()">🚀 Vào Bảng Điều Khiển Thợ</button>
+            <div id="workerLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
+            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('workerLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
+            <p style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 8px;">Chưa có PIN? Liên hệ quản trị viên để được cấp.</p>
+        </div>
+
+        <!-- Hiển thị sau login Khách -->
+        <div id="memberQrDisplay" style="display: none; text-align: center;">
+            <p style="font-weight: bold; color: #059669; font-size: 18px;">✅ Đăng nhập thành công!</p>
+            <p>Xin chào, <b id="successUserName"></b></p>
+            <p style="font-size: 13px; color: #6b7280;">Hạng: <b id="successUserRank"></b> · <b id="successUserPoints"></b></p>
+            <img id="successQrImg" src="" alt="QR của bạn" style="display:none; max-width: 160px; border-radius: 8px; margin: 10px auto;">
+            <button class="btn" style="width: 100%; margin-top: 10px; background: #dc2626; color: white; border-radius: 8px;" onclick="document.getElementById('modalLogin').style.display='none'">Đóng</button>
+        </div>
+
         <div id="emailLoginForm" style="display: none; text-align: start;">
-            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập Email & Mật khẩu</p>
+            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập Email &amp; Mật khẩu</p>
             <label style="font-size: 13px; font-weight: bold;">Địa chỉ Email</label>
             <input type="email" id="loginEmailInput" placeholder="VD: qlhdtmdt@gmail.com" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
             <label style="font-size: 13px; font-weight: bold;">Mật khẩu</label>
@@ -1579,29 +1629,47 @@ function handleLoginSuccess(data) {
     if (data.type === 'store') {
         localStorage.setItem('dth_store_key', data.login_key);
         alert('Đăng nhập quản trị thành công! Chuyển hướng đến trang quản trị...');
-        window.location.href = 'admin_xxx.php';
+        window.location.href = 'admin.php';
         return;
     }
 
-    // User login
-    localStorage.setItem('dth_user_key', data.login_key);
+    // ===== WORKER FLOW — Đưa thẳng vào Dashboard Thợ =====
+    if (data.type === 'worker') {
+        localStorage.setItem('dth_worker_token', data.token || '');
+        localStorage.setItem('dth_worker_id',    String(data.worker_id || ''));
+        localStorage.setItem('dth_worker_data',  JSON.stringify(data));
+        localStorage.setItem('dth_worker_time',  Date.now());
+        document.getElementById('modalLogin').style.display = 'none';
+        openWorkerDashboard(data);
+        return;
+    }
+
+    // ===== CUSTOMER FLOW =====
+    localStorage.setItem('dth_user_key',  data.login_key);
     localStorage.setItem('dth_user_time', Date.now());
 
-    document.getElementById('phoneLoginForm').style.display = 'none';
-    document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('loginMethods').style.display = 'none';
+    ['phoneLoginForm','qrLoginForm','workerLoginForm','loginMethods','emailLoginForm'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
 
     const dpy = document.getElementById('memberQrDisplay');
-    dpy.style.display = 'block';
+    if (dpy) dpy.style.display = 'block';
 
-    document.getElementById('successUserName').textContent = data.fullname || 'Khách';
-    document.getElementById('successUserRank').textContent = data.member_rank || 'Thành viên';
-    document.getElementById('successUserPoints').textContent = (data.loyalty_points || 0) + ' điểm';
-    if (data.qr_image_url) {
-        document.getElementById('successQrImg').src = data.qr_image_url;
-        document.getElementById('successQrImg').style.display = 'inline-block';
-    } else {
-        document.getElementById('successQrImg').style.display = 'none';
+    const nameEl   = document.getElementById('successUserName');
+    const rankEl   = document.getElementById('successUserRank');
+    const pointsEl = document.getElementById('successUserPoints');
+    const qrImg    = document.getElementById('successQrImg');
+    if (nameEl)   nameEl.textContent   = data.fullname || 'Khách';
+    if (rankEl)   rankEl.textContent   = data.member_rank || 'Thành viên';
+    if (pointsEl) pointsEl.textContent = (data.loyalty_points || 0) + ' điểm';
+    if (qrImg) {
+        if (data.qr_image_url) {
+            qrImg.src = data.qr_image_url;
+            qrImg.style.display = 'inline-block';
+        } else {
+            qrImg.style.display = 'none';
+        }
     }
 
     updateTopBarState(data);
@@ -1612,6 +1680,311 @@ function logoutCustomer() {
     localStorage.removeItem('dth_user_time');
     window.location.reload();
 }
+
+// ============================================================
+// WORKER AUTH & DASHBOARD JS
+// ============================================================
+
+function showWorkerLogin() {
+    ['loginMethods','phoneLoginForm','qrLoginForm','emailLoginForm','memberQrDisplay'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.style.display = 'none';
+    });
+    const wf = document.getElementById('workerLoginForm');
+    if (wf) wf.style.display = 'block';
+    const pin = document.getElementById('workerPinInput');
+    if (pin) pin.focus();
+}
+
+function submitWorkerLogin() {
+    const phone = (document.getElementById('workerPhoneInput')?.value || '').trim();
+    const pin   = (document.getElementById('workerPinInput')?.value || '').trim();
+    const err   = document.getElementById('workerLoginError');
+    const btn   = document.getElementById('workerLoginSubmitBtn');
+
+    if (!phone) {
+        if (err) { err.textContent = 'Vui lòng nhập số điện thoại hoặc mã thợ.'; err.style.display = 'block'; }
+        return;
+    }
+    if (!pin || pin.length < 4) {
+        if (err) { err.textContent = 'Vui lòng nhập PIN (4-6 chữ số).'; err.style.display = 'block'; }
+        return;
+    }
+    if (err) err.style.display = 'none';
+    if (btn) { btn.disabled = true; btn.textContent = 'Đang xác thực...'; }
+
+    // Thử login bằng phone trước, nếu phone bắt đầu bằng DTH- thì dùng worker_code
+    const payload = phone.startsWith('DTH') || phone.startsWith('dth')
+        ? { action: 'mobile_worker_login', worker_code: phone, pin }
+        : { action: 'mobile_worker_login_by_phone', phone, pin };
+
+    fetch('api_master.php?' + new URLSearchParams({ action: payload.action }), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+    })
+    .then(readJsonResponse)
+    .then(d => {
+        if (btn) { btn.disabled = false; btn.textContent = '🚀 Vào Bảng Điều Khiển Thợ'; }
+        if (d.status !== 'success') {
+            if (err) { err.textContent = d.message || 'Đăng nhập thất bại.'; err.style.display = 'block'; }
+            // Nếu cần setup PIN → hướng dẫn
+            if (d.code === 'PIN_NOT_SET') {
+                if (err) err.textContent = '⚠️ Tài khoản chưa có PIN. Liên hệ admin để được cấp PIN ban đầu (123456).';
+            }
+            return;
+        }
+        const worker = d.worker || {};
+        const loginData = {
+            type:         'worker',
+            worker_id:    worker.worker_id || d.worker_id || 0,
+            name:         worker.name || 'Thợ',
+            phone:        worker.phone || phone,
+            worker_code:  worker.worker_code || '',
+            role:         worker.role || 'worker',
+            is_admin:     worker.is_admin || 0,
+            shift_status: d.shift_status || 'off',
+            token:        d.token || '',
+        };
+        localStorage.setItem('dth_worker_token', loginData.token);
+        localStorage.setItem('dth_worker_id',    String(loginData.worker_id));
+        localStorage.setItem('dth_worker_data',  JSON.stringify(loginData));
+        localStorage.setItem('dth_worker_time',  Date.now());
+        document.getElementById('modalLogin').style.display = 'none';
+
+        // Tự động bật ca (on_shift) sau login thành công
+        if (loginData.token) {
+            fetch('api_master.php?action=mobile_worker_shift_start', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + loginData.token },
+                body: JSON.stringify({ token: loginData.token }),
+            }).catch(() => {}); // silent — không chặn UX
+        }
+
+        openWorkerDashboard(loginData);
+    })
+    .catch(e => {
+        if (btn) { btn.disabled = false; btn.textContent = '🚀 Vào Bảng Điều Khiển Thợ'; }
+        if (err) { err.textContent = 'Lỗi kết nối. Thử lại.'; err.style.display = 'block'; }
+    });
+}
+
+function openWorkerDashboard(data) {
+    // Đóng modal login
+    const modal = document.getElementById('modalLogin');
+    if (modal) modal.style.display = 'none';
+
+    // Cập nhật top bar
+    const bar = document.getElementById('topBarStatus');
+    if (bar) {
+        bar.innerHTML = `
+            <span style="background:#7c3aed;color:white;padding:3px 10px;border-radius:20px;font-size:13px;font-weight:bold;display:flex;align-items:center;gap:6px;">
+                🛠️ <b>${data.name || 'Thợ'}</b>
+                <span id="workerShiftBadge" style="background:${data.shift_status==='on_shift'?'#10b981':'#6b7280'};border-radius:20px;padding:2px 8px;font-size:11px;">
+                    ${data.shift_status==='on_shift'?'🟢 Sẵn sàng':'⚫ Offline'}
+                </span>
+            </span>
+            <a href="javascript:void(0)" onclick="openWorkerPanel()" style="color:#fbbf24;text-decoration:underline;font-weight:bold;font-size:13px;margin-left:8px;">Bảng điều khiển</a>
+            <a href="javascript:void(0)" onclick="logoutWorker()" style="color:#fca5a5;text-decoration:underline;font-size:13px;margin-left:8px;">Đăng xuất</a>
+        `;
+    }
+
+    // Mở Worker Panel
+    openWorkerPanel();
+}
+
+function logoutWorker() {
+    localStorage.removeItem('dth_worker_token');
+    localStorage.removeItem('dth_worker_id');
+    localStorage.removeItem('dth_worker_data');
+    localStorage.removeItem('dth_worker_time');
+    window.location.reload();
+}
+
+function openWorkerPanel() {
+    let panel = document.getElementById('workerDashboardPanel');
+    if (!panel) {
+        panel = document.createElement('div');
+        panel.id = 'workerDashboardPanel';
+        panel.style.cssText = `
+            position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw);
+            background: #0f172a; color: white; z-index: 9999;
+            box-shadow: -8px 0 32px rgba(0,0,0,0.5); overflow-y: auto;
+            font-family: -apple-system, system-ui, sans-serif; transition: transform 0.3s ease;
+        `;
+        document.body.appendChild(panel);
+    }
+    panel.style.display = 'block';
+    loadWorkerDashboard(panel);
+}
+
+function closeWorkerPanel() {
+    const p = document.getElementById('workerDashboardPanel');
+    if (p) p.style.display = 'none';
+}
+
+function loadWorkerDashboard(panel) {
+    const token = localStorage.getItem('dth_worker_token') || '';
+    const wdata = JSON.parse(localStorage.getItem('dth_worker_data') || '{}');
+
+    panel.innerHTML = `
+        <div style="background: linear-gradient(135deg,#7c3aed,#4c1d95); padding: 20px; position: sticky; top: 0; z-index: 1;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+                <div>
+                    <div style="font-size:20px;font-weight:900;">🛠️ Bảng Điều Khiển Thợ</div>
+                    <div style="font-size:13px;opacity:0.8;margin-top:2px;">Điện Máy Hiếu — Nội bộ</div>
+                </div>
+                <button onclick="closeWorkerPanel()" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;">✕</button>
+            </div>
+        </div>
+        <div style="padding:16px;" id="workerPanelBody">
+            <div style="text-align:center;padding:40px 0;opacity:0.5;">Đang tải...</div>
+        </div>
+    `;
+
+    if (!token) {
+        document.getElementById('workerPanelBody').innerHTML = `
+            <div style="text-align:center;padding:40px 16px;color:#fca5a5;">
+                <div style="font-size:40px;margin-bottom:12px;">🔒</div>
+                <div>Phiên đăng nhập hết hạn.</div>
+                <button onclick="logoutWorker()" style="margin-top:16px;background:#dc2626;color:white;border:none;border-radius:8px;padding:10px 24px;cursor:pointer;">Đăng nhập lại</button>
+            </div>`;
+        return;
+    }
+
+    fetch('api_master.php?action=mobile_worker_dashboard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ token }),
+    })
+    .then(readJsonResponse)
+    .then(d => {
+        if (d.status !== 'success') {
+            document.getElementById('workerPanelBody').innerHTML = `
+                <div style="text-align:center;padding:30px;color:#fca5a5;">${d.message || 'Lỗi tải dashboard.'}</div>`;
+            return;
+        }
+        renderWorkerDashboard(d);
+    })
+    .catch(() => {
+        document.getElementById('workerPanelBody').innerHTML = `
+            <div style="text-align:center;padding:30px;color:#fca5a5;">Lỗi kết nối. Kiểm tra mạng.</div>`;
+    });
+}
+
+function renderWorkerDashboard(d) {
+    const w           = d.worker || {};
+    const shiftOn     = d.shift_status === 'on_shift';
+    const earnings    = d.earnings_this_month || {};
+    const activeJobs  = d.active_jobs || [];
+    const notifs      = d.recent_notifications || [];
+    const feeDebt     = d.fee_debt || {};
+    const token       = localStorage.getItem('dth_worker_token') || '';
+
+    const shiftColor  = shiftOn ? '#10b981' : '#6b7280';
+    const shiftLabel  = shiftOn ? '🟢 Đang sẵn sàng nhận đơn' : '⚫ Offline — Chưa bắt ca';
+    const shiftBtnLabel = shiftOn ? 'Kết thúc ca' : 'Bắt đầu ca';
+    const shiftBtnBg  = shiftOn ? '#dc2626' : '#10b981';
+    const shiftAction = shiftOn ? 'mobile_worker_shift_end' : 'mobile_worker_shift_start';
+
+    const jobsHtml = activeJobs.length ? activeJobs.map(j => `
+        <div style="background:#1e293b;border-radius:10px;padding:12px;margin-bottom:8px;border-left:3px solid #f59e0b;">
+            <div style="font-weight:bold;color:#fbbf24;">#${j.job_id} — ${j.service_name || 'Dịch vụ'}</div>
+            <div style="font-size:13px;color:#94a3b8;margin-top:4px;">📍 ${j.address || 'Chưa có địa chỉ'}</div>
+            <div style="font-size:12px;color:#64748b;margin-top:2px;">Trạng thái: ${j.status_text || j.status}</div>
+        </div>
+    `).join('') : '<div style="color:#64748b;font-size:13px;padding:8px 0;">Không có ca đang hoạt động.</div>';
+
+    const notifHtml = notifs.length ? notifs.slice(0,3).map(n => `
+        <div style="background:#1e293b;border-radius:8px;padding:10px;margin-bottom:6px;${!n.is_read?'border-left:3px solid #7c3aed;':''}">
+            <div style="font-size:13px;font-weight:bold;">${n.title}</div>
+            <div style="font-size:12px;color:#94a3b8;margin-top:2px;">${n.body}</div>
+        </div>
+    `).join('') : '<div style="color:#64748b;font-size:13px;">Không có thông báo mới.</div>';
+
+    document.getElementById('workerPanelBody').innerHTML = `
+        <!-- Profile + Shift -->
+        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <div style="background:#7c3aed;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🛠️</div>
+                <div>
+                    <div style="font-weight:bold;font-size:16px;">${w.name || 'Thợ'}</div>
+                    <div style="font-size:12px;color:#94a3b8;">${w.phone || ''} ${w.worker_code ? '· ' + w.worker_code : ''}</div>
+                </div>
+            </div>
+            <div style="background:${shiftColor}22;border:1px solid ${shiftColor}44;border-radius:8px;padding:10px;text-align:center;margin-bottom:10px;">
+                <span style="color:${shiftColor};font-weight:bold;font-size:14px;">${shiftLabel}</span>
+            </div>
+            <button onclick="toggleWorkerShift('${shiftAction}','${token}')" id="shiftToggleBtn"
+                style="width:100%;background:${shiftBtnBg};color:white;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:bold;cursor:pointer;">
+                ${shiftBtnLabel}
+            </button>
+        </div>
+
+        <!-- Thu nhập tháng -->
+        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="font-size:13px;font-weight:bold;color:#94a3b8;margin-bottom:8px;">💰 THU NHẬP THÁNG NÀY</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
+                <div><div style="font-size:18px;font-weight:900;color:#10b981;">${earnings.jobs_completed || 0}</div><div style="font-size:11px;color:#64748b;">Ca xong</div></div>
+                <div><div style="font-size:18px;font-weight:900;color:#fbbf24;">${formatWorkerMoney(earnings.gross_revenue || 0)}</div><div style="font-size:11px;color:#64748b;">Doanh thu</div></div>
+                <div><div style="font-size:18px;font-weight:900;color:#60a5fa;">${formatWorkerMoney(earnings.net_income || 0)}</div><div style="font-size:11px;color:#64748b;">Thực nhận</div></div>
+            </div>
+            ${(feeDebt.total_debt||0)>0 ? `<div style="margin-top:8px;background:#7c3aed22;border:1px solid #7c3aed44;border-radius:6px;padding:8px;font-size:12px;color:#a78bfa;text-align:center;">⚠️ Phí nền tảng còn nợ: ${formatWorkerMoney(feeDebt.total_debt||0)}</div>` : ''}
+        </div>
+
+        <!-- Ca đang hoạt động -->
+        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="font-size:13px;font-weight:bold;color:#94a3b8;margin-bottom:8px;">📋 CA ĐANG HOẠT ĐỘNG (${activeJobs.length})</div>
+            ${jobsHtml}
+        </div>
+
+        <!-- Thông báo -->
+        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <div style="font-size:13px;font-weight:bold;color:#94a3b8;">🔔 THÔNG BÁO ${d.unread_notifications>0?`<span style="background:#dc2626;color:white;border-radius:20px;padding:1px 7px;font-size:11px;">${d.unread_notifications}</span>`:''}</div>
+            </div>
+            ${notifHtml}
+        </div>
+
+        <!-- Actions -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+            <button onclick="loadWorkerDashboard(document.getElementById('workerDashboardPanel'))"
+                style="background:#334155;color:white;border:none;border-radius:8px;padding:10px;font-size:13px;cursor:pointer;">🔄 Làm mới</button>
+            <button onclick="logoutWorker()"
+                style="background:#dc2626;color:white;border:none;border-radius:8px;padding:10px;font-size:13px;cursor:pointer;">🚪 Đăng xuất</button>
+        </div>
+    `;
+}
+
+function formatWorkerMoney(n) {
+    return new Intl.NumberFormat('vi-VN').format(n) + 'đ';
+}
+
+function toggleWorkerShift(action, token) {
+    const btn = document.getElementById('shiftToggleBtn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Đang xử lý...'; }
+    fetch('api_master.php?action=' + action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({ token }),
+    })
+    .then(readJsonResponse)
+    .then(d => {
+        if (d.status === 'success') {
+            // Cập nhật localStorage
+            const wdata = JSON.parse(localStorage.getItem('dth_worker_data') || '{}');
+            wdata.shift_status = d.shift_status || (action.includes('start') ? 'on_shift' : 'off');
+            localStorage.setItem('dth_worker_data', JSON.stringify(wdata));
+        }
+        // Reload dashboard
+        loadWorkerDashboard(document.getElementById('workerDashboardPanel'));
+    })
+    .catch(() => {
+        if (btn) { btn.disabled = false; btn.textContent = 'Thử lại'; }
+    });
+}
+
+
 
 function updateTopBarState(user) {
     const bar = document.getElementById('topBarStatus');
