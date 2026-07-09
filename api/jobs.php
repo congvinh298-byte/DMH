@@ -686,14 +686,24 @@ function create_job_action(array $input): array
     update_compat($pdo, 'job_posts', ['status' => 'pending'], 'id = ?', [$jobId]);
 
     // ----------------------------------------------------------------
-    // BƯỚC 4: DISPATCH - gửi Telegram đến nhóm Thợ
-    // Nếu thành công → chuyển sang "matching" (đang khớp thợ)
-    // Nếu thất bại   → giữ "pending", kích async để thử lại
+    // BƯỚC 4: DISPATCH
+    // Ưu tiên: Internal (Push App) → Fallback: Telegram group
     // ----------------------------------------------------------------
-    $sent = send_worker_job_to_group($pdo, $jobId);
-    if ($sent) {
-        update_compat($pdo, 'job_posts', ['status' => 'matching'], 'id = ?', [$jobId]);
+    $internalDispatched = dispatch_job_to_workers_internal($pdo, $jobId);
+
+    $sent = false;
+    if (!$internalDispatched && app_bool_env('WORKER_APP_FALLBACK_TO_TELEGRAM', true)) {
+        // Không có thợ nào on_shift hoặc push thất bại → fallback sang Telegram
+        $sent = send_worker_job_to_group($pdo, $jobId);
+        if ($sent) {
+            update_compat($pdo, 'job_posts', ['status' => 'matching'], 'id = ?', [$jobId]);
+        } else {
+            trigger_async_job_dispatch($jobId);
+        }
+    } elseif ($internalDispatched) {
+        $sent = true; // Coi internal dispatch = gửi thành công
     } else {
+        // Cả hai đều thất bại → thử async
         trigger_async_job_dispatch($jobId);
     }
 
@@ -703,13 +713,16 @@ function create_job_action(array $input): array
     // ----------------------------------------------------------------
     return [
         'success' => true,
-        'message' => $sent
-            ? 'Đã tạo yêu cầu và thông báo đến nhóm Thợ qua Telegram.'
-            : 'Đã tạo yêu cầu. Hệ thống sẽ thông báo Thợ trong giây lát.',
+        'message' => $internalDispatched
+            ? 'Đã tạo yêu cầu và thông báo đến thợ đang trực ca qua ứng dụng.'
+            : ($sent
+                ? 'Đã tạo yêu cầu và thông báo đến nhóm Thợ qua Telegram.'
+                : 'Đã tạo yêu cầu. Hệ thống sẽ thông báo Thợ trong giây lát.'),
         'data' => [
             'job_id'              => $jobId,
             'status'              => $sent ? 'matching' : 'pending',
-            'telegram_sent'       => $sent,
+            'internal_dispatched' => $internalDispatched,
+            'telegram_sent'       => $sent && !$internalDispatched,
             'service_distance_km' => $serviceDistanceKm !== null ? round($serviceDistanceKm, 2) : null,
             'pricing' => [
                 'tech_target_base' => $pricing['tech_target_base'],
@@ -725,6 +738,7 @@ function create_job_action(array $input): array
         ],
     ];
 }
+
 
 function admin_jobs(PDO $pdo): array
 {
@@ -757,3 +771,702 @@ function admin_jobs(PDO $pdo): array
     }
     return $rows;
 }
+
+// ================================================================
+// INTERNAL DISPATCH ENGINE — HỆ THỐNG PHÂN PHỐI NỘI BỘ
+// Thay thế send_worker_job_to_group() → không phụ thuộc Telegram
+// Luồng: create_job_action() → dispatch_job_to_workers_internal()
+//        → GPS sort → Push Notification (Expo) → in_app_notifications
+// ================================================================
+
+/**
+ * Tính khoảng cách Haversine giữa 2 điểm GPS (km)
+ */
+function haversine_km(float $lat1, float $lng1, float $lat2, float $lng2): float
+{
+    $earthRadius = 6371.0;
+    $dLat = deg2rad($lat2 - $lat1);
+    $dLng = deg2rad($lng2 - $lng1);
+    $a = sin($dLat / 2) ** 2
+        + cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * sin($dLng / 2) ** 2;
+    $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+    return $earthRadius * $c;
+}
+
+/**
+ * Ghi thông báo nội bộ (thay Telegram DM)
+ *
+ * @param  string $targetType  'worker'|'customer'|'admin'
+ * @param  int    $targetId    telegram_user_id (worker) hoặc users.id (customer)
+ * @param  string $title       Tiêu đề thông báo
+ * @param  string $body        Nội dung thông báo
+ * @param  string $type        Loại: new_job|job_assigned|job_completed|...
+ * @param  string $refType     Đối tượng: 'job'|'order'|'payment'
+ * @param  int    $refId       ID đối tượng
+ * @param  array  $payload     Dữ liệu thêm cho App (deeplink, v.v.)
+ * @return int    ID thông báo vừa tạo
+ */
+function create_in_app_notification(
+    PDO $pdo,
+    string $targetType,
+    int $targetId,
+    string $title,
+    string $body,
+    string $type = 'info',
+    string $refType = '',
+    int $refId = 0,
+    array $payload = []
+): int {
+    if (!table_exists($pdo, 'in_app_notifications')) {
+        error_log("[notify] Bảng in_app_notifications chưa tồn tại — chạy migration trước");
+        return 0;
+    }
+    return insert_compat($pdo, 'in_app_notifications', [
+        'target_type'   => $targetType,
+        'target_id'     => $targetId,
+        'title'         => mb_substr($title, 0, 255),
+        'body'          => $body,
+        'type'          => $type,
+        'reference_type' => $refType ?: null,
+        'reference_id'  => $refId > 0 ? $refId : null,
+        'payload'       => !empty($payload) ? json_encode($payload, JSON_UNESCAPED_UNICODE) : null,
+        'is_read'       => 0,
+    ], ['created_at' => 'NOW()']);
+}
+
+/**
+ * Đẩy thông báo qua Expo Push API cho một thợ cụ thể
+ * Không phụ thuộc Telegram — dùng mobile_sessions.push_token
+ */
+function push_expo_to_worker(PDO $pdo, int $workerId, array $message): array
+{
+    $stmt = $pdo->prepare(
+        "SELECT push_token FROM mobile_sessions
+         WHERE user_id = ? AND push_token IS NOT NULL AND push_token != ''
+         ORDER BY last_active_at DESC LIMIT 3"
+    );
+    $stmt->execute([$workerId]);
+    $tokens = array_column($stmt->fetchAll(), 'push_token');
+    $tokens = array_unique(array_filter($tokens));
+
+    if (!$tokens) {
+        return ['sent' => 0, 'error' => 'no_token'];
+    }
+
+    $messages = [];
+    foreach ($tokens as $token) {
+        $messages[] = array_merge([
+            'to'       => $token,
+            'sound'    => 'default',
+            'priority' => 'high',
+        ], $message);
+    }
+
+    $ch = curl_init('https://exp.host/--/api/v2/push/send');
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($messages));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        'Content-Type: application/json',
+        'Accept: application/json',
+        'Accept-Encoding: gzip, deflate',
+    ]);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
+    $resp = curl_exec($ch);
+    $err  = curl_error($ch);
+    curl_close($ch);
+
+    if ($err) {
+        error_log("[expo_push] curl error: {$err}");
+        return ['sent' => 0, 'error' => $err];
+    }
+    return ['sent' => count($tokens), 'response' => $resp];
+}
+
+/**
+ * Lấy danh sách thợ đang on_shift, sắp xếp theo:
+ * 1. Khoảng cách GPS (gần → xa)
+ * 2. rating_score (cao → thấp)
+ * 3. jobs_completed (nhiều → ít kinh nghiệm)
+ *
+ * @param  float|null $jobLat      Vĩ độ địa chỉ đơn hàng
+ * @param  float|null $jobLng      Kinh độ địa chỉ đơn hàng
+ * @param  int        $radiusKm    Bán kính tìm kiếm (km), 0 = tất cả
+ * @param  int        $limit       Số thợ tối đa
+ * @return array      Danh sách profile thợ kèm distance_km
+ */
+function get_workers_on_shift(
+    PDO $pdo,
+    ?float $jobLat,
+    ?float $jobLng,
+    int $radiusKm = 15,
+    int $limit = 10
+): array {
+    if (!table_exists($pdo, 'worker_profiles')) {
+        return [];
+    }
+
+    $stmt = $pdo->prepare(
+        "SELECT wp.*, wp.telegram_user_id AS worker_id
+         FROM worker_profiles wp
+         WHERE wp.shift_status = 'on_shift'
+           AND (wp.is_active IS NULL OR wp.is_active = 1)
+           AND (wp.is_receive_blocked IS NULL OR wp.is_receive_blocked = 0)
+           AND (wp.payment_blocked IS NULL OR wp.payment_blocked = 0)
+         ORDER BY wp.rating_score DESC, wp.jobs_completed DESC"
+    );
+    $stmt->execute();
+    $workers = $stmt->fetchAll();
+
+    if (!$workers) {
+        return [];
+    }
+
+    // Tính khoảng cách GPS và lọc theo bán kính
+    foreach ($workers as &$w) {
+        $wLat = isset($w['current_lat']) && $w['current_lat'] !== null
+            ? (float)$w['current_lat']
+            : (isset($w['last_lat']) ? (float)$w['last_lat'] : null);
+        $wLng = isset($w['current_lng']) && $w['current_lng'] !== null
+            ? (float)$w['current_lng']
+            : (isset($w['last_lng']) ? (float)$w['last_lng'] : null);
+
+        if ($jobLat !== null && $jobLng !== null && $wLat !== null && $wLng !== null) {
+            $w['distance_km'] = haversine_km($jobLat, $jobLng, $wLat, $wLng);
+        } else {
+            $w['distance_km'] = null; // Không biết khoảng cách → ưu tiên thấp
+        }
+    }
+    unset($w);
+
+    // Sắp xếp: GPS có khoảng cách < radiusKm trước, NULL sau, ngoài bán kính cuối
+    usort($workers, static function (array $a, array $b) use ($radiusKm): int {
+        $aInRange = $a['distance_km'] !== null && $a['distance_km'] <= $radiusKm;
+        $bInRange = $b['distance_km'] !== null && $b['distance_km'] <= $radiusKm;
+        $aUnknown = $a['distance_km'] === null;
+        $bUnknown = $b['distance_km'] === null;
+
+        // Thứ tự: trong bán kính → không rõ GPS → ngoài bán kính
+        if ($aInRange && !$bInRange) return -1;
+        if (!$aInRange && $bInRange) return 1;
+        if ($aUnknown && !$bUnknown) return -1;
+        if (!$aUnknown && $bUnknown) return 1;
+
+        // Cùng nhóm: gần hơn trước
+        if ($a['distance_km'] !== null && $b['distance_km'] !== null) {
+            return $a['distance_km'] <=> $b['distance_km'];
+        }
+        // Fallback: rating cao hơn
+        return (float)($b['rating_score'] ?? 5) <=> (float)($a['rating_score'] ?? 5);
+    });
+
+    return array_slice($workers, 0, $limit);
+}
+
+/**
+ * ENGINE CHÍNH: Dispatch đơn hàng đến thợ nội bộ (không Telegram)
+ *
+ * - Lấy thợ đang on_shift + sắp xếp GPS
+ * - Push Expo notification đến từng thợ
+ * - Ghi in_app_notification cho mỗi thợ
+ * - Log push_dispatch_log để debug
+ * - Nếu không có thợ nào trong bán kính → push tất cả thợ on_shift (fallback)
+ *
+ * @return bool true nếu push đến ít nhất 1 thợ thành công
+ */
+function dispatch_job_to_workers_internal(PDO $pdo, int $jobId): bool
+{
+    $job = get_job_row($pdo, $jobId);
+    if (!$job) {
+        error_log("[dispatch_internal] Job {$jobId} not found");
+        return false;
+    }
+
+    $jobLat = isset($job['map_lat']) && $job['map_lat'] !== null ? (float)$job['map_lat'] : null;
+    $jobLng = isset($job['map_lng']) && $job['map_lng'] !== null ? (float)$job['map_lng'] : null;
+
+    $radiusKm     = (int)app_env('WORKER_APP_DISPATCH_RADIUS_KM', '15');
+    $maxPush      = (int)app_env('WORKER_APP_MAX_PUSH_PER_JOB', '10');
+    $fallbackAll  = app_bool_env('WORKER_APP_FALLBACK_ALL_IF_EMPTY', true);
+
+    $pricing = get_job_pricing($pdo, $jobId);
+    $netIncome = (int)($pricing['tech_net_income'] ?? 0);
+    $serviceType = (string)($job['service_type'] ?? '');
+    $address = (string)($job['address'] ?? $job['location'] ?? '');
+
+    // Lấy thợ đang sẵn sàng
+    $candidates = get_workers_on_shift($pdo, $jobLat, $jobLng, $radiusKm, $maxPush);
+
+    // Fallback: không có thợ trong bán kính → thử tất cả thợ on_shift
+    $inRadius = array_filter($candidates, static fn($w) => $w['distance_km'] === null || $w['distance_km'] <= $radiusKm);
+    if (!$inRadius && $fallbackAll) {
+        error_log("[dispatch_internal] Job {$jobId} no worker in {$radiusKm}km — fallback to all on_shift");
+        $candidates = get_workers_on_shift($pdo, $jobLat, $jobLng, 9999, $maxPush);
+    }
+
+    if (!$candidates) {
+        error_log("[dispatch_internal] Job {$jobId} no on_shift workers at all");
+        return false;
+    }
+
+    $pushTitle = "📋 Ca mới #{$jobId}: {$serviceType}";
+    $pushBody  = ($address ? "📍 {$address}" : "Khu vực Lấp Vò")
+        . ($netIncome > 0 ? " · " . number_format($netIncome, 0, ',', '.') . "đ" : '');
+
+    $successCount = 0;
+    $hasDispatchLogTable = table_exists($pdo, 'push_dispatch_log');
+    $hasNotifyTable = table_exists($pdo, 'in_app_notifications');
+
+    foreach ($candidates as $worker) {
+        $workerId   = (int)($worker['worker_id'] ?? $worker['telegram_user_id'] ?? 0);
+        $distanceKm = $worker['distance_km'];
+
+        if ($workerId <= 0) continue;
+
+        // Bỏ qua thợ đang bận
+        if ((string)($worker['shift_status'] ?? '') === 'busy') {
+            if ($hasDispatchLogTable) {
+                insert_compat($pdo, 'push_dispatch_log', [
+                    'job_id'      => $jobId,
+                    'worker_id'   => $workerId,
+                    'distance_km' => $distanceKm,
+                    'shift_status' => 'busy',
+                    'push_status' => 'skip_busy',
+                ], ['dispatched_at' => 'NOW()']);
+            }
+            continue;
+        }
+
+        // Ghi thông báo nội bộ
+        $notifPayload = [
+            'job_id'       => $jobId,
+            'service_type' => $serviceType,
+            'address'      => $address,
+            'net_income'   => $netIncome,
+            'distance_km'  => $distanceKm !== null ? round($distanceKm, 2) : null,
+        ];
+
+        if ($hasNotifyTable) {
+            create_in_app_notification(
+                $pdo,
+                'worker',
+                $workerId,
+                $pushTitle,
+                $pushBody,
+                'new_job',
+                'job',
+                $jobId,
+                $notifPayload
+            );
+        }
+
+        // Push Expo notification
+        $pushResult = push_expo_to_worker($pdo, $workerId, [
+            'title' => $pushTitle,
+            'body'  => $pushBody,
+            'data'  => $notifPayload,
+        ]);
+
+        $pushStatus  = ($pushResult['sent'] ?? 0) > 0 ? 'sent' : 'failed';
+        $pushError   = $pushStatus === 'failed' ? ($pushResult['error'] ?? 'unknown') : null;
+        $pushToken   = null; // token lấy từ session, không lưu lại đây
+        if ($pushStatus === 'failed' && ($pushResult['error'] ?? '') === 'no_token') {
+            $pushStatus = 'no_token';
+        }
+
+        if ($hasDispatchLogTable) {
+            insert_compat($pdo, 'push_dispatch_log', [
+                'job_id'      => $jobId,
+                'worker_id'   => $workerId,
+                'distance_km' => $distanceKm !== null ? round($distanceKm, 3) : null,
+                'shift_status' => $worker['shift_status'] ?? 'on_shift',
+                'push_status' => $pushStatus,
+                'push_response' => $pushResult['response'] ?? ($pushError ?? null),
+            ], ['dispatched_at' => 'NOW()']);
+        }
+
+        if ($pushStatus === 'sent') {
+            $successCount++;
+        }
+
+        error_log(sprintf(
+            "[dispatch_internal] Job %d → Worker %d (%.1fkm) push=%s",
+            $jobId,
+            $workerId,
+            $distanceKm ?? -1,
+            $pushStatus
+        ));
+    }
+
+    if ($successCount > 0) {
+        update_compat($pdo, 'job_posts', ['status' => 'matching'], 'id = ?', [$jobId]);
+        error_log("[dispatch_internal] Job {$jobId} dispatched to {$successCount} workers");
+    }
+
+    return $successCount > 0;
+}
+
+/**
+ * Thợ nhận ca trực tiếp từ App (không qua Telegram callback)
+ * Ghi in_app_notification thay vì gửi DM Telegram
+ */
+function claim_job_via_app(PDO $pdo, int $jobId, int $workerId): array
+{
+    $profile = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['ok' => false, 'message' => 'Tài khoản thợ không tồn tại.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+    if (worker_is_blocked($profile)) {
+        $debt = worker_fee_debt($pdo, $workerId);
+        return [
+            'ok'      => false,
+            'message' => $debt > 0
+                ? 'Tài khoản đang bị khoá nhận ca. Nợ phí nền tảng: ' . fmt_money($debt) . '.'
+                : 'Tài khoản thợ đang bị khoá nhận ca. Liên hệ admin.',
+            'code'    => 'WORKER_BLOCKED',
+        ];
+    }
+
+    $workerName = (string)($profile['telegram_name'] ?? $profile['phone'] ?? "Thợ #{$workerId}");
+
+    // Chạy transaction claim
+    $pdo->beginTransaction();
+    try {
+        $job = get_job_row($pdo, $jobId, true);
+        if (!$job) {
+            $pdo->rollBack();
+            return ['ok' => false, 'message' => 'Không tìm thấy ca.', 'code' => 'JOB_NOT_FOUND'];
+        }
+        if (job_display_status($job) !== 'pending') {
+            // Ghi late claim
+            insert_compat($pdo, 'job_claims', [
+                'job_id'          => $jobId,
+                'telegram_user_id' => $workerId,
+                'telegram_name'   => $workerName,
+                'outcome'         => 'late',
+                'note'            => 'Claimed via App but job no longer pending',
+            ], ['created_at' => 'NOW()']);
+            $pdo->commit();
+            return ['ok' => false, 'message' => 'Ca này đã có thợ nhận hoặc đã đóng.', 'code' => 'JOB_ALREADY_TAKEN'];
+        }
+
+        // Assign
+        update_compat($pdo, 'job_posts', array_merge(
+            job_assignment_values($pdo, $workerId),
+            ['status' => job_status($pdo, 'assigned'), 'app_worker_id' => $workerId]
+        ), 'id = ?', [$jobId], ['assigned_at' => 'NOW()', 'updated_at' => 'NOW()']);
+
+        // Ghi claim
+        insert_compat($pdo, 'job_claims', [
+            'job_id'          => $jobId,
+            'telegram_user_id' => $workerId,
+            'telegram_name'   => $workerName,
+            'outcome'         => 'claimed',
+            'note'            => 'Claimed via Worker App (no Telegram)',
+        ], ['created_at' => 'NOW()']);
+
+        // Cập nhật shift status → busy
+        if (table_exists($pdo, 'worker_profiles')) {
+            update_compat($pdo, 'worker_profiles',
+                ['jobs_claimed' => null, 'shift_status' => 'busy'],
+                'telegram_user_id = ?', [$workerId],
+                ['jobs_claimed' => 'jobs_claimed + 1', 'updated_at' => 'NOW()']
+            );
+        }
+        $pdo->commit();
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        throw $e;
+    }
+
+    // Gửi thông báo nội bộ đến thợ với đầy đủ chi tiết
+    $pricing = get_job_pricing($pdo, $jobId);
+    $mapsUrl = worker_google_maps_url($job);
+    $body = "Khách: " . ($job['customer_name'] ?? '') . "\n"
+          . "SĐT: " . ($job['customer_phone'] ?? '') . "\n"
+          . "Địa chỉ: " . ($job['address'] ?? $job['location'] ?? '') . "\n"
+          . "Thu nhập dự kiến: " . fmt_money((int)($pricing['tech_net_income'] ?? 0));
+
+    if (table_exists($pdo, 'in_app_notifications')) {
+        create_in_app_notification(
+            $pdo,
+            'worker',
+            $workerId,
+            "✅ Bạn đã nhận ca #{$jobId}",
+            $body,
+            'job_assigned',
+            'job',
+            $jobId,
+            [
+                'job_id'         => $jobId,
+                'customer_phone' => $job['customer_phone'] ?? '',
+                'address'        => $job['address'] ?? '',
+                'maps_url'       => $mapsUrl,
+                'net_income'     => (int)($pricing['tech_net_income'] ?? 0),
+                'platform_fee'   => (int)($pricing['platform_fee'] ?? 0),
+            ]
+        );
+    }
+
+    // Push confirmation tới thợ
+    push_expo_to_worker($pdo, $workerId, [
+        'title' => "✅ Đã xác nhận ca #{$jobId}",
+        'body'  => "Xem chi tiết trong ứng dụng.",
+        'data'  => ['job_id' => $jobId, 'type' => 'job_assigned'],
+    ]);
+
+    // Thông báo cho khách
+    notify_customer_job_assigned($pdo, $jobId, $workerName);
+
+    return [
+        'ok'      => true,
+        'message' => "Đã xác nhận bạn nhận ca #{$jobId}. Kiểm tra thông báo trong ứng dụng!",
+        'job_id'  => $jobId,
+    ];
+}
+
+/**
+ * Thợ hoàn thành ca qua App (không gửi DM Telegram)
+ */
+function complete_job_via_app(PDO $pdo, int $jobId, int $workerId, int $actualAmount = 0): array
+{
+    $pdo->beginTransaction();
+    try {
+        $job = get_job_row($pdo, $jobId, true);
+        if (!$job || !job_belongs_to_worker($pdo, $job, $workerId)) {
+            $pdo->rollBack();
+            return ['ok' => false, 'message' => 'Ca không thuộc thợ này.', 'code' => 'JOB_NOT_ASSIGNED'];
+        }
+        if (job_display_status($job) === 'completed') {
+            $pdo->commit();
+            return ['ok' => true, 'message' => "Ca #{$jobId} đã được ghi nhận hoàn thành trước đó."];
+        }
+
+        $pricing = get_job_pricing($pdo, $jobId);
+
+        // Nếu thợ báo giá thực tế khác → recalculate
+        if ($actualAmount > 0 && $actualAmount !== (int)($job['final_total'] ?? 0)) {
+            $qty = max(1, (int)($job['quantity'] ?? 1));
+            $newPricing = calculate_job_pricing(0, $actualAmount, $qty);
+            update_compat($pdo, 'job_pricing', [
+                'gross_customer_price' => $newPricing['gross_customer_price'],
+                'final_customer_price' => $newPricing['final_customer_price'],
+                'platform_fee'         => $newPricing['platform_fee'],
+                'tech_net_income'      => $newPricing['tech_net_income'],
+                'payment_status'       => 'unpaid',
+            ], 'job_id = ?', [$jobId]);
+            update_compat($pdo, 'job_posts', [
+                'final_total'    => $newPricing['final_customer_price'],
+                'customer_total' => $newPricing['gross_customer_price'],
+            ], 'id = ?', [$jobId]);
+            $pricing = $newPricing; // Dùng pricing mới để ghi log
+        }
+
+        update_compat($pdo, 'job_posts', [
+            'status' => job_status($pdo, 'completed'),
+        ], 'id = ?', [$jobId], ['completed_at' => 'NOW()', 'updated_at' => 'NOW()']);
+
+        // Ghi receivable phí nền tảng
+        insert_compat($pdo, 'finances', [
+            'type'        => 'platform_fee_receivable',
+            'amount'      => (int)($pricing['platform_fee'] ?? 0),
+            'source_type' => 'job',
+            'source_id'   => $jobId,
+            'note'        => "Platform fee từ thợ #{$workerId} - Ca #{$jobId}",
+        ], ['created_at' => 'NOW()']);
+
+        // Cập nhật thợ: xong ca → trở lại on_shift
+        update_compat($pdo, 'worker_profiles', [
+            'shift_status' => 'on_shift',
+        ], 'telegram_user_id = ?', [$workerId],
+        ['jobs_completed' => 'jobs_completed + 1', 'updated_at' => 'NOW()']);
+
+        $pdo->commit();
+    } catch (Throwable $e) {
+        if ($pdo->inTransaction()) $pdo->rollBack();
+        throw $e;
+    }
+
+    $cumulativeDebt = worker_fee_debt($pdo, $workerId);
+    $platformFee    = (int)($pricing['platform_fee'] ?? 0);
+
+    // Thông báo nội bộ thợ: phí nền tảng cộng dồn
+    if (table_exists($pdo, 'in_app_notifications')) {
+        create_in_app_notification(
+            $pdo,
+            'worker',
+            $workerId,
+            "💰 Ca #{$jobId} hoàn thành",
+            "Phí nền tảng ca này: " . fmt_money($platformFee) . "\n"
+            . "Tổng nợ phí đến hiện tại: " . fmt_money($cumulativeDebt) . "\n"
+            . "Phí sẽ được nhắc nhở mỗi sáng thứ Hai.",
+            'platform_fee',
+            'job',
+            $jobId,
+            ['platform_fee' => $platformFee, 'cumulative_debt' => $cumulativeDebt]
+        );
+    }
+
+    // Thông báo cho khách
+    notify_customer_job_completed($pdo, $jobId);
+
+    return [
+        'ok'              => true,
+        'message'         => "Đã đánh dấu ca #{$jobId} hoàn thành.",
+        'platform_fee'    => $platformFee,
+        'cumulative_debt' => $cumulativeDebt,
+    ];
+}
+
+/**
+ * Thợ hủy ca qua App
+ */
+function cancel_job_via_app(PDO $pdo, int $jobId, int $workerId, string $reason = ''): array
+{
+    $job = get_job_row($pdo, $jobId);
+    if (!$job || !job_belongs_to_worker($pdo, $job, $workerId)) {
+        return ['ok' => false, 'message' => 'Ca không thuộc thợ này.', 'code' => 'JOB_NOT_ASSIGNED'];
+    }
+    $reason = $reason ?: 'Thợ hủy ca qua ứng dụng';
+
+    update_compat($pdo, 'job_posts', [
+        'worker_id'        => null,
+        'telegram_worker_id' => null,
+        'app_worker_id'    => null,
+        'status'           => job_status($pdo, 'pending'),
+        'cancel_reason'    => $reason,
+    ], 'id = ?', [$jobId], ['cancelled_at' => 'NOW()', 'updated_at' => 'NOW()']);
+
+    insert_compat($pdo, 'job_claims', [
+        'job_id'          => $jobId,
+        'telegram_user_id' => $workerId,
+        'telegram_name'   => (string)(get_worker_profile($pdo, $workerId)['telegram_name'] ?? "Thợ #{$workerId}"),
+        'outcome'         => 'cancelled',
+        'note'            => $reason,
+    ], ['created_at' => 'NOW()']);
+
+    $profile = increment_worker_penalty($pdo, $workerId, 'cancel_job');
+
+    // Cập nhật shift_status về on_shift
+    update_compat($pdo, 'worker_profiles',
+        ['shift_status' => 'on_shift'],
+        'telegram_user_id = ?', [$workerId],
+        ['updated_at' => 'NOW()']
+    );
+
+    // Thông báo nội bộ cho thợ
+    $cancelCount = (int)($profile['cancel_count'] ?? 0);
+    if (table_exists($pdo, 'in_app_notifications')) {
+        create_in_app_notification(
+            $pdo,
+            'worker',
+            $workerId,
+            "Ca #{$jobId} đã bị hủy",
+            "Lý do: {$reason}\nSố lần vi phạm: {$cancelCount}/" . tech_cancel_limit(),
+            'job_cancelled',
+            'job',
+            $jobId
+        );
+    }
+
+    // Tái dispatch đơn cho thợ khác
+    dispatch_job_to_workers_internal($pdo, $jobId);
+
+    $message = "Đã hủy ca #{$jobId}. Vi phạm: {$cancelCount}/" . tech_cancel_limit() . '.';
+    if (worker_is_blocked($profile)) {
+        $message .= ' Tài khoản đã bị khoá nhận ca.';
+    }
+    return ['ok' => true, 'message' => $message];
+}
+
+/**
+ * Helper: Thông báo khách hàng khi thợ nhận ca
+ */
+function notify_customer_job_assigned(PDO $pdo, int $jobId, string $workerName): void
+{
+    try {
+        $job = get_job_row($pdo, $jobId);
+        if (!$job) return;
+        $customerPhone = (string)($job['customer_phone'] ?? '');
+        if (!$customerPhone) return;
+        $stmt = $pdo->prepare('SELECT id FROM users WHERE phone = ? LIMIT 1');
+        $stmt->execute([$customerPhone]);
+        $customerId = (int)($stmt->fetchColumn() ?: 0);
+        if ($customerId <= 0) return;
+
+        if (table_exists($pdo, 'in_app_notifications')) {
+            create_in_app_notification(
+                $pdo,
+                'customer',
+                $customerId,
+                "Thợ đã nhận ca của bạn 🔧",
+                "Thợ {$workerName} đang trên đường đến địa chỉ của bạn.",
+                'job_assigned',
+                'job',
+                $jobId,
+                ['job_id' => $jobId, 'worker_name' => $workerName]
+            );
+        }
+        // Push Expo đến khách
+        mobile_send_push($pdo, 'customer', $customerId, [
+            'title' => 'Thợ đã nhận ca của bạn 🔧',
+            'body'  => "Thợ {$workerName} đang đến địa chỉ của bạn.",
+            'data'  => ['job_id' => $jobId, 'type' => 'job_assigned'],
+        ]);
+    } catch (Throwable $e) {
+        error_log('[notify_customer_assigned] ' . $e->getMessage());
+    }
+}
+
+/**
+ * Helper: Thông báo khách hàng khi ca hoàn thành
+ */
+function notify_customer_job_completed(PDO $pdo, int $jobId): void
+{
+    try {
+        $job = get_job_row($pdo, $jobId);
+        if (!$job) return;
+        $customerPhone = (string)($job['customer_phone'] ?? '');
+        if (!$customerPhone) return;
+        $stmt = $pdo->prepare('SELECT id FROM users WHERE phone = ? LIMIT 1');
+        $stmt->execute([$customerPhone]);
+        $customerId = (int)($stmt->fetchColumn() ?: 0);
+        if ($customerId <= 0) return;
+
+        if (table_exists($pdo, 'in_app_notifications')) {
+            create_in_app_notification(
+                $pdo,
+                'customer',
+                $customerId,
+                "Ca hoàn thành ✅",
+                "Thợ đã hoàn thành ca #{$jobId}. Cảm ơn bạn đã sử dụng dịch vụ Điện Máy Hiếu!",
+                'job_completed',
+                'job',
+                $jobId,
+                ['job_id' => $jobId]
+            );
+        }
+        mobile_send_push($pdo, 'customer', $customerId, [
+            'title' => 'Ca hoàn thành ✅',
+            'body'  => "Ca #{$jobId} đã hoàn thành. Vui lòng đánh giá dịch vụ!",
+            'data'  => ['job_id' => $jobId, 'type' => 'job_completed'],
+        ]);
+    } catch (Throwable $e) {
+        error_log('[notify_customer_completed] ' . $e->getMessage());
+    }
+}
+
+/**
+ * Tạo mã thợ nội bộ: DTH-001, DTH-002, ...
+ */
+function generate_worker_code(PDO $pdo): string
+{
+    if (!column_exists($pdo, 'worker_profiles', 'worker_code')) {
+        return '';
+    }
+    $stmt = $pdo->query("SELECT MAX(CAST(SUBSTRING(worker_code, 5) AS UNSIGNED)) AS max_num FROM worker_profiles WHERE worker_code LIKE 'DTH-%'");
+    $row = $stmt->fetch();
+    $next = ((int)($row['max_num'] ?? 0)) + 1;
+    return 'DTH-' . str_pad((string)$next, 3, '0', STR_PAD_LEFT);
+}
+

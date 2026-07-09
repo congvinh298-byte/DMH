@@ -59,6 +59,36 @@ function mobile_handle_action(PDO $pdo, string $action, array $input): array
         case 'mobile_register_push_token':
             return mobile_register_push_token_action($pdo, $input);
 
+        // ===== CLOSED-LOOP: Auth bằng SĐT (không cần Telegram) =====
+        case 'mobile_worker_login_by_phone':
+            return mobile_worker_login_by_phone_action($pdo, $input);
+
+        // ===== CLOSED-LOOP: Quản lý ca làm việc =====
+        case 'mobile_worker_shift_start':
+            return mobile_worker_shift_start_action($pdo, $input);
+        case 'mobile_worker_shift_end':
+            return mobile_worker_shift_end_action($pdo, $input);
+        case 'mobile_worker_shift_status':
+            return mobile_worker_shift_status_action($pdo, $input);
+
+        // ===== CLOSED-LOOP: Nhận/xong/hủy ca qua App (không Telegram) =====
+        case 'mobile_worker_claim_job_v2':
+            return mobile_worker_claim_job_v2_action($pdo, $input);
+        case 'mobile_worker_complete_job':
+            return mobile_worker_complete_job_action($pdo, $input);
+        case 'mobile_worker_cancel_job_app':
+            return mobile_worker_cancel_job_app_action($pdo, $input);
+
+        // ===== CLOSED-LOOP: Thông báo nội bộ (thay Telegram DM) =====
+        case 'mobile_worker_notifications':
+            return mobile_worker_notifications_action($pdo, $input);
+        case 'mobile_worker_read_notification':
+            return mobile_worker_read_notification_action($pdo, $input);
+
+        // ===== CLOSED-LOOP: Dashboard tổng hợp =====
+        case 'mobile_worker_dashboard':
+            return mobile_worker_dashboard_action($pdo, $input);
+
         default:
             return ['status' => 'error', 'message' => 'Unknown mobile action: ' . $action, 'code' => 'UNKNOWN_ACTION'];
     }
@@ -1040,4 +1070,510 @@ function mobile_register_push_token_action(PDO $pdo, array $input): array
     ], 'id = ?', [(int)$session['id']], ['last_active_at' => 'NOW()']);
 
     return ['status' => 'success', 'message' => 'Da dang ky push token.'];
+}
+
+// ============================================================
+// CLOSED-LOOP: Worker Auth bằng SĐT + PIN (không cần Telegram)
+// ============================================================
+
+function mobile_worker_login_by_phone_action(PDO $pdo, array $input): array
+{
+    $phone = digits_only((string)($input['phone'] ?? ''));
+    $pin   = (string)($input['pin'] ?? '');
+
+    if (strlen($phone) < 8) {
+        return ['status' => 'error', 'message' => 'Số điện thoại không hợp lệ.', 'code' => 'INVALID_PHONE'];
+    }
+    if ($pin === '') {
+        return ['status' => 'error', 'message' => 'Vui lòng nhập PIN.', 'code' => 'MISSING_PIN'];
+    }
+
+    // Tìm thợ theo SĐT (cột phone trong worker_profiles)
+    $profile = null;
+    if (column_exists($pdo, 'worker_profiles', 'phone')) {
+        $stmt = $pdo->prepare('SELECT * FROM worker_profiles WHERE phone = ? LIMIT 1');
+        $stmt->execute([$phone]);
+        $profile = $stmt->fetch() ?: null;
+    }
+
+    // Fallback: tìm theo telegram_username (nếu SĐT chưa được map)
+    if (!$profile) {
+        $stmt = $pdo->prepare('SELECT * FROM worker_profiles WHERE phone = ? OR telegram_username = ? LIMIT 1');
+        $stmt->execute([$phone, $phone]);
+        $profile = $stmt->fetch() ?: null;
+    }
+
+    if (!$profile) {
+        return ['status' => 'error', 'message' => 'Số điện thoại chưa được đăng ký. Liên hệ admin để được cấp tài khoản.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+    if ((int)($profile['is_active'] ?? 1) !== 1) {
+        return ['status' => 'error', 'message' => 'Tài khoản thợ đang bị khoá.', 'code' => 'WORKER_INACTIVE'];
+    }
+
+    $pinHash = (string)($profile['pin_hash'] ?? '');
+    if ($pinHash === '') {
+        return [
+            'status'          => 'error',
+            'message'         => 'Tài khoản chưa đặt PIN. Liên hệ admin để được cấp PIN hoặc dùng action mobile_worker_set_pin.',
+            'code'            => 'PIN_NOT_SET',
+            'needs_pin_setup' => true,
+            'worker_id'       => (int)$profile['telegram_user_id'],
+        ];
+    }
+    if (!password_verify($pin, $pinHash)) {
+        return ['status' => 'error', 'message' => 'PIN không đúng.', 'code' => 'INVALID_PIN'];
+    }
+
+    $workerId = (int)$profile['telegram_user_id'];
+    $token = mobile_create_token($pdo, 'worker', $workerId);
+
+    // Cập nhật SĐT vào worker_profiles nếu chưa có
+    if (column_exists($pdo, 'worker_profiles', 'phone') && empty($profile['phone'])) {
+        update_compat($pdo, 'worker_profiles', ['phone' => $phone], 'telegram_user_id = ?', [$workerId], ['updated_at' => 'NOW()']);
+    }
+
+    return [
+        'status'      => 'success',
+        'token'       => $token,
+        'worker'      => mobile_worker_row($profile),
+        'shift_status' => (string)($profile['shift_status'] ?? 'off'),
+    ];
+}
+
+// ============================================================
+// CLOSED-LOOP: Quản lý Ca làm việc (Shift)
+// ============================================================
+
+/**
+ * Thợ bắt đầu ca — chuyển sang "Sẵn sàng" nhận đơn
+ */
+function mobile_worker_shift_start_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+    $lat = isset($input['lat']) && is_numeric($input['lat']) ? (float)$input['lat'] : null;
+    $lng = isset($input['lng']) && is_numeric($input['lng']) ? (float)$input['lng'] : null;
+
+    $profile = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['status' => 'error', 'message' => 'Không tìm thấy tài khoản thợ.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+    if ((string)($profile['shift_status'] ?? 'off') === 'on_shift') {
+        return ['status' => 'error', 'message' => 'Bạn đang trong ca làm việc rồi.', 'code' => 'ALREADY_ON_SHIFT'];
+    }
+
+    // Tạo bản ghi shift mới
+    $shiftId = 0;
+    if (table_exists($pdo, 'worker_shifts')) {
+        $shiftId = insert_compat($pdo, 'worker_shifts', [
+            'worker_id'  => $workerId,
+            'start_lat'  => $lat,
+            'start_lng'  => $lng,
+            'status'     => 'active',
+        ], ['started_at' => 'NOW()', 'created_at' => 'NOW()']);
+    }
+
+    // Cập nhật trạng thái thợ
+    $updateFields = ['shift_status' => 'on_shift', 'current_shift_id' => $shiftId ?: null];
+    if ($lat !== null) $updateFields['current_lat'] = $lat;
+    if ($lng !== null) $updateFields['current_lng'] = $lng;
+    if ($lat !== null || $lng !== null) $updateFields['last_location_at'] = null;
+
+    update_compat(
+        $pdo, 'worker_profiles',
+        $updateFields,
+        'telegram_user_id = ?', [$workerId],
+        array_merge(
+            ['updated_at' => 'NOW()'],
+            ($lat !== null || $lng !== null) ? ['last_location_at' => 'NOW()'] : []
+        )
+    );
+
+    return [
+        'status'      => 'success',
+        'message'     => 'Đã bắt đầu ca. Bạn đang trong danh sách sẵn sàng nhận đơn.',
+        'shift_id'    => $shiftId,
+        'shift_status' => 'on_shift',
+        'location'    => $lat !== null ? ['lat' => $lat, 'lng' => $lng] : null,
+    ];
+}
+
+/**
+ * Thợ kết thúc ca
+ */
+function mobile_worker_shift_end_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+    $lat = isset($input['lat']) && is_numeric($input['lat']) ? (float)$input['lat'] : null;
+    $lng = isset($input['lng']) && is_numeric($input['lng']) ? (float)$input['lng'] : null;
+
+    $profile = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['status' => 'error', 'message' => 'Không tìm thấy tài khoản thợ.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+
+    // Kiểm tra còn ca nào đang assigned không
+    $activeJobStmt = $pdo->prepare(
+        "SELECT COUNT(*) FROM job_posts
+         WHERE COALESCE(telegram_worker_id, worker_id, 0) = ?
+           AND status NOT IN ('completed','cancelled','spam','failed')
+           AND completed_at IS NULL"
+    );
+    $activeJobStmt->execute([$workerId]);
+    $activeJobs = (int)$activeJobStmt->fetchColumn();
+    if ($activeJobs > 0) {
+        return [
+            'status'  => 'error',
+            'message' => "Bạn còn {$activeJobs} ca chưa hoàn thành. Vui lòng hoàn thành hoặc hủy ca trước khi kết thúc ca trực.",
+            'code'    => 'HAS_ACTIVE_JOBS',
+        ];
+    }
+
+    // Đóng shift record
+    $shiftId = (int)($profile['current_shift_id'] ?? 0);
+    if ($shiftId > 0 && table_exists($pdo, 'worker_shifts')) {
+        $updateShift = ['status' => 'ended'];
+        if ($lat !== null) $updateShift['end_lat'] = $lat;
+        if ($lng !== null) $updateShift['end_lng'] = $lng;
+        update_compat($pdo, 'worker_shifts', $updateShift, 'id = ?', [$shiftId], ['ended_at' => 'NOW()', 'updated_at' => 'NOW()']);
+    }
+
+    update_compat(
+        $pdo, 'worker_profiles',
+        ['shift_status' => 'off', 'current_shift_id' => null],
+        'telegram_user_id = ?', [$workerId],
+        ['updated_at' => 'NOW()']
+    );
+
+    // Lấy tổng thu nhập trong ca
+    $earnings = [];
+    if ($shiftId > 0 && table_exists($pdo, 'worker_shifts')) {
+        $shiftStmt = $pdo->prepare('SELECT * FROM worker_shifts WHERE id = ? LIMIT 1');
+        $shiftStmt->execute([$shiftId]);
+        $shift = $shiftStmt->fetch();
+        $earnings = [
+            'jobs_received'  => (int)($shift['jobs_received'] ?? 0),
+            'jobs_completed' => (int)($shift['jobs_completed'] ?? 0),
+            'total_earned'   => (int)($shift['total_earned'] ?? 0),
+        ];
+    }
+
+    return [
+        'status'      => 'success',
+        'message'     => 'Đã kết thúc ca. Cảm ơn bạn đã làm việc!',
+        'shift_id'    => $shiftId,
+        'shift_status' => 'off',
+        'shift_summary' => $earnings,
+    ];
+}
+
+/**
+ * Lấy trạng thái ca hiện tại
+ */
+function mobile_worker_shift_status_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+    $profile  = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['status' => 'error', 'message' => 'Không tìm thấy tài khoản thợ.'];
+    }
+    $shiftStatus = (string)($profile['shift_status'] ?? 'off');
+    $shiftId = (int)($profile['current_shift_id'] ?? 0);
+    $shift = null;
+    if ($shiftId > 0 && table_exists($pdo, 'worker_shifts')) {
+        $stmt = $pdo->prepare('SELECT * FROM worker_shifts WHERE id = ? LIMIT 1');
+        $stmt->execute([$shiftId]);
+        $row = $stmt->fetch();
+        if ($row) {
+            $shift = [
+                'id'         => (int)$row['id'],
+                'started_at' => (string)$row['started_at'],
+                'status'     => (string)$row['status'],
+            ];
+        }
+    }
+    return [
+        'status'      => 'success',
+        'shift_status' => $shiftStatus,
+        'current_shift' => $shift,
+        'worker'      => mobile_worker_row($profile),
+    ];
+}
+
+// ============================================================
+// CLOSED-LOOP: Nhận / Hoàn thành / Hủy ca qua App
+// ============================================================
+
+/**
+ * Nhận ca mới qua App (không qua Telegram callback)
+ */
+function mobile_worker_claim_job_v2_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+    $jobId    = (int)($input['job_id'] ?? 0);
+
+    if ($jobId <= 0) {
+        return ['status' => 'error', 'message' => 'Thiếu job_id.', 'code' => 'MISSING_JOB_ID'];
+    }
+
+    $result = claim_job_via_app($pdo, $jobId, $workerId);
+    if (empty($result['ok'])) {
+        return ['status' => 'error', 'message' => $result['message'] ?? 'Nhận ca thất bại.', 'code' => $result['code'] ?? 'CLAIM_FAILED'];
+    }
+
+    $job = get_job_row($pdo, $jobId);
+    return [
+        'status'  => 'success',
+        'message' => $result['message'],
+        'job'     => $job ? mobile_job_row($pdo, $job) : null,
+    ];
+}
+
+/**
+ * Hoàn thành ca qua App (thay thế reply "XONG" trên Telegram)
+ */
+function mobile_worker_complete_job_action(PDO $pdo, array $input): array
+{
+    $session      = mobile_require_auth($pdo, $input, 'worker');
+    $workerId     = (int)$session['user_id'];
+    $jobId        = (int)($input['job_id'] ?? 0);
+    $actualAmount = (int)($input['actual_amount'] ?? $input['amount'] ?? 0);
+
+    if ($jobId <= 0) {
+        return ['status' => 'error', 'message' => 'Thiếu job_id.', 'code' => 'MISSING_JOB_ID'];
+    }
+
+    // Lưu ảnh hoàn thành nếu có
+    $images = $input['images'] ?? [];
+    if (!empty($images) && is_array($images)) {
+        $existingJob = get_job_row($pdo, $jobId);
+        if ($existingJob) {
+            $existing = json_decode((string)($existingJob['images'] ?? ''), true) ?: [];
+            $merged = array_merge($existing, $images);
+            $pdo->prepare('UPDATE job_posts SET images = ? WHERE id = ?')->execute([json_encode($merged), $jobId]);
+        }
+    }
+
+    $result = complete_job_via_app($pdo, $jobId, $workerId, $actualAmount);
+    if (empty($result['ok'])) {
+        return ['status' => 'error', 'message' => $result['message'] ?? 'Hoàn thành ca thất bại.', 'code' => $result['code'] ?? 'COMPLETE_FAILED'];
+    }
+
+    $job = get_job_row($pdo, $jobId);
+    return [
+        'status'          => 'success',
+        'message'         => $result['message'],
+        'platform_fee'    => $result['platform_fee'] ?? 0,
+        'cumulative_debt' => $result['cumulative_debt'] ?? 0,
+        'job'             => $job ? mobile_job_row($pdo, $job) : null,
+    ];
+}
+
+/**
+ * Hủy ca qua App (thay thế reply "HUY" trên Telegram)
+ */
+function mobile_worker_cancel_job_app_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+    $jobId    = (int)($input['job_id'] ?? 0);
+    $reason   = clean_string($input['reason'] ?? '', 500);
+
+    if ($jobId <= 0) {
+        return ['status' => 'error', 'message' => 'Thiếu job_id.', 'code' => 'MISSING_JOB_ID'];
+    }
+
+    $result = cancel_job_via_app($pdo, $jobId, $workerId, $reason);
+    if (empty($result['ok'])) {
+        return ['status' => 'error', 'message' => $result['message'] ?? 'Hủy ca thất bại.', 'code' => $result['code'] ?? 'CANCEL_FAILED'];
+    }
+
+    return ['status' => 'success', 'message' => $result['message'], 'job_id' => $jobId];
+}
+
+// ============================================================
+// CLOSED-LOOP: Thông báo nội bộ (thay Telegram DM)
+// ============================================================
+
+/**
+ * Lấy danh sách thông báo nội bộ của thợ
+ */
+function mobile_worker_notifications_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+
+    if (!table_exists($pdo, 'in_app_notifications')) {
+        return ['status' => 'success', 'notifications' => [], 'unread_count' => 0];
+    }
+
+    $limit  = max(1, min(100, (int)($input['limit'] ?? $_GET['limit'] ?? 30)));
+    $offset = max(0, (int)($input['offset'] ?? $_GET['offset'] ?? 0));
+    $unreadOnly = !empty($input['unread_only']) || !empty($_GET['unread_only']);
+
+    $where  = 'target_type = ? AND target_id = ?';
+    $params = ['worker', $workerId];
+    if ($unreadOnly) {
+        $where .= ' AND is_read = 0';
+    }
+
+    $countStmt = $pdo->prepare("SELECT COUNT(*) FROM in_app_notifications WHERE {$where}");
+    $countStmt->execute($params);
+    $total = (int)$countStmt->fetchColumn();
+
+    $unreadStmt = $pdo->prepare("SELECT COUNT(*) FROM in_app_notifications WHERE target_type = 'worker' AND target_id = ? AND is_read = 0");
+    $unreadStmt->execute([$workerId]);
+    $unreadCount = (int)$unreadStmt->fetchColumn();
+
+    $stmt = $pdo->prepare("SELECT * FROM in_app_notifications WHERE {$where} ORDER BY created_at DESC LIMIT ? OFFSET ?");
+    $stmt->execute(array_merge($params, [$limit, $offset]));
+    $rows = $stmt->fetchAll();
+
+    $notifications = array_map(static function (array $n): array {
+        return [
+            'id'             => (int)$n['id'],
+            'title'          => (string)$n['title'],
+            'body'           => (string)$n['body'],
+            'type'           => (string)$n['type'],
+            'reference_type' => (string)($n['reference_type'] ?? ''),
+            'reference_id'   => isset($n['reference_id']) ? (int)$n['reference_id'] : null,
+            'payload'        => !empty($n['payload']) ? json_decode($n['payload'], true) : null,
+            'is_read'        => (bool)$n['is_read'],
+            'read_at'        => (string)($n['read_at'] ?? ''),
+            'created_at'     => (string)$n['created_at'],
+        ];
+    }, $rows);
+
+    return [
+        'status'        => 'success',
+        'total'         => $total,
+        'unread_count'  => $unreadCount,
+        'limit'         => $limit,
+        'offset'        => $offset,
+        'notifications' => $notifications,
+    ];
+}
+
+/**
+ * Đánh dấu thông báo đã đọc
+ * Gửi notification_id=0 hoặc mark_all=true để đánh dấu tất cả
+ */
+function mobile_worker_read_notification_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+
+    if (!table_exists($pdo, 'in_app_notifications')) {
+        return ['status' => 'success', 'message' => 'Đã đánh dấu đọc.'];
+    }
+
+    $markAll = !empty($input['mark_all']) || !empty($_GET['mark_all']);
+    $notifId = (int)($input['notification_id'] ?? $input['id'] ?? 0);
+
+    if ($markAll) {
+        $pdo->prepare(
+            "UPDATE in_app_notifications SET is_read = 1, read_at = NOW()
+             WHERE target_type = 'worker' AND target_id = ? AND is_read = 0"
+        )->execute([$workerId]);
+        return ['status' => 'success', 'message' => 'Đã đánh dấu tất cả đã đọc.'];
+    }
+
+    if ($notifId <= 0) {
+        return ['status' => 'error', 'message' => 'Thiếu notification_id.', 'code' => 'MISSING_NOTIF_ID'];
+    }
+
+    $pdo->prepare(
+        "UPDATE in_app_notifications SET is_read = 1, read_at = NOW()
+         WHERE id = ? AND target_type = 'worker' AND target_id = ?"
+    )->execute([$notifId, $workerId]);
+
+    return ['status' => 'success', 'message' => 'Đã đánh dấu đọc.', 'notification_id' => $notifId];
+}
+
+// ============================================================
+// CLOSED-LOOP: Worker Dashboard — Tổng hợp
+// ============================================================
+
+/**
+ * Dashboard tổng hợp cho Worker App:
+ * - Thông tin thợ + trạng thái ca
+ * - Danh sách ca đang assigned
+ * - Thu nhập tháng hiện tại
+ * - Thông báo chưa đọc
+ * - Phí nền tảng còn nợ
+ */
+function mobile_worker_dashboard_action(PDO $pdo, array $input): array
+{
+    $session  = mobile_require_auth($pdo, $input, 'worker');
+    $workerId = (int)$session['user_id'];
+    $profile  = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['status' => 'error', 'message' => 'Không tìm thấy tài khoản thợ.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+
+    // Ca đang assigned
+    $activeJobsStmt = $pdo->prepare(
+        "SELECT * FROM job_posts
+         WHERE COALESCE(telegram_worker_id, worker_id, 0) = ?
+           AND status NOT IN ('completed','cancelled','spam','failed')
+           AND completed_at IS NULL
+         ORDER BY assigned_at DESC LIMIT 5"
+    );
+    $activeJobsStmt->execute([$workerId]);
+    $activeJobs = array_map(
+        static fn(array $job): array => mobile_job_row($pdo, $job),
+        $activeJobsStmt->fetchAll()
+    );
+
+    // Thu nhập tháng hiện tại
+    $month    = date('Y-m');
+    $earnings = mobile_worker_earnings_internal($pdo, $workerId, $month);
+
+    // Thông báo chưa đọc
+    $unreadCount = 0;
+    $recentNotifications = [];
+    if (table_exists($pdo, 'in_app_notifications')) {
+        $unreadStmt = $pdo->prepare(
+            "SELECT COUNT(*) FROM in_app_notifications
+             WHERE target_type = 'worker' AND target_id = ? AND is_read = 0"
+        );
+        $unreadStmt->execute([$workerId]);
+        $unreadCount = (int)$unreadStmt->fetchColumn();
+
+        $recentStmt = $pdo->prepare(
+            "SELECT * FROM in_app_notifications
+             WHERE target_type = 'worker' AND target_id = ?
+             ORDER BY created_at DESC LIMIT 5"
+        );
+        $recentStmt->execute([$workerId]);
+        $recentNotifications = array_map(static function (array $n): array {
+            return [
+                'id'         => (int)$n['id'],
+                'title'      => (string)$n['title'],
+                'body'       => (string)$n['body'],
+                'type'       => (string)$n['type'],
+                'is_read'    => (bool)$n['is_read'],
+                'payload'    => !empty($n['payload']) ? json_decode($n['payload'], true) : null,
+                'created_at' => (string)$n['created_at'],
+            ];
+        }, $recentStmt->fetchAll());
+    }
+
+    // Phí nền tảng còn nợ
+    $feeDebt = worker_fee_debt($pdo, $workerId);
+
+    return [
+        'status'               => 'success',
+        'worker'               => mobile_worker_row($profile),
+        'shift_status'         => (string)($profile['shift_status'] ?? 'off'),
+        'active_jobs'          => $activeJobs,
+        'active_jobs_count'    => count($activeJobs),
+        'earnings_this_month'  => $earnings,
+        'fee_debt'             => $feeDebt,
+        'unread_notifications' => $unreadCount,
+        'recent_notifications' => $recentNotifications,
+    ];
 }

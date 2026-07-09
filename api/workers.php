@@ -1051,3 +1051,325 @@ function admin_worker_payments(PDO $pdo, int $limit = 200): array
         ORDER BY p.id DESC LIMIT {$limit}");
     return $stmt->fetchAll();
 }
+
+// ================================================================
+// ADMIN CRUD — QUẢN LÝ TÀI KHOẢN THỢ (CLOSED-LOOP, KHÔNG CẦN TELEGRAM)
+// Chủ cửa hàng có thể tạo, cập nhật, khóa/mở tài khoản thợ
+// hoàn toàn qua Admin Panel mà không cần Telegram ID
+// ================================================================
+
+/**
+ * Tạo tài khoản thợ mới từ Admin Panel
+ *
+ * Tự động:
+ * - Sinh worker_code: DTH-001, DTH-002, ...
+ * - Sinh telegram_user_id nội bộ (âm số, không trùng Telegram)
+ * - Set pin tạm thời nếu được cung cấp
+ *
+ * @param  array $data  [fullname, phone, address, skill_tags[], pin, worker_type]
+ * @return array [success, worker_id, worker_code, message]
+ */
+function admin_create_worker_account(PDO $pdo, array $data): array
+{
+    $fullname    = clean_string($data['fullname'] ?? $data['name'] ?? '', 150);
+    $phone       = digits_only((string)($data['phone'] ?? ''));
+    $address     = clean_string($data['address'] ?? '', 500);
+    $skillTags   = $data['skill_tags'] ?? [];
+    $pin         = (string)($data['pin'] ?? '');
+    $workerType  = clean_string($data['worker_type'] ?? 'ho_kinh_doanh', 50);
+    $note        = clean_string($data['note'] ?? '', 500);
+
+    // Validate
+    $errors = [];
+    if ($fullname === '') $errors[] = 'Tên thợ không được để trống.';
+    if (strlen($phone) < 9) $errors[] = 'Số điện thoại không hợp lệ (tối thiểu 9 chữ số).';
+    if (!empty($pin) && !preg_match('/^\d{4,6}$/', $pin)) {
+        $errors[] = 'PIN phải từ 4-6 chữ số.';
+    }
+    if (!empty($errors)) {
+        return ['success' => false, 'message' => implode(' ', $errors), 'errors' => $errors];
+    }
+
+    // Kiểm tra SĐT đã tồn tại chưa
+    if (column_exists($pdo, 'worker_profiles', 'phone')) {
+        $check = $pdo->prepare('SELECT telegram_user_id FROM worker_profiles WHERE phone = ? LIMIT 1');
+        $check->execute([$phone]);
+        if ($check->fetchColumn()) {
+            return ['success' => false, 'message' => 'Số điện thoại này đã được đăng ký cho một thợ khác.', 'code' => 'PHONE_EXISTS'];
+        }
+    }
+
+    // Sinh internal worker ID (dùng timestamp âm để phân biệt với Telegram ID thật)
+    // Telegram ID thật luôn > 0, internal ID dùng timestamp để unique
+    $internalWorkerId = -1 * (int)microtime(true);
+
+    // Sinh mã thợ
+    $workerCode = generate_worker_code($pdo);
+
+    // Hash PIN nếu có
+    $pinHash = $pin !== '' ? password_hash($pin, PASSWORD_BCRYPT) : null;
+
+    // Ghi vào worker_profiles
+    $insertData = [
+        'telegram_user_id'  => $internalWorkerId,
+        'telegram_name'     => $fullname,
+        'identity_code'     => $workerCode ?: $phone,
+        'role'              => 'worker',
+        'is_admin'          => 0,
+        'is_active'         => 1,
+        'worker_type'       => $workerType,
+        'phone'             => $phone,
+        'address'           => $address,
+        'pin_hash'          => $pinHash,
+        'skill_tags'        => !empty($skillTags) ? json_encode($skillTags, JSON_UNESCAPED_UNICODE) : null,
+        'worker_code'       => $workerCode ?: null,
+        'shift_status'      => 'off',
+        'jobs_claimed'      => 0,
+        'jobs_completed'    => 0,
+        'cancel_count'      => 0,
+        'rating_score'      => 5.0,
+        'rating_count'      => 0,
+        'registered_by'     => admin_telegram_id(),
+    ];
+
+    insert_compat($pdo, 'worker_profiles', $insertData, ['created_at' => 'NOW()', 'updated_at' => 'NOW()']);
+
+    return [
+        'success'     => true,
+        'message'     => "Đã tạo tài khoản thợ {$fullname} ({$workerCode}) thành công.",
+        'worker_id'   => $internalWorkerId,
+        'worker_code' => $workerCode,
+        'phone'       => $phone,
+        'pin_set'     => $pinHash !== null,
+    ];
+}
+
+/**
+ * Cập nhật thông tin tài khoản thợ từ Admin Panel
+ *
+ * @param  int   $workerId  telegram_user_id (hoặc internal ID)
+ * @param  array $data      Các field cần cập nhật
+ * @return array [success, message]
+ */
+function admin_update_worker_account(PDO $pdo, int $workerId, array $data): array
+{
+    $profile = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['success' => false, 'message' => 'Không tìm thấy tài khoản thợ.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+
+    $updateFields = [];
+
+    if (isset($data['fullname']) && $data['fullname'] !== '') {
+        $updateFields['telegram_name'] = clean_string($data['fullname'], 150);
+    }
+    if (isset($data['phone'])) {
+        $phone = digits_only((string)$data['phone']);
+        if (strlen($phone) >= 9) {
+            // Kiểm tra SĐT không trùng với thợ khác
+            if (column_exists($pdo, 'worker_profiles', 'phone')) {
+                $check = $pdo->prepare('SELECT telegram_user_id FROM worker_profiles WHERE phone = ? AND telegram_user_id != ? LIMIT 1');
+                $check->execute([$phone, $workerId]);
+                if ($check->fetchColumn()) {
+                    return ['success' => false, 'message' => 'Số điện thoại này đã được đăng ký cho thợ khác.', 'code' => 'PHONE_EXISTS'];
+                }
+            }
+            $updateFields['phone'] = $phone;
+        }
+    }
+    if (isset($data['address'])) {
+        $updateFields['address'] = clean_string($data['address'], 500);
+    }
+    if (isset($data['skill_tags']) && is_array($data['skill_tags'])) {
+        $updateFields['skill_tags'] = json_encode($data['skill_tags'], JSON_UNESCAPED_UNICODE);
+    }
+    if (isset($data['worker_type'])) {
+        $updateFields['worker_type'] = clean_string($data['worker_type'], 50);
+    }
+    if (isset($data['pin'])) {
+        $newPin = (string)$data['pin'];
+        if (preg_match('/^\d{4,6}$/', $newPin)) {
+            $updateFields['pin_hash'] = password_hash($newPin, PASSWORD_BCRYPT);
+        } else {
+            return ['success' => false, 'message' => 'PIN mới phải từ 4-6 chữ số.', 'code' => 'INVALID_PIN'];
+        }
+    }
+    // Reset PIN (xóa PIN để thợ tự set lại)
+    if (!empty($data['reset_pin'])) {
+        $updateFields['pin_hash'] = null;
+    }
+
+    if (empty($updateFields)) {
+        return ['success' => false, 'message' => 'Không có thông tin nào để cập nhật.', 'code' => 'NOTHING_TO_UPDATE'];
+    }
+
+    update_compat($pdo, 'worker_profiles', $updateFields, 'telegram_user_id = ?', [$workerId], ['updated_at' => 'NOW()']);
+
+    return ['success' => true, 'message' => 'Đã cập nhật thông tin thợ thành công.', 'worker_id' => $workerId];
+}
+
+/**
+ * Khoá / Mở khoá tài khoản thợ
+ *
+ * @param  int    $workerId  telegram_user_id
+ * @param  bool   $isActive  true = mở khoá, false = khoá
+ * @param  string $reason    Lý do khoá (nếu khoá)
+ * @return array [success, message]
+ */
+function admin_toggle_worker_status(PDO $pdo, int $workerId, bool $isActive, string $reason = ''): array
+{
+    $profile = get_worker_profile($pdo, $workerId);
+    if (!$profile) {
+        return ['success' => false, 'message' => 'Không tìm thấy tài khoản thợ.', 'code' => 'WORKER_NOT_FOUND'];
+    }
+
+    $updateFields = ['is_active' => $isActive ? 1 : 0];
+    if (!$isActive && $reason !== '') {
+        $updateFields['block_reason'] = clean_string($reason, 500);
+        // Nếu khoá → kết thúc ca ngay lập tức
+        $updateFields['shift_status'] = 'off';
+        $updateFields['current_shift_id'] = null;
+    } elseif ($isActive) {
+        $updateFields['block_reason'] = null;
+    }
+
+    update_compat($pdo, 'worker_profiles', $updateFields, 'telegram_user_id = ?', [$workerId], ['updated_at' => 'NOW()']);
+
+    $name = (string)($profile['telegram_name'] ?? "Thợ #{$workerId}");
+    $action = $isActive ? 'mở khoá' : 'khoá';
+
+    // Thông báo nội bộ cho thợ
+    if (table_exists($pdo, 'in_app_notifications')) {
+        create_in_app_notification(
+            $pdo,
+            'worker',
+            $workerId,
+            $isActive ? '✅ Tài khoản đã được mở khoá' : '🔒 Tài khoản bị khoá',
+            $isActive
+                ? 'Tài khoản của bạn đã được mở khoá. Bạn có thể bắt đầu ca và nhận đơn.'
+                : "Tài khoản của bạn bị khoá. Lý do: " . ($reason ?: 'Vi phạm quy định.') . " Liên hệ admin để biết thêm.",
+            $isActive ? 'admin_msg' : 'admin_msg',
+            '',
+            0
+        );
+    }
+
+    return ['success' => true, 'message' => "Đã {$action} tài khoản thợ {$name}."];
+}
+
+/**
+ * Danh sách thợ từ Admin Panel (v2) — kèm trạng thái ca + worker_code
+ *
+ * @param  array $filters [shift_status, is_active, search]
+ * @param  int   $limit
+ * @param  int   $offset
+ * @return array
+ */
+function admin_workers_list_v2(PDO $pdo, array $filters = [], int $limit = 100, int $offset = 0): array
+{
+    if (!table_exists($pdo, 'worker_profiles')) {
+        return ['total' => 0, 'workers' => []];
+    }
+
+    $where  = '1=1';
+    $params = [];
+
+    if (isset($filters['is_active'])) {
+        $where .= ' AND wp.is_active = ?';
+        $params[] = $filters['is_active'] ? 1 : 0;
+    }
+    if (isset($filters['shift_status']) && $filters['shift_status'] !== '') {
+        if (column_exists($pdo, 'worker_profiles', 'shift_status')) {
+            $where .= ' AND wp.shift_status = ?';
+            $params[] = $filters['shift_status'];
+        }
+    }
+    if (isset($filters['search']) && $filters['search'] !== '') {
+        $q = '%' . $filters['search'] . '%';
+        $where .= ' AND (wp.telegram_name LIKE ? OR wp.phone LIKE ? OR wp.worker_code LIKE ? OR wp.identity_code LIKE ?)';
+        $params[] = $q; $params[] = $q; $params[] = $q; $params[] = $q;
+    }
+
+    $countStmt = $pdo->prepare("SELECT COUNT(*) FROM worker_profiles wp WHERE {$where}");
+    $countStmt->execute($params);
+    $total = (int)$countStmt->fetchColumn();
+
+    // Build SELECT — chỉ lấy các cột chắc chắn tồn tại + optional columns
+    $optCols = [];
+    $optionalColumns = ['phone', 'address', 'skill_tags', 'shift_status', 'current_lat', 'current_lng', 'worker_code', 'current_shift_id'];
+    foreach ($optionalColumns as $col) {
+        if (column_exists($pdo, 'worker_profiles', $col)) {
+            $optCols[] = "wp.{$col}";
+        }
+    }
+    $optColsStr = $optCols ? ', ' . implode(', ', $optCols) : '';
+
+    $stmt = $pdo->prepare("
+        SELECT
+            wp.telegram_user_id, wp.telegram_name, wp.telegram_username, wp.identity_code,
+            wp.role, wp.is_admin, wp.is_active, wp.worker_type,
+            wp.jobs_claimed, wp.jobs_completed, wp.cancel_count, wp.rating_score, wp.rating_count,
+            wp.payment_blocked, wp.is_receive_blocked, wp.block_reason,
+            wp.total_paid_fee, wp.last_payment_amount, wp.last_payment_at,
+            wp.created_at, wp.updated_at
+            {$optColsStr},
+            COALESCE((
+                SELECT COUNT(*) FROM job_posts j
+                WHERE COALESCE(j.telegram_worker_id, j.worker_id) = wp.telegram_user_id
+                  AND j.completed_at IS NOT NULL
+            ), 0) AS completed_jobs_total,
+            COALESCE((
+                SELECT SUM(GREATEST(jp.platform_fee - COALESCE(jp.paid_amount, 0), 0))
+                FROM job_pricing jp
+                JOIN job_posts j ON j.id = jp.job_id
+                WHERE COALESCE(j.telegram_worker_id, j.worker_id) = wp.telegram_user_id
+                  AND j.completed_at IS NOT NULL
+            ), 0) AS fee_debt
+        FROM worker_profiles wp
+        WHERE {$where}
+        ORDER BY wp.is_admin DESC, wp.is_active DESC, wp.updated_at DESC
+        LIMIT ? OFFSET ?
+    ");
+    $stmt->execute(array_merge($params, [$limit, $offset]));
+    $rows = $stmt->fetchAll();
+
+    $workers = array_map(static function (array $row): array {
+        // Decode skill_tags JSON nếu có
+        $skillTags = [];
+        if (!empty($row['skill_tags'])) {
+            $decoded = json_decode($row['skill_tags'], true);
+            $skillTags = is_array($decoded) ? $decoded : [];
+        }
+
+        return [
+            'worker_id'    => (int)$row['telegram_user_id'],
+            'name'         => (string)($row['telegram_name'] ?? ''),
+            'phone'        => (string)($row['phone'] ?? ''),
+            'worker_code'  => (string)($row['worker_code'] ?? ''),
+            'identity_code' => (string)($row['identity_code'] ?? ''),
+            'role'         => (string)($row['role'] ?? 'worker'),
+            'is_admin'     => (bool)$row['is_admin'],
+            'is_active'    => (bool)$row['is_active'],
+            'worker_type'  => (string)($row['worker_type'] ?? ''),
+            'shift_status' => (string)($row['shift_status'] ?? 'off'),
+            'skill_tags'   => $skillTags,
+            'address'      => (string)($row['address'] ?? ''),
+            'jobs_claimed'     => (int)$row['jobs_claimed'],
+            'jobs_completed'   => (int)$row['jobs_completed'],
+            'cancel_count'     => (int)$row['cancel_count'],
+            'rating_score'     => (float)$row['rating_score'],
+            'rating_count'     => (int)$row['rating_count'],
+            'payment_blocked'  => (bool)$row['payment_blocked'],
+            'receive_blocked'  => (bool)$row['is_receive_blocked'],
+            'block_reason'     => (string)($row['block_reason'] ?? ''),
+            'fee_debt'         => (int)($row['fee_debt'] ?? 0),
+            'total_paid_fee'   => (int)($row['total_paid_fee'] ?? 0),
+            'last_payment_at'  => (string)($row['last_payment_at'] ?? ''),
+            'created_at'       => (string)($row['created_at'] ?? ''),
+            'updated_at'       => (string)($row['updated_at'] ?? ''),
+        ];
+    }, $rows);
+
+    return ['total' => $total, 'limit' => $limit, 'offset' => $offset, 'workers' => $workers];
+}
+
