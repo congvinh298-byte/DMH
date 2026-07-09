@@ -433,7 +433,7 @@ if (isset($_ENV['SITE_PASSWORD_PROTECT']) && (string)$_ENV['SITE_PASSWORD_PROTEC
 </head>
 <body>
 <main>
-    <img src="//assets/images/logo.png" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
+    <img src="/assets/images/logo.png" alt="Logo" class="logo" onerror="this.src=\'data:image/svg+xml;utf8,<svg xmlns=\\\'http://www.w3.org/2000/svg\\\' width=\\\'80\\\' height=\\\'80\\\' viewBox=\\\'0 0 80 80\\\'>&lt;rect width=\\\x22100%\\\x22 height=\\\x22100%\\\x22 fill=\\\x22%23ea580c\\\x22/&gt;&lt;text x=\\\x2250%\\\x22 y=\\\x2255%\\\x22 font-family=\\\x22sans-serif\\\x22 font-size=\\\x2216\\\x22 fill=\\\x22white\\\x22 font-weight=\\\x22bold\\\x22 text-anchor=\\\x22middle\\\x22&gt;DTH&lt;/text&gt;</svg>\'">
     <h1>Khu vực Thử nghiệm</h1>
     <p>Website đang trong chế độ thử nghiệm nội bộ để cơ quan quản lý duyệt hồ sơ. Vui lòng nhập mật khẩu được cung cấp để tiếp tục.</p>
     ' . $errorHtml . '
@@ -1101,91 +1101,7 @@ $services = array(
     </div>
 </div>
 
-<!-- Modal Đăng nhập (Thật) -->
-<div id="modalLogin" class="dth-modal">
-    <div class="dth-modal-content" style="max-width: 420px; text-align: center; border-radius: 20px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
-        <span class="dth-modal-close" onclick="document.getElementById('modalLogin').style.display='none'" style="font-size: 30px; right: 20px; top: 15px;">&times;</span>
-        <img src="/assets/images/logo.png" alt="Logo" style="width: 70px; height: 70px; border-radius: 16px; margin-bottom: 15px; object-fit: contain; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
-        <h2 style="margin-top: 0; color: #111827; font-size: 24px; font-weight: 900;">Đăng Nhập <br><span style="color: #dc2626; font-size: 20px;">Điện Máy Hiếu</span></h2>
-        <p style="color: #6b7280; font-size: 14px; margin-bottom: 25px;">Chào mừng bạn quay lại, vui lòng chọn phương thức đăng nhập.</p>
 
-        <div id="loginMethods">
-            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #dc2626; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(220, 38, 38, 0.2);" onclick="showPhoneLogin()">📱 Tiếp tục với Số điện thoại</button>
-            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #2563eb; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);" onclick="showEmailLogin()">✉️ Tiếp tục với Email &amp; Mật khẩu</button>
-            <button class="btn" style="width: 100%; margin-bottom: 12px; background: #10b981; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);" onclick="showQrLogin()">🪪 Đăng nhập bằng Mã Thẻ / QR</button>
-            <button class="btn" style="width: 100%; margin-bottom: 20px; background: #7c3aed; color: white; border-radius: 12px; padding: 12px; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0 4px 6px -1px rgba(124, 58, 237, 0.2);" onclick="showWorkerLogin()">🛠️ Đăng nhập Thợ (Nội bộ)</button>
-
-            
-
-            <div style="font-size: 12px; color: #6b7280; text-align: start; background: #fef2f2; padding: 12px; border-radius: 8px; border: 1px solid #fee2e2;">
-                <label style="display: flex; gap: 8px; font-weight: normal; cursor: pointer; align-items: flex-start;">
-                    <input type="checkbox" id="tosCheck" checked style="margin-top: 3px;">
-                    <span style="line-height: 1.4;">Bằng việc tiếp tục, tôi xác nhận đã đọc và đồng ý với <a href="javascript:void(0)" onclick="openModal('quyche'); document.getElementById('modalLogin').style.display='none'" style="color: #dc2626; font-weight: bold; text-decoration: underline;">Điều khoản dịch vụ</a> và <a href="javascript:void(0)" onclick="openModal('baomat'); document.getElementById('modalLogin').style.display='none'" style="color: #dc2626; font-weight: bold; text-decoration: underline;">Chính sách bảo mật</a> của hệ thống.</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- Form đăng nhập SĐT -->
-        <div id="phoneLoginForm" style="display: none; text-align: start;">
-            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập bằng Số điện thoại</p>
-            <label style="font-size: 13px; font-weight: bold;">Họ và Tên</label>
-            <input type="text" id="loginNameInput" placeholder="VD: Nguyễn Văn A" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <label style="font-size: 13px; font-weight: bold;">Số điện thoại</label>
-            <input type="tel" id="loginPhoneInput" placeholder="VD: 0979553289" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <button id="phoneLoginSubmitBtn" class="btn primary" style="width: 100%; background: #dc2626;" onclick="submitPhoneLogin()">Đăng nhập / Đăng ký</button>
-            <div id="phoneLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('phoneLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
-        </div>
-
-        <!-- Form QR / Mã thẻ (Khách hàng) -->
-        <div id="qrLoginForm" style="display: none; text-align: start;">
-            <p style="margin-bottom: 10px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập bằng Mã Thẻ / QR</p>
-            <p style="font-size: 13px; color: #6b7280; text-align: center; margin-bottom: 15px;">Nhập mã thẻ hoặc quét QR từ app.</p>
-            <div id="qr-reader-login" style="width:100%; margin-bottom: 12px; border-radius: 8px; overflow: hidden; background: #f3f4f6; min-height: 60px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: #9ca3af;">Khởi động camera...</div>
-            <input type="text" id="loginKeyInput" placeholder="Hoặc nhập thủ công: DTH-WORKER:0979553289" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-family: monospace; font-size: 13px;">
-            <button id="loginSubmitBtn" class="btn primary" style="width: 100%; background: #10b981;" onclick="submitLogin()">Xác nhận Đăng nhập</button>
-            <div id="loginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="closeQrLogin()">Quay lại</button>
-        </div>
-
-        <!-- Form Thợ đăng nhập nội bộ (phone + PIN) -->
-        <div id="workerLoginForm" style="display: none; text-align: start;">
-            <div style="text-align: center; margin-bottom: 16px;">
-                <span style="display: inline-block; background: #7c3aed; color: white; border-radius: 50%; width: 48px; height: 48px; line-height: 48px; font-size: 24px;">🛠️</span>
-                <p style="margin: 8px 0 4px; font-weight: bold; color: #374151; font-size: 18px;">Đăng nhập Thợ</p>
-                <p style="font-size: 12px; color: #6b7280;">Hệ thống nội bộ Điện Máy Hiếu</p>
-            </div>
-            <label style="font-size: 13px; font-weight: bold;">Số điện thoại / Mã thợ</label>
-            <input type="tel" id="workerPhoneInput" placeholder="VD: 0979553289 hoặc DTH-001" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <label style="font-size: 13px; font-weight: bold;">PIN (4-6 chữ số)</label>
-            <input type="password" id="workerPinInput" placeholder="Nhập PIN" maxlength="6" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 20px; letter-spacing: 6px; text-align: center;" inputmode="numeric">
-            <button id="workerLoginSubmitBtn" class="btn primary" style="width: 100%; background: #7c3aed;" onclick="submitWorkerLogin()">🚀 Vào Bảng Điều Khiển Thợ</button>
-            <div id="workerLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('workerLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
-            <p style="font-size: 11px; color: #9ca3af; text-align: center; margin-top: 8px;">Chưa có PIN? Liên hệ quản trị viên để được cấp.</p>
-        </div>
-
-        <!-- Hiển thị sau login Khách -->
-        <div id="memberQrDisplay" style="display: none; text-align: center;">
-            <p style="font-weight: bold; color: #059669; font-size: 18px;">✅ Đăng nhập thành công!</p>
-            <p>Xin chào, <b id="successUserName"></b></p>
-            <p style="font-size: 13px; color: #6b7280;">Hạng: <b id="successUserRank"></b> · <b id="successUserPoints"></b></p>
-            <img id="successQrImg" src="" alt="QR của bạn" style="display:none; max-width: 160px; border-radius: 8px; margin: 10px auto;">
-            <button class="btn" style="width: 100%; margin-top: 10px; background: #dc2626; color: white; border-radius: 8px;" onclick="document.getElementById('modalLogin').style.display='none'">Đóng</button>
-        </div>
-
-        <div id="emailLoginForm" style="display: none; text-align: start;">
-            <p style="margin-bottom: 15px; font-weight: bold; color: #374151; text-align: center; font-size: 18px;">Đăng nhập Email &amp; Mật khẩu</p>
-            <label style="font-size: 13px; font-weight: bold;">Địa chỉ Email</label>
-            <input type="email" id="loginEmailInput" placeholder="VD: qlhdtmdt@gmail.com" style="width: 100%; margin-bottom: 12px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <label style="font-size: 13px; font-weight: bold;">Mật khẩu</label>
-            <input type="password" id="loginPasswordInput" placeholder="Nhập mật khẩu" style="width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px;">
-            <button id="emailLoginSubmitBtn" class="btn primary" style="width: 100%; background: #2563eb;" onclick="submitEmailLogin()">Đăng nhập</button>
-            <div id="emailLoginError" style="display: none; color: #dc2626; margin-top: 10px; font-size: 13px; text-align: center;"></div>
-            <button class="btn" style="width: 100%; margin-top: 10px; background: transparent; color: #666; border: none; box-shadow: none;" onclick="document.getElementById('emailLoginForm').style.display='none'; document.getElementById('loginMethods').style.display='block';">Quay lại</button>
-        </div>
-
-        </div>
 
 <script>
 'use strict';
@@ -1444,185 +1360,7 @@ function openModal(type) {
 }
 
 function openLoginModal() {
-    const modal = document.getElementById('modalLogin');
-    if (modal) modal.style.display = 'block';
-}
-
-function closeLoginModal() {
-    const modal = document.getElementById('modalLogin');
-    if (modal) modal.style.display = 'none';
-}
-
-let loginQrScanner = null;
-
-function showEmailLogin() {
-    document.getElementById('loginMethods').style.display = 'none';
-    document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('phoneLoginForm').style.display = 'none';
-    document.getElementById('emailLoginForm').style.display = 'block';
-    document.getElementById('emailLoginError').style.display = 'none';
-}
-
-function showPhoneLogin() {
-    document.getElementById('loginMethods').style.display = 'none';
-    document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('phoneLoginForm').style.display = 'block';
-    document.getElementById('phoneLoginError').style.display = 'none';
-}
-
-function submitPhoneLogin() {
-    const name = document.getElementById('loginNameInput').value.trim();
-    const phone = document.getElementById('loginPhoneInput').value.trim();
-    const err = document.getElementById('phoneLoginError');
-    if (!name || !phone) {
-        err.textContent = 'Vui lòng nhập đầy đủ Họ Tên và Số điện thoại.';
-        err.style.display = 'block';
-        return;
-    }
-
-    document.getElementById('phoneLoginSubmitBtn').disabled = true;
-    document.getElementById('phoneLoginSubmitBtn').textContent = 'Đang xử lý...';
-
-    fetch('api_master.php?action=login_or_register_phone', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullname: name, phone: phone })
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        document.getElementById('phoneLoginSubmitBtn').disabled = false;
-        document.getElementById('phoneLoginSubmitBtn').textContent = 'Xác nhận';
-        if (d.status !== 'success') {
-            err.textContent = d.message || 'Lỗi đăng nhập.';
-            err.style.display = 'block';
-            return;
-        }
-        handleLoginSuccess(d.data);
-    })
-    .catch(e => {
-        document.getElementById('phoneLoginSubmitBtn').disabled = false;
-        document.getElementById('phoneLoginSubmitBtn').textContent = 'Xác nhận';
-        err.textContent = 'Lỗi kết nối. Vui lòng thử lại.';
-        err.style.display = 'block';
-    });
-}
-
-function submitEmailLogin() {
-    const email = document.getElementById('loginEmailInput').value.trim();
-    const password = document.getElementById('loginPasswordInput').value.trim();
-    const err = document.getElementById('emailLoginError');
-    if (!email || !password) {
-        err.textContent = 'Vui lòng nhập đầy đủ Email và Mật khẩu.';
-        err.style.display = 'block';
-        return;
-    }
-
-    document.getElementById('emailLoginSubmitBtn').disabled = true;
-    document.getElementById('emailLoginSubmitBtn').textContent = 'Đang xử lý...';
-
-    fetch('api_master.php?action=login_email_password', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, password: password })
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        document.getElementById('emailLoginSubmitBtn').disabled = false;
-        document.getElementById('emailLoginSubmitBtn').textContent = 'Đăng nhập';
-        if (d.status !== 'success') {
-            err.textContent = d.message || 'Lỗi đăng nhập.';
-            err.style.display = 'block';
-            return;
-        }
-        document.getElementById('emailLoginForm').style.display = 'none';
-        handleLoginSuccess(d.data);
-    })
-    .catch(e => {
-        document.getElementById('emailLoginSubmitBtn').disabled = false;
-        document.getElementById('emailLoginSubmitBtn').textContent = 'Đăng nhập';
-        err.textContent = 'Lỗi kết nối. Vui lòng thử lại.';
-        err.style.display = 'block';
-    });
-}
-
-function showQrLogin() {
-    document.getElementById('loginMethods').style.display = 'none';
-    document.getElementById('phoneLoginForm').style.display = 'none';
-    document.getElementById('qrLoginForm').style.display = 'block';
-    document.getElementById('loginError').style.display = 'none';
-
-    if (typeof Html5Qrcode !== 'undefined') {
-        if (loginQrScanner) {
-            loginQrScanner.clear();
-            loginQrScanner = null;
-        }
-        loginQrScanner = new Html5Qrcode("qr-reader-login");
-        loginQrScanner.start(
-            { facingMode: "environment" },
-            { fps: 10, qrbox: { width: 250, height: 250 } },
-            (decodedText, decodedResult) => {
-                document.getElementById('loginKeyInput').value = decodedText;
-                closeQrLoginScannerOnly();
-                submitLogin();
-            },
-            (errorMessage) => { }
-        ).catch((err) => {
-            console.warn("Không khởi tạo được camera", err);
-            document.getElementById('qr-reader-login').innerHTML = '<p class="muted">Không truy cập được Camera. Vui lòng nhập mã thủ công.</p>';
-        });
-    }
-}
-
-function closeQrLoginScannerOnly() {
-    if (loginQrScanner) {
-        loginQrScanner.stop().then(() => {
-            loginQrScanner.clear();
-            loginQrScanner = null;
-        }).catch(e => console.error(e));
-    }
-}
-
-function closeQrLogin() {
-    closeQrLoginScannerOnly();
-    document.getElementById('qrLoginForm').style.display = 'none';
-    document.getElementById('loginMethods').style.display = 'block';
-}
-
-function submitLogin() {
-    const key = document.getElementById('loginKeyInput').value.trim();
-    const err = document.getElementById('loginError');
-    if (!key) {
-        err.textContent = 'Vui lòng nhập Mã Thẻ hoặc quét QR.';
-        err.style.display = 'block';
-        return;
-    }
-
-    const btn = document.getElementById('loginSubmitBtn');
-    btn.disabled = true;
-    btn.textContent = 'Đang kiểm tra...';
-
-    fetch('api_master.php?action=verify_login_key', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ login_key: key })
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        btn.disabled = false;
-        btn.textContent = 'Xác nhận Đăng nhập';
-        if (d.status !== 'success') {
-            err.textContent = d.message || 'Mã không hợp lệ.';
-            err.style.display = 'block';
-            return;
-        }
-        handleLoginSuccess(d.data);
-    })
-    .catch(e => {
-        btn.disabled = false;
-        btn.textContent = 'Xác nhận Đăng nhập';
-        err.textContent = 'Lỗi kết nối.';
-        err.style.display = 'block';
-    });
+    window.location.href = 'auth/guest.php';
 }
 
 function handleLoginSuccess(data) {
@@ -1633,17 +1371,11 @@ function handleLoginSuccess(data) {
         return;
     }
 
-    // ===== WORKER FLOW — Đưa thẳng vào Dashboard Thợ =====
     if (data.type === 'worker') {
         localStorage.setItem('dth_worker_token', data.token || '');
         localStorage.setItem('dth_worker_id',    String(data.worker_id || ''));
         localStorage.setItem('dth_worker_data',  JSON.stringify(data));
         localStorage.setItem('dth_worker_time',  Date.now());
-        document.getElementById('modalLogin').style.display = 'none';
-        openWorkerDashboard(data);
-        return;
-    }
-
     // ===== CUSTOMER FLOW =====
     localStorage.setItem('dth_user_key',  data.login_key);
     localStorage.setItem('dth_user_time', Date.now());
@@ -1685,89 +1417,7 @@ function logoutCustomer() {
 // WORKER AUTH & DASHBOARD JS
 // ============================================================
 
-function showWorkerLogin() {
-    ['loginMethods','phoneLoginForm','qrLoginForm','emailLoginForm','memberQrDisplay'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.style.display = 'none';
-    });
-    const wf = document.getElementById('workerLoginForm');
-    if (wf) wf.style.display = 'block';
-    const pin = document.getElementById('workerPinInput');
-    if (pin) pin.focus();
-}
 
-function submitWorkerLogin() {
-    const phone = (document.getElementById('workerPhoneInput')?.value || '').trim();
-    const pin   = (document.getElementById('workerPinInput')?.value || '').trim();
-    const err   = document.getElementById('workerLoginError');
-    const btn   = document.getElementById('workerLoginSubmitBtn');
-
-    if (!phone) {
-        if (err) { err.textContent = 'Vui lòng nhập số điện thoại hoặc mã thợ.'; err.style.display = 'block'; }
-        return;
-    }
-    if (!pin || pin.length < 4) {
-        if (err) { err.textContent = 'Vui lòng nhập PIN (4-6 chữ số).'; err.style.display = 'block'; }
-        return;
-    }
-    if (err) err.style.display = 'none';
-    if (btn) { btn.disabled = true; btn.textContent = 'Đang xác thực...'; }
-
-    // Thử login bằng phone trước, nếu phone bắt đầu bằng DTH- thì dùng worker_code
-    const payload = phone.startsWith('DTH') || phone.startsWith('dth')
-        ? { action: 'mobile_worker_login', worker_code: phone, pin }
-        : { action: 'mobile_worker_login_by_phone', phone, pin };
-
-    fetch('api_master.php?' + new URLSearchParams({ action: payload.action }), {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        if (btn) { btn.disabled = false; btn.textContent = '🚀 Vào Bảng Điều Khiển Thợ'; }
-        if (d.status !== 'success') {
-            if (err) { err.textContent = d.message || 'Đăng nhập thất bại.'; err.style.display = 'block'; }
-            // Nếu cần setup PIN → hướng dẫn
-            if (d.code === 'PIN_NOT_SET') {
-                if (err) err.textContent = '⚠️ Tài khoản chưa có PIN. Liên hệ admin để được cấp PIN ban đầu (123456).';
-            }
-            return;
-        }
-        const worker = d.worker || {};
-        const loginData = {
-            type:         'worker',
-            worker_id:    worker.worker_id || d.worker_id || 0,
-            name:         worker.name || 'Thợ',
-            phone:        worker.phone || phone,
-            worker_code:  worker.worker_code || '',
-            role:         worker.role || 'worker',
-            is_admin:     worker.is_admin || 0,
-            shift_status: d.shift_status || 'off',
-            token:        d.token || '',
-        };
-        localStorage.setItem('dth_worker_token', loginData.token);
-        localStorage.setItem('dth_worker_id',    String(loginData.worker_id));
-        localStorage.setItem('dth_worker_data',  JSON.stringify(loginData));
-        localStorage.setItem('dth_worker_time',  Date.now());
-        document.getElementById('modalLogin').style.display = 'none';
-
-        // Tự động bật ca (on_shift) sau login thành công
-        if (loginData.token) {
-            fetch('api_master.php?action=mobile_worker_shift_start', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + loginData.token },
-                body: JSON.stringify({ token: loginData.token }),
-            }).catch(() => {}); // silent — không chặn UX
-        }
-
-        openWorkerDashboard(loginData);
-    })
-    .catch(e => {
-        if (btn) { btn.disabled = false; btn.textContent = '🚀 Vào Bảng Điều Khiển Thợ'; }
-        if (err) { err.textContent = 'Lỗi kết nối. Thử lại.'; err.style.display = 'block'; }
-    });
-}
 
 function openWorkerDashboard(data) {
     // Đóng modal login
