@@ -2485,6 +2485,37 @@ window.addEventListener('click', function(e) {
         trigger.setAttribute('aria-expanded', 'false');
     }
 });
+
+// BEGIN: Fix for ReferenceError: promptDedeSelector is not defined
+// Also ensures btn_01 and btn_02 route to the correct login flows
+window.promptDedeSelector = function(role) {
+    if (role === 'thợ' || role === 'partner') {
+        window.location.href = '/auth/partner.php';
+    } else if (role === 'khách' || role === 'guest') {
+        window.location.href = '/auth/guest.php';
+    } else {
+        console.warn('promptDedeSelector: Unrecognized role - ' + role);
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    var btn01 = document.getElementById('btn_01');
+    if (btn01) {
+        btn01.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.promptDedeSelector('thợ');
+        });
+    }
+    
+    var btn02 = document.getElementById('btn_02');
+    if (btn02) {
+        btn02.addEventListener('click', function(e) {
+            e.preventDefault();
+            window.promptDedeSelector('khách');
+        });
+    }
+});
+// END: Fix for ReferenceError: promptDedeSelector is not defined
 </script>
 
 </body>
