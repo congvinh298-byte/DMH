@@ -532,11 +532,26 @@ async function loadCtv(){
         statusEl.textContent = 'Lỗi tải danh sách: ' + e.message;
     }
 }
+
+async function promptSetWorkerPin(phone) {
+    if (!phone) return alert('Thợ này chưa có số điện thoại.');
+    const pin = prompt('Nhập mật khẩu mới cho số điện thoại ' + phone + ':');
+    if (!pin) return;
+    if (pin.length < 4) return alert('Mật khẩu quá ngắn!');
+    const res = await fetch('/api_master.php?action=admin_set_worker_pin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, pin })
+    });
+    const json = await res.json();
+    alert(json.message);
+}
+
 function renderWorkerRow(w){
     const isAdmin = parseInt(w.is_admin, 10) === 1;
     const roleLabel = isAdmin ? '👑 Admin' : (w.role || 'worker');
     const status = parseInt(w.is_active, 10) === 0 ? '⛔ Đã rời nhóm' : '✅ Hoạt động';
-    const historyBtn = `<button class="btn-small btn-blue" onclick="openWorkerHistory(${w.worker_id}, '${escHtml(w.telegram_name || 'Thợ')}')">Lịch sử</button>`;
+    const historyBtn = `<button class="btn-small btn-blue" onclick="openWorkerHistory(${w.worker_id}, '${escHtml(w.telegram_name || 'Thợ')}')">Lịch sử</button> <button class="btn-small" style="background:#8b5cf6;color:white;" onclick="promptSetWorkerPin('${escHtml(w.phone || '')}')">Cấp MK</button>`;
     return `<tr>
         <td>${w.worker_id || ''}</td>
         <td>${escHtml(w.telegram_name || '')}</td>

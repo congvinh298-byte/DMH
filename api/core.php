@@ -618,6 +618,7 @@ function ensure_core_schema(PDO $pdo)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
     add_column_if_missing($pdo, 'worker_profiles', 'pin_hash', 'VARCHAR(255) NULL');
+    add_column_if_missing($pdo, 'worker_profiles', 'password_hash', 'VARCHAR(255) NULL');
     add_column_if_missing($pdo, 'worker_profiles', 'last_lat', 'DECIMAL(10,7) NULL');
     add_column_if_missing($pdo, 'worker_profiles', 'last_lng', 'DECIMAL(10,7) NULL');
     add_column_if_missing($pdo, 'worker_profiles', 'rating_score', 'DECIMAL(3,2) NULL DEFAULT 5.00');

@@ -1072,6 +1072,41 @@ try {
             ],
         ]);
 
+    case 'admin_set_worker_pin':
+        admin_require($pdo, $input);
+        $phone = digits_only((string)($input['phone'] ?? ''));
+        $pin = trim($input['pin'] ?? '');
+        if (!$phone || !$pin) json_out(['status' => 'error', 'message' => 'Thiếu số điện thoại hoặc mật khẩu.']);
+        $hash = password_hash($pin, PASSWORD_DEFAULT);
+        $stmt = $pdo->prepare('UPDATE worker_profiles SET pin_hash = ? WHERE phone = ? OR telegram_username = ?');
+        $stmt->execute([$hash, $phone, $phone]);
+        if ($stmt->rowCount() > 0) {
+            json_out(['status' => 'success', 'message' => 'Cấp mật khẩu thành công.']);
+        } else {
+            json_out(['status' => 'error', 'message' => 'Không tìm thấy thợ.']);
+        }
+
+    case 'worker_change_pin':
+        $token = trim($input['token'] ?? '');
+        if (!$token) json_out(['status' => 'error', 'message' => 'Thiếu token.']);
+        $stmt = $pdo->prepare('SELECT worker_id FROM mobile_sessions WHERE token = ? AND expires_at > NOW()');
+        $stmt->execute([$token]);
+        $workerId = $stmt->fetchColumn();
+        if (!$workerId) json_out(['status' => 'error', 'message' => 'Phiên đã hết hạn.']);
+        
+        $old_pin = trim($input['old_pin'] ?? '');
+        $new_pin = trim($input['new_pin'] ?? '');
+        if (strlen($new_pin) < 4) json_out(['status' => 'error', 'message' => 'Mật khẩu mới quá ngắn.']);
+        
+        $stmt = $pdo->prepare('SELECT pin_hash FROM worker_profiles WHERE telegram_user_id = ?');
+        $stmt->execute([$workerId]);
+        $hash = (string)$stmt->fetchColumn();
+        if ($hash && !password_verify($old_pin, $hash)) {
+            json_out(['status' => 'error', 'message' => 'Mật khẩu cũ không chính xác.']);
+        }
+        $newHash = password_hash($new_pin, PASSWORD_DEFAULT);
+        $pdo->prepare('UPDATE worker_profiles SET pin_hash = ? WHERE telegram_user_id = ?')->execute([$newHash, $workerId]);
+        json_out(['status' => 'success', 'message' => 'Đổi mật khẩu thành công.']);
     case 'admin_register_worker':
         $workerId = (int)digits_only($input['worker_id'] ?? '');
         $phone = digits_only($input['phone'] ?? '');
