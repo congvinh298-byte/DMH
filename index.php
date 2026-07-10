@@ -709,11 +709,11 @@ $services = array(
 
     function toggle() {
         if (panel && panel.style.display === 'block') {
-            panel.style.display = 'none';
+            if(panel) panel.style.display = 'none';
             sel.classList.remove('open');
             trigger.setAttribute('aria-expanded', 'false');
         } else {
-            panel.style.display = 'block';
+            if(panel) panel.style.display = 'block';
             sel.classList.add('open');
             trigger.setAttribute('aria-expanded', 'true');
         }
@@ -751,7 +751,7 @@ $services = array(
             btn.classList.add('selected');
             sel.classList.add('has-selection');
 
-            panel.style.display = 'none';
+            if(panel) panel.style.display = 'none';
             sel.classList.remove('open');
             trigger.setAttribute('aria-expanded', 'false');
         });
@@ -759,7 +759,7 @@ $services = array(
 
     document.addEventListener('click', function(e) {
         if (sel && panel && !sel.contains(e.target) && panel.style.display === 'block') {
-            panel.style.display = 'none';
+            if(panel) panel.style.display = 'none';
             sel.classList.remove('open');
             trigger.setAttribute('aria-expanded', 'false');
         }
@@ -1356,7 +1356,7 @@ function openModal(type) {
     title.innerHTML = selected.title;
     body.innerHTML = selected.html;
 
-    modal.style.display = 'block';
+    if(modal) modal.style.display = 'block';
 }
 
 function openLoginModal() {
@@ -1376,6 +1376,9 @@ function handleLoginSuccess(data) {
         localStorage.setItem('dth_worker_id',    String(data.worker_id || ''));
         localStorage.setItem('dth_worker_data',  JSON.stringify(data));
         localStorage.setItem('dth_worker_time',  Date.now());
+        window.location.href = 'auth/partner.php';
+        return;
+    }
     // ===== CUSTOMER FLOW =====
     localStorage.setItem('dth_user_key',  data.login_key);
     localStorage.setItem('dth_user_time', Date.now());
@@ -1398,9 +1401,9 @@ function handleLoginSuccess(data) {
     if (qrImg) {
         if (data.qr_image_url) {
             qrImg.src = data.qr_image_url;
-            qrImg.style.display = 'inline-block';
+            if(qrImg) qrImg.style.display = 'inline-block';
         } else {
-            qrImg.style.display = 'none';
+            if(qrImg) qrImg.style.display = 'none';
         }
     }
 
@@ -1412,228 +1415,6 @@ function logoutCustomer() {
     localStorage.removeItem('dth_user_time');
     window.location.reload();
 }
-
-// ============================================================
-// WORKER AUTH & DASHBOARD JS
-// ============================================================
-
-
-
-function openWorkerDashboard(data) {
-    // Đóng modal login
-    const modal = document.getElementById('modalLogin');
-    if (modal) modal.style.display = 'none';
-
-    // Cập nhật top bar
-    const bar = document.getElementById('topBarStatus');
-    if (bar) {
-        bar.innerHTML = `
-            <span style="background:#7c3aed;color:white;padding:3px 10px;border-radius:20px;font-size:13px;font-weight:bold;display:flex;align-items:center;gap:6px;">
-                🛠️ <b>${data.name || 'Thợ'}</b>
-                <span id="workerShiftBadge" style="background:${data.shift_status==='on_shift'?'#10b981':'#6b7280'};border-radius:20px;padding:2px 8px;font-size:11px;">
-                    ${data.shift_status==='on_shift'?'🟢 Sẵn sàng':'⚫ Offline'}
-                </span>
-            </span>
-            <a href="javascript:void(0)" onclick="openWorkerPanel()" style="color:#fbbf24;text-decoration:underline;font-weight:bold;font-size:13px;margin-left:8px;">Bảng điều khiển</a>
-            <a href="javascript:void(0)" onclick="logoutWorker()" style="color:#fca5a5;text-decoration:underline;font-size:13px;margin-left:8px;">Đăng xuất</a>
-        `;
-    }
-
-    // Mở Worker Panel
-    openWorkerPanel();
-}
-
-function logoutWorker() {
-    localStorage.removeItem('dth_worker_token');
-    localStorage.removeItem('dth_worker_id');
-    localStorage.removeItem('dth_worker_data');
-    localStorage.removeItem('dth_worker_time');
-    window.location.reload();
-}
-
-function openWorkerPanel() {
-    let panel = document.getElementById('workerDashboardPanel');
-    if (!panel) {
-        panel = document.createElement('div');
-        panel.id = 'workerDashboardPanel';
-        panel.style.cssText = `
-            position: fixed; top: 0; right: 0; bottom: 0; width: min(420px, 100vw);
-            background: #0f172a; color: white; z-index: 9999;
-            box-shadow: -8px 0 32px rgba(0,0,0,0.5); overflow-y: auto;
-            font-family: -apple-system, system-ui, sans-serif; transition: transform 0.3s ease;
-        `;
-        document.body.appendChild(panel);
-    }
-    panel.style.display = 'block';
-    loadWorkerDashboard(panel);
-}
-
-function closeWorkerPanel() {
-    const p = document.getElementById('workerDashboardPanel');
-    if (p) p.style.display = 'none';
-}
-
-function loadWorkerDashboard(panel) {
-    const token = localStorage.getItem('dth_worker_token') || '';
-    const wdata = JSON.parse(localStorage.getItem('dth_worker_data') || '{}');
-
-    panel.innerHTML = `
-        <div style="background: linear-gradient(135deg,#7c3aed,#4c1d95); padding: 20px; position: sticky; top: 0; z-index: 1;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-                <div>
-                    <div style="font-size:20px;font-weight:900;">🛠️ Bảng Điều Khiển Thợ</div>
-                    <div style="font-size:13px;opacity:0.8;margin-top:2px;">Điện Máy Hiếu — Nội bộ</div>
-                </div>
-                <button onclick="closeWorkerPanel()" style="background:rgba(255,255,255,0.15);border:none;color:white;border-radius:50%;width:36px;height:36px;font-size:20px;cursor:pointer;">✕</button>
-            </div>
-        </div>
-        <div style="padding:16px;" id="workerPanelBody">
-            <div style="text-align:center;padding:40px 0;opacity:0.5;">Đang tải...</div>
-        </div>
-    `;
-
-    if (!token) {
-        { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-            <div style="text-align:center; }padding:40px 16px;color:#fca5a5;">
-                <div style="font-size:40px;margin-bottom:12px;">🔒</div>
-                <div>Phiên đăng nhập hết hạn.</div>
-                <button onclick="logoutWorker()" style="margin-top:16px;background:#dc2626;color:white;border:none;border-radius:8px;padding:10px 24px;cursor:pointer;">Đăng nhập lại</button>
-            </div>`;
-        return;
-    }
-
-    fetch('api_master.php?action=mobile_worker_dashboard', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify({ token }),
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        if (d.status !== 'success') {
-            { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-                <div style="text-align:center; }padding:30px;color:#fca5a5;">${d.message || 'Lỗi tải dashboard.'}</div>`;
-            return;
-        }
-        renderWorkerDashboard(d);
-    })
-    .catch(() => {
-        { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-            <div style="text-align:center; }padding:30px;color:#fca5a5;">Lỗi kết nối. Kiểm tra mạng.</div>`;
-    });
-}
-
-function renderWorkerDashboard(d) {
-    const w           = d.worker || {};
-    const shiftOn     = d.shift_status === 'on_shift';
-    const earnings    = d.earnings_this_month || {};
-    const activeJobs  = d.active_jobs || [];
-    const notifs      = d.recent_notifications || [];
-    const feeDebt     = d.fee_debt || {};
-    const token       = localStorage.getItem('dth_worker_token') || '';
-
-    const shiftColor  = shiftOn ? '#10b981' : '#6b7280';
-    const shiftLabel  = shiftOn ? '🟢 Đang sẵn sàng nhận đơn' : '⚫ Offline — Chưa bắt ca';
-    const shiftBtnLabel = shiftOn ? 'Kết thúc ca' : 'Bắt đầu ca';
-    const shiftBtnBg  = shiftOn ? '#dc2626' : '#10b981';
-    const shiftAction = shiftOn ? 'mobile_worker_shift_end' : 'mobile_worker_shift_start';
-
-    const jobsHtml = activeJobs.length ? activeJobs.map(j => `
-        <div style="background:#1e293b;border-radius:10px;padding:12px;margin-bottom:8px;border-left:3px solid #f59e0b;">
-            <div style="font-weight:bold;color:#fbbf24;">#${j.job_id} — ${j.service_name || 'Dịch vụ'}</div>
-            <div style="font-size:13px;color:#94a3b8;margin-top:4px;">📍 ${j.address || 'Chưa có địa chỉ'}</div>
-            <div style="font-size:12px;color:#64748b;margin-top:2px;">Trạng thái: ${j.status_text || j.status}</div>
-        </div>
-    `).join('') : '<div style="color:#64748b;font-size:13px;padding:8px 0;">Không có ca đang hoạt động.</div>';
-
-    const notifHtml = notifs.length ? notifs.slice(0,3).map(n => `
-        <div style="background:#1e293b;border-radius:8px;padding:10px;margin-bottom:6px;${!n.is_read?'border-left:3px solid #7c3aed;':''}">
-            <div style="font-size:13px;font-weight:bold;">${n.title}</div>
-            <div style="font-size:12px;color:#94a3b8;margin-top:2px;">${n.body}</div>
-        </div>
-    `).join('') : '<div style="color:#64748b;font-size:13px;">Không có thông báo mới.</div>';
-
-    { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-        <!-- Profile + Shift -->
-        <div style="background:#1e293b; }border-radius:12px;padding:16px;margin-bottom:12px;">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-                <div style="background:#7c3aed;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🛠️</div>
-                <div>
-                    <div style="font-weight:bold;font-size:16px;">${w.name || 'Thợ'}</div>
-                    <div style="font-size:12px;color:#94a3b8;">${w.phone || ''} ${w.worker_code ? '· ' + w.worker_code : ''}</div>
-                </div>
-            </div>
-            <div style="background:${shiftColor}22;border:1px solid ${shiftColor}44;border-radius:8px;padding:10px;text-align:center;margin-bottom:10px;">
-                <span style="color:${shiftColor};font-weight:bold;font-size:14px;">${shiftLabel}</span>
-            </div>
-            <button onclick="toggleWorkerShift('${shiftAction}','${token}')" id="shiftToggleBtn"
-                style="width:100%;background:${shiftBtnBg};color:white;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:bold;cursor:pointer;">
-                ${shiftBtnLabel}
-            </button>
-        </div>
-
-        <!-- Thu nhập tháng -->
-        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
-            <div style="font-size:13px;font-weight:bold;color:#94a3b8;margin-bottom:8px;">💰 THU NHẬP THÁNG NÀY</div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;text-align:center;">
-                <div><div style="font-size:18px;font-weight:900;color:#10b981;">${earnings.jobs_completed || 0}</div><div style="font-size:11px;color:#64748b;">Ca xong</div></div>
-                <div><div style="font-size:18px;font-weight:900;color:#fbbf24;">${formatWorkerMoney(earnings.gross_revenue || 0)}</div><div style="font-size:11px;color:#64748b;">Doanh thu</div></div>
-                <div><div style="font-size:18px;font-weight:900;color:#60a5fa;">${formatWorkerMoney(earnings.net_income || 0)}</div><div style="font-size:11px;color:#64748b;">Thực nhận</div></div>
-            </div>
-            ${(feeDebt.total_debt||0)>0 ? `<div style="margin-top:8px;background:#7c3aed22;border:1px solid #7c3aed44;border-radius:6px;padding:8px;font-size:12px;color:#a78bfa;text-align:center;">⚠️ Phí nền tảng còn nợ: ${formatWorkerMoney(feeDebt.total_debt||0)}</div>` : ''}
-        </div>
-
-        <!-- Ca đang hoạt động -->
-        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
-            <div style="font-size:13px;font-weight:bold;color:#94a3b8;margin-bottom:8px;">📋 CA ĐANG HOẠT ĐỘNG (${activeJobs.length})</div>
-            ${jobsHtml}
-        </div>
-
-        <!-- Thông báo -->
-        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <div style="font-size:13px;font-weight:bold;color:#94a3b8;">🔔 THÔNG BÁO ${d.unread_notifications>0?`<span style="background:#dc2626;color:white;border-radius:20px;padding:1px 7px;font-size:11px;">${d.unread_notifications}</span>`:''}</div>
-            </div>
-            ${notifHtml}
-        </div>
-
-        <!-- Actions -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-            <button onclick="loadWorkerDashboard(document.getElementById('workerDashboardPanel'))"
-                style="background:#334155;color:white;border:none;border-radius:8px;padding:10px;font-size:13px;cursor:pointer;">🔄 Làm mới</button>
-            <button onclick="logoutWorker()"
-                style="background:#dc2626;color:white;border:none;border-radius:8px;padding:10px;font-size:13px;cursor:pointer;">🚪 Đăng xuất</button>
-        </div>
-    `;
-}
-
-function formatWorkerMoney(n) {
-    return new Intl.NumberFormat('vi-VN').format(n) + 'đ';
-}
-
-function toggleWorkerShift(action, token) {
-    const btn = document.getElementById('shiftToggleBtn');
-    if (btn) { btn.disabled = true; btn.textContent = 'Đang xử lý...'; }
-    fetch('api_master.php?action=' + action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-        body: JSON.stringify({ token }),
-    })
-    .then(readJsonResponse)
-    .then(d => {
-        if (d.status === 'success') {
-            // Cập nhật localStorage
-            const wdata = JSON.parse(localStorage.getItem('dth_worker_data') || '{}');
-            wdata.shift_status = d.shift_status || (action.includes('start') ? 'on_shift' : 'off');
-            localStorage.setItem('dth_worker_data', JSON.stringify(wdata));
-        }
-        // Reload dashboard
-        loadWorkerDashboard(document.getElementById('workerDashboardPanel'));
-    })
-    .catch(() => {
-        if (btn) { btn.disabled = false; btn.textContent = 'Thử lại'; }
-    });
-}
-
 
 
 function updateTopBarState(user) {
@@ -1675,7 +1456,7 @@ function openOrderModal(card) {
 
     const statusEl = document.getElementById('orderVoucherStatus');
     if (statusEl) {
-        statusEl.style.display = 'none';
+        if(statusEl) statusEl.style.display = 'none';
         statusEl.innerHTML = '';
     }
 
@@ -1706,7 +1487,7 @@ function updateOrderTotal() {
     const totalDisplay = document.getElementById('order_final_total_display');
 
     if (!code) {
-        if (statusEl) statusEl.style.display = 'none';
+        if (statusEl) if(statusEl) statusEl.style.display = 'none';
         if (totalDisplay) totalDisplay.innerHTML = formatVnd(subtotal) + ' đ';
         return;
     }
@@ -1714,9 +1495,9 @@ function updateOrderTotal() {
     if (checkVoucherTimeout) clearTimeout(checkVoucherTimeout);
     checkVoucherTimeout = setTimeout(async () => {
         if (statusEl) {
-            statusEl.style.display = 'block';
-            statusEl.style.background = '#f1f5f9';
-            statusEl.style.border = '1px solid #cbd5e1';
+            if(statusEl) statusEl.style.display = 'block';
+            if(statusEl) statusEl.style.background = '#f1f5f9';
+            if(statusEl) statusEl.style.border = '1px solid #cbd5e1';
             statusEl.innerHTML = '<span style="color:#64748b;">⏳ Đang kiểm tra...</span>';
         }
 
@@ -1735,8 +1516,8 @@ function updateOrderTotal() {
                 const finalPrice = Math.max(0, subtotal - discount);
 
                 if (statusEl) {
-                    statusEl.style.background = '#f0fdf4';
-                    statusEl.style.border = '1px solid #bbf7d0';
+                    if(statusEl) statusEl.style.background = '#f0fdf4';
+                    if(statusEl) statusEl.style.border = '1px solid #bbf7d0';
                     statusEl.innerHTML = `<span style="color:#16a34a;">✅ Áp dụng mã thành công! Giảm ${formatVnd(discount)} đ</span>`;
                 }
 
@@ -1745,8 +1526,8 @@ function updateOrderTotal() {
                 }
             } else {
                 if (statusEl) {
-                    statusEl.style.background = '#fef2f2';
-                    statusEl.style.border = '1px solid #fecaca';
+                    if(statusEl) statusEl.style.background = '#fef2f2';
+                    if(statusEl) statusEl.style.border = '1px solid #fecaca';
                     statusEl.innerHTML = `<span style="color:#dc2626;">❌ ${json.message || 'Mã không hợp lệ'}</span>`;
                 }
                 if (totalDisplay) totalDisplay.innerHTML = formatVnd(subtotal) + ' đ';
@@ -1928,13 +1709,13 @@ document.addEventListener('DOMContentLoaded', () => {
         function openPanel() {
             serviceSelector.classList.add('open');
             serviceSelectorTrigger.setAttribute('aria-expanded', 'true');
-            serviceSelectorPanel.style.display = 'block';
+            if(serviceSelectorPanel) serviceSelectorPanel.style.display = 'block';
         }
 
         function closePanel() {
             serviceSelector.classList.remove('open');
             serviceSelectorTrigger.setAttribute('aria-expanded', 'false');
-            serviceSelectorPanel.style.display = 'none';
+            if(serviceSelectorPanel) serviceSelectorPanel.style.display = 'none';
         }
 
         function togglePanel() {
@@ -2000,10 +1781,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeServiceModal = serviceModal ? serviceModal.querySelector('#closeServiceModal') : null;
     if (serviceModal && closeServiceModal) {
         closeServiceModal.addEventListener('click', () => {
-            serviceModal.style.display = 'none';
+            if(serviceModal) serviceModal.style.display = 'none';
         });
         serviceModal.addEventListener('click', (e) => {
-            if (e.target === serviceModal) serviceModal.style.display = 'none';
+            if (e.target === serviceModal) if(serviceModal) serviceModal.style.display = 'none';
         });
         serviceModal.querySelectorAll('.custom-service-item').forEach(item => {
             item.addEventListener('click', () => {
@@ -2015,7 +1796,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (techTargetBase) techTargetBase.value = base;
                 if (selectedServiceName) selectedServiceName.value = name;
 
-                serviceModal.style.display = 'none';
+                if(serviceModal) serviceModal.style.display = 'none';
             });
         });
     }
@@ -2295,7 +2076,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
         html5QrCode.stop().then(() => {
             html5QrCode.clear();
             html5QrCode = null;
-            readerDiv.style.display = 'none';
+            if(readerDiv) readerDiv.style.display = 'none';
             btn.innerHTML = '📷 Quét QR';
         }).catch(err => {
             console.error('Failed to stop scanner', err);
@@ -2303,7 +2084,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
         return;
     }
 
-    readerDiv.style.display = 'block';
+    if(readerDiv) readerDiv.style.display = 'block';
     btn.innerHTML = '❌ Đóng';
 
     let isScanningSuccess = false;
@@ -2337,7 +2118,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
             html5QrCode.stop().then(() => {
                 html5QrCode.clear();
                 html5QrCode = null;
-                readerDiv.style.display = 'none';
+                if(readerDiv) readerDiv.style.display = 'none';
                 btn.innerHTML = '📷 Quét QR';
 
                 // Auto trigger Check
@@ -2352,7 +2133,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
     ).catch((err) => {
         alert('Không thể truy cập camera. Vui lòng cấp quyền camera cho trình duyệt web (Cài đặt -> Ứng dụng -> Trình duyệt -> Quyền -> Camera).');
         html5QrCode = null;
-        readerDiv.style.display = 'none';
+        if(readerDiv) readerDiv.style.display = 'none';
         btn.innerHTML = '📷 Quét QR';
     });
 });
@@ -2373,7 +2154,7 @@ async function openCustomerOrdersModal() {
     if(!key) return;
     const modal = document.getElementById('customerOrdersModal');
     if(!modal) return;
-    modal.style.display = 'block';
+    if(modal) modal.style.display = 'block';
 
     const list = document.getElementById('customerOrdersList');
     list.innerHTML = '<div style="text-align:center; padding:20px;">Đang tải đơn hàng...</div>';
@@ -2521,19 +2302,19 @@ function openWheelModal() {
 
 async function spinWheel() {
     if(isSpinning) return;
+    const btn = document.getElementById('spinBtn');
     let spins = parseInt((document.getElementById('wheelSpinsCount') ? document.getElementById('wheelSpinsCount').textContent : '')) || 0;
     if(spins <= 0) {
-        alert('Bạn đã hết lượt quay!');
+        alert('Bạn đã hết lượt quay! Hãy mua hàng để nhận thêm lượt.');
         return;
     }
 
     isSpinning = true;
-    const btn = document.getElementById('spinBtn');
-    btn.textContent = 'Đang quay...';
-    btn.disabled = true;
+    if(btn) { btn.textContent = 'Đang quay...'; btn.disabled = true; }
 
     try {
         const key = localStorage.getItem('dth_user_key');
+        if(!key) { alert('Vui lòng đăng nhập để quay!'); isSpinning = false; if(btn) { btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)'; btn.disabled = false; } return; }
         const formData = new FormData();
         formData.append('login_key', key);
         const response = await fetch('api_master.php?action=app_customer_spin_wheel', { method: 'POST', body: formData });
@@ -2564,9 +2345,8 @@ async function spinWheel() {
                     requestAnimationFrame(animate);
                 } else {
                     isSpinning = false;
-                    btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)';
-                    btn.disabled = false;
-                    alert('🎉 Kết quả: ' + wheelPrizes[prizeIndex] + '\\n' + res.message);
+                    if(btn) { btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)'; btn.disabled = false; }
+                    setTimeout(() => alert('🎉 Kết quả: ' + wheelPrizes[prizeIndex] + '\n' + res.message), 100);
 
                     { const _el = document.getElementById('wheelSpinsCount'); if(_el) _el.textContent = res.data.lucky_spins; }
                     { const _el = document.getElementById('successLuckySpins'); if(_el) _el.textContent = res.data.lucky_spins + ' lượt quay'; }
@@ -2576,19 +2356,34 @@ async function spinWheel() {
             requestAnimationFrame(animate);
 
         } else {
-            alert(res.message);
+            alert(res.message || 'Lỗi không xác định.');
             isSpinning = false;
-            btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)';
-            btn.disabled = false;
+            if(btn) { btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)'; btn.disabled = false; }
         }
     } catch(e) {
-        alert('Lỗi kết nối.');
+        alert('Lỗi kết nối: ' + (e.message || e));
         isSpinning = false;
-        btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)';
-        btn.disabled = false;
+        if(btn) { btn.textContent = 'CHƠI NGAY (Tốn 1 Lượt)'; btn.disabled = false; }
     }
 }
 </script>
+
+<!-- Vòng Quay May Mắn Modal -->
+<div id="wheelModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:100000; justify-content:center; align-items:center; backdrop-filter:blur(4px);" onclick="if(event.target===this)this.style.display='none'">
+    <div style="background:#fff; border-radius:24px; padding:28px 24px; max-width:400px; width:95%; text-align:center; box-shadow:0 30px 80px rgba(0,0,0,0.4); position:relative; animation:slideUp 0.35s cubic-bezier(0.175,0.885,0.32,1.1);">
+        <button onclick="document.getElementById('wheelModal').style.display='none'" style="position:absolute;top:14px;right:16px;background:#f1f5f9;border:none;width:34px;height:34px;border-radius:50%;font-size:18px;cursor:pointer;color:#64748b;display:flex;align-items:center;justify-content:center;">&times;</button>
+        <h2 style="margin:0 0 4px; color:#dc2626; font-size:22px; font-weight:800;">🎡 Vòng Quay May Mắn</h2>
+        <p style="color:#64748b; font-size:13px; margin:0 0 16px;">Lượt quay còn lại: <strong id="wheelSpinsCount" style="color:#dc2626;">0</strong></p>
+        <div style="position:relative; display:inline-block; margin-bottom:16px;">
+            <canvas id="wheelCanvas" width="280" height="280" style="display:block; border-radius:50%; box-shadow:0 8px 32px rgba(0,0,0,0.15);"></canvas>
+            <div style="position:absolute;top:50%;left:-22px;transform:translateY(-50%);font-size:28px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">&#9654;</div>
+        </div>
+        <button id="spinBtn" onclick="spinWheel()" style="width:100%;padding:14px;background:linear-gradient(135deg,#dc2626,#ef4444);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:800;cursor:pointer;letter-spacing:0.5px;box-shadow:0 4px 16px rgba(220,38,38,0.35);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(220,38,38,0.45)'" onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 16px rgba(220,38,38,0.35)'">
+            🎰 CHƠI NGAY (Tốn 1 Lượt)
+        </button>
+        <p style="font-size:11px; color:#94a3b8; margin:10px 0 0;">Mua hàng để nhận thêm lượt quay</p>
+    </div>
+</div>
 
 <!-- Bảng Giá Dịch Vụ Modal -->
 <div id="serviceModal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 99999; justify-content: center; align-items: center; backdrop-filter: blur(2px);">
@@ -2640,11 +2435,11 @@ function toggleServicePanel() {
     var trigger = document.getElementById('serviceSelectorTrigger');
     if (!panel || !sel || !trigger) return;
     if (panel && panel.style.display === 'block') {
-        panel.style.display = 'none';
+        if(panel) panel.style.display = 'none';
         sel.classList.remove('open');
         trigger.setAttribute('aria-expanded', 'false');
     } else {
-        panel.style.display = 'block';
+        if(panel) panel.style.display = 'block';
         sel.classList.add('open');
         trigger.setAttribute('aria-expanded', 'true');
     }
@@ -2685,7 +2480,7 @@ window.addEventListener('click', function(e) {
     var panel = document.getElementById('serviceSelectorPanel');
     var trigger = document.getElementById('serviceSelectorTrigger');
     if (sel && panel && trigger && !sel.contains(e.target) && panel.style.display === 'block') {
-        panel.style.display = 'none';
+        if(panel) panel.style.display = 'none';
         sel.classList.remove('open');
         trigger.setAttribute('aria-expanded', 'false');
     }

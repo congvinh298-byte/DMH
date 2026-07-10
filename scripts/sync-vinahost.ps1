@@ -21,7 +21,7 @@ param(
     [string]$FtpUser,
     [Parameter(Mandatory = $true)]
     [string]$FtpPassword,
-    [string]$RemotePath = "/public_html",
+    [string]$RemotePath = "/home/kwkrbcce/public_html",
     [string]$LocalPath = "."
 )
 
