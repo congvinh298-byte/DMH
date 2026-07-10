@@ -74,8 +74,8 @@ header('Permissions-Policy: geolocation=(self)');
         }
 
         function executeLogin(lat, lng) {
-            const phone = document.getElementById('workerPhoneInput').value.trim();
-            const pin   = document.getElementById('workerPinInput').value.trim();
+            const phone = (document.getElementById('workerPhoneInput') ? document.getElementById('workerPhoneInput').value : '').trim();
+            const pin   = (document.getElementById('workerPinInput') ? document.getElementById('workerPinInput').value : '').trim();
             const err   = document.getElementById('workerLoginError');
             const btn   = document.getElementById('workerLoginSubmitBtn');
 

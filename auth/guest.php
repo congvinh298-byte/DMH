@@ -88,8 +88,8 @@ header('X-Content-Type-Options: nosniff');
         }
 
         function submitPhoneLogin() {
-            const phone = document.getElementById('loginPhoneInput').value.trim();
-            const name = document.getElementById('loginNameInput').value.trim();
+            const phone = (document.getElementById('loginPhoneInput') ? document.getElementById('loginPhoneInput').value : '').trim();
+            const name = (document.getElementById('loginNameInput') ? document.getElementById('loginNameInput').value : '').trim();
             const err = document.getElementById('phoneError');
             const btn = document.getElementById('phoneSubmitBtn');
 
@@ -129,7 +129,7 @@ header('X-Content-Type-Options: nosniff');
         }
 
         function submitQrLogin() {
-            const key = document.getElementById('loginKeyInput').value.trim();
+            const key = (document.getElementById('loginKeyInput') ? document.getElementById('loginKeyInput').value : '').trim();
             const err = document.getElementById('qrError');
             const btn = document.getElementById('qrSubmitBtn');
 
