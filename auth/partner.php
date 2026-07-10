@@ -123,7 +123,7 @@ function loadWorkerDashboard(panel) {
 
     if (!token) {
         { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-            <div style="text-align:center; }padding:40px 16px;color:#fca5a5;">
+            <div style="text-align:center; padding:40px 16px;color:#fca5a5;">
                 <div style="font-size:40px;margin-bottom:12px;">🔒</div>
                 <div>Phiên đăng nhập hết hạn.</div>
                 <button onclick="logoutWorker()" style="margin-top:16px;background:#dc2626;color:white;border:none;border-radius:8px;padding:10px 24px;cursor:pointer;">Đăng nhập lại</button>
@@ -140,14 +140,14 @@ function loadWorkerDashboard(panel) {
     .then(d => {
         if (d.status !== 'success') {
             { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-                <div style="text-align:center; }padding:30px;color:#fca5a5;">${d.message || 'Lỗi tải dashboard.'}</div>`;
+                <div style="text-align:center; padding:30px;color:#fca5a5;">${d.message || 'Lỗi tải dashboard.'}</div>`;
             return;
         }
         renderWorkerDashboard(d);
     })
     .catch(() => {
         { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
-            <div style="text-align:center; }padding:30px;color:#fca5a5;">Lỗi kết nối. Kiểm tra mạng.</div>`;
+            <div style="text-align:center; padding:30px;color:#fca5a5;">Lỗi kết nối. Kiểm tra mạng.</div>`;
     });
 }
 
@@ -183,7 +183,7 @@ function renderWorkerDashboard(d) {
 
     { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
         <!-- Profile + Shift -->
-        <div style="background:#1e293b; }border-radius:12px;padding:16px;margin-bottom:12px;">
+        <div style="background:#1e293b; border-radius:12px;padding:16px;margin-bottom:12px;">
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
                 <div style="background:#7c3aed;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🛠️</div>
                 <div>

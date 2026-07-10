@@ -6,8 +6,8 @@ if (session_status() === PHP_SESSION_NONE) {
 // Included by index.php when route is /admin
 
 // Thông tin đăng nhập admin
-$admin_user = 'anhthien';
-$admin_pass = 'Anhthien369@';
+$admin_user = $_ENV['ADMIN_USER'] ?? ($_SERVER['ADMIN_USER'] ?? 'anhthien');
+$admin_pass = $_ENV['ADMIN_PASS'] ?? ($_SERVER['ADMIN_PASS'] ?? 'Anhthien369@');
 
 // Xử lý đăng nhập
 if (isset($_POST['login'])) {
