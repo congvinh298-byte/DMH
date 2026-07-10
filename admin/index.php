@@ -533,7 +533,7 @@ async function loadCtv(){
     }
 }
 
-async function promptSetWorkerPin(phone) {
+window.promptSetWorkerPin = async function(phone) {
     if (!phone) return alert('Thợ này chưa có số điện thoại.');
     const pin = prompt('Nhập mật khẩu mới cho số điện thoại ' + phone + ':');
     if (!pin) return;
@@ -545,7 +545,14 @@ async function promptSetWorkerPin(phone) {
     });
     const json = await res.json();
     alert(json.message);
-}
+};
+
+window.promptDeleteWorker = async function(phone) {
+    if (!phone) return alert('Thợ này chưa có số điện thoại.');
+    if (!confirm('Bạn có chắc chắn muốn xóa thợ với số điện thoại ' + phone + ' không?')) return;
+    // Tạm thời chỉ hiện thông báo, logic xóa sẽ được thêm sau
+    alert('Chức năng xóa tài khoản đang được hoàn thiện.');
+};
 
 function renderWorkerRow(w){
     const isAdmin = parseInt(w.is_admin, 10) === 1;
@@ -1039,7 +1046,7 @@ function reprintHopDong(i){
     createHopDong();
 }
 let currentHistoryWorkerId = null;
-function openWorkerHistory(workerId, name){
+window.openWorkerHistory = function(workerId, name){
     currentHistoryWorkerId = workerId;
     document.getElementById('workerHistoryTitle').textContent = '📋 Lịch sử hoạt động — ' + name;
     const now = new Date();
