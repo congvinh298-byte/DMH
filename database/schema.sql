@@ -380,3 +380,46 @@ SELECT
 -- =========================================================================================
 INSERT IGNORE INTO users (role, fullname, phone, is_active) VALUES
     ('admin', 'Quản trị viên', '0900000000', 1);
+
+-- =========================================================================================
+-- BẢNG 19: invoices - HÓA ĐƠN
+-- =========================================================================================
+CREATE TABLE IF NOT EXISTS invoices (
+    id              INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
+    type            VARCHAR(50)     NOT NULL, -- 'retail' or 'vat'
+    customer_name   VARCHAR(255)    NOT NULL,
+    tax_code        VARCHAR(50)     NULL,
+    address         TEXT            NULL,
+    product_name    VARCHAR(255)    NOT NULL,
+    price           DECIMAL(15,2)   NOT NULL,
+    quantity        DECIMAL(10,2)   NOT NULL DEFAULT 1,
+    net_total       DECIMAL(15,2)   NOT NULL,
+    vat_total       DECIMAL(15,2)   DEFAULT 0,
+    grand_total     DECIMAL(15,2)   NOT NULL,
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =========================================================================================
+-- BẢNG 20: contracts - HỢP ĐỒNG
+-- =========================================================================================
+CREATE TABLE IF NOT EXISTS contracts (
+    id              INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
+    contract_number VARCHAR(50)     NOT NULL UNIQUE,
+    partner_name    VARCHAR(255)    NOT NULL,
+    partner_phone   VARCHAR(20)     NOT NULL,
+    partner_id_card VARCHAR(50)     NOT NULL,
+    job_category    VARCHAR(100)    NOT NULL,
+    start_date      DATE            NOT NULL,
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- =========================================================================================
+-- BẢNG 21: qr_coupons - MÃ THẺ / QR
+-- =========================================================================================
+CREATE TABLE IF NOT EXISTS qr_coupons (
+    id              INT UNSIGNED    AUTO_INCREMENT PRIMARY KEY,
+    code            VARCHAR(50)     NOT NULL UNIQUE,
+    amount          DECIMAL(15,2)   NOT NULL,
+    status          VARCHAR(20)     DEFAULT 'active',
+    created_at      DATETIME        NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
