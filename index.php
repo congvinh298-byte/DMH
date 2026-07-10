@@ -1493,8 +1493,8 @@ function loadWorkerDashboard(panel) {
     `;
 
     if (!token) {
-        document.getElementById('workerPanelBody').innerHTML = `
-            <div style="text-align:center;padding:40px 16px;color:#fca5a5;">
+        { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
+            <div style="text-align:center; }padding:40px 16px;color:#fca5a5;">
                 <div style="font-size:40px;margin-bottom:12px;">🔒</div>
                 <div>Phiên đăng nhập hết hạn.</div>
                 <button onclick="logoutWorker()" style="margin-top:16px;background:#dc2626;color:white;border:none;border-radius:8px;padding:10px 24px;cursor:pointer;">Đăng nhập lại</button>
@@ -1510,15 +1510,15 @@ function loadWorkerDashboard(panel) {
     .then(readJsonResponse)
     .then(d => {
         if (d.status !== 'success') {
-            document.getElementById('workerPanelBody').innerHTML = `
-                <div style="text-align:center;padding:30px;color:#fca5a5;">${d.message || 'Lỗi tải dashboard.'}</div>`;
+            { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
+                <div style="text-align:center; }padding:30px;color:#fca5a5;">${d.message || 'Lỗi tải dashboard.'}</div>`;
             return;
         }
         renderWorkerDashboard(d);
     })
     .catch(() => {
-        document.getElementById('workerPanelBody').innerHTML = `
-            <div style="text-align:center;padding:30px;color:#fca5a5;">Lỗi kết nối. Kiểm tra mạng.</div>`;
+        { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
+            <div style="text-align:center; }padding:30px;color:#fca5a5;">Lỗi kết nối. Kiểm tra mạng.</div>`;
     });
 }
 
@@ -1552,9 +1552,9 @@ function renderWorkerDashboard(d) {
         </div>
     `).join('') : '<div style="color:#64748b;font-size:13px;">Không có thông báo mới.</div>';
 
-    document.getElementById('workerPanelBody').innerHTML = `
+    { const _el = document.getElementById('workerPanelBody'); if(_el) _el.innerHTML = `
         <!-- Profile + Shift -->
-        <div style="background:#1e293b;border-radius:12px;padding:16px;margin-bottom:12px;">
+        <div style="background:#1e293b; }border-radius:12px;padding:16px;margin-bottom:12px;">
             <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
                 <div style="background:#7c3aed;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;">🛠️</div>
                 <div>
@@ -1661,17 +1661,17 @@ function closeOrderModal() {
 function openOrderModal(card) {
     const name = card.dataset.productName || '';
     const price = Number(card.dataset.productPrice || 0);
-    document.getElementById('order_product_id').value = card.dataset.productId || '0';
-    document.getElementById('order_product_type').value = card.dataset.productType || 'product';
-    document.getElementById('order_product_name').value = name;
-    document.getElementById('order_product_price').value = String(price);
+    { const _el = document.getElementById('order_product_id'); if(_el) _el.value = card.dataset.productId || '0'; }
+    { const _el = document.getElementById('order_product_type'); if(_el) _el.value = card.dataset.productType || 'product'; }
+    { const _el = document.getElementById('order_product_name'); if(_el) _el.value = name; }
+    { const _el = document.getElementById('order_product_price'); if(_el) _el.value = String(price); }
 
-    document.getElementById('order_product_display').value = name;
-    document.getElementById('order_unit_price_display').value = formatVnd(price) + ' đ';
-    document.getElementById('order_quantity').value = 1;
+    { const _el = document.getElementById('order_product_display'); if(_el) _el.value = name; }
+    { const _el = document.getElementById('order_unit_price_display'); if(_el) _el.value = formatVnd(price) + ' đ'; }
+    { const _el = document.getElementById('order_quantity'); if(_el) _el.value = 1; }
 
-    document.getElementById('orderStatus').className = 'status';
-    document.getElementById('orderStatus').textContent = '';
+    { const _el = document.getElementById('orderStatus'); if(_el) _el.className = 'status'; }
+    { const _el = document.getElementById('orderStatus'); if(_el) _el.textContent = ''; }
 
     const statusEl = document.getElementById('orderVoucherStatus');
     if (statusEl) {
@@ -1689,13 +1689,13 @@ function openOrderModal(card) {
     updateOrderTotal();
 
     { const _el = document.getElementById('orderModal'); if(_el) _el.style.display = 'block'; }
-    document.getElementById('order_customer_name').focus();
+    { const _el = document.getElementById('order_customer_name'); if(_el) _el.focus(); }
 }
 
 let checkVoucherTimeout = null;
 
 function updateOrderTotal() {
-    const unitPrice = parseInt(document.getElementById('order_product_price').value) || 0;
+    const unitPrice = parseInt((document.getElementById('order_product_price') ? document.getElementById('order_product_price').value : '')) || 0;
     const quantityEl = document.getElementById('order_quantity');
     const quantity = quantityEl ? Math.max(1, parseInt(quantityEl.value) || 1) : 1;
     const subtotal = unitPrice * quantity;
@@ -1839,7 +1839,7 @@ document.getElementById('orderForm')?.addEventListener('submit', async event => 
     event.preventDefault();
     const form = event.currentTarget;
     const submit = document.getElementById('orderSubmit');
-    const phone = document.getElementById('order_customer_phone').value.trim();
+    const phone = (document.getElementById('order_customer_phone') ? document.getElementById('order_customer_phone').value : '').trim();
     if (!/^[0-9]{8,15}$/.test(phone)) {
         showOrderStatus('err', 'Số điện thoại chỉ nhập số, từ 8 đến 15 chữ số.');
         return;
@@ -1907,10 +1907,10 @@ if (serviceSearchInput) {
         document.querySelectorAll('.choose-service').forEach(item => item.classList.remove('selected'));
         button.classList.add('selected');
         const base = Number(button.dataset.base || 0);
-        document.getElementById('service_type').value = button.dataset.group || 'Thợ điện lạnh';
-        document.getElementById('tech_target_base').value = button.dataset.base || '';
-        document.getElementById('selected_service_name').value = button.dataset.service || '';
-        document.getElementById('customer_price_display').value = base > 0 ? formatVnd(Math.round(base * 1.10)) + ' - đã gồm VAT' : 'Liên hệ để báo giá';
+        { const _el = document.getElementById('service_type'); if(_el) _el.value = button.dataset.group || 'Thợ điện lạnh'; }
+        { const _el = document.getElementById('tech_target_base'); if(_el) _el.value = button.dataset.base || ''; }
+        { const _el = document.getElementById('selected_service_name'); if(_el) _el.value = button.dataset.service || ''; }
+        { const _el = document.getElementById('customer_price_display'); if(_el) _el.value = base > 0 ? formatVnd(Math.round(base * 1.10)) + ' - đã gồm VAT' : 'Liên hệ để báo giá'; }
     });
 }); */
 
@@ -2042,8 +2042,8 @@ document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
             setLocationStatus('Vị trí nằm ngoài vùng phục vụ (15km quanh Lấp Vò).');
             return;
         }
-        document.getElementById('map_lat').value = lat;
-        document.getElementById('map_lng').value = lng;
+        { const _el = document.getElementById('map_lat'); if(_el) _el.value = lat; }
+        { const _el = document.getElementById('map_lng'); if(_el) _el.value = lng; }
 
         setLocationStatus('Đã lấy tọa độ thành công. Đang tải địa chỉ...');
         try {
@@ -2051,7 +2051,7 @@ document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
             if (!response.ok) throw new Error('Network error');
             const data = await response.json();
             if (data.display_name) {
-                document.getElementById('address').value = data.display_name;
+                { const _el = document.getElementById('address'); if(_el) _el.value = data.display_name; }
             }
             setLocationStatus('Đã nhận diện: ' + lat.toFixed(5) + ', ' + lng.toFixed(5));
         } catch (error) {
@@ -2063,8 +2063,8 @@ document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
 });
 
 document.getElementById('clearLocation')?.addEventListener('click', () => {
-    document.getElementById('map_lat').value = '';
-    document.getElementById('map_lng').value = '';
+    { const _el = document.getElementById('map_lat'); if(_el) _el.value = ''; }
+    { const _el = document.getElementById('map_lng'); if(_el) _el.value = ''; }
         if (addressInput) addressInput.value = '';
     setLocationStatus('');
 });
@@ -2126,11 +2126,11 @@ function selectMainService(type) {
         submitBtn.innerHTML = '🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN';
         submitBtn.dataset.originalText = '🚀 ALO ANH THIÊN - THỢ ĐẾN LIỀN';
         resetServiceSelector();
-        document.getElementById('service_type').value = '';
-        document.getElementById('tech_target_base').value = '';
-        document.getElementById('selected_service_name').value = '';
+        { const _el = document.getElementById('service_type'); if(_el) _el.value = ''; }
+        { const _el = document.getElementById('tech_target_base'); if(_el) _el.value = ''; }
+        { const _el = document.getElementById('selected_service_name'); if(_el) _el.value = ''; }
         { const _el = document.getElementById('location_single_group'); if(_el) _el.style.display = 'block'; }
-        document.getElementById('address').required = true;
+        { const _el = document.getElementById('address'); if(_el) _el.required = true; }
     }
 }
 
@@ -2139,8 +2139,8 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
 
     const form = event.currentTarget;
     const submitButton = document.getElementById('bookingSubmit');
-    const phone = document.getElementById('phone').value.trim();
-    const selectedService = document.getElementById('selected_service_name').value.trim();
+    const phone = (document.getElementById('phone') ? document.getElementById('phone').value : '').trim();
+    const selectedService = (document.getElementById('selected_service_name') ? document.getElementById('selected_service_name').value : '').trim();
 
     if (!selectedService) {
         showBookingStatus('err', 'Vui lòng chọn dịch vụ cụ thể trong danh sách phía trên trước khi gửi form.');
@@ -2152,18 +2152,18 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         return;
     }
 
-    const lat = document.getElementById('map_lat').value.trim();
-    const lng = document.getElementById('map_lng').value.trim();
-    const address = document.getElementById('address').value.trim();
+    const lat = (document.getElementById('map_lat') ? document.getElementById('map_lat').value : '').trim();
+    const lng = (document.getElementById('map_lng') ? document.getElementById('map_lng').value : '').trim();
+    const address = (document.getElementById('address') ? document.getElementById('address').value : '').trim();
     if (!address) {
         showBookingStatus('err', 'Vui lòng nhập địa chỉ hoặc lấy tọa độ hiện tại.');
-        document.getElementById('address').focus();
+        { const _el = document.getElementById('address'); if(_el) _el.focus(); }
         return;
     }
 
     // Điền mô tả = tên dịch vụ đã chọn
-    document.getElementById('description').value = selectedService;
-    document.getElementById('device_fingerprint').value = deviceId();
+    { const _el = document.getElementById('description'); if(_el) _el.value = selectedService; }
+    { const _el = document.getElementById('device_fingerprint'); if(_el) _el.value = deviceId(); }
 
     const formData = new FormData(form);
     const originalSubmitText = submitButton.dataset.originalText || submitButton.innerHTML;
@@ -2185,8 +2185,8 @@ document.getElementById('bookingForm')?.addEventListener('submit', async event =
         const jobId = data.data?.job_id;
         form.reset();
         selectMainService('worker');
-        document.getElementById('map_lat').value = '';
-        document.getElementById('map_lng').value = '';
+        { const _el = document.getElementById('map_lat'); if(_el) _el.value = ''; }
+        { const _el = document.getElementById('map_lng'); if(_el) _el.value = ''; }
         document.querySelectorAll('.choose-service').forEach(item => item.classList.remove('selected'));
         setLocationStatus('Vui lòng nhập địa chỉ hoặc lấy tọa độ hiện tại.');
         if (jobId) {
@@ -2264,20 +2264,20 @@ document.getElementById('orderUseCurrentLocation')?.addEventListener('click', ()
             ls.textContent = 'Vị trí nằm ngoài vùng phục vụ (15km quanh Lấp Vò).';
             return;
         }
-        document.getElementById('order_map_lat').value = lat;
-        document.getElementById('order_map_lng').value = lng;
+        { const _el = document.getElementById('order_map_lat'); if(_el) _el.value = lat; }
+        { const _el = document.getElementById('order_map_lng'); if(_el) _el.value = lng; }
         ls.textContent = 'Đã lấy tọa độ. Đang tải địa chỉ...';
         try {
             const response = await fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=' + lat + '&lon=' + lng);
             const data = await response.json();
             if (data && data.display_name) {
-                document.getElementById('order_customer_address').value = data.display_name;
+                { const _el = document.getElementById('order_customer_address'); if(_el) _el.value = data.display_name; }
             } else {
-                document.getElementById('order_customer_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
+                { const _el = document.getElementById('order_customer_address'); if(_el) _el.value = lat.toFixed(6) + ', ' + lng.toFixed(6); }
             }
             ls.textContent = 'Đã nhận diện: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
         } catch (e) {
-            document.getElementById('order_customer_address').value = lat.toFixed(6) + ', ' + lng.toFixed(6);
+            { const _el = document.getElementById('order_customer_address'); if(_el) _el.value = lat.toFixed(6) + ', ' + lng.toFixed(6); }
             ls.textContent = 'Đã lấy tọa độ: ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
         }
     }, () => ls.textContent = 'Lỗi GPS. Vui lòng cấp quyền.');
@@ -2332,7 +2332,7 @@ document.getElementById('btnScanQR')?.addEventListener('click', () => {
             } catch(e) {
                 // Not a URL, use as is
             }
-            document.getElementById('order_voucher_code').value = finalCode;
+            { const _el = document.getElementById('order_voucher_code'); if(_el) _el.value = finalCode; }
 
             html5QrCode.stop().then(() => {
                 html5QrCode.clear();
@@ -2513,15 +2513,15 @@ function drawWheel() {
 
 function openWheelModal() {
     { const _el = document.getElementById('wheelModal'); if(_el) _el.style.display = 'block'; }
-    const spinsStr = document.getElementById('successLuckySpins').textContent;
+    const spinsStr = (document.getElementById('successLuckySpins') ? document.getElementById('successLuckySpins').textContent : '');
     const spins = parseInt(spinsStr) || 0;
-    document.getElementById('wheelSpinsCount').textContent = spins;
+    { const _el = document.getElementById('wheelSpinsCount'); if(_el) _el.textContent = spins; }
     drawWheel();
 }
 
 async function spinWheel() {
     if(isSpinning) return;
-    let spins = parseInt(document.getElementById('wheelSpinsCount').textContent) || 0;
+    let spins = parseInt((document.getElementById('wheelSpinsCount') ? document.getElementById('wheelSpinsCount').textContent : '')) || 0;
     if(spins <= 0) {
         alert('Bạn đã hết lượt quay!');
         return;
@@ -2568,9 +2568,9 @@ async function spinWheel() {
                     btn.disabled = false;
                     alert('🎉 Kết quả: ' + wheelPrizes[prizeIndex] + '\\n' + res.message);
 
-                    document.getElementById('wheelSpinsCount').textContent = res.data.lucky_spins;
-                    document.getElementById('successLuckySpins').textContent = res.data.lucky_spins + ' lượt quay';
-                    document.getElementById('successUserPoints').textContent = res.data.loyalty_points + ' điểm';
+                    { const _el = document.getElementById('wheelSpinsCount'); if(_el) _el.textContent = res.data.lucky_spins; }
+                    { const _el = document.getElementById('successLuckySpins'); if(_el) _el.textContent = res.data.lucky_spins + ' lượt quay'; }
+                    { const _el = document.getElementById('successUserPoints'); if(_el) _el.textContent = res.data.loyalty_points + ' điểm'; }
                 }
             }
             requestAnimationFrame(animate);

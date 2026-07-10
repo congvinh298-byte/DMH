@@ -22,7 +22,7 @@ param(
     [Parameter(Mandatory = $true)]
     [string]$FtpPassword,
     [string]$RemotePath = "/public_html",
-    [string]$LocalPath = ".."
+    [string]$LocalPath = "."
 )
 
 $ErrorActionPreference = "Stop"
