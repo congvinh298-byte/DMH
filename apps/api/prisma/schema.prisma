@@ -8,17 +8,30 @@ generator client {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  role      Role     @default(CUSTOMER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int      @id @default(autoincrement())
+  phone         String   @unique
+  passwordPin   String?  // 6-digit PIN, default '123456' handled in logic
+  isFirstLogin  Boolean  @default(true)
+  name          String?
+  role          Role     @default(CUSTOMER)
+  
+  // Geo-Location
+  latitude      Float?
+  longitude     Float?
+  address       String?
+  
+  // Technician specific metrics
+  dailyEarnings Float    @default(0.0)
+  starRating    Float    @default(5.0)
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   
   // Relations
-  orders    Order[]
-  repairs   DispatchOrder[] @relation("TechnicianOrders")
-  requests  DispatchOrder[] @relation("CustomerRequests")
+  orders        Order[]
+  repairs       DispatchOrder[] @relation("TechnicianOrders")
+  requests      DispatchOrder[] @relation("CustomerRequests")
+  reviews       Review[]        @relation("TechnicianReviews")
 }
 
 enum Role {
@@ -78,6 +91,12 @@ model DispatchOrder {
   technicianId Int?
   technician   User?          @relation("TechnicianOrders", fields: [technicianId], references: [id])
   issueDetails String
+  
+  // Job Location
+  latitude     Float?
+  longitude    Float?
+  address      String?
+  
   status       DispatchStatus @default(PENDING)
   scheduledFor DateTime?
   createdAt    DateTime       @default(now())
@@ -90,4 +109,13 @@ enum DispatchStatus {
   IN_PROGRESS
   COMPLETED
   CANCELLED
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  technicianId Int
+  technician   User     @relation("TechnicianReviews", fields: [technicianId], references: [id])
+  rating       Int      // 1 to 5
+  comment      String?
+  createdAt    DateTime @default(now())
 }
