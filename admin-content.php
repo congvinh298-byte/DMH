@@ -423,8 +423,17 @@ function renderCtv(){
     const data = getData(LS.ctv);
     const tbody = document.getElementById('ctvList');
     tbody.innerHTML = data.map((c, i) => `<tr><td>${c.name}</td><td>${c.phone}</td><td>${c.id}</td><td>${c.job}</td>
-        <td><button class="btn-small btn-red" onclick="deleteItem('${LS.ctv}', ${i}, renderCtv)">Xóa</button></td></tr>`).join('');
+        <td style="display: flex; gap: 5px;">
+            <button class="btn-small btn-blue" onclick="grantPassword(${i})">Cấp mật khẩu</button>
+            <button class="btn-small btn-red" onclick="deleteAccount(${i})">Xóa tài khoản</button>
+        </td></tr>`).join('');
     updateDashboard();
+}
+function grantPassword(index) {
+    // Placeholder for UI, logic to be added in Step 2
+}
+function deleteAccount(index) {
+    // Placeholder for UI, logic to be added in Step 2
 }
 function addCtv(){
     const name = document.getElementById('ctvName').value;
