@@ -1072,6 +1072,18 @@ try {
             ],
         ]);
 
+    case 'admin_delete_worker':
+        admin_require($pdo, $input);
+        $phone = digits_only((string)($input['phone'] ?? ''));
+        if (!$phone) json_out(['status' => 'error', 'message' => 'Thiếu số điện thoại.']);
+        $stmt = $pdo->prepare('UPDATE worker_profiles SET is_active = 0 WHERE phone = ?');
+        $stmt->execute([$phone]);
+        if ($stmt->rowCount() > 0) {
+            json_out(['status' => 'success', 'message' => 'Đã vô hiệu hóa tài khoản thợ thành công.']);
+        } else {
+            json_out(['status' => 'error', 'message' => 'Không tìm thấy thợ.']);
+        }
+
     case 'admin_set_worker_pin':
         admin_require($pdo, $input);
         $phone = digits_only((string)($input['phone'] ?? ''));

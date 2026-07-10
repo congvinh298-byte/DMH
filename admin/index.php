@@ -551,7 +551,7 @@ function renderWorkerRow(w){
     const isAdmin = parseInt(w.is_admin, 10) === 1;
     const roleLabel = isAdmin ? '👑 Admin' : (w.role || 'worker');
     const status = parseInt(w.is_active, 10) === 0 ? '⛔ Đã rời nhóm' : '✅ Hoạt động';
-    const historyBtn = `<button class="btn-small btn-blue" onclick="openWorkerHistory(${w.worker_id}, '${escHtml(w.telegram_name || 'Thợ')}')">Lịch sử</button> <button class="btn-small" style="background:#8b5cf6;color:white;" onclick="promptSetWorkerPin('${escHtml(w.phone || '')}')">Cấp MK</button>`;
+    const historyBtn = `<button class="btn-small btn-blue" onclick="openWorkerHistory(${w.worker_id}, '${escHtml(w.telegram_name || 'Thợ')}')">Lịch sử</button> <button class="btn-small" style="background:#8b5cf6;color:white;" onclick="promptSetWorkerPin('${escHtml(w.phone || '')}')">Cấp MK</button> <button class="btn-small" style="background:#dc2626;color:white;" onclick="promptDeleteWorker('${escHtml(w.phone || '')}')">Xóa thợ</button>`;
     return `<tr>
         <td>${w.worker_id || ''}</td>
         <td>${escHtml(w.telegram_name || '')}</td>
