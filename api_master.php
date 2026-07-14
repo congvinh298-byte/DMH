@@ -273,6 +273,21 @@ try {
         $stmt->execute([$rating, $booking_id]);
         json_out(['status' => 'success']);
 
+    case 'admin_list_jobs':
+        json_out(admin_jobs_action($pdo));
+
+    case 'admin_list_workers':
+        json_out(admin_workers_action($pdo));
+
+    case 'admin_assign_job':
+        json_out(admin_assign_job_action($pdo, $input));
+
+    case 'admin_cancel_job':
+        json_out(admin_cancel_job_action($pdo, $input));
+
+    case 'admin_toggle_assignment':
+        json_out(admin_toggle_assignment_action($pdo, $input));
+
         case 'check_voucher':
         $code = clean_string($input['coupon_code'] ?? $input['voucher_code'] ?? $input['code'] ?? '', 80);
         if ($code === '') {

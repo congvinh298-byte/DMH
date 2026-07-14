@@ -676,12 +676,147 @@ function create_job_action(array $input): array
     ];
 }
 
+function get_setting_value(PDO $pdo, string $key, string $default = ''): string
+{
+    if (!table_exists($pdo, 'settings')) {
+        return $default;
+    }
+    $stmt = $pdo->prepare('SELECT value FROM settings WHERE `key` = ? LIMIT 1');
+    $stmt->execute([$key]);
+    $value = $stmt->fetchColumn();
+    return $value !== false && $value !== null ? (string)$value : $default;
+}
+
+function set_setting_value(PDO $pdo, string $key, string $value, string $description = ''): bool
+{
+    if (!table_exists($pdo, 'settings')) {
+        return false;
+    }
+    $stmt = $pdo->prepare('INSERT INTO settings (`key`, `value`, `description`) VALUES (?, ?, ?)
+        ON DUPLICATE KEY UPDATE value = VALUES(value)');
+    $stmt->execute([$key, $value, $description]);
+    return true;
+}
+
+function admin_list_workers(PDO $pdo): array
+{
+    if (!table_exists($pdo, 'worker_profiles')) {
+        return [];
+    }
+    $stmt = $pdo->query('SELECT telegram_user_id, telegram_name, telegram_username, phone, role, is_admin, is_receive_blocked
+        FROM worker_profiles
+        WHERE role = "worker" OR is_admin = 0
+        ORDER BY telegram_name ASC, telegram_user_id ASC');
+    $rows = [];
+    foreach ($stmt->fetchAll() as $row) {
+        $rows[] = [
+            'id' => (int)$row['telegram_user_id'],
+            'name' => (string)($row['telegram_name'] ?: $row['telegram_username'] ?: "Thợ {$row['telegram_user_id']}"),
+            'username' => (string)($row['telegram_username'] ?? ''),
+            'phone' => (string)($row['phone'] ?? ''),
+            'role' => (string)$row['role'],
+            'blocked' => (int)($row['is_receive_blocked'] ?? 0) === 1,
+        ];
+    }
+    return $rows;
+}
+
+
+
+
+
+function admin_assign_job_action(PDO $pdo, array $input): array
+{
+    $jobId = (int)($input['job_id'] ?? 0);
+    $workerId = (int)($input['worker_id'] ?? 0);
+    $workerName = clean_string($input['worker_name'] ?? '', 150);
+
+    if ($jobId <= 0 || $workerId <= 0) {
+        return ['status' => 'error', 'message' => 'Thieu job_id hoac worker_id.'];
+    }
+
+    if (get_setting_value($pdo, 'assignment_enabled', '1') !== '1') {
+        return ['status' => 'error', 'message' => 'Tinh nang giao ca dang bi tat.'];
+    }
+
+    $job = get_job_row($pdo, $jobId, true);
+    if (!$job) {
+        return ['status' => 'error', 'message' => 'Khong tim thay ca.'];
+    }
+
+    $currentStatus = job_display_status($job);
+    if (in_array($currentStatus, ['completed', 'cancelled', 'spam'], true)) {
+        return ['status' => 'error', 'message' => 'Ca da hoan thanh, huy hoac bi danh dau spam.'];
+    }
+
+    $assignedValues = job_assignment_values($pdo, $workerId);
+    $assignedValues['status'] = job_status($pdo, 'assigned');
+
+    update_compat($pdo, 'job_posts', $assignedValues, 'id = ?', [$jobId], [
+        'assigned_at' => 'NOW()',
+        'updated_at' => 'NOW()',
+    ]);
+
+    insert_compat($pdo, 'job_claims', [
+        'job_id' => $jobId,
+        'telegram_user_id' => $workerId,
+        'telegram_name' => $workerName ?: ('Tho ' . $workerId),
+        'outcome' => 'claimed',
+        'note' => 'Admin giao ca',
+    ], ['created_at' => 'NOW()']);
+
+    send_worker_job_to_group($pdo, $jobId);
+
+    return ['status' => 'success', 'message' => 'Da giao ca #' . $jobId . ' cho tho ' . $workerName . ' (ID ' . $workerId . ').'];
+}
+
+function admin_cancel_job_action(PDO $pdo, array $input): array
+{
+    $jobId = (int)($input['job_id'] ?? 0);
+    $reason = clean_string($input['reason'] ?? 'Admin huy ca', 255);
+
+    if ($jobId <= 0) {
+        return ['status' => 'error', 'message' => 'Thieu job_id.'];
+    }
+
+    $job = get_job_row($pdo, $jobId, true);
+    if (!$job) {
+        return ['status' => 'error', 'message' => 'Khong tim thay ca.'];
+    }
+
+    $currentStatus = job_display_status($job);
+    if (in_array($currentStatus, ['completed', 'cancelled', 'spam'], true)) {
+        return ['status' => 'error', 'message' => 'Ca da o trang thai khong the huy.'];
+    }
+
+    update_compat($pdo, 'job_posts', [
+        'status' => job_status($pdo, 'cancelled'),
+        'cancel_reason' => $reason,
+    ], 'id = ?', [$jobId], [
+        'cancelled_at' => 'NOW()',
+        'updated_at' => 'NOW()',
+    ]);
+
+    return ['status' => 'success', 'message' => 'Da huy ca #' . $jobId . '. Ly do: ' . $reason . '.'];
+}
+
+function admin_toggle_assignment_action(PDO $pdo, array $input): array
+{
+    $enabled = (int)($input['enabled'] ?? 0);
+    $value = $enabled === 1 ? '1' : '0';
+    set_setting_value($pdo, 'assignment_enabled', $value, 'Bat/tat tinh nang giao ca cho tho trong admin (1=bat, 0=tat)');
+    return ['status' => 'success', 'message' => $enabled === 1 ? 'Da bat tinh nang giao ca.' : 'Da tat tinh nang giao ca.', 'enabled' => $enabled];
+}
+
 function admin_jobs(PDO $pdo): array
 {
     if (!table_exists($pdo, 'job_posts')) {
         return [];
     }
-    $stmt = $pdo->query('SELECT * FROM job_posts ORDER BY id DESC LIMIT 200');
+    $stmt = $pdo->query('SELECT j.*, COALESCE(wp.telegram_name, wp.telegram_username) AS worker_name
+        FROM job_posts j
+        LEFT JOIN worker_profiles wp ON wp.telegram_user_id = COALESCE(j.telegram_worker_id, j.worker_id)
+        ORDER BY j.id DESC LIMIT 200');
     $rows = [];
     foreach ($stmt->fetchAll() as $row) {
         $pricing = get_job_pricing($pdo, (int)$row['id']);
@@ -699,6 +834,7 @@ function admin_jobs(PDO $pdo): array
             'platform_fee' => money_int($pricing['platform_fee'] ?? 0),
             'tech_net_income' => money_int($pricing['tech_net_income'] ?? 0),
             'worker_id' => job_worker_telegram_id($row) ?: null,
+            'worker_name' => (string)($row['worker_name'] ?? ''),
             'status' => job_display_status($row),
             'spam_count' => (int)($row['spam_count'] ?? 0),
             'created_at' => (string)($row['created_at'] ?? ''),
@@ -706,4 +842,14 @@ function admin_jobs(PDO $pdo): array
         ];
     }
     return $rows;
+}
+
+function admin_jobs_action(PDO $pdo): array
+{
+    return ['status' => 'success', 'data' => admin_jobs($pdo), 'assignment_enabled' => get_setting_value($pdo, 'assignment_enabled', '1')];
+}
+
+function admin_workers_action(PDO $pdo): array
+{
+    return ['status' => 'success', 'data' => admin_list_workers($pdo)];
 }

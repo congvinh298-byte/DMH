@@ -1309,6 +1309,10 @@ function ensure_core_schema(PDO $pdo)
     }
 
     seed_known_telegram_profiles($pdo);
+
+    // Default setting: enable admin job assignment UI
+    $pdo->prepare("INSERT IGNORE INTO settings (`key`, `value`, `description`) VALUES (?, ?, ?)")
+        ->execute(['assignment_enabled', '1', 'Bat/tat tinh nang giao ca cho tho trong admin (1=bat, 0=tat)']);
 }
 
 function insert_compat(PDO $pdo, string $table, array $values, array $expressions = []): int

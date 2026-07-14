@@ -2,6 +2,10 @@
 // Admin dashboard content for dienmayhieu.com
 // Included by index.php when route is /admin
 
+if (session_status() !== PHP_SESSION_ACTIVE) {
+    session_start();
+}
+
 // Thông tin đăng nhập admin
 $admin_user = 'anhthien';
 $admin_pass = 'Anhthien369@';
@@ -12,6 +16,9 @@ if (isset($_POST['login'])) {
     $p = $_POST['password'] ?? '';
     if ($u === $admin_user && $p === $admin_pass) {
         $_SESSION['admin_logged_in'] = true;
+        if (empty($_SESSION['csrf_token'])) {
+            $_SESSION['csrf_token'] = bin2hex(random_bytes(16));
+        }
     } else {
         $error = 'Sai tên đăng nhập hoặc mật khẩu.';
     }
@@ -25,6 +32,10 @@ if (isset($_GET['logout'])) {
 }
 
 $is_logged_in = !empty($_SESSION['admin_logged_in']);
+$csrf_token = $_SESSION['csrf_token'] ?? bin2hex(random_bytes(16));
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = $csrf_token;
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -219,6 +230,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
         <div class="brand">🏪 Điện Máy Hiếu</div>
         <nav>
             <a class="active" href="/admin#dashboard" onclick="showSection('dashboard', event); return false;">📊 Tổng quan</a>
+            <a href="/admin#jobs" onclick="showSection('jobs', event); return false;">📋 Quản lý ca dịch vụ</a>
             <a href="/admin#ctv" onclick="showSection('ctv', event); return false;">👷 Quản lý CTV / Thợ</a>
             <a href="/admin#qr" onclick="showSection('qr', event); return false;">🎁 Tạo QR khuyến mãi</a>
             <a href="/admin#hoadon" onclick="showSection('hoadon', event); return false;">🧾 Hóa đơn bán lẻ</a>
@@ -230,6 +242,7 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
     </div>
 
     <div class="main-content">
+        <input type="hidden" id="csrfToken" value="<?php echo htmlspecialchars($csrf_token); ?>">
         <div class="topbar">
             <h2 id="page-title">Tổng quan</h2>
             <div>Xin chào, <strong>anhthien</strong> (Chủ cửa hàng)</div>
@@ -244,6 +257,64 @@ $is_logged_in = !empty($_SESSION['admin_logged_in']);
                 <div class="dash-card"><div class="number" id="dashHoaDon">0</div><div class="label">Hóa đơn</div></div>
                 <div class="dash-card"><div class="number" id="dashHopDong">0</div><div class="label">Hợp đồng</div></div>
                 <div class="dash-card"><div class="number" id="dashQr">0</div><div class="label">QR khuyến mãi</div></div>
+                <div class="dash-card"><div class="number" id="dashJobs">0</div><div class="label">Ca dịch vụ</div></div>
+            </div>
+        </div>
+
+        <!-- QUẢN LÝ CA DỊCH VỤ -->
+        <div id="jobs" class="section">
+            <h3>📋 Quản lý ca dịch vụ</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                <div>
+                    <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+                        <input type="checkbox" id="assignmentToggle" onchange="toggleAssignment(this)">
+                        <span id="assignmentToggleLabel">Bật tính năng giao ca cho thợ</span>
+                    </label>
+                </div>
+                <button class="btn-blue" onclick="loadJobs()">🔄 Tải lại danh sách</button>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã ca</th>
+                            <th>Khách hàng</th>
+                            <th>SĐT</th>
+                            <th>Dịch vụ</th>
+                            <th>Địa chỉ</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                            <th>Thợ được giao</th>
+                            <th>Ngày tạo</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobsList">
+                        <tr><td colspan="10" style="text-align:center;">Đang tải...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Popup giao ca -->
+        <div id="assignJobModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
+            <div style="background:white; padding:25px; border-radius:12px; width:90%; max-width:420px;">
+                <h3 id="assignModalTitle">Giao ca cho thợ</h3>
+                <input type="hidden" id="assignJobId">
+                <div class="form-group">
+                    <label>Chọn thợ</label>
+                    <select id="assignWorkerId" style="width:100%;">
+                        <option value="">-- Chọn thợ --</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Ghi chú giao ca (tùy chọn)</label>
+                    <input type="text" id="assignNote" placeholder="VD: Giao ca gấp cho thợ gần nhất">
+                </div>
+                <div style="display:flex; gap:10px; justify-content:flex-end;">
+                    <button class="btn-red" onclick="closeAssignModal()">Hủy</button>
+                    <button onclick="confirmAssignJob()">✅ Xác nhận giao ca</button>
+                </div>
             </div>
         </div>
 
@@ -407,11 +478,12 @@ function showSection(id, ev){
     document.querySelectorAll('.sidebar nav a').forEach(a => a.classList.remove('active'));
     if (ev && ev.target) ev.target.classList.add('active');
     const titles = {
-        dashboard: 'Tổng quan', ctv: 'Quản lý CTV / Thợ', qr: 'Tạo QR khuyến mãi',
+        dashboard: 'Tổng quan', jobs: 'Quản lý ca dịch vụ', ctv: 'Quản lý CTV / Thợ', qr: 'Tạo QR khuyến mãi',
         hoadon: 'Hóa đơn bán lẻ', gtgt: 'Hóa đơn GTGT', nhap: 'Hóa đơn nháp', hopdong: 'Hợp đồng lao động'
     };
     document.getElementById('page-title').textContent = titles[id];
     updateDashboard();
+    if(id === 'jobs') loadJobs();
 }
 function updateDashboard(){
     document.getElementById('dashCtv').textContent = getData(LS.ctv).length;
@@ -419,6 +491,152 @@ function updateDashboard(){
     document.getElementById('dashHopDong').textContent = getData(LS.hdld).length;
     document.getElementById('dashQr').textContent = getData(LS.qr).length;
 }
+
+let cachedJobs = [];
+let cachedWorkers = [];
+let assignmentEnabled = true;
+
+async function apiPost(action, payload = {}){
+    const csrf = document.getElementById('csrfToken')?.value || '';
+    try {
+        const res = await fetch('/api_master.php?action=' + encodeURIComponent(action), {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRF-Token': csrf},
+            body: JSON.stringify(payload)
+        });
+        return await res.json();
+    } catch(e) {
+        return {status:'error', message: e.message};
+    }
+}
+
+async function loadJobs(){
+    const tbody = document.getElementById('jobsList');
+    tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">Đang tải...</td></tr>';
+    const res = await apiPost('admin_list_jobs');
+    if(res.status !== 'success'){
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:red;">Lỗi: ' + (res.message || 'Khong tai duoc') + '</td></tr>';
+        return;
+    }
+    cachedJobs = res.data || [];
+    assignmentEnabled = res.assignment_enabled === '1';
+    document.getElementById('assignmentToggle').checked = assignmentEnabled;
+    document.getElementById('assignmentToggleLabel').textContent = assignmentEnabled ? 'Tính năng giao ca đang BẬT' : 'Tính năng giao ca đang TẮT';
+    document.getElementById('dashJobs').textContent = cachedJobs.length;
+    renderJobs();
+}
+
+function statusLabel(status){
+    const map = {
+        pending: {text: 'Chờ thợ', color: '#f39c12'},
+        assigned: {text: 'Đã giao', color: '#2980b9'},
+        completed: {text: 'Hoàn thành', color: '#27ae60'},
+        cancelled: {text: 'Đã hủy', color: '#7f8c8d'},
+        spam: {text: 'Spam', color: '#c0392b'}
+    };
+    return map[status] || {text: status, color: '#333'};
+}
+
+function renderJobs(){
+    const tbody = document.getElementById('jobsList');
+    if(cachedJobs.length === 0){
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">Chưa có ca dịch vụ nào.</td></tr>';
+        return;
+    }
+    tbody.innerHTML = cachedJobs.map(j => {
+        const st = statusLabel(j.status);
+        const canAssign = assignmentEnabled && ['pending','assigned'].indexOf(j.status) === -1 ? false : (assignmentEnabled && !['completed','cancelled','spam'].includes(j.status));
+        const canCancel = !['completed','cancelled','spam'].includes(j.status);
+        return `<tr>
+            <td>#${j.id}</td>
+            <td>${j.customer_name || '-'}</td>
+            <td>${j.customer_phone || '-'}</td>
+            <td>${j.service_type || '-'}</td>
+            <td>${j.address || '-'} ${j.maps_url ? `<a href="${j.maps_url}" target="_blank" style="font-size:12px;">🗺️</a>` : ''}</td>
+            <td>${j.final_total ? j.final_total.toLocaleString('vi-VN') + ' ₫' : '-'}</td>
+            <td><span style="color:${st.color}; font-weight:bold;">${st.text}</span></td>
+            <td>${j.worker_name ? j.worker_name + ' (ID ' + j.worker_id + ')' : '-'}</td>
+            <td>${j.created_at ? new Date(j.created_at).toLocaleString('vi-VN') : '-'}</td>
+            <td>
+                ${canAssign ? `<button class="btn-small btn-green" onclick="openAssignModal(${j.id})">Giao ca</button>` : ''}
+                ${canCancel ? `<button class="btn-small btn-red" onclick="cancelJob(${j.id})">Hủy ca</button>` : ''}
+            </td>
+        </tr>`;
+    }).join('');
+}
+
+async function loadWorkers(){
+    const res = await apiPost('admin_list_workers');
+    if(res.status === 'success'){
+        cachedWorkers = res.data || [];
+    }
+}
+
+async function openAssignModal(jobId){
+    await loadWorkers();
+    if(cachedWorkers.length === 0){
+        alert('Chưa có thợ nào trong hệ thống. Vui lòng kiểm tra worker_profiles.');
+        return;
+    }
+    const select = document.getElementById('assignWorkerId');
+    select.innerHTML = '<option value="">-- Chọn thợ --</option>' +
+        cachedWorkers.map(w => `<option value="${w.id}">${w.name}${w.phone ? ' - ' + w.phone : ''} (ID ${w.id})</option>`).join('');
+    document.getElementById('assignJobId').value = jobId;
+    document.getElementById('assignModalTitle').textContent = 'Giao ca #' + jobId + ' cho thợ';
+    document.getElementById('assignJobModal').style.display = 'flex';
+}
+
+function closeAssignModal(){
+    document.getElementById('assignJobModal').style.display = 'none';
+    document.getElementById('assignJobId').value = '';
+    document.getElementById('assignWorkerId').value = '';
+    document.getElementById('assignNote').value = '';
+}
+
+async function confirmAssignJob(){
+    const jobId = parseInt(document.getElementById('assignJobId').value) || 0;
+    const workerId = parseInt(document.getElementById('assignWorkerId').value) || 0;
+    if(!jobId || !workerId) return alert('Vui lòng chọn thợ để giao ca.');
+    const worker = cachedWorkers.find(w => w.id === workerId);
+    const res = await apiPost('admin_assign_job', {
+        job_id: jobId,
+        worker_id: workerId,
+        worker_name: worker ? worker.name : ''
+    });
+    if(res.status === 'success'){
+        alert(res.message);
+        closeAssignModal();
+        loadJobs();
+    } else {
+        alert('Lỗi: ' + (res.message || 'Khong giao duoc ca'));
+    }
+}
+
+async function cancelJob(jobId){
+    if(!confirm('Bạn chắc chắn muốn HỦY ca #' + jobId + '?')) return;
+    const res = await apiPost('admin_cancel_job', {job_id: jobId, reason: 'Admin huy ca tu admin'});
+    if(res.status === 'success'){
+        alert(res.message);
+        loadJobs();
+    } else {
+        alert('Lỗi: ' + (res.message || 'Khong huy duoc ca'));
+    }
+}
+
+async function toggleAssignment(el){
+    const enabled = el.checked ? 1 : 0;
+    const res = await apiPost('admin_toggle_assignment', {enabled: enabled});
+    if(res.status === 'success'){
+        assignmentEnabled = enabled === 1;
+        document.getElementById('assignmentToggleLabel').textContent = assignmentEnabled ? 'Tính năng giao ca đang BẬT' : 'Tính năng giao ca đang TẮT';
+        renderJobs();
+        alert(res.message);
+    } else {
+        alert('Lỗi: ' + (res.message || 'Khong doi duoc trang thai'));
+        el.checked = !el.checked;
+    }
+}
+
 function renderCtv(){
     const data = getData(LS.ctv);
     const tbody = document.getElementById('ctvList');
@@ -663,7 +881,7 @@ function deleteItem(key, index, renderFn){
     renderFn();
 }
 window.onload = function(){
-    renderCtv(); renderQr(); renderHoaDon(); renderNhap(); renderHopDong(); updateDashboard();
+    renderCtv(); renderQr(); renderHoaDon(); renderNhap(); renderHopDong(); updateDashboard(); loadJobs();
 };
 </script>
 

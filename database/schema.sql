@@ -348,7 +348,8 @@ INSERT IGNORE INTO settings (`key`, `value`, `description`) VALUES
     ('site_name', 'Điện Tử Hiếu', 'Tên trang web'),
     ('commission_rate', '10', 'Hoa hồng nền tảng (%)'),
     ('min_withdraw', '50000', 'Số tiền rút tối thiểu'),
-    ('free_shipping_min', '500000', 'Miễn phí ship từ');
+    ('free_shipping_min', '500000', 'Miễn phí ship từ'),
+    ('assignment_enabled', '1', 'Bật/tắt tính năng giao ca cho thợ trong admin (1=bật, 0=tắt)');
 
 -- =========================================================================================
 -- BẢNG 18: blacklist - DANH SÁCH ĐEN
