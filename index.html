@@ -169,6 +169,40 @@ article.product .name, article.product .img { pointer-events: none; }
 article.product button, article.product a { pointer-events: auto; }
 </style>
 
+
+<style>
+/* Collapsible footer */
+.footer-toggle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+    color: #fff;
+    border: none;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(56,189,248,0.35);
+    transition: transform .15s, box-shadow .15s;
+}
+.footer-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(56,189,248,0.45); }
+.footer-toggle-btn i { transition: transform .3s; }
+.footer-toggle-btn.active i { transform: rotate(180deg); }
+.footer-collapsed {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .5s ease, opacity .3s ease, padding .3s ease;
+    opacity: 0;
+}
+.footer-collapsed.open {
+    max-height: 2000px;
+    opacity: 1;
+    padding-top: 40px;
+}
+</style>
+
 </head><head>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 </head>
@@ -1225,46 +1259,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check URL hash to open specific tab
     const hash = window.location.hash;
     if(hash && hash.startsWith('#pol-')) {
-        const targetBtn = document.querySelector(`.bct-tab-btn[data-target="${hash.substring(1)}"]`);
-        if(targetBtn) {
-            targetBtn.click();
-            setTimeout(() => {
-                document.getElementById('bct-policies').scrollIntoView({behavior: 'smooth'});
-            }, 100);
-        }
-    }
-});
-</script>
-
-
-<script>
-    function updateTextView(_obj){
-        var num = getNumber(_obj.val());
-        if(num==0){
-            _obj.val('');
-        }else{
-            _obj.val(num.toLocaleString());
-        }
-    }
-    function getNumber(_str){
-        var arr = _str.split('');
-        var out = new Array();
-        for(var cnt=0;cnt<arr.length;cnt++){
-            if(isNaN(arr[cnt])==false){
-                out.push(arr[cnt]);
-            }
-        }
-        return Number(out.join(''));
-    }
-    $(document).ready(function(){
-        $('.fnum').on('keyup',function(){
-            updateTextView($(this));
-        });
-    });
-</script>
-
-<!-- BEGIN: Footer -->
-<footer><div class="wrap">
+        const targetBtn = document.querySelector(`.bct-tab-btn[data-target="${hash.sub
+<section style="padding: 50px 20px; text-align: center; background: #0b1120; border-top: 1px solid rgba(255,255,255,0.05);">
+    <button class="footer-toggle-btn" onclick="toggleFooter(this)">
+        <i class="fa-solid fa-chevron-down"></i> Thông tin liên hệ & pháp lý
+    </button>
+    <div class="footer-collapsed" id="footerCollapsed">
+        <footer><div class="wrap">
     <div class="footer-grid">
         <div>
             <h3>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</h3>
@@ -1281,6 +1282,39 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div>
             <h3>Thông tin pháp lý</h3>
+            <p><a href="/#pol-1">Chính sách bảo mật</a></p>
+            <p><a href="/#pol-2">Giải quyết khiếu nại</a></p>
+            <p><a href="/#pol-3">Chính sách giá</a></p>
+            <p><a href="/#pol-4">Chính sách thanh toán</a></p>
+            <p><a href="/#pol-5">Điều kiện & hạn chế</a></p>
+            <p><a href="/#pol-6">Giao hàng & Đổi trả</a></p>
+            <p><a href="/#pol-7">Hỗ trợ trực tuyến</a></p>
+        </div>
+        <div>
+            <h3>Truy cập nhanh</h3>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dienmayhieu.com" alt="QR truy cập" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;">
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 Điện Máy Hiếu</span>
+        <span>Website đang chờ duyệt</span>
+    </div>
+</div></footer>
+    </div>
+</section>
+
+<script>
+function toggleFooter(btn) {
+    const collapsed = document.getElementById('footerCollapsed');
+    collapsed.classList.toggle('open');
+    btn.classList.toggle('active');
+    const isOpen = collapsed.classList.contains('open');
+    btn.innerHTML = isOpen
+        ? '<i class="fa-solid fa-chevron-up"></i> Thu gọn thông tin'
+        : '<i class="fa-solid fa-chevron-down"></i> Thông tin liên hệ & pháp lý';
+}
+</script>
+>Thông tin pháp lý</h3>
             <p><a href="/#pol-1">Chính sách bảo mật</a></p>
             <p><a href="/#pol-2">Giải quyết khiếu nại</a></p>
             <p><a href="/#pol-3">Chính sách giá</a></p>
