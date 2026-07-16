@@ -1,12 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="vi" dir="ltr" class="light">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Điện Máy Hiếu - Bán lẻ, Sửa chữa & In 3D Chuyên Nghiệp">
+    <meta name="description" content="─Éiß╗çn M├íy Hiß║┐u - B├ín lß║╗, Sß╗¡a chß╗»a & In 3D Chuy├¬n Nghiß╗çp">
     
-    <title>Điện Máy Hiếu - Marketplace & Gọi Thợ</title>
+    <title>─Éiß╗çn M├íy Hiß║┐u - Marketplace & Gß╗ìi Thß╗ú</title>
     
     <!-- Favicon -->
     <link rel="icon" href="/public/assets/logo.png" type="image/png">
@@ -39,10 +39,7 @@
     
 
 <style>
-/* Hide approval line */
-.approval-line { display: none !important; }
-
-/* Fix hiển thị hình ảnh sản phẩm đầy đủ, cân đối mọi kích cỡ */
+/* Fix hiß╗ân thß╗ï h├¼nh ß║únh sß║ún phß║⌐m ─æß║ºy ─æß╗º, c├ón ─æß╗æi mß╗ìi k├¡ch cß╗í */
 .product .img {
     position: relative;
     width: 100%;
@@ -62,7 +59,7 @@
     box-sizing: border-box;
 }
 
-/* Modal xem chi tiết sản phẩm */
+/* Modal xem chi tiß║┐t sß║ún phß║⌐m */
 .product-modal-overlay {
     display: none;
     position: fixed;
@@ -163,44 +160,10 @@
 }
 .product-modal-actions .btn-addcart { background: transparent; border: 1px solid rgba(255,255,255,0.3); }
 .product-modal-actions .btn-buynow { background: var(--brand-accent, #d97706); }
-/* Card sản phẩm có thể click */
+/* Card sß║ún phß║⌐m c├│ thß╗â click */
 article.product { cursor: pointer; }
 article.product .name, article.product .img { pointer-events: none; }
 article.product button, article.product a { pointer-events: auto; }
-</style>
-
-
-<style>
-/* Collapsible footer */
-.footer-toggle-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
-    color: #fff;
-    border: none;
-    padding: 14px 26px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    box-shadow: 0 8px 24px rgba(56,189,248,0.35);
-    transition: transform .15s, box-shadow .15s;
-}
-.footer-toggle-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(56,189,248,0.45); }
-.footer-toggle-btn i { transition: transform .3s; }
-.footer-toggle-btn.active i { transform: rotate(180deg); }
-.footer-collapsed {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height .5s ease, opacity .3s ease, padding .3s ease;
-    opacity: 0;
-}
-.footer-collapsed.open {
-    max-height: 2000px;
-    opacity: 1;
-    padding-top: 40px;
-}
 </style>
 
 </head><head>
@@ -217,28 +180,28 @@ article.product button, article.product a { pointer-events: auto; }
     }
     </style>
     
-    <div class="approval-line">Website đang chờ duyệt</div>
+    <div class="approval-line">Website ─æang chß╗¥ duyß╗çt</div>
     
     <header>
         <div class="wrap head">
-            <!-- Tối ưu hiển thị cho LOGO DỌC/VUÔNG: img height 64px, object-fit contain -->
+            <!-- Tß╗æi ╞░u hiß╗ân thß╗ï cho LOGO Dß╗îC/VU├öNG: img height 64px, object-fit contain -->
             <a class="logo" href="/">
-                <img src="/public/assets/logo.png" alt="Logo Điện Máy Hiếu">
-                <div>Điện Máy Hiếu<small>Mua hàng nhanh - Gọi thợ nhanh</small></div>
+                <img src="/public/assets/logo.png" alt="Logo ─Éiß╗çn M├íy Hiß║┐u">
+                <div>─Éiß╗çn M├íy Hiß║┐u<small>Mua h├áng nhanh - Gß╗ìi thß╗ú nhanh</small></div>
             </a>
             
             <form class="search" id="searchForm" action="/">
-                <input id="searchInput" name="q" type="search" placeholder="Tìm sản phẩm, dịch vụ...">
-                <button type="submit">Tìm</button>
+                <input id="searchInput" name="q" type="search" placeholder="T├¼m sß║ún phß║⌐m, dß╗ïch vß╗Ñ...">
+                <button type="submit">T├¼m</button>
             </form>
             
             <div style="display: flex; gap: 8px; align-items: center; position: relative;">
-                <a class="btn dark" href="/dien-may">Cửa hàng</a>
+                <a class="btn dark" href="/dien-may">Cß╗¡a h├áng</a>
                 <a class="btn dark" href="/in-3d.php">In 3D</a>
-                <a class="btn dark" href="/goi-tho.php">Gọi thợ</a>
-                <a class="btn dark" href="/tra-cuu-don.php">Tra cứu đơn</a>
+                <a class="btn dark" href="/goi-tho.php">Gß╗ìi thß╗ú</a>
+                <a class="btn dark" href="/tra-cuu-don.php">Tra cß╗⌐u ─æ╞ín</a>
                 <a class="btn" href="/GioHang.php" style="background: var(--brand-accent); color: white; position: relative; padding: 10px 15px;">
-                    <i class="fa-solid fa-cart-shopping"></i> Giỏ Hàng
+                    <i class="fa-solid fa-cart-shopping"></i> Giß╗Å H├áng
                     <span id="cartCountBadge" style="position: absolute; top: -8px; right: -8px; background: #f43f5e; color: white; border-radius: 50%; width: 22px; height: 22px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.3); display: none;">0</span>
                 </a>
                 
@@ -246,7 +209,7 @@ article.product button, article.product a { pointer-events: auto; }
                     <i class="fa-solid fa-bars"></i>
                 </button>
                 <div id="topMenuDropdown" style="display: none; position: absolute; right: 0; top: calc(100% + 8px); background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; min-width: 200px; z-index: 1000; padding: 8px 0; box-shadow: 0 10px 25px rgba(0,0,0,0.3);">
-                    <a href="/login.php" style="display: block; padding: 10px 16px; color: white; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-sign-in-alt" style="width: 22px;"></i> Đăng nhập / Đăng ký</a>
+                    <a href="/login.php" style="display: block; padding: 10px 16px; color: white; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-sign-in-alt" style="width: 22px;"></i> ─É─âng nhß║¡p / ─É─âng k├╜</a>
                 </div>
             </div>
         </div>
@@ -258,7 +221,7 @@ article.product button, article.product a { pointer-events: auto; }
         menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
     }
 
-    // Đóng menu khi click ra ngoài
+    // ─É├│ng menu khi click ra ngo├ái
     document.addEventListener('click', function(e) {
         const toggle = document.getElementById('topMenuToggle');
         const menu = document.getElementById('topMenuDropdown');
@@ -279,9 +242,9 @@ article.product button, article.product a { pointer-events: auto; }
                     let res = typeof r === 'string' ? JSON.parse(r) : r;
                     if(res.logged_in) {
                         $('#topMenuDropdown').html(`
-                            <a href="/pages/client/Orders.php" style="display: block; padding: 10px 16px; color: white; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-box" style="width: 22px;"></i> Đơn hàng của tôi</a>
-                            <a href="/profile.php" style="display: block; padding: 10px 16px; color: white; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-user" style="width: 22px;"></i> Thông tin khách hàng</a>
-                            <a href="javascript:void(0)" onclick="logout()" style="display: block; padding: 10px 16px; color: #f43f5e; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-sign-out-alt" style="width: 22px;"></i> Đăng xuất</a>
+                            <a href="/pages/client/Orders.php" style="display: block; padding: 10px 16px; color: white; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-box" style="width: 22px;"></i> ─É╞ín h├áng cß╗ºa t├┤i</a>
+                            <a href="/profile.php" style="display: block; padding: 10px 16px; color: white; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-user" style="width: 22px;"></i> Th├┤ng tin kh├ích h├áng</a>
+                            <a href="javascript:void(0)" onclick="logout()" style="display: block; padding: 10px 16px; color: #f43f5e; font-weight: 600; text-decoration: none; white-space: nowrap;"><i class="fa-solid fa-sign-out-alt" style="width: 22px;"></i> ─É─âng xuß║Ñt</a>
                         `);
                         updateCartCount();
                     }
@@ -318,20 +281,20 @@ article.product button, article.product a { pointer-events: auto; }
                     let res = typeof r === 'string' ? JSON.parse(r) : r;
                     if(res.status == 'success') {
                         if(typeof showToast === 'function') {
-                            showToast('Đã thêm vào giỏ hàng!', 'success');
+                            showToast('─É├ú th├¬m v├áo giß╗Å h├áng!', 'success');
                         } else if(typeof Swal !== 'undefined') {
-                            Swal.fire('Thành công', 'Đã thêm vào giỏ hàng!', 'success');
+                            Swal.fire('Th├ánh c├┤ng', '─É├ú th├¬m v├áo giß╗Å h├áng!', 'success');
                         } else {
-                            alert('Đã thêm vào giỏ hàng!');
+                            alert('─É├ú th├¬m v├áo giß╗Å h├áng!');
                         }
                         updateCartCount();
                     } else {
-                        if(typeof Swal !== 'undefined') Swal.fire('Thông báo', res.msg, 'warning');
+                        if(typeof Swal !== 'undefined') Swal.fire('Th├┤ng b├ío', res.msg, 'warning');
                         else alert(res.msg);
                     }
                 } catch(e) {
-                    console.error("Lỗi JSON:", e, r);
-                    if(typeof Swal !== 'undefined') Swal.fire('Lỗi', 'Không thể xử lý dữ liệu máy chủ. Hãy thử lại!', 'error');
+                    console.error("Lß╗ùi JSON:", e, r);
+                    if(typeof Swal !== 'undefined') Swal.fire('Lß╗ùi', 'Kh├┤ng thß╗â xß╗¡ l├╜ dß╗» liß╗çu m├íy chß╗º. H├úy thß╗¡ lß║íi!', 'error');
                 }
             }
         });
@@ -348,12 +311,12 @@ article.product button, article.product a { pointer-events: auto; }
                     if(res.status == 'success') {
                         window.location.href = '/GioHang.php';
                     } else {
-                        if(typeof Swal !== 'undefined') Swal.fire('Thông báo', res.msg, 'warning');
+                        if(typeof Swal !== 'undefined') Swal.fire('Th├┤ng b├ío', res.msg, 'warning');
                         else alert(res.msg);
                     }
                 } catch(e) {
-                    console.error("Lỗi JSON:", e, r);
-                    if(typeof Swal !== 'undefined') Swal.fire('Lỗi', 'Không thể xử lý dữ liệu máy chủ. Hãy thử lại!', 'error');
+                    console.error("Lß╗ùi JSON:", e, r);
+                    if(typeof Swal !== 'undefined') Swal.fire('Lß╗ùi', 'Kh├┤ng thß╗â xß╗¡ l├╜ dß╗» liß╗çu m├íy chß╗º. H├úy thß╗¡ lß║íi!', 'error');
                 }
             }
         });
@@ -364,7 +327,7 @@ article.product button, article.product a { pointer-events: auto; }
     });
 
     function logout() {
-        if(confirm('Bạn có chắc muốn đăng xuất?')) {
+        if(confirm('Bß║ín c├│ chß║»c muß╗æn ─æ─âng xuß║Ñt?')) {
             $.ajax({
                 url: '/controller/client/Logout.php',
                 method: 'POST',
@@ -373,7 +336,7 @@ article.product button, article.product a { pointer-events: auto; }
                     if(res.status == 'success') {
                         window.location.href = '/';
                     } else {
-                        alert(res.msg || 'Đăng xuất thất bại');
+                        alert(res.msg || '─É─âng xuß║Ñt thß║Ñt bß║íi');
                     }
                 },
                 error: function() {
@@ -390,12 +353,12 @@ article.product button, article.product a { pointer-events: auto; }
         <section class="hero">
             <div class="hero-main">
                 <div class="blob"></div>
-                <h1>Điện Máy Hiếu</h1>
-                <p>Hệ sinh thái bán lẻ, dịch vụ sửa chữa, in mô hình 3D dựa trên nền tảng công nghệ số tư nhân do chính công ty phát hành.</p>
+                <h1>─Éiß╗çn M├íy Hiß║┐u</h1>
+                <p>Hß╗ç sinh th├íi b├ín lß║╗, dß╗ïch vß╗Ñ sß╗¡a chß╗»a, in m├┤ h├¼nh 3D dß╗▒a tr├¬n nß╗ün tß║úng c├┤ng nghß╗ç sß╗æ t╞░ nh├ón do ch├¡nh c├┤ng ty ph├ít h├ánh.</p>
                 <div class="hero-actions">
-                    <a class="btn light" href="#products"><i class="fa-solid fa-shopping-cart"></i> Khám phá Sản phẩm</a>
-                    <a class="btn accent" href="#goi-tho"><i class="fa-solid fa-tools"></i> Đặt lịch Gọi Thợ</a>
-                    <a class="btn outline" href="/in-3d.php"><i class="fa-solid fa-cube"></i> Dịch vụ In 3D</a>
+                    <a class="btn light" href="#products"><i class="fa-solid fa-shopping-cart"></i> Kh├ím ph├í Sß║ún phß║⌐m</a>
+                    <a class="btn accent" href="#goi-tho"><i class="fa-solid fa-tools"></i> ─Éß║╖t lß╗ïch Gß╗ìi Thß╗ú</a>
+                    <a class="btn outline" href="/in-3d.php"><i class="fa-solid fa-cube"></i> Dß╗ïch vß╗Ñ In 3D</a>
                 </div>
             </div>
         </section>
@@ -403,132 +366,132 @@ article.product button, article.product a { pointer-events: auto; }
         <!-- Products Section -->
         <section class="section" id="products">
             <div class="title">
-                <h2>Sản phẩm Nổi bật</h2>
-                <span class="muted">9 sản phẩm</span>
+                <h2>Sß║ún phß║⌐m Nß╗òi bß║¡t</h2>
+                <span class="muted">9 sß║ún phß║⌐m</span>
             </div>
             <div class="grid" id="productGrid">
-                                                                                    <article class="product" data-name="bộ 3 lõi lọc nước 1-2-3 daikiosan" data-category="gia dung">
+                                                                                    <article class="product" data-name="bß╗Ö 3 l├╡i lß╗ìc n╞░ß╗¢c 1-2-3 daikiosan" data-category="gia dung">
                             <div class="img">
-                                                                    <img src="https://img.lazcdn.com/g/p/55789246997359757eb5eda604145749.jpg_720x720q80.jpg" alt="Bộ 3 Lõi Lọc Nước 1-2-3 Daikiosan" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://img.lazcdn.com/g/p/55789246997359757eb5eda604145749.jpg_720x720q80.jpg" alt="Bß╗Ö 3 L├╡i Lß╗ìc N╞░ß╗¢c 1-2-3 Daikiosan" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">Gia dung</div>
-                                <div class="name" title="Bộ 3 Lõi Lọc Nước 1-2-3 Daikiosan">Bộ 3 Lõi Lọc Nước 1-2-3 Daikiosan</div>
-                                <div class="price">160.000đ</div>
+                                <div class="name" title="Bß╗Ö 3 L├╡i Lß╗ìc N╞░ß╗¢c 1-2-3 Daikiosan">Bß╗Ö 3 L├╡i Lß╗ìc N╞░ß╗¢c 1-2-3 Daikiosan</div>
+                                <div class="price">160.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(10)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(10)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(10)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="lõi lọc nước daikiosan số 3" data-category="gia dung">
+                                                                    <article class="product" data-name="l├╡i lß╗ìc n╞░ß╗¢c daikiosan sß╗æ 3" data-category="gia dung">
                             <div class="img">
-                                                                    <img src="https://tapdoandaiviet.com.vn/wp-content/uploads/2025/01/loi-tho-pp-10-1mcr-400x400.png" alt="Lõi lọc nước Daikiosan số 3" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://tapdoandaiviet.com.vn/wp-content/uploads/2025/01/loi-tho-pp-10-1mcr-400x400.png" alt="L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 3" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">Gia dung</div>
-                                <div class="name" title="Lõi lọc nước Daikiosan số 3">Lõi lọc nước Daikiosan số 3</div>
-                                <div class="price">60.000đ</div>
+                                <div class="name" title="L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 3">L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 3</div>
+                                <div class="price">60.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(9)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(9)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(9)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="lõi lọc nước daikiosan số 2" data-category="gia dung">
+                                                                    <article class="product" data-name="l├╡i lß╗ìc n╞░ß╗¢c daikiosan sß╗æ 2" data-category="gia dung">
                             <div class="img">
-                                                                    <img src="https://tapdoandaiviet.com.vn/wp-content/uploads/2024/12/loi-CTO-than-hoat-tinh-khu-clo.jpg" alt="Lõi lọc nước Daikiosan số 2" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://tapdoandaiviet.com.vn/wp-content/uploads/2024/12/loi-CTO-than-hoat-tinh-khu-clo.jpg" alt="L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 2" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">Gia dung</div>
-                                <div class="name" title="Lõi lọc nước Daikiosan số 2">Lõi lọc nước Daikiosan số 2</div>
-                                <div class="price">70.000đ</div>
+                                <div class="name" title="L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 2">L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 2</div>
+                                <div class="price">70.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(8)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(8)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(8)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="lõi lọc nước daikiosan số 1" data-category="gia dung">
+                                                                    <article class="product" data-name="l├╡i lß╗ìc n╞░ß╗¢c daikiosan sß╗æ 1" data-category="gia dung">
                             <div class="img">
-                                                                    <img src="https://tapdoandaiviet.com.vn/wp-content/uploads/2025/01/loi-tho-pp-10-5mcr-400x400.png" alt="Lõi lọc nước Daikiosan số 1" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://tapdoandaiviet.com.vn/wp-content/uploads/2025/01/loi-tho-pp-10-5mcr-400x400.png" alt="L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 1" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">Gia dung</div>
-                                <div class="name" title="Lõi lọc nước Daikiosan số 1">Lõi lọc nước Daikiosan số 1</div>
-                                <div class="price">45.000đ</div>
+                                <div class="name" title="L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 1">L├╡i lß╗ìc n╞░ß╗¢c Daikiosan sß╗æ 1</div>
+                                <div class="price">45.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(7)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(7)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(7)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="tủ sấy quần áo nanoco 2000w" data-category="gia dung">
+                                                                    <article class="product" data-name="tß╗º sß║Ñy quß║ºn ├ío nanoco 2000w" data-category="gia dung">
                             <div class="img">
-                                                                    <img src="https://dk6k5ontqg6tx.cloudfront.net/variant-images/33785/1.jpg" alt="Tủ sấy quần áo Nanoco 2000W" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://dk6k5ontqg6tx.cloudfront.net/variant-images/33785/1.jpg" alt="Tß╗º sß║Ñy quß║ºn ├ío Nanoco 2000W" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">Gia dung</div>
-                                <div class="name" title="Tủ sấy quần áo Nanoco 2000W">Tủ sấy quần áo Nanoco 2000W</div>
-                                <div class="price">1.700.000đ</div>
+                                <div class="name" title="Tß╗º sß║Ñy quß║ºn ├ío Nanoco 2000W">Tß╗º sß║Ñy quß║ºn ├ío Nanoco 2000W</div>
+                                <div class="price">1.700.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(6)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(6)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(6)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="tủ sấy quần áo nanoco 1500w" data-category="gia dung">
+                                                                    <article class="product" data-name="tß╗º sß║Ñy quß║ºn ├ío nanoco 1500w" data-category="gia dung">
                             <div class="img">
-                                                                    <img src="https://dk6k5ontqg6tx.cloudfront.net/variant-images/33784/1.jpg" alt="Tủ sấy quần áo Nanoco 1500W" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://dk6k5ontqg6tx.cloudfront.net/variant-images/33784/1.jpg" alt="Tß╗º sß║Ñy quß║ºn ├ío Nanoco 1500W" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">Gia dung</div>
-                                <div class="name" title="Tủ sấy quần áo Nanoco 1500W">Tủ sấy quần áo Nanoco 1500W</div>
-                                <div class="price">1.400.000đ</div>
+                                <div class="name" title="Tß╗º sß║Ñy quß║ºn ├ío Nanoco 1500W">Tß╗º sß║Ñy quß║ºn ├ío Nanoco 1500W</div>
+                                <div class="price">1.400.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(5)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(5)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(5)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="bộ xương lúc lắc" data-category="san pham 3d">
+                                                                    <article class="product" data-name="bß╗Ö x╞░╞íng l├║c lß║»c" data-category="san pham 3d">
                             <div class="img">
-                                                                    <img src="https://makerworld.bblmw.com/makerworld/model/US17842b2a6c8235/design/c65fe81fe00df435.jpg?x-oss-process=image/resize,w_1000/format,webp" alt="Bộ xương lúc lắc" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://makerworld.bblmw.com/makerworld/model/US17842b2a6c8235/design/c65fe81fe00df435.jpg?x-oss-process=image/resize,w_1000/format,webp" alt="Bß╗Ö x╞░╞íng l├║c lß║»c" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">San pham 3D</div>
-                                <div class="name" title="Bộ xương lúc lắc">Bộ xương lúc lắc</div>
-                                <div class="price">10.000đ</div>
+                                <div class="name" title="Bß╗Ö x╞░╞íng l├║c lß║»c">Bß╗Ö x╞░╞íng l├║c lß║»c</div>
+                                <div class="price">10.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(4)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(4)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(4)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
                                                                     <article class="product" data-name="tricky stick" data-category="san pham 3d">
                             <div class="img">
-                                                                    <img src="https://makerworld.bblmw.com/makerworld/model/USddde0073355578/design/1439a4e0abdca4a7.gif?x-oss-process=image/resize,w_1000/format,webp" alt="Tricky Stick" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://makerworld.bblmw.com/makerworld/model/USddde0073355578/design/1439a4e0abdca4a7.gif?x-oss-process=image/resize,w_1000/format,webp" alt="Tricky Stick" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">San pham 3D</div>
                                 <div class="name" title="Tricky Stick">Tricky Stick</div>
-                                <div class="price">25.000đ</div>
+                                <div class="price">25.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(3)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(3)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(3)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
                         </article>
-                                                                    <article class="product" data-name="giá đỡ điện thoại hình kỳ giông axoloti" data-category="san pham 3d">
+                                                                    <article class="product" data-name="gi├í ─æß╗í ─æiß╗çn thoß║íi h├¼nh kß╗│ gi├┤ng axoloti" data-category="san pham 3d">
                             <div class="img">
-                                                                    <img src="https://makerworld.bblmw.com/makerworld/model/USf3c911139a75f7/design/a5fb9ed150873e26.png?x-oss-process=image/resize,w_1000/format,webp" alt="Giá đỡ điện thoại hình kỳ giông Axoloti" onerror="this.parentNode.textContent='Chưa có ảnh'">
+                                                                    <img src="https://makerworld.bblmw.com/makerworld/model/USf3c911139a75f7/design/a5fb9ed150873e26.png?x-oss-process=image/resize,w_1000/format,webp" alt="Gi├í ─æß╗í ─æiß╗çn thoß║íi h├¼nh kß╗│ gi├┤ng Axoloti" onerror="this.parentNode.textContent='Ch╞░a c├│ ß║únh'">
                                                             </div>
                             <div class="body">
                                 <div class="cat">San pham 3D</div>
-                                <div class="name" title="Giá đỡ điện thoại hình kỳ giông Axoloti">Giá đỡ điện thoại hình kỳ giông Axoloti</div>
-                                <div class="price">15.000đ</div>
+                                <div class="name" title="Gi├í ─æß╗í ─æiß╗çn thoß║íi h├¼nh kß╗│ gi├┤ng Axoloti">Gi├í ─æß╗í ─æiß╗çn thoß║íi h├¼nh kß╗│ gi├┤ng Axoloti</div>
+                                <div class="price">15.000─æ</div>
                                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px;">
-                                    <button onclick="addToCart(2)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                                    <button onclick="addToCart(2)" class="btn outline" style="width: 100%; padding: 8px; font-size: 13px; border-color: rgba(255,255,255,0.2);"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                                     <button onclick="buyNow(2)" class="btn accent" style="width: 100%; padding: 8px; font-size: 13px;"><i class="fa-solid fa-bolt"></i> Mua Ngay</button>
                                 </div>
                             </div>
@@ -539,129 +502,129 @@ article.product button, article.product a { pointer-events: auto; }
         <!-- Pricing & Services Section -->
         <section class="section" id="bang-gia" style="margin-top: 40px;">
             <div class="title" style="text-align: center; margin-bottom: 40px;">
-                <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--brand-accent);">BẢNG GIÁ DỊCH VỤ</h2>
-                <span class="muted" style="display: block; margin-top: 8px; font-size: 16px;">Minh bạch - Trọn gói - Không phí ẩn</span>
+                <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -1px; color: var(--brand-accent);">Bß║óNG GI├ü Dß╗èCH Vß╗ñ</h2>
+                <span class="muted" style="display: block; margin-top: 8px; font-size: 16px;">Minh bß║ích - Trß╗ìn g├│i - Kh├┤ng ph├¡ ß║⌐n</span>
             </div>
             
                 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; padding: 0 16px;">
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #38bdf8; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#38bdf8'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thợ điện lạnh</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Vệ sinh máy lạnh</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thß╗ú ─æiß╗çn lß║ính</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Vß╗ç sinh m├íy lß║ính</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Trọn gói (Không phí ẩn)</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">150.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Trß╗ìn g├│i (Kh├┤ng ph├¡ ß║⌐n)</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">150.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #38bdf8; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#38bdf8'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thợ điện lạnh</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lắp đặt máy lạnh 1HP / 1.5HP</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thß╗ú ─æiß╗çn lß║ính</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lß║»p ─æß║╖t m├íy lß║ính 1HP / 1.5HP</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Chưa gồm vật tư phát sinh</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">400.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Ch╞░a gß╗ôm vß║¡t t╞░ ph├ít sinh</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">400.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #38bdf8; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#38bdf8'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thợ điện lạnh</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lắp đặt máy lạnh 2HP / 3HP</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thß╗ú ─æiß╗çn lß║ính</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lß║»p ─æß║╖t m├íy lß║ính 2HP / 3HP</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Chưa gồm vật tư phát sinh</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">500.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Ch╞░a gß╗ôm vß║¡t t╞░ ph├ít sinh</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">500.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #38bdf8; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#38bdf8'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thợ điện lạnh</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Máy lạnh âm trần</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thß╗ú ─æiß╗çn lß║ính</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">M├íy lß║ính ├óm trß║ºn</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Khảo sát và báo giá riêng</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">Khảo sát</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Khß║úo s├ít v├á b├ío gi├í ri├¬ng</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">Khß║úo s├ít</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #38bdf8; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#38bdf8'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thợ điện lạnh</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Sửa chữa điện lạnh</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #38bdf8; margin-bottom: 6px;">Thß╗ú ─æiß╗çn lß║ính</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Sß╗¡a chß╗»a ─æiß╗çn lß║ính</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + linh kiện công khai</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + linh kiß╗çn c├┤ng khai</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #38bdf8; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #fbbf24; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#fbbf24'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; margin-bottom: 6px;">Thợ tivi</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; margin-bottom: 6px;">Thß╗ú tivi</div>
                             <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Treo tivi (32-43&quot;)</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + giá khung treo công khai</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #fbbf24; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">150.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + gi├í khung treo c├┤ng khai</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #fbbf24; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">150.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #fbbf24; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#fbbf24'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; margin-bottom: 6px;">Thợ tivi</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; margin-bottom: 6px;">Thß╗ú tivi</div>
                             <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Treo tivi (50-55&quot;)</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + giá khung treo công khai</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #fbbf24; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + gi├í khung treo c├┤ng khai</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #fbbf24; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #fbbf24; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#fbbf24'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; margin-bottom: 6px;">Thợ tivi</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #fbbf24; margin-bottom: 6px;">Thß╗ú tivi</div>
                             <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Treo tivi (65-75&quot;)</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + giá khung treo công khai</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #fbbf24; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">300.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + gi├í khung treo c├┤ng khai</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #fbbf24; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">300.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #10b981; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#10b981'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #10b981; margin-bottom: 6px;">Thợ máy lọc nước</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lắp máy lọc nước</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #10b981; margin-bottom: 6px;">Thß╗ú m├íy lß╗ìc n╞░ß╗¢c</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lß║»p m├íy lß╗ìc n╞░ß╗¢c</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + phụ kiện</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #10b981; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + phß╗Ñ kiß╗çn</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #10b981; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #f43f5e; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#f43f5e'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #f43f5e; margin-bottom: 6px;">Thợ gia dụng</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lắp máy giặt</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #f43f5e; margin-bottom: 6px;">Thß╗ú gia dß╗Ñng</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Lß║»p m├íy giß║╖t</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + phụ kiện</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #f43f5e; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + phß╗Ñ kiß╗çn</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #f43f5e; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">200.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #f43f5e; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#f43f5e'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #f43f5e; margin-bottom: 6px;">Thợ gia dụng</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Sửa điện gia dụng</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #f43f5e; margin-bottom: 6px;">Thß╗ú gia dß╗Ñng</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Sß╗¡a ─æiß╗çn gia dß╗Ñng</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ kiểm tra sửa chữa</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #f43f5e; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">100.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú kiß╗âm tra sß╗¡a chß╗»a</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #f43f5e; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">100.000─æ</div>
                         </div>
                     </div>
                                         <div style="background: rgba(15, 23, 42, 0.8); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #a855f7; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; transition: all 0.2s ease; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.2);" onmouseover="this.style.transform='translateY(-3px)'; this.style.borderColor='#a855f7'; this.style.boxShadow='0 10px 20px rgba(0,0,0,0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.borderColor='rgba(255,255,255,0.1)'; this.style.boxShadow='0 4px 6px rgba(0,0,0,0.2)'" onclick="document.getElementById('goi-tho').scrollIntoView({behavior: 'smooth'});">
                         <div>
-                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #a855f7; margin-bottom: 6px;">Thợ điện thoại</div>
-                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Kiểm tra / sửa điện thoại</div>
+                            <div style="font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #a855f7; margin-bottom: 6px;">Thß╗ú ─æiß╗çn thoß║íi</div>
+                            <div style="font-size: 16px; font-weight: 700; color: #fff; line-height: 1.3;">Kiß╗âm tra / sß╗¡a ─æiß╗çn thoß║íi</div>
                         </div>
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
-                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>Công thợ + linh kiện nếu có</div>
-                            <div style="font-size: 17px; font-weight: 900; color: #a855f7; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">100.000đ</div>
+                            <div style="font-size: 12px; color: #94a3b8; max-width: 60%; line-height: 1.3;"><i class="fa-solid fa-circle-info" style="font-size: 10px; margin-right: 4px; opacity: 0.7;"></i>C├┤ng thß╗ú + linh kiß╗çn nß║┐u c├│</div>
+                            <div style="font-size: 17px; font-weight: 900; color: #a855f7; background: rgba(0,0,0,0.3); padding: 4px 10px; border-radius: 6px;">100.000─æ</div>
                         </div>
                     </div>
                                     </div>
@@ -670,41 +633,41 @@ article.product button, article.product a { pointer-events: auto; }
         <!-- Booking App Section -->
         <section class="section booking-shell" id="goi-tho" style="margin-top: 60px; max-width: 800px; margin-inline: auto;">
             <div class="title" style="text-align: center; margin-bottom: 30px;">
-                <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -1px;">GỌI THỢ NGAY</h2>
-                <span class="muted" style="display: block; margin-top: 8px;">Điền thông tin - 15 phút thợ có mặt</span>
+                <h2 style="font-size: 32px; font-weight: 900; letter-spacing: -1px;">Gß╗îI THß╗ó NGAY</h2>
+                <span class="muted" style="display: block; margin-top: 8px;">─Éiß╗ün th├┤ng tin - 15 ph├║t thß╗ú c├│ mß║╖t</span>
             </div>
             
             <form id="bookingForm" autocomplete="off">
                 <div id="thongbao_datlich" style="margin-block-end: 24px;"></div>
-                <h3>Thông tin Yêu cầu Dịch vụ</h3>
+                <h3>Th├┤ng tin Y├¬u cß║ºu Dß╗ïch vß╗Ñ</h3>
                 <div class="form">
                     <div class="field full">
-                        <label for="service_selector">1. Bạn cần dịch vụ gì? <span style="color:var(--brand-accent);">*</span></label>
+                        <label for="service_selector">1. Bß║ín cß║ºn dß╗ïch vß╗Ñ g├¼? <span style="color:var(--brand-accent);">*</span></label>
                         <div id="custom-service-selector">
-                            <div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin-bottom: 6px; text-transform: uppercase;">Thợ điện lạnh</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Vệ sinh máy lạnh" data-price="150.000 VND" data-group="Thợ điện lạnh" data-note="Trọn gói (Không phí ẩn)" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">❄️</span> Vệ sinh máy lạnh                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Lắp đặt máy lạnh 1HP / 1.5HP" data-price="400.000 VND" data-group="Thợ điện lạnh" data-note="Chưa gồm vật tư phát sinh" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">🛠️</span> Lắp đặt máy lạnh 1HP / 1.5HP                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Lắp đặt máy lạnh 2HP / 3HP" data-price="500.000 VND" data-group="Thợ điện lạnh" data-note="Chưa gồm vật tư phát sinh" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">🛠️</span> Lắp đặt máy lạnh 2HP / 3HP                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Máy lạnh âm trần" data-price="Báo giá sau khi khảo sát" data-group="Thợ điện lạnh" data-note="Khảo sát và báo giá riêng" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">🏢</span> Máy lạnh âm trần                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Sửa chữa điện lạnh" data-price="200.000 VND" data-group="Thợ điện lạnh" data-note="Công thợ + linh kiện công khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">🔧</span> Sửa chữa điện lạnh                                </button>
-                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #fbbf24; margin-bottom: 6px; text-transform: uppercase;">Thợ tivi</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Treo tivi (32-43&quot;)" data-price="150.000 VND" data-group="Thợ tivi" data-note="Công thợ + giá khung treo công khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">📺</span> Treo tivi (32-43&quot;)                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Treo tivi (50-55&quot;)" data-price="200.000 VND" data-group="Thợ tivi" data-note="Công thợ + giá khung treo công khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">📺</span> Treo tivi (50-55&quot;)                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Treo tivi (65-75&quot;)" data-price="300.000 VND" data-group="Thợ tivi" data-note="Công thợ + giá khung treo công khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">📺</span> Treo tivi (65-75&quot;)                                </button>
-                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #10b981; margin-bottom: 6px; text-transform: uppercase;">Thợ máy lọc nước</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Lắp máy lọc nước" data-price="200.000 VND" data-group="Thợ máy lọc nước" data-note="Công thợ + phụ kiện" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">💧</span> Lắp máy lọc nước                                </button>
-                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #f43f5e; margin-bottom: 6px; text-transform: uppercase;">Thợ gia dụng</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Lắp máy giặt" data-price="200.000 VND" data-group="Thợ gia dụng" data-note="Công thợ + phụ kiện" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">🧺</span> Lắp máy giặt                                </button>
-                                                            <button type="button" class="cute-btn" data-val="Sửa điện gia dụng" data-price="100.000 VND" data-group="Thợ gia dụng" data-note="Công thợ kiểm tra sửa chữa" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">🔌</span> Sửa điện gia dụng                                </button>
-                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #a855f7; margin-bottom: 6px; text-transform: uppercase;">Thợ điện thoại</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Kiểm tra / sửa điện thoại" data-price="100.000 VND" data-group="Thợ điện thoại" data-note="Công thợ + linh kiện nếu có" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
-                                    <span style="font-size: 16px;">📱</span> Kiểm tra / sửa điện thoại                                </button>
+                            <div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #38bdf8; margin-bottom: 6px; text-transform: uppercase;">Thß╗ú ─æiß╗çn lß║ính</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Vß╗ç sinh m├íy lß║ính" data-price="150.000 VND" data-group="Thß╗ú ─æiß╗çn lß║ính" data-note="Trß╗ìn g├│i (Kh├┤ng ph├¡ ß║⌐n)" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">Γ¥ä∩╕Å</span> Vß╗ç sinh m├íy lß║ính                                </button>
+                                                            <button type="button" class="cute-btn" data-val="Lß║»p ─æß║╖t m├íy lß║ính 1HP / 1.5HP" data-price="400.000 VND" data-group="Thß╗ú ─æiß╗çn lß║ính" data-note="Ch╞░a gß╗ôm vß║¡t t╞░ ph├ít sinh" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒ¢á∩╕Å</span> Lß║»p ─æß║╖t m├íy lß║ính 1HP / 1.5HP                                </button>
+                                                            <button type="button" class="cute-btn" data-val="Lß║»p ─æß║╖t m├íy lß║ính 2HP / 3HP" data-price="500.000 VND" data-group="Thß╗ú ─æiß╗çn lß║ính" data-note="Ch╞░a gß╗ôm vß║¡t t╞░ ph├ít sinh" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒ¢á∩╕Å</span> Lß║»p ─æß║╖t m├íy lß║ính 2HP / 3HP                                </button>
+                                                            <button type="button" class="cute-btn" data-val="M├íy lß║ính ├óm trß║ºn" data-price="B├ío gi├í sau khi khß║úo s├ít" data-group="Thß╗ú ─æiß╗çn lß║ính" data-note="Khß║úo s├ít v├á b├ío gi├í ri├¬ng" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒÅó</span> M├íy lß║ính ├óm trß║ºn                                </button>
+                                                            <button type="button" class="cute-btn" data-val="Sß╗¡a chß╗»a ─æiß╗çn lß║ính" data-price="200.000 VND" data-group="Thß╗ú ─æiß╗çn lß║ính" data-note="C├┤ng thß╗ú + linh kiß╗çn c├┤ng khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒöº</span> Sß╗¡a chß╗»a ─æiß╗çn lß║ính                                </button>
+                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #fbbf24; margin-bottom: 6px; text-transform: uppercase;">Thß╗ú tivi</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Treo tivi (32-43&quot;)" data-price="150.000 VND" data-group="Thß╗ú tivi" data-note="C├┤ng thß╗ú + gi├í khung treo c├┤ng khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒô║</span> Treo tivi (32-43&quot;)                                </button>
+                                                            <button type="button" class="cute-btn" data-val="Treo tivi (50-55&quot;)" data-price="200.000 VND" data-group="Thß╗ú tivi" data-note="C├┤ng thß╗ú + gi├í khung treo c├┤ng khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒô║</span> Treo tivi (50-55&quot;)                                </button>
+                                                            <button type="button" class="cute-btn" data-val="Treo tivi (65-75&quot;)" data-price="300.000 VND" data-group="Thß╗ú tivi" data-note="C├┤ng thß╗ú + gi├í khung treo c├┤ng khai" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒô║</span> Treo tivi (65-75&quot;)                                </button>
+                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #10b981; margin-bottom: 6px; text-transform: uppercase;">Thß╗ú m├íy lß╗ìc n╞░ß╗¢c</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Lß║»p m├íy lß╗ìc n╞░ß╗¢c" data-price="200.000 VND" data-group="Thß╗ú m├íy lß╗ìc n╞░ß╗¢c" data-note="C├┤ng thß╗ú + phß╗Ñ kiß╗çn" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒÆº</span> Lß║»p m├íy lß╗ìc n╞░ß╗¢c                                </button>
+                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #f43f5e; margin-bottom: 6px; text-transform: uppercase;">Thß╗ú gia dß╗Ñng</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Lß║»p m├íy giß║╖t" data-price="200.000 VND" data-group="Thß╗ú gia dß╗Ñng" data-note="C├┤ng thß╗ú + phß╗Ñ kiß╗çn" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒº║</span> Lß║»p m├íy giß║╖t                                </button>
+                                                            <button type="button" class="cute-btn" data-val="Sß╗¡a ─æiß╗çn gia dß╗Ñng" data-price="100.000 VND" data-group="Thß╗ú gia dß╗Ñng" data-note="C├┤ng thß╗ú kiß╗âm tra sß╗¡a chß╗»a" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒöî</span> Sß╗¡a ─æiß╗çn gia dß╗Ñng                                </button>
+                            </div></div><div style="margin-bottom: 12px;"><div style="font-size: 13px; font-weight: 800; color: #a855f7; margin-bottom: 6px; text-transform: uppercase;">Thß╗ú ─æiß╗çn thoß║íi</div><div style="display: flex; flex-wrap: wrap; gap: 8px;">                                <button type="button" class="cute-btn" data-val="Kiß╗âm tra / sß╗¡a ─æiß╗çn thoß║íi" data-price="100.000 VND" data-group="Thß╗ú ─æiß╗çn thoß║íi" data-note="C├┤ng thß╗ú + linh kiß╗çn nß║┐u c├│" style="background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.1); color: #fff; padding: 8px 14px; border-radius: 20px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px;" onmouseover="this.style.background='rgba(255,255,255,0.1)';" onmouseout="if(!this.classList.contains('active')) this.style.background='rgba(255,255,255,0.05)';">
+                                    <span style="font-size: 16px;">≡ƒô▒</span> Kiß╗âm tra / sß╗¡a ─æiß╗çn thoß║íi                                </button>
                                                         </div></div>                        </div>
                     </div>
                     
@@ -712,53 +675,53 @@ article.product button, article.product a { pointer-events: auto; }
                     <input type="hidden" id="selected_service_name" name="selected_service_name">
                     
                     <div class="field full">
-                        <label for="customer_price_display">Giá tham khảo (Đã gồm VAT)</label>
-                        <input class="readonly-price" id="customer_price_display" type="text" readonly placeholder="Chọn dịch vụ ở trên để xem giá" style="color: var(--brand-accent); font-weight: bold; background: rgba(0,0,0,0.3);">
+                        <label for="customer_price_display">Gi├í tham khß║úo (─É├ú gß╗ôm VAT)</label>
+                        <input class="readonly-price" id="customer_price_display" type="text" readonly placeholder="Chß╗ìn dß╗ïch vß╗Ñ ß╗ƒ tr├¬n ─æß╗â xem gi├í" style="color: var(--brand-accent); font-weight: bold; background: rgba(0,0,0,0.3);">
                         <small id="service_note" style="color: #94a3b8; display: block; margin-top: 8px; font-weight: 500;"></small>
                     </div>
                     
                     <div class="field">
-                        <label for="customer_name">2. Tên của bạn <span style="color:var(--brand-accent);">*</span></label>
+                        <label for="customer_name">2. T├¬n cß╗ºa bß║ín <span style="color:var(--brand-accent);">*</span></label>
                         <input id="customer_name" name="customer_name" required maxlength="150" placeholder="VD: Anh Minh">
                     </div>
                     
                     <div class="field">
-                        <label for="phone">3. Số điện thoại liên hệ <span style="color:var(--brand-accent);">*</span></label>
+                        <label for="phone">3. Sß╗æ ─æiß╗çn thoß║íi li├¬n hß╗ç <span style="color:var(--brand-accent);">*</span></label>
                         <input id="phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]{8,15}" required maxlength="15" placeholder="09xx.xxx.xxx">
                     </div>
                     
                     <div class="field full">
-                        <label for="address">4. Địa chỉ chính xác <span style="color:var(--brand-accent);">*</span></label>
-                        <input id="address" name="address" required maxlength="500" placeholder="Số nhà, tên đường, khu vực...">
+                        <label for="address">4. ─Éß╗ïa chß╗ë ch├¡nh x├íc <span style="color:var(--brand-accent);">*</span></label>
+                        <input id="address" name="address" required maxlength="500" placeholder="Sß╗æ nh├á, t├¬n ─æ╞░ß╗¥ng, khu vß╗▒c...">
                         <div class="map-actions">
-                            <button class="btn accent" id="useCurrentLocation" type="button" style="padding: 10px 16px; font-size: 13px;"><i class="fa-solid fa-location-crosshairs"></i> Lấy tọa độ GPS hiện tại</button>
-                            <button class="btn" id="clearLocation" type="button" style="padding: 10px 16px; font-size: 13px; background: rgba(255,255,255,0.1);"><i class="fa-solid fa-eraser"></i> Xóa</button>
+                            <button class="btn accent" id="useCurrentLocation" type="button" style="padding: 10px 16px; font-size: 13px;"><i class="fa-solid fa-location-crosshairs"></i> Lß║Ñy tß╗ìa ─æß╗Ö GPS hiß╗çn tß║íi</button>
+                            <button class="btn" id="clearLocation" type="button" style="padding: 10px 16px; font-size: 13px; background: rgba(255,255,255,0.1);"><i class="fa-solid fa-eraser"></i> X├│a</button>
                         </div>
                         <input type="hidden" id="map_location" name="map_location">
                         <input type="hidden" id="map_lat" name="map_lat">
                         <input type="hidden" id="map_lng" name="map_lng">
                         <div class="map-preview">
-                            <div class="location-map" id="locationMap" aria-label="Bản đồ chọn vị trí"></div>
-                            <div class="location-status" id="locationStatus">Bấm vào bản đồ để chọn điểm hoặc dùng nút Lấy GPS phía trên.</div>
+                            <div class="location-map" id="locationMap" aria-label="Bß║ún ─æß╗ô chß╗ìn vß╗ï tr├¡"></div>
+                            <div class="location-status" id="locationStatus">Bß║Ñm v├áo bß║ún ─æß╗ô ─æß╗â chß╗ìn ─æiß╗âm hoß║╖c d├╣ng n├║t Lß║Ñy GPS ph├¡a tr├¬n.</div>
                         </div>
                     </div>
                     
                     <div class="field full">
-                        <label for="issue_description">5. Mô tả chi tiết vấn đề <span style="color:var(--brand-accent);">*</span></label>
-                        <textarea id="issue_description" name="issue_description" required maxlength="2000" placeholder="Máy bị lỗi gì, hiện tượng như thế nào..."></textarea>
+                        <label for="issue_description">5. M├┤ tß║ú chi tiß║┐t vß║Ñn ─æß╗ü <span style="color:var(--brand-accent);">*</span></label>
+                        <textarea id="issue_description" name="issue_description" required maxlength="2000" placeholder="M├íy bß╗ï lß╗ùi g├¼, hiß╗çn t╞░ß╗úng nh╞░ thß║┐ n├áo..."></textarea>
                     </div>
                     
                     <div class="field full" style="margin-top: 10px;">
                         <div style="display: flex; align-items: center; gap: 10px; background: rgba(56, 189, 248, 0.1); padding: 12px; border-radius: 8px; border: 1px dashed rgba(56, 189, 248, 0.3);">
                             <input type="checkbox" id="vat_request_booking" style="width: 20px; height: 20px; accent-color: #38bdf8; cursor: pointer;">
-                            <label for="vat_request_booking" style="cursor: pointer; font-weight: bold; color: #38bdf8; user-select: none; margin: 0;">Yêu cầu xuất hóa đơn VAT</label>
+                            <label for="vat_request_booking" style="cursor: pointer; font-weight: bold; color: #38bdf8; user-select: none; margin: 0;">Y├¬u cß║ºu xuß║Ñt h├│a ─æ╞ín VAT</label>
                         </div>
                     </div>
                 </div>
                 
                 <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1);">
-                    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;"><i class="fa-solid fa-circle-info"></i> Giá báo trên web là giá công khai. Nếu có phát sinh vật tư linh kiện, thợ sẽ báo giá chi tiết và xin phép bạn trước khi tiến hành sửa chữa.</p>
-                    <button id="btnDatLich" class="btn accent" type="button" style="width: 100%; padding: 18px; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; box-shadow: 0 10px 30px rgba(56,189,248,0.3);"><i class="fa-solid fa-paper-plane"></i> GỬI YÊU CẦU NGAY</button>
+                    <p style="color: #94a3b8; font-size: 14px; margin-bottom: 20px;"><i class="fa-solid fa-circle-info"></i> Gi├í b├ío tr├¬n web l├á gi├í c├┤ng khai. Nß║┐u c├│ ph├ít sinh vß║¡t t╞░ linh kiß╗çn, thß╗ú sß║╜ b├ío gi├í chi tiß║┐t v├á xin ph├⌐p bß║ín tr╞░ß╗¢c khi tiß║┐n h├ánh sß╗¡a chß╗»a.</p>
+                    <button id="btnDatLich" class="btn accent" type="button" style="width: 100%; padding: 18px; font-size: 18px; font-weight: 800; letter-spacing: 0.5px; box-shadow: 0 10px 30px rgba(56,189,248,0.3);"><i class="fa-solid fa-paper-plane"></i> Gß╗¼I Y├èU Cß║ªU NGAY</button>
                 </div>
             </form>
         </section>
@@ -809,7 +772,7 @@ cuteBtns.forEach(btn => {
         
         const group = this.dataset.group || '';
         const serviceName = this.dataset.val || '';
-        const price = this.dataset.price || 'Liên hệ để báo giá chi tiết';
+        const price = this.dataset.price || 'Li├¬n hß╗ç ─æß╗â b├ío gi├í chi tiß║┐t';
         const note = this.dataset.note || '';
         
         document.getElementById('service_type').value = group;
@@ -820,7 +783,7 @@ cuteBtns.forEach(btn => {
         // Auto-fill issue description if it's empty
         const issueDesc = document.getElementById('issue_description');
         if (!issueDesc.value || issueDesc.value.length < 5) {
-            issueDesc.value = 'Tôi cần ' + serviceName;
+            issueDesc.value = 'T├┤i cß║ºn ' + serviceName;
         }
     });
 });
@@ -858,14 +821,14 @@ function syncSelectedLocation(lat, lng, resolveAddress) {
 
     if (!resolveAddress) return;
 
-    setLocationStatus('Đang lấy địa chỉ từ GPS...');
+    setLocationStatus('─Éang lß║Ñy ─æß╗ïa chß╗ë tß╗½ GPS...');
     fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=' + latitude + '&lon=' + longitude)
         .then(res => res.json())
         .then(data => {
             if (data.display_name) addressInput.value = data.display_name;
-            setLocationStatus('Đã đồng bộ GPS: ' + coords);
+            setLocationStatus('─É├ú ─æß╗ông bß╗Ö GPS: ' + coords);
         })
-        .catch(() => setLocationStatus('Đã đồng bộ tọa độ. Vui lòng nhập thủ công phần địa chỉ chi tiết.'));
+        .catch(() => setLocationStatus('─É├ú ─æß╗ông bß╗Ö tß╗ìa ─æß╗Ö. Vui l├▓ng nhß║¡p thß╗º c├┤ng phß║ºn ─æß╗ïa chß╗ë chi tiß║┐t.'));
 }
 
 if (window.L && document.getElementById('locationMap')) {
@@ -878,18 +841,18 @@ if (window.L && document.getElementById('locationMap')) {
 
 document.getElementById('useCurrentLocation')?.addEventListener('click', () => {
     if (!navigator.geolocation) {
-        Swal.fire('Lỗi', 'Trình duyệt của bạn không hỗ trợ định vị GPS', 'error');
+        Swal.fire('Lß╗ùi', 'Tr├¼nh duyß╗çt cß╗ºa bß║ín kh├┤ng hß╗ù trß╗ú ─æß╗ïnh vß╗ï GPS', 'error');
         return;
     }
-    setLocationStatus('Đang xác định vị trí của bạn...');
+    setLocationStatus('─Éang x├íc ─æß╗ïnh vß╗ï tr├¡ cß╗ºa bß║ín...');
     navigator.geolocation.getCurrentPosition(position => {
         const lat = position.coords.latitude;
         const lng = position.coords.longitude;
         if (locationMap) locationMap.setView([lat, lng], 17);
         syncSelectedLocation(lat, lng, true);
     }, () => {
-        Swal.fire('Lỗi', 'Không thể lấy được vị trí GPS. Vui lòng cấp quyền vị trí cho trang web.', 'error');
-        setLocationStatus('Không thể định vị.');
+        Swal.fire('Lß╗ùi', 'Kh├┤ng thß╗â lß║Ñy ─æ╞░ß╗úc vß╗ï tr├¡ GPS. Vui l├▓ng cß║Ñp quyß╗ün vß╗ï tr├¡ cho trang web.', 'error');
+        setLocationStatus('Kh├┤ng thß╗â ─æß╗ïnh vß╗ï.');
     });
 });
 
@@ -898,7 +861,7 @@ document.getElementById('clearLocation')?.addEventListener('click', () => {
     document.getElementById('map_lat').value = '';
     document.getElementById('map_lng').value = '';
     addressInput.value = '';
-    setLocationStatus('Đã xóa dữ liệu vị trí.');
+    setLocationStatus('─É├ú x├│a dß╗» liß╗çu vß╗ï tr├¡.');
     if (locationMap && locationMarker) {
         locationMap.removeLayer(locationMarker);
         locationMarker = null;
@@ -917,17 +880,17 @@ $("#btnDatLich").on("click", function() {
     var vat = $("#vat_request_booking").is(':checked') ? 1 : 0;
     
     if (!$("#service_type").val()) {
-        Swal.fire('Thiếu thông tin', 'Vui lòng chọn một dịch vụ!', 'warning');
+        Swal.fire('Thiß║┐u th├┤ng tin', 'Vui l├▓ng chß╗ìn mß╗Öt dß╗ïch vß╗Ñ!', 'warning');
         return;
     }
     
     if (!ten || !sdt || !diachi || !yeucau) {
-        Swal.fire('Thiếu thông tin', 'Vui lòng điền đầy đủ Tên, SĐT, Địa chỉ và Mô tả!', 'warning');
+        Swal.fire('Thiß║┐u th├┤ng tin', 'Vui l├▓ng ─æiß╗ün ─æß║ºy ─æß╗º T├¬n, S─ÉT, ─Éß╗ïa chß╗ë v├á M├┤ tß║ú!', 'warning');
         return;
     }
     
     let originalText = $(this).html();
-    $(this).html('<i class="fa-solid fa-circle-notch fa-spin"></i> ĐANG GỬI...').prop('disabled', true).css('opacity','0.7');
+    $(this).html('<i class="fa-solid fa-circle-notch fa-spin"></i> ─ÉANG Gß╗¼I...').prop('disabled', true).css('opacity','0.7');
     
     if (lat && lng) {
         diachi += " | GPS: " + lat + "," + lng + " (https://maps.google.com/?q=" + lat + "," + lng + ")";
@@ -939,7 +902,7 @@ $("#btnDatLich").on("click", function() {
         data: { type:'DatLich', ten:ten, sdt:sdt, dichvu:dichvu, diachi:diachi, yeucau:yeucau, vat_requested:vat },
         success: function(r) {
             $("#thongbao_datlich").html(r);
-            $('#btnDatLich').html('<i class="fa-solid fa-check"></i> Đã Gửi Thành Công').prop('disabled', false).css('opacity','1');
+            $('#btnDatLich').html('<i class="fa-solid fa-check"></i> ─É├ú Gß╗¡i Th├ánh C├┤ng').prop('disabled', false).css('opacity','1');
             
             // Clear form after 2 seconds
             setTimeout(() => {
@@ -952,165 +915,165 @@ $("#btnDatLich").on("click", function() {
             }, 3000);
         },
         error: function() {
-            Swal.fire('Lỗi', 'Không thể kết nối đến máy chủ. Vui lòng gọi trực tiếp!', 'error');
+            Swal.fire('Lß╗ùi', 'Kh├┤ng thß╗â kß║┐t nß╗æi ─æß║┐n m├íy chß╗º. Vui l├▓ng gß╗ìi trß╗▒c tiß║┐p!', 'error');
             $('#btnDatLich').html(originalText).prop('disabled', false).css('opacity','1');
         }
     });
 });
-// Form Đặt Lịch
+// Form ─Éß║╖t Lß╗ïch
 </script>
 
 <div style="text-align: center; margin: 40px 0 20px; position: relative; z-index: 5;">
-    <a href="/login.php" class="btn dark" style="padding: 10px 24px; font-size: 14px; border: 1px solid rgba(15,23,42,0.1);"><i class="fa-solid fa-user-gear"></i> Khu Vực Dành Cho Thợ (Portal)</a>
+    <a href="/login.php" class="btn dark" style="padding: 10px 24px; font-size: 14px; border: 1px solid rgba(15,23,42,0.1);"><i class="fa-solid fa-user-gear"></i> Khu Vß╗▒c D├ánh Cho Thß╗ú (Portal)</a>
 </div>
 
 <!-- ============================================== -->
-<!-- HỒ SƠ PHÁP LÝ DÀNH CHO BỘ CÔNG THƯƠNG (BCT)     -->
+<!-- Hß╗Æ S╞á PH├üP L├¥ D├ÇNH CHO Bß╗ÿ C├öNG TH╞»╞áNG (BCT)     -->
 <!-- ============================================== -->
 
 <section style="padding: 60px 20px; text-align: center; background: #0b1120;">
     <div style="display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: rgba(56, 189, 248, 0.1); border-radius: 50%; color: #38bdf8; font-size: 28px; margin-bottom: 20px;">
         <i class="fa-solid fa-scale-balanced"></i>
     </div>
-    <h2 style="font-size: 36px; font-weight: 900; color: #f8fafc; letter-spacing: -1px; margin: 0 0 10px 0;">THÔNG TIN PHÁP LÝ</h2>
+    <h2 style="font-size: 36px; font-weight: 900; color: #f8fafc; letter-spacing: -1px; margin: 0 0 10px 0;">TH├öNG TIN PH├üP L├¥</h2>
     <p style="color: #94a3b8; font-size: 16px; max-width: 600px; margin: 0 auto 20px auto; line-height: 1.6;">
-        Hệ thống Điện Máy Hiếu cam kết tuân thủ đầy đủ quy định của Bộ Công Thương về Thương Mại Điện Tử.
+        Hß╗ç thß╗æng ─Éiß╗çn M├íy Hiß║┐u cam kß║┐t tu├ón thß╗º ─æß║ºy ─æß╗º quy ─æß╗ïnh cß╗ºa Bß╗Ö C├┤ng Th╞░╞íng vß╗ü Th╞░╞íng Mß║íi ─Éiß╗çn Tß╗¡.
     </p>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 10px;">
-        <a href="/pages/ho-so-phap-ly.html" style="display: inline-flex; align-items: center; gap: 8px; background: #d4a76e; color: #0f172a; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px;"><i class="fa-solid fa-file-lines"></i> Xem hồ sơ pháp lý đầy đủ</a>
-        <a href="/legal_docs/00_Ho_so_phap_ly_day_du.docx" download style="display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #38bdf8; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #38bdf8;"><i class="fa-solid fa-download"></i> Tải file Word (ký & nộp BCT)</a>
+        <a href="/pages/ho-so-phap-ly.html" style="display: inline-flex; align-items: center; gap: 8px; background: #d4a76e; color: #0f172a; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px;"><i class="fa-solid fa-file-lines"></i> Xem hß╗ô s╞í ph├íp l├╜ ─æß║ºy ─æß╗º</a>
+        <a href="/legal_docs/00_Ho_so_phap_ly_day_du.docx" download style="display: inline-flex; align-items: center; gap: 8px; background: transparent; color: #38bdf8; text-decoration: none; padding: 12px 20px; border-radius: 8px; font-weight: 600; font-size: 14px; border: 1px solid #38bdf8;"><i class="fa-solid fa-download"></i> Tß║úi file Word (k├╜ & nß╗Öp BCT)</a>
     </div>
     <button class="legal-toggle-btn" onclick="toggleLegalSection(this)">
-        <i class="fa-solid fa-chevron-down"></i> Xem chi tiết chính sách
+        <i class="fa-solid fa-chevron-down"></i> Xem chi tiß║┐t ch├¡nh s├ích
     </button>
 
     <div class="legal-collapsed" id="legalCollapsed">
         <div style="max-width: 1100px; margin: 0 auto; text-align: left; background: #1e293b; border: 1px solid rgba(255,255,255,0.05); border-radius: 24px; padding: 30px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);">
             <div style="display: grid; grid-template-columns: 260px 1fr; gap: 24px;">
                 <div id="bct-tabs" style="display: flex; flex-direction: column; gap: 8px; position: sticky; top: 100px; align-self: start;">
-                    <button class="bct-tab-btn active" data-target="pol-1"><i class="fa-solid fa-shield-halved"></i> Chính sách bảo mật</button>
-                <button class="bct-tab-btn" data-target="pol-2"><i class="fa-solid fa-gavel"></i> Giải quyết khiếu nại</button>
-                <button class="bct-tab-btn" data-target="pol-3"><i class="fa-solid fa-tag"></i> Chính sách giá</button>
-                <button class="bct-tab-btn" data-target="pol-4"><i class="fa-solid fa-credit-card"></i> Chính sách thanh toán</button>
-                <button class="bct-tab-btn" data-target="pol-5"><i class="fa-solid fa-ban"></i> Điều kiện & hạn chế</button>
-                <button class="bct-tab-btn" data-target="pol-6"><i class="fa-solid fa-truck-fast"></i> Giao hàng & Đổi trả</button>
-                <button class="bct-tab-btn" data-target="pol-7"><i class="fa-solid fa-headset"></i> Hỗ trợ trực tuyến</button>
+                    <button class="bct-tab-btn active" data-target="pol-1"><i class="fa-solid fa-shield-halved"></i> Ch├¡nh s├ích bß║úo mß║¡t</button>
+                <button class="bct-tab-btn" data-target="pol-2"><i class="fa-solid fa-gavel"></i> Giß║úi quyß║┐t khiß║┐u nß║íi</button>
+                <button class="bct-tab-btn" data-target="pol-3"><i class="fa-solid fa-tag"></i> Ch├¡nh s├ích gi├í</button>
+                <button class="bct-tab-btn" data-target="pol-4"><i class="fa-solid fa-credit-card"></i> Ch├¡nh s├ích thanh to├ín</button>
+                <button class="bct-tab-btn" data-target="pol-5"><i class="fa-solid fa-ban"></i> ─Éiß╗üu kiß╗çn & hß║ín chß║┐</button>
+                <button class="bct-tab-btn" data-target="pol-6"><i class="fa-solid fa-truck-fast"></i> Giao h├áng & ─Éß╗òi trß║ú</button>
+                <button class="bct-tab-btn" data-target="pol-7"><i class="fa-solid fa-headset"></i> Hß╗ù trß╗ú trß╗▒c tuyß║┐n</button>
             </div>
                 </div>
                 <div id="bct-contents">
-                    <div class="bct-pane active" id="pol-1"><h3 style="margin-bottom: 20px;">1. CHÍNH SÁCH BẢO MẬT THÔNG TIN VÀ DỮ LIỆU CÁ NHÂN</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+                    <div class="bct-pane active" id="pol-1"><h3 style="margin-bottom: 20px;">1. CH├ìNH S├üCH Bß║óO Mß║¼T TH├öNG TIN V├Ç Dß╗« LIß╗åU C├ü NH├éN</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 2.5.0 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026<br>
-            <strong>Tài liệu tham chiếu:</strong> Hướng dẫn tuân thủ NĐ 13/2023/NĐ-CP và NĐ 248/2026/NĐ-CP.
+            <strong>Phi├¬n bß║ún:</strong> 2.5.0 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026<br>
+            <strong>T├ái liß╗çu tham chiß║┐u:</strong> H╞░ß╗¢ng dß║½n tu├ón thß╗º N─É 13/2023/N─É-CP v├á N─É 248/2026/N─É-CP.
         </div>
-        <p><strong>1. ĐỊNH NGHĨA THUẬT NGỮ</strong></p>
-        <p><strong>1.1. "Dữ liệu cá nhân":</strong> Là thông tin dưới dạng ký hiệu, chữ viết, chữ số, hình ảnh, âm thanh hoặc dạng tương tự trên môi trường điện tử gắn liền với một con người cụ thể.<br>
-        <strong>1.2. "Điện Máy Hiếu" hoặc "Chúng tôi":</strong> Công ty TNHH MTV Điện Tử Hiếu, đơn vị chủ quản và vận hành nền tảng.<br>
-        <strong>1.3. "Người dùng":</strong> Bao gồm Khách hàng mua sắm, Khách hàng đặt lịch dịch vụ và Đối tác Thợ kỹ thuật truy cập vào nền tảng.</p>
+        <p><strong>1. ─Éß╗èNH NGH─¿A THUß║¼T NGß╗«</strong></p>
+        <p><strong>1.1. "Dß╗» liß╗çu c├í nh├ón":</strong> L├á th├┤ng tin d╞░ß╗¢i dß║íng k├╜ hiß╗çu, chß╗» viß║┐t, chß╗» sß╗æ, h├¼nh ß║únh, ├óm thanh hoß║╖c dß║íng t╞░╞íng tß╗▒ tr├¬n m├┤i tr╞░ß╗¥ng ─æiß╗çn tß╗¡ gß║»n liß╗ün vß╗¢i mß╗Öt con ng╞░ß╗¥i cß╗Ñ thß╗â.<br>
+        <strong>1.2. "─Éiß╗çn M├íy Hiß║┐u" hoß║╖c "Ch├║ng t├┤i":</strong> C├┤ng ty TNHH MTV ─Éiß╗çn Tß╗¡ Hiß║┐u, ─æ╞ín vß╗ï chß╗º quß║ún v├á vß║¡n h├ánh nß╗ün tß║úng.<br>
+        <strong>1.3. "Ng╞░ß╗¥i d├╣ng":</strong> Bao gß╗ôm Kh├ích h├áng mua sß║»m, Kh├ích h├áng ─æß║╖t lß╗ïch dß╗ïch vß╗Ñ v├á ─Éß╗æi t├íc Thß╗ú kß╗╣ thuß║¡t truy cß║¡p v├áo nß╗ün tß║úng.</p>
         
-        <p><strong>2. PHẠM VI VÀ MỤC ĐÍCH THU THẬP DỮ LIỆU</strong></p>
-        <p><strong>2.1. Đối với Khách hàng tiêu dùng:</strong> Chúng tôi thu thập Họ tên, Số điện thoại, Địa chỉ giao nhận và Lịch sử giao dịch nhằm mục đích: (i) Điều phối đơn hàng và dịch vụ; (ii) Cá nhân hóa trải nghiệm người dùng; (iii) Giải quyết khiếu nại phát sinh.<br>
-        <strong>2.2. Đối với Đối tác Thợ kỹ thuật:</strong> Bắt buộc thu thập thêm Dữ liệu định danh (VNeID/CCCD), Chứng chỉ hành nghề và Dữ liệu sinh trắc học (nhận diện khuôn mặt khi đăng nhập) nhằm đảm bảo an ninh trật tự và an toàn tuyệt đối cho Khách hàng khi thi công tại nhà.</p>
+        <p><strong>2. PHß║áM VI V├Ç Mß╗ñC ─É├ìCH THU THß║¼P Dß╗« LIß╗åU</strong></p>
+        <p><strong>2.1. ─Éß╗æi vß╗¢i Kh├ích h├áng ti├¬u d├╣ng:</strong> Ch├║ng t├┤i thu thß║¡p Hß╗ì t├¬n, Sß╗æ ─æiß╗çn thoß║íi, ─Éß╗ïa chß╗ë giao nhß║¡n v├á Lß╗ïch sß╗¡ giao dß╗ïch nhß║▒m mß╗Ñc ─æ├¡ch: (i) ─Éiß╗üu phß╗æi ─æ╞ín h├áng v├á dß╗ïch vß╗Ñ; (ii) C├í nh├ón h├│a trß║úi nghiß╗çm ng╞░ß╗¥i d├╣ng; (iii) Giß║úi quyß║┐t khiß║┐u nß║íi ph├ít sinh.<br>
+        <strong>2.2. ─Éß╗æi vß╗¢i ─Éß╗æi t├íc Thß╗ú kß╗╣ thuß║¡t:</strong> Bß║»t buß╗Öc thu thß║¡p th├¬m Dß╗» liß╗çu ─æß╗ïnh danh (VNeID/CCCD), Chß╗⌐ng chß╗ë h├ánh nghß╗ü v├á Dß╗» liß╗çu sinh trß║»c hß╗ìc (nhß║¡n diß╗çn khu├┤n mß║╖t khi ─æ─âng nhß║¡p) nhß║▒m ─æß║úm bß║úo an ninh trß║¡t tß╗▒ v├á an to├án tuyß╗çt ─æß╗æi cho Kh├ích h├áng khi thi c├┤ng tß║íi nh├á.</p>
         
-        <p><strong>3. LƯU TRỮ VÀ XỬ LÝ DỮ LIỆU</strong></p>
-        <p><strong>3.1. Thời hạn lưu trữ:</strong> Dữ liệu sẽ được lưu trữ ẩn danh hóa sau 02 năm kể từ giao dịch cuối cùng và xóa vĩnh viễn sau 05 năm (theo chuẩn lưu trữ của Luật Kế toán và TMĐT).<br>
-        <strong>3.2. Tiêu chuẩn bảo mật:</strong> Hệ thống lưu trữ áp dụng chuẩn mã hóa AES-256 đối với dữ liệu tĩnh và TLS 1.3 đối với dữ liệu truyền tải.</p>
+        <p><strong>3. L╞»U TRß╗« V├Ç Xß╗¼ L├¥ Dß╗« LIß╗åU</strong></p>
+        <p><strong>3.1. Thß╗¥i hß║ín l╞░u trß╗»:</strong> Dß╗» liß╗çu sß║╜ ─æ╞░ß╗úc l╞░u trß╗» ß║⌐n danh h├│a sau 02 n─âm kß╗â tß╗½ giao dß╗ïch cuß╗æi c├╣ng v├á x├│a v─⌐nh viß╗àn sau 05 n─âm (theo chuß║⌐n l╞░u trß╗» cß╗ºa Luß║¡t Kß║┐ to├ín v├á TM─ÉT).<br>
+        <strong>3.2. Ti├¬u chuß║⌐n bß║úo mß║¡t:</strong> Hß╗ç thß╗æng l╞░u trß╗» ├íp dß╗Ñng chuß║⌐n m├ú h├│a AES-256 ─æß╗æi vß╗¢i dß╗» liß╗çu t─⌐nh v├á TLS 1.3 ─æß╗æi vß╗¢i dß╗» liß╗çu truyß╗ün tß║úi.</p>
         
-        <p><strong>4. QUYỀN VÀ NGHĨA VỤ CỦA CHỦ THỂ DỮ LIỆU</strong></p>
-        <p><strong>4.1.</strong> Người dùng có toàn quyền (i) Truy cập; (ii) Yêu cầu chỉnh sửa; (iii) Yêu cầu xóa bỏ (Right to be forgotten); và (iv) Rút lại sự đồng ý đối với việc xử lý dữ liệu.<br>
-        <strong>4.2.</strong> Mọi yêu cầu liên quan đến quyền dữ liệu cá nhân sẽ được Bộ phận Pháp chế của Chúng tôi tiếp nhận và xử lý tối đa trong 72 giờ làm việc thông qua email: congvinh298@gmail.com.</p></div>
-<div class="bct-pane " id="pol-2"><h3 style="margin-bottom: 20px;">2. QUY CHẾ TIẾP NHẬN VÀ GIẢI QUYẾT KHIẾU NẠI DỊCH VỤ</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+        <p><strong>4. QUYß╗ÇN V├Ç NGH─¿A Vß╗ñ Cß╗ªA CHß╗ª THß╗é Dß╗« LIß╗åU</strong></p>
+        <p><strong>4.1.</strong> Ng╞░ß╗¥i d├╣ng c├│ to├án quyß╗ün (i) Truy cß║¡p; (ii) Y├¬u cß║ºu chß╗ënh sß╗¡a; (iii) Y├¬u cß║ºu x├│a bß╗Å (Right to be forgotten); v├á (iv) R├║t lß║íi sß╗▒ ─æß╗ông ├╜ ─æß╗æi vß╗¢i viß╗çc xß╗¡ l├╜ dß╗» liß╗çu.<br>
+        <strong>4.2.</strong> Mß╗ìi y├¬u cß║ºu li├¬n quan ─æß║┐n quyß╗ün dß╗» liß╗çu c├í nh├ón sß║╜ ─æ╞░ß╗úc Bß╗Ö phß║¡n Ph├íp chß║┐ cß╗ºa Ch├║ng t├┤i tiß║┐p nhß║¡n v├á xß╗¡ l├╜ tß╗æi ─æa trong 72 giß╗¥ l├ám viß╗çc th├┤ng qua email: congvinh298@gmail.com.</p></div>
+<div class="bct-pane " id="pol-2"><h3 style="margin-bottom: 20px;">2. QUY CHß║╛ TIß║╛P NHß║¼N V├Ç GIß║óI QUYß║╛T KHIß║╛U Nß║áI Dß╗èCH Vß╗ñ</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 1.2.0 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026
+            <strong>Phi├¬n bß║ún:</strong> 1.2.0 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026
         </div>
-        <p><strong>1. NGUYÊN TẮC GIẢI QUYẾT KHIẾU NẠI</strong></p>
-        <p><strong>1.1.</strong> Điện Máy Hiếu thiết lập cơ chế giải quyết khiếu nại dựa trên nguyên tắc: <strong>"Bảo vệ tối đa quyền lợi chính đáng của Người tiêu dùng"</strong>. Chúng tôi chịu trách nhiệm liên đới đối với toàn bộ chất lượng hàng hóa và dịch vụ được giao dịch qua nền tảng.<br>
-        <strong>1.2.</strong> Mọi khiếu nại đều được ghi nhận bằng văn bản/ticket điện tử và lưu vết trên hệ thống để phục vụ công tác thanh kiểm tra của Bộ Công Thương.</p>
+        <p><strong>1. NGUY├èN Tß║«C GIß║óI QUYß║╛T KHIß║╛U Nß║áI</strong></p>
+        <p><strong>1.1.</strong> ─Éiß╗çn M├íy Hiß║┐u thiß║┐t lß║¡p c╞í chß║┐ giß║úi quyß║┐t khiß║┐u nß║íi dß╗▒a tr├¬n nguy├¬n tß║»c: <strong>"Bß║úo vß╗ç tß╗æi ─æa quyß╗ün lß╗úi ch├¡nh ─æ├íng cß╗ºa Ng╞░ß╗¥i ti├¬u d├╣ng"</strong>. Ch├║ng t├┤i chß╗ïu tr├ích nhiß╗çm li├¬n ─æß╗¢i ─æß╗æi vß╗¢i to├án bß╗Ö chß║Ñt l╞░ß╗úng h├áng h├│a v├á dß╗ïch vß╗Ñ ─æ╞░ß╗úc giao dß╗ïch qua nß╗ün tß║úng.<br>
+        <strong>1.2.</strong> Mß╗ìi khiß║┐u nß║íi ─æß╗üu ─æ╞░ß╗úc ghi nhß║¡n bß║▒ng v─ân bß║ún/ticket ─æiß╗çn tß╗¡ v├á l╞░u vß║┐t tr├¬n hß╗ç thß╗æng ─æß╗â phß╗Ñc vß╗Ñ c├┤ng t├íc thanh kiß╗âm tra cß╗ºa Bß╗Ö C├┤ng Th╞░╞íng.</p>
         
-        <p><strong>2. QUY TRÌNH TIẾP NHẬN VÀ XỬ LÝ KHIẾU NẠI CẤP ĐỘ CAO (SLA)</strong></p>
-        <p><strong>2.1. Cấp độ 1 - Tiếp nhận và Định tuyến (Trong vòng 02 giờ):</strong><br>
-        Người dùng gửi khiếu nại qua Hotline hoặc Hệ thống AI Chatbot. Hệ thống tự động phân loại mức độ nghiêm trọng và chuyển đến bộ phận chuyên trách.<br>
-        <strong>2.2. Cấp độ 2 - Điều tra và Xác minh (Trong vòng 24 giờ):</strong><br>
-        Bộ phận Kiểm soát chất lượng (QA) tiến hành trích xuất dữ liệu chat, ghi âm cuộc gọi và báo cáo nghiệm thu của Thợ kỹ thuật. Yêu cầu các bên liên quan giải trình.<br>
-        <strong>2.3. Cấp độ 3 - Đề xuất phương án và Thống nhất (Trong vòng 48 giờ):</strong><br>
-        Đại diện Điện Máy Hiếu liên hệ trực tiếp với Khách hàng để đưa ra Quyết định xử lý. Các phương án bao gồm: Cử thợ chuyên bậc cao đến khắc phục miễn phí, Hoàn tiền 100%, hoặc Bồi thường thiệt hại vật chất thực tế.</p>
+        <p><strong>2. QUY TR├îNH TIß║╛P NHß║¼N V├Ç Xß╗¼ L├¥ KHIß║╛U Nß║áI Cß║ñP ─Éß╗ÿ CAO (SLA)</strong></p>
+        <p><strong>2.1. Cß║Ñp ─æß╗Ö 1 - Tiß║┐p nhß║¡n v├á ─Éß╗ïnh tuyß║┐n (Trong v├▓ng 02 giß╗¥):</strong><br>
+        Ng╞░ß╗¥i d├╣ng gß╗¡i khiß║┐u nß║íi qua Hotline hoß║╖c Hß╗ç thß╗æng AI Chatbot. Hß╗ç thß╗æng tß╗▒ ─æß╗Öng ph├ón loß║íi mß╗⌐c ─æß╗Ö nghi├¬m trß╗ìng v├á chuyß╗ân ─æß║┐n bß╗Ö phß║¡n chuy├¬n tr├ích.<br>
+        <strong>2.2. Cß║Ñp ─æß╗Ö 2 - ─Éiß╗üu tra v├á X├íc minh (Trong v├▓ng 24 giß╗¥):</strong><br>
+        Bß╗Ö phß║¡n Kiß╗âm so├ít chß║Ñt l╞░ß╗úng (QA) tiß║┐n h├ánh tr├¡ch xuß║Ñt dß╗» liß╗çu chat, ghi ├óm cuß╗Öc gß╗ìi v├á b├ío c├ío nghiß╗çm thu cß╗ºa Thß╗ú kß╗╣ thuß║¡t. Y├¬u cß║ºu c├íc b├¬n li├¬n quan giß║úi tr├¼nh.<br>
+        <strong>2.3. Cß║Ñp ─æß╗Ö 3 - ─Éß╗ü xuß║Ñt ph╞░╞íng ├ín v├á Thß╗æng nhß║Ñt (Trong v├▓ng 48 giß╗¥):</strong><br>
+        ─Éß║íi diß╗çn ─Éiß╗çn M├íy Hiß║┐u li├¬n hß╗ç trß╗▒c tiß║┐p vß╗¢i Kh├ích h├áng ─æß╗â ─æ╞░a ra Quyß║┐t ─æß╗ïnh xß╗¡ l├╜. C├íc ph╞░╞íng ├ín bao gß╗ôm: Cß╗¡ thß╗ú chuy├¬n bß║¡c cao ─æß║┐n khß║»c phß╗Ñc miß╗àn ph├¡, Ho├án tiß╗ün 100%, hoß║╖c Bß╗ôi th╞░ß╗¥ng thiß╗çt hß║íi vß║¡t chß║Ñt thß╗▒c tß║┐.</p>
         
-        <p><strong>3. CHẾ TÀI ĐỐI VỚI ĐỐI TÁC THỢ KỸ THUẬT</strong></p>
-        <p><strong>3.1.</strong> Thợ kỹ thuật vi phạm tiêu chuẩn dịch vụ, có hành vi gian lận linh kiện hoặc thái độ không chuẩn mực sẽ bị áp dụng chế tài: (i) Khóa tài khoản tạm thời/vĩnh viễn; (ii) Giữ lại khoản ký quỹ; (iii) Chuyển hồ sơ sang cơ quan công an đối với hành vi cấu thành tội phạm lừa đảo.</p></div>
-<div class="bct-pane " id="pol-3"><h3 style="margin-bottom: 20px;">3. CHÍNH SÁCH KIỂM SOÁT VÀ MINH BẠCH VỀ GIÁ</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+        <p><strong>3. CHß║╛ T├ÇI ─Éß╗ÉI Vß╗ÜI ─Éß╗ÉI T├üC THß╗ó Kß╗╕ THUß║¼T</strong></p>
+        <p><strong>3.1.</strong> Thß╗ú kß╗╣ thuß║¡t vi phß║ím ti├¬u chuß║⌐n dß╗ïch vß╗Ñ, c├│ h├ánh vi gian lß║¡n linh kiß╗çn hoß║╖c th├íi ─æß╗Ö kh├┤ng chuß║⌐n mß╗▒c sß║╜ bß╗ï ├íp dß╗Ñng chß║┐ t├ái: (i) Kh├│a t├ái khoß║ún tß║ím thß╗¥i/v─⌐nh viß╗àn; (ii) Giß╗» lß║íi khoß║ún k├╜ quß╗╣; (iii) Chuyß╗ân hß╗ô s╞í sang c╞í quan c├┤ng an ─æß╗æi vß╗¢i h├ánh vi cß║Ñu th├ánh tß╗Öi phß║ím lß╗½a ─æß║úo.</p></div>
+<div class="bct-pane " id="pol-3"><h3 style="margin-bottom: 20px;">3. CH├ìNH S├üCH KIß╗éM SO├üT V├Ç MINH Bß║áCH Vß╗Ç GI├ü</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 3.0.1 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026
+            <strong>Phi├¬n bß║ún:</strong> 3.0.1 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026
         </div>
-        <p><strong>1. CƠ CHẾ NIÊM YẾT GIÁ</strong></p>
-        <p><strong>1.1. Đối với Hàng hóa vật lý:</strong> 100% giá sản phẩm hiển thị trên nền tảng (bao gồm cả các sản phẩm In 3D) là giá bán lẻ cuối cùng, đã bao gồm thuế GTGT (VAT) và các loại thuế phí bắt buộc khác (nếu có).<br>
-        <strong>1.2. Đối với Dịch vụ Gọi Thợ:</strong> Mức giá hiển thị là "Khung giá Tiền Công Tiêu Chuẩn". Nền tảng áp dụng cơ chế "Báo giá thông minh", tự động ước tính chi phí dựa trên hạng mục được chọn.</p>
+        <p><strong>1. C╞á CHß║╛ NI├èM Yß║╛T GI├ü</strong></p>
+        <p><strong>1.1. ─Éß╗æi vß╗¢i H├áng h├│a vß║¡t l├╜:</strong> 100% gi├í sß║ún phß║⌐m hiß╗ân thß╗ï tr├¬n nß╗ün tß║úng (bao gß╗ôm cß║ú c├íc sß║ún phß║⌐m In 3D) l├á gi├í b├ín lß║╗ cuß╗æi c├╣ng, ─æ├ú bao gß╗ôm thuß║┐ GTGT (VAT) v├á c├íc loß║íi thuß║┐ ph├¡ bß║»t buß╗Öc kh├íc (nß║┐u c├│).<br>
+        <strong>1.2. ─Éß╗æi vß╗¢i Dß╗ïch vß╗Ñ Gß╗ìi Thß╗ú:</strong> Mß╗⌐c gi├í hiß╗ân thß╗ï l├á "Khung gi├í Tiß╗ün C├┤ng Ti├¬u Chuß║⌐n". Nß╗ün tß║úng ├íp dß╗Ñng c╞í chß║┐ "B├ío gi├í th├┤ng minh", tß╗▒ ─æß╗Öng ╞░ß╗¢c t├¡nh chi ph├¡ dß╗▒a tr├¬n hß║íng mß╗Ñc ─æ╞░ß╗úc chß╗ìn.</p>
         
-        <p><strong>2. QUẢN LÝ PHÁT SINH VẬT TƯ, LINH KIỆN</strong></p>
-        <p><strong>2.1. Quy trình Báo giá tại chỗ (On-site Quoting):</strong> Trong quá trình khảo sát thực tế, nếu phát hiện hỏng hóc cần thay thế vật tư, Đối tác Thợ kỹ thuật bắt buộc phải mở Ứng dụng/Portal của thợ để tạo "Phiếu báo giá phát sinh" và trình cho Khách hàng phê duyệt (Ký điện tử hoặc OTP).<br>
-        <strong>2.2. Quyền Từ Chối Nghiệm Thu:</strong> Khách hàng có quyền từ chối toàn bộ dịch vụ và không phải thanh toán bất kỳ chi phí nào (kể cả phí xăng xe) nếu Thợ kỹ thuật tự ý thay thế vật tư mà không có sự đồng thuận trước về giá.</p>
+        <p><strong>2. QUß║óN L├¥ PH├üT SINH Vß║¼T T╞», LINH KIß╗åN</strong></p>
+        <p><strong>2.1. Quy tr├¼nh B├ío gi├í tß║íi chß╗ù (On-site Quoting):</strong> Trong qu├í tr├¼nh khß║úo s├ít thß╗▒c tß║┐, nß║┐u ph├ít hiß╗çn hß╗Ång h├│c cß║ºn thay thß║┐ vß║¡t t╞░, ─Éß╗æi t├íc Thß╗ú kß╗╣ thuß║¡t bß║»t buß╗Öc phß║úi mß╗ƒ ß╗¿ng dß╗Ñng/Portal cß╗ºa thß╗ú ─æß╗â tß║ío "Phiß║┐u b├ío gi├í ph├ít sinh" v├á tr├¼nh cho Kh├ích h├áng ph├¬ duyß╗çt (K├╜ ─æiß╗çn tß╗¡ hoß║╖c OTP).<br>
+        <strong>2.2. Quyß╗ün Tß╗½ Chß╗æi Nghiß╗çm Thu:</strong> Kh├ích h├áng c├│ quyß╗ün tß╗½ chß╗æi to├án bß╗Ö dß╗ïch vß╗Ñ v├á kh├┤ng phß║úi thanh to├ín bß║Ñt kß╗│ chi ph├¡ n├áo (kß╗â cß║ú ph├¡ x─âng xe) nß║┐u Thß╗ú kß╗╣ thuß║¡t tß╗▒ ├╜ thay thß║┐ vß║¡t t╞░ m├á kh├┤ng c├│ sß╗▒ ─æß╗ông thuß║¡n tr╞░ß╗¢c vß╗ü gi├í.</p>
         
-        <p><strong>3. CHẾ TÀI XỬ LÝ VI PHẠM VỀ GIÁ</strong></p>
-        <p><strong>3.1.</strong> Mọi hành vi "chặt chém", tự ý nâng giá vật tư cao hơn mặt bằng chung của Đối tác Thợ kỹ thuật đều vi phạm nghiêm trọng Bộ Quy Tắc Ứng Xử của Nền tảng.<br>
-        <strong>3.2.</strong> Khách hàng cung cấp bằng chứng vi phạm sẽ được Nền tảng hoàn trả 100% số tiền chênh lệch, đồng thời Đối tác vi phạm sẽ bị khóa tài khoản vĩnh viễn.</p></div>
-<div class="bct-pane " id="pol-4"><h3 style="margin-bottom: 20px;">4. QUY CHẾ HOẠT ĐỘNG THANH TOÁN VÀ BẢO ĐẢM GIAO DỊCH</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+        <p><strong>3. CHß║╛ T├ÇI Xß╗¼ L├¥ VI PHß║áM Vß╗Ç GI├ü</strong></p>
+        <p><strong>3.1.</strong> Mß╗ìi h├ánh vi "chß║╖t ch├⌐m", tß╗▒ ├╜ n├óng gi├í vß║¡t t╞░ cao h╞ín mß║╖t bß║▒ng chung cß╗ºa ─Éß╗æi t├íc Thß╗ú kß╗╣ thuß║¡t ─æß╗üu vi phß║ím nghi├¬m trß╗ìng Bß╗Ö Quy Tß║»c ß╗¿ng Xß╗¡ cß╗ºa Nß╗ün tß║úng.<br>
+        <strong>3.2.</strong> Kh├ích h├áng cung cß║Ñp bß║▒ng chß╗⌐ng vi phß║ím sß║╜ ─æ╞░ß╗úc Nß╗ün tß║úng ho├án trß║ú 100% sß╗æ tiß╗ün ch├¬nh lß╗çch, ─æß╗ông thß╗¥i ─Éß╗æi t├íc vi phß║ím sß║╜ bß╗ï kh├│a t├ái khoß║ún v─⌐nh viß╗àn.</p></div>
+<div class="bct-pane " id="pol-4"><h3 style="margin-bottom: 20px;">4. QUY CHß║╛ HOß║áT ─Éß╗ÿNG THANH TO├üN V├Ç Bß║óO ─Éß║óM GIAO Dß╗èCH</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 2.1.0 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026
+            <strong>Phi├¬n bß║ún:</strong> 2.1.0 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026
         </div>
-        <p><strong>1. HỆ SINH THÁI THANH TOÁN ĐA PHƯƠNG THỨC</strong></p>
-        <p><strong>1.1.</strong> Để tối ưu hóa trải nghiệm, Điện Máy Hiếu tích hợp hệ sinh thái thanh toán bao gồm:<br>
-        - <strong>Thanh toán đối soát sau (COD):</strong> Khách hàng thanh toán trực tiếp bằng tiền mặt sau khi nghiệm thu dịch vụ hoặc nhận hàng.<br>
-        - <strong>Thanh toán Chuyển khoản (VietQR):</strong> Sử dụng mã QR động do hệ thống sinh ra nhằm đảm bảo tính chính xác tuyệt đối về số tiền và mã đối soát đơn hàng.<br>
-        - <strong>Thanh toán Trực tuyến (Cổng thanh toán):</strong> Chấp nhận thẻ Nội địa (Napas), Thẻ quốc tế (Visa/Mastercard) và các Ví điện tử liên kết.</p>
+        <p><strong>1. Hß╗å SINH TH├üI THANH TO├üN ─ÉA PH╞»╞áNG THß╗¿C</strong></p>
+        <p><strong>1.1.</strong> ─Éß╗â tß╗æi ╞░u h├│a trß║úi nghiß╗çm, ─Éiß╗çn M├íy Hiß║┐u t├¡ch hß╗úp hß╗ç sinh th├íi thanh to├ín bao gß╗ôm:<br>
+        - <strong>Thanh to├ín ─æß╗æi so├ít sau (COD):</strong> Kh├ích h├áng thanh to├ín trß╗▒c tiß║┐p bß║▒ng tiß╗ün mß║╖t sau khi nghiß╗çm thu dß╗ïch vß╗Ñ hoß║╖c nhß║¡n h├áng.<br>
+        - <strong>Thanh to├ín Chuyß╗ân khoß║ún (VietQR):</strong> Sß╗¡ dß╗Ñng m├ú QR ─æß╗Öng do hß╗ç thß╗æng sinh ra nhß║▒m ─æß║úm bß║úo t├¡nh ch├¡nh x├íc tuyß╗çt ─æß╗æi vß╗ü sß╗æ tiß╗ün v├á m├ú ─æß╗æi so├ít ─æ╞ín h├áng.<br>
+        - <strong>Thanh to├ín Trß╗▒c tuyß║┐n (Cß╗òng thanh to├ín):</strong> Chß║Ñp nhß║¡n thß║╗ Nß╗Öi ─æß╗ïa (Napas), Thß║╗ quß╗æc tß║┐ (Visa/Mastercard) v├á c├íc V├¡ ─æiß╗çn tß╗¡ li├¬n kß║┐t.</p>
         
-        <p><strong>2. CƠ CHẾ BẢO ĐẢM THANH TOÁN (ESCROW)</strong></p>
-        <p><strong>2.1.</strong> Đối với các giao dịch dịch vụ có giá trị lớn hoặc yêu cầu đặt cọc (như chế tác In 3D cao cấp), Nền tảng áp dụng cơ chế tạm giữ tiền (Escrow).<br>
-        <strong>2.2.</strong> Khoản tiền của Khách hàng sẽ được Nền tảng tạm giữ độc lập và chỉ được giải ngân cho Đối tác Thợ/Xưởng in sau khi Khách hàng xác nhận nghiệm thu thành công hoặc hết thời gian khiếu nại (48 giờ).</p>
+        <p><strong>2. C╞á CHß║╛ Bß║óO ─Éß║óM THANH TO├üN (ESCROW)</strong></p>
+        <p><strong>2.1.</strong> ─Éß╗æi vß╗¢i c├íc giao dß╗ïch dß╗ïch vß╗Ñ c├│ gi├í trß╗ï lß╗¢n hoß║╖c y├¬u cß║ºu ─æß║╖t cß╗ìc (nh╞░ chß║┐ t├íc In 3D cao cß║Ñp), Nß╗ün tß║úng ├íp dß╗Ñng c╞í chß║┐ tß║ím giß╗» tiß╗ün (Escrow).<br>
+        <strong>2.2.</strong> Khoß║ún tiß╗ün cß╗ºa Kh├ích h├áng sß║╜ ─æ╞░ß╗úc Nß╗ün tß║úng tß║ím giß╗» ─æß╗Öc lß║¡p v├á chß╗ë ─æ╞░ß╗úc giß║úi ng├ón cho ─Éß╗æi t├íc Thß╗ú/X╞░ß╗ƒng in sau khi Kh├ích h├áng x├íc nhß║¡n nghiß╗çm thu th├ánh c├┤ng hoß║╖c hß║┐t thß╗¥i gian khiß║┐u nß║íi (48 giß╗¥).</p>
         
-        <p><strong>3. CHÍNH SÁCH ĐỐI SOÁT VÀ HOÀN TIỀN (REFUND POLICY)</strong></p>
-        <p><strong>3.1.</strong> Trong trường hợp phát sinh lỗi trừ tiền kép, giao dịch timeout, hệ thống đối soát tự động của Điện Máy Hiếu sẽ kích hoạt quy trình Hoàn tiền tự động (Auto-refund) về phương thức thanh toán gốc của Khách hàng trong vòng 01-03 ngày làm việc theo quy định của Ngân hàng Nhà nước.</p></div>
-<div class="bct-pane " id="pol-5"><h3 style="margin-bottom: 20px;">5. ĐIỀU KHOẢN HẠN CHẾ VÀ MIỄN TRỪ TRÁCH NHIỆM CHUYÊN BIỆT</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+        <p><strong>3. CH├ìNH S├üCH ─Éß╗ÉI SO├üT V├Ç HO├ÇN TIß╗ÇN (REFUND POLICY)</strong></p>
+        <p><strong>3.1.</strong> Trong tr╞░ß╗¥ng hß╗úp ph├ít sinh lß╗ùi trß╗½ tiß╗ün k├⌐p, giao dß╗ïch timeout, hß╗ç thß╗æng ─æß╗æi so├ít tß╗▒ ─æß╗Öng cß╗ºa ─Éiß╗çn M├íy Hiß║┐u sß║╜ k├¡ch hoß║ít quy tr├¼nh Ho├án tiß╗ün tß╗▒ ─æß╗Öng (Auto-refund) vß╗ü ph╞░╞íng thß╗⌐c thanh to├ín gß╗æc cß╗ºa Kh├ích h├áng trong v├▓ng 01-03 ng├áy l├ám viß╗çc theo quy ─æß╗ïnh cß╗ºa Ng├ón h├áng Nh├á n╞░ß╗¢c.</p></div>
+<div class="bct-pane " id="pol-5"><h3 style="margin-bottom: 20px;">5. ─ÉIß╗ÇU KHOß║óN Hß║áN CHß║╛ V├Ç MIß╗äN TRß╗¬ TR├üCH NHIß╗åM CHUY├èN BIß╗åT</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 1.5.0 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026
+            <strong>Phi├¬n bß║ún:</strong> 1.5.0 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026
         </div>
-        <p><strong>1. GIỚI HẠN PHẠM VI CUNG CẤP DỊCH VỤ ĐỊA LÝ</strong></p>
-        <p><strong>1.1.</strong> Nền tảng "Gọi Thợ Tận Nơi" được thiết lập với bộ lọc vị trí địa lý thông minh (Geofencing). Khu vực phục vụ tiêu chuẩn (SLA chuẩn) được giới hạn trong bán kính 15km tính từ Trung tâm Điều phối (Chợ Lấp Vò, Đồng Tháp).<br>
-        <strong>1.2.</strong> Các yêu cầu vượt ngoài ranh giới này sẽ được xếp vào dạng "Yêu cầu đặc biệt", cần sự xác nhận thủ công từ Đối tác Thợ và có thể áp dụng Bảng phụ thu di chuyển đã được niêm yết công khai.</p>
+        <p><strong>1. GIß╗ÜI Hß║áN PHß║áM VI CUNG Cß║ñP Dß╗èCH Vß╗ñ ─Éß╗èA L├¥</strong></p>
+        <p><strong>1.1.</strong> Nß╗ün tß║úng "Gß╗ìi Thß╗ú Tß║¡n N╞íi" ─æ╞░ß╗úc thiß║┐t lß║¡p vß╗¢i bß╗Ö lß╗ìc vß╗ï tr├¡ ─æß╗ïa l├╜ th├┤ng minh (Geofencing). Khu vß╗▒c phß╗Ñc vß╗Ñ ti├¬u chuß║⌐n (SLA chuß║⌐n) ─æ╞░ß╗úc giß╗¢i hß║ín trong b├ín k├¡nh 15km t├¡nh tß╗½ Trung t├óm ─Éiß╗üu phß╗æi (Chß╗ú Lß║Ñp V├▓, ─Éß╗ông Th├íp).<br>
+        <strong>1.2.</strong> C├íc y├¬u cß║ºu v╞░ß╗út ngo├ái ranh giß╗¢i n├áy sß║╜ ─æ╞░ß╗úc xß║┐p v├áo dß║íng "Y├¬u cß║ºu ─æß║╖c biß╗çt", cß║ºn sß╗▒ x├íc nhß║¡n thß╗º c├┤ng tß╗½ ─Éß╗æi t├íc Thß╗ú v├á c├│ thß╗â ├íp dß╗Ñng Bß║úng phß╗Ñ thu di chuyß╗ân ─æ├ú ─æ╞░ß╗úc ni├¬m yß║┐t c├┤ng khai.</p>
         
-        <p><strong>2. QUY CHẾ VẬN HÀNH TRÍ TUỆ NHÂN TẠO (AI CHATBOT)</strong></p>
-        <p><strong>2.1. Bản chất của dịch vụ AI:</strong> Chatbot là hệ thống Trí tuệ Nhân tạo Tự động được huấn luyện chuyên sâu về cơ điện lạnh. Tuy nhiên, mọi thông tin do Chatbot cung cấp mang tính chất "Chẩn đoán sơ bộ" và "Tư vấn tham khảo".<br>
-        <strong>2.2. Miễn trừ trách nhiệm:</strong> Điện Máy Hiếu miễn trừ toàn bộ trách nhiệm pháp lý đối với bất kỳ thiệt hại vật chất, sự cố chập cháy hoặc tai nạn lao động nào phát sinh do Người dùng tự ý thực hiện thao tác tháo lắp, sửa chữa điện máy dựa trên nội dung hội thoại với AI mà không có sự hiện diện của Thợ kỹ thuật có chuyên môn.</p>
+        <p><strong>2. QUY CHß║╛ Vß║¼N H├ÇNH TR├ì TUß╗å NH├éN Tß║áO (AI CHATBOT)</strong></p>
+        <p><strong>2.1. Bß║ún chß║Ñt cß╗ºa dß╗ïch vß╗Ñ AI:</strong> Chatbot l├á hß╗ç thß╗æng Tr├¡ tuß╗ç Nh├ón tß║ío Tß╗▒ ─æß╗Öng ─æ╞░ß╗úc huß║Ñn luyß╗çn chuy├¬n s├óu vß╗ü c╞í ─æiß╗çn lß║ính. Tuy nhi├¬n, mß╗ìi th├┤ng tin do Chatbot cung cß║Ñp mang t├¡nh chß║Ñt "Chß║⌐n ─æo├ín s╞í bß╗Ö" v├á "T╞░ vß║Ñn tham khß║úo".<br>
+        <strong>2.2. Miß╗àn trß╗½ tr├ích nhiß╗çm:</strong> ─Éiß╗çn M├íy Hiß║┐u miß╗àn trß╗½ to├án bß╗Ö tr├ích nhiß╗çm ph├íp l├╜ ─æß╗æi vß╗¢i bß║Ñt kß╗│ thiß╗çt hß║íi vß║¡t chß║Ñt, sß╗▒ cß╗æ chß║¡p ch├íy hoß║╖c tai nß║ín lao ─æß╗Öng n├áo ph├ít sinh do Ng╞░ß╗¥i d├╣ng tß╗▒ ├╜ thß╗▒c hiß╗çn thao t├íc th├ío lß║»p, sß╗¡a chß╗»a ─æiß╗çn m├íy dß╗▒a tr├¬n nß╗Öi dung hß╗Öi thoß║íi vß╗¢i AI m├á kh├┤ng c├│ sß╗▒ hiß╗çn diß╗çn cß╗ºa Thß╗ú kß╗╣ thuß║¡t c├│ chuy├¬n m├┤n.</p>
         
-        <p><strong>3. HẠN CHẾ VỀ NĂNG LỰC HÀNH VI DÂN SỰ</strong></p>
-        <p><strong>3.1.</strong> Nền tảng từ chối cung cấp dịch vụ Gọi thợ đến nhà nếu Chủ thể yêu cầu là người dưới 15 tuổi hoặc người mất năng lực hành vi dân sự, trừ trường hợp có sự giám sát trực tiếp của Người giám hộ hợp pháp trong suốt thời gian thi công.</p></div>
-<div class="bct-pane " id="pol-6"><h3 style="margin-bottom: 20px;">6. QUY ĐỊNH VẬN CHUYỂN, BẢO HÀNH VÀ HOÀN TRẢ SẢN PHẨM</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+        <p><strong>3. Hß║áN CHß║╛ Vß╗Ç N─éNG Lß╗░C H├ÇNH VI D├éN Sß╗░</strong></p>
+        <p><strong>3.1.</strong> Nß╗ün tß║úng tß╗½ chß╗æi cung cß║Ñp dß╗ïch vß╗Ñ Gß╗ìi thß╗ú ─æß║┐n nh├á nß║┐u Chß╗º thß╗â y├¬u cß║ºu l├á ng╞░ß╗¥i d╞░ß╗¢i 15 tuß╗òi hoß║╖c ng╞░ß╗¥i mß║Ñt n─âng lß╗▒c h├ánh vi d├ón sß╗▒, trß╗½ tr╞░ß╗¥ng hß╗úp c├│ sß╗▒ gi├ím s├ít trß╗▒c tiß║┐p cß╗ºa Ng╞░ß╗¥i gi├ím hß╗Ö hß╗úp ph├íp trong suß╗æt thß╗¥i gian thi c├┤ng.</p></div>
+<div class="bct-pane " id="pol-6"><h3 style="margin-bottom: 20px;">6. QUY ─Éß╗èNH Vß║¼N CHUYß╗éN, Bß║óO H├ÇNH V├Ç HO├ÇN TRß║ó Sß║óN PHß║¿M</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 2.0.0 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026
+            <strong>Phi├¬n bß║ún:</strong> 2.0.0 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026
         </div>
-        <p><strong>1. TIÊU CHUẨN VẬN CHUYỂN (LOGISTICS SLA)</strong></p>
-        <p><strong>1.1. Đối với Hàng hóa vật lý có sẵn:</strong> Điện Máy Hiếu áp dụng cam kết giao hàng hỏa tốc trong nội vi khu vực (2-4 giờ). Đối với khu vực xa, Nền tảng ủy quyền cho các Đối tác Vận chuyển (GHTK, Viettel Post) với thời gian Lead-time từ 1-3 ngày.<br>
-        <strong>1.2. Phân định trách nhiệm:</strong> Nền tảng chịu trách nhiệm 100% đối với mọi rủi ro hư hỏng, móp méo, thất lạc hàng hóa trong quá trình vận chuyển cho đến thời điểm Khách hàng đồng kiểm và ký nhận thành công.</p>
+        <p><strong>1. TI├èU CHUß║¿N Vß║¼N CHUYß╗éN (LOGISTICS SLA)</strong></p>
+        <p><strong>1.1. ─Éß╗æi vß╗¢i H├áng h├│a vß║¡t l├╜ c├│ sß║╡n:</strong> ─Éiß╗çn M├íy Hiß║┐u ├íp dß╗Ñng cam kß║┐t giao h├áng hß╗Åa tß╗æc trong nß╗Öi vi khu vß╗▒c (2-4 giß╗¥). ─Éß╗æi vß╗¢i khu vß╗▒c xa, Nß╗ün tß║úng ß╗ºy quyß╗ün cho c├íc ─Éß╗æi t├íc Vß║¡n chuyß╗ân (GHTK, Viettel Post) vß╗¢i thß╗¥i gian Lead-time tß╗½ 1-3 ng├áy.<br>
+        <strong>1.2. Ph├ón ─æß╗ïnh tr├ích nhiß╗çm:</strong> Nß╗ün tß║úng chß╗ïu tr├ích nhiß╗çm 100% ─æß╗æi vß╗¢i mß╗ìi rß╗ºi ro h╞░ hß╗Ång, m├│p m├⌐o, thß║Ñt lß║íc h├áng h├│a trong qu├í tr├¼nh vß║¡n chuyß╗ân cho ─æß║┐n thß╗¥i ─æiß╗âm Kh├ích h├áng ─æß╗ông kiß╗âm v├á k├╜ nhß║¡n th├ánh c├┤ng.</p>
         
-        <p><strong>2. CHÍNH SÁCH BẢO HÀNH VÀ ĐỔI TRẢ (RMA)</strong></p>
-        <p><strong>2.1. Hàng hóa điện máy, linh kiện:</strong> Áp dụng chính sách "1 ĐỔI 1" trong vòng 07 ngày đầu tiên nếu phát sinh lỗi kỹ thuật từ nhà sản xuất. Sản phẩm yêu cầu RMA (Return Merchandise Authorization) phải đảm bảo nguyên vẹn tem niêm phong, không có dấu hiệu can thiệp vật lý phần cứng hoặc vào nước.<br>
-        <strong>2.2. Dịch vụ In 3D gia công:</strong> Sản phẩm In 3D theo yêu cầu chỉ được đổi trả/làm lại miễn phí trong trường hợp sai lệch so với bản vẽ kỹ thuật gốc (File STL/OBJ) do lỗi cấu hình máy in. Không hỗ trợ đổi trả do Khách hàng thay đổi ý định thiết kế sau khi đã lên máy.</p>
+        <p><strong>2. CH├ìNH S├üCH Bß║óO H├ÇNH V├Ç ─Éß╗öI TRß║ó (RMA)</strong></p>
+        <p><strong>2.1. H├áng h├│a ─æiß╗çn m├íy, linh kiß╗çn:</strong> ├üp dß╗Ñng ch├¡nh s├ích "1 ─Éß╗öI 1" trong v├▓ng 07 ng├áy ─æß║ºu ti├¬n nß║┐u ph├ít sinh lß╗ùi kß╗╣ thuß║¡t tß╗½ nh├á sß║ún xuß║Ñt. Sß║ún phß║⌐m y├¬u cß║ºu RMA (Return Merchandise Authorization) phß║úi ─æß║úm bß║úo nguy├¬n vß║╣n tem ni├¬m phong, kh├┤ng c├│ dß║Ñu hiß╗çu can thiß╗çp vß║¡t l├╜ phß║ºn cß╗⌐ng hoß║╖c v├áo n╞░ß╗¢c.<br>
+        <strong>2.2. Dß╗ïch vß╗Ñ In 3D gia c├┤ng:</strong> Sß║ún phß║⌐m In 3D theo y├¬u cß║ºu chß╗ë ─æ╞░ß╗úc ─æß╗òi trß║ú/l├ám lß║íi miß╗àn ph├¡ trong tr╞░ß╗¥ng hß╗úp sai lß╗çch so vß╗¢i bß║ún vß║╜ kß╗╣ thuß║¡t gß╗æc (File STL/OBJ) do lß╗ùi cß║Ñu h├¼nh m├íy in. Kh├┤ng hß╗ù trß╗ú ─æß╗òi trß║ú do Kh├ích h├áng thay ─æß╗òi ├╜ ─æß╗ïnh thiß║┐t kß║┐ sau khi ─æ├ú l├¬n m├íy.</p>
         
-        <p><strong>3. BẢO HÀNH DỊCH VỤ GỌI THỢ</strong></p>
-        <p><strong>3.1.</strong> Toàn bộ hạng mục thi công, sửa chữa đều được Nền tảng bảo hành trách nhiệm từ 01 đến 06 tháng tùy thuộc vào đặc thù linh kiện thay thế. Thông tin bảo hành được kích hoạt điện tử (E-Warranty) ngay khi nghiệm thu.</p></div>
-<div class="bct-pane " id="pol-7"><h3 style="margin-bottom: 20px;">7. TIÊU CHUẨN HỖ TRỢ TRỰC TUYẾN VÀ CHĂM SÓC KHÁCH HÀNG ĐA PHƯƠNG TIỆN</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
+        <p><strong>3. Bß║óO H├ÇNH Dß╗èCH Vß╗ñ Gß╗îI THß╗ó</strong></p>
+        <p><strong>3.1.</strong> To├án bß╗Ö hß║íng mß╗Ñc thi c├┤ng, sß╗¡a chß╗»a ─æß╗üu ─æ╞░ß╗úc Nß╗ün tß║úng bß║úo h├ánh tr├ích nhiß╗çm tß╗½ 01 ─æß║┐n 06 th├íng t├╣y thuß╗Öc v├áo ─æß║╖c th├╣ linh kiß╗çn thay thß║┐. Th├┤ng tin bß║úo h├ánh ─æ╞░ß╗úc k├¡ch hoß║ít ─æiß╗çn tß╗¡ (E-Warranty) ngay khi nghiß╗çm thu.</p></div>
+<div class="bct-pane " id="pol-7"><h3 style="margin-bottom: 20px;">7. TI├èU CHUß║¿N Hß╗û TRß╗ó TRß╗░C TUYß║╛N V├Ç CH─éM S├ôC KH├üCH H├ÇNG ─ÉA PH╞»╞áNG TIß╗åN</h3><div style="color: #cbd5e1; line-height: 1.7; font-size: 15px;">
         <div style='font-size: 13pt; color: #64748b; margin-bottom: 20px;'>
-            <strong>Phiên bản:</strong> 1.1.0 &nbsp;|&nbsp; <strong>Ngày hiệu lực:</strong> 12/07/2026
+            <strong>Phi├¬n bß║ún:</strong> 1.1.0 &nbsp;|&nbsp; <strong>Ng├áy hiß╗çu lß╗▒c:</strong> 12/07/2026
         </div>
-        <p><strong>1. HỆ THỐNG LIÊN LẠC ĐA KÊNH (OMNICHANNEL SUPPORT)</strong></p>
-        <p><strong>1.1.</strong> Tuân thủ yêu cầu duy trì kết nối liên tục của Bộ Công Thương, Điện Máy Hiếu vận hành trung tâm hỗ trợ trực tuyến đa nền tảng bao gồm:<br>
-        - <strong>Hotline Hỗ Trợ Khẩn Cấp (Priority Line):</strong> 0979.553.289 (Hoạt động trong giờ hành chính 07:30 - 18:00).<br>
-        - <strong>Live Chat & AI Chatbot:</strong> Khung chat đính kèm trực tiếp trên giao diện website, hỗ trợ luân phiên giữa Trợ lý AI và Chuyên viên con người.<br>
-        - <strong>Mạng xã hội tích hợp:</strong> Kênh Zalo Official Account (Zalo OA) và Facebook Messenger tích hợp sẵn API gửi nhận hình ảnh, video phục vụ chẩn đoán kỹ thuật từ xa.</p>
+        <p><strong>1. Hß╗å THß╗ÉNG LI├èN Lß║áC ─ÉA K├èNH (OMNICHANNEL SUPPORT)</strong></p>
+        <p><strong>1.1.</strong> Tu├ón thß╗º y├¬u cß║ºu duy tr├¼ kß║┐t nß╗æi li├¬n tß╗Ñc cß╗ºa Bß╗Ö C├┤ng Th╞░╞íng, ─Éiß╗çn M├íy Hiß║┐u vß║¡n h├ánh trung t├óm hß╗ù trß╗ú trß╗▒c tuyß║┐n ─æa nß╗ün tß║úng bao gß╗ôm:<br>
+        - <strong>Hotline Hß╗ù Trß╗ú Khß║⌐n Cß║Ñp (Priority Line):</strong> 0979.553.289 (Hoß║ít ─æß╗Öng trong giß╗¥ h├ánh ch├¡nh 07:30 - 18:00).<br>
+        - <strong>Live Chat & AI Chatbot:</strong> Khung chat ─æ├¡nh k├¿m trß╗▒c tiß║┐p tr├¬n giao diß╗çn website, hß╗ù trß╗ú lu├ón phi├¬n giß╗»a Trß╗ú l├╜ AI v├á Chuy├¬n vi├¬n con ng╞░ß╗¥i.<br>
+        - <strong>Mß║íng x├ú hß╗Öi t├¡ch hß╗úp:</strong> K├¬nh Zalo Official Account (Zalo OA) v├á Facebook Messenger t├¡ch hß╗úp sß║╡n API gß╗¡i nhß║¡n h├¼nh ß║únh, video phß╗Ñc vß╗Ñ chß║⌐n ─æo├ín kß╗╣ thuß║¡t tß╗½ xa.</p>
         
-        <p><strong>2. CAM KẾT CHẤT LƯỢNG DỊCH VỤ (SERVICE LEVEL AGREEMENT)</strong></p>
-        <p><strong>2.1. Thời gian phản hồi lần đầu (First Response Time):</strong> <br>
-        - Kênh Hotline: Đạt 100% nhấc máy trong 15 giây.<br>
-        - Kênh Chat trực tuyến: AI Chatbot phản hồi lập tức (< 1 giây). Chuyên viên CSKH tiếp quản trong vòng 3 phút.<br>
-        <strong>2.2. Xử lý trường hợp khẩn cấp (Emergency Cases):</strong> Đối với các yêu cầu mang tính chất nguy hiểm như rò rỉ điện, chập cháy bo mạch, hệ thống sẽ tự động dán nhãn "Ưu tiên Đỏ" và điều động thợ kỹ thuật gần nhất có mặt trong thời gian tối đa 30 phút nhằm bảo đảm an toàn tính mạng và tài sản cho Người dùng.</p></div>
+        <p><strong>2. CAM Kß║╛T CHß║ñT L╞»ß╗óNG Dß╗èCH Vß╗ñ (SERVICE LEVEL AGREEMENT)</strong></p>
+        <p><strong>2.1. Thß╗¥i gian phß║ún hß╗ôi lß║ºn ─æß║ºu (First Response Time):</strong> <br>
+        - K├¬nh Hotline: ─Éß║ít 100% nhß║Ñc m├íy trong 15 gi├óy.<br>
+        - K├¬nh Chat trß╗▒c tuyß║┐n: AI Chatbot phß║ún hß╗ôi lß║¡p tß╗⌐c (< 1 gi├óy). Chuy├¬n vi├¬n CSKH tiß║┐p quß║ún trong v├▓ng 3 ph├║t.<br>
+        <strong>2.2. Xß╗¡ l├╜ tr╞░ß╗¥ng hß╗úp khß║⌐n cß║Ñp (Emergency Cases):</strong> ─Éß╗æi vß╗¢i c├íc y├¬u cß║ºu mang t├¡nh chß║Ñt nguy hiß╗âm nh╞░ r├▓ rß╗ë ─æiß╗çn, chß║¡p ch├íy bo mß║ích, hß╗ç thß╗æng sß║╜ tß╗▒ ─æß╗Öng d├ín nh├ún "╞»u ti├¬n ─Éß╗Å" v├á ─æiß╗üu ─æß╗Öng thß╗ú kß╗╣ thuß║¡t gß║ºn nhß║Ñt c├│ mß║╖t trong thß╗¥i gian tß╗æi ─æa 30 ph├║t nhß║▒m bß║úo ─æß║úm an to├án t├¡nh mß║íng v├á t├ái sß║ún cho Ng╞░ß╗¥i d├╣ng.</p></div>
 
                 </div>
             </div>
@@ -1125,14 +1088,14 @@ function toggleLegalSection(btn) {
     btn.classList.toggle('active');
     const isOpen = collapsed.classList.contains('open');
     btn.innerHTML = isOpen
-        ? '<i class="fa-solid fa-chevron-up"></i> Thu gọn chính sách'
-        : '<i class="fa-solid fa-chevron-down"></i> Xem chi tiết chính sách';
+        ? '<i class="fa-solid fa-chevron-up"></i> Thu gß╗ìn ch├¡nh s├ích'
+        : '<i class="fa-solid fa-chevron-down"></i> Xem chi tiß║┐t ch├¡nh s├ích';
 }
 </script>
 
 
 <style>
-/* STYLE DÀNH CHO CÁN BỘ BCT (ADHD & OCD FRIENDLY) */
+/* STYLE D├ÇNH CHO C├üN Bß╗ÿ BCT (ADHD & OCD FRIENDLY) */
 .bct-tab-btn {
     width: 100%;
     text-align: left;
@@ -1214,7 +1177,7 @@ function toggleLegalSection(btn) {
     margin-bottom: 12px;
 }
 .bct-pane ul li::before {
-    content: "•";
+    content: "ΓÇó";
     color: #38bdf8;
     font-size: 20px;
     font-weight: bold;
@@ -1259,83 +1222,83 @@ document.addEventListener('DOMContentLoaded', function() {
     // Check URL hash to open specific tab
     const hash = window.location.hash;
     if(hash && hash.startsWith('#pol-')) {
-        const targetBtn = document.querySelector(`.bct-tab-btn[data-target="${hash.sub
-<section style="padding: 50px 20px; text-align: center; background: #0b1120; border-top: 1px solid rgba(255,255,255,0.05);">
-    <button class="footer-toggle-btn" onclick="toggleFooter(this)">
-        <i class="fa-solid fa-chevron-down"></i> Thông tin liên hệ & pháp lý
-    </button>
-    <div class="footer-collapsed" id="footerCollapsed">
-        <footer><div class="wrap">
-    <div class="footer-grid">
-        <div>
-            <h3>CÔNG TY TNHH MTV ĐIỆN TỬ HIẾU</h3>
-            <p>MST: 1402228630</p>
-            <p>Địa chỉ: 166, Ấp Bình Thạnh 1, Xã Lấp Vò, Tỉnh Đồng Tháp</p>
-            <p>Website: dienmayhieu.com</p>
-            <p>Khu vực phục vụ: bán kính 15 km tính từ Chợ Lấp Vò, Đồng Tháp</p>
-        </div>
-        <div>
-            <h3>Liên hệ</h3>
-            <p>Hotline: 0979.553.289</p>
-            <p>Email: congvinh298@gmail.com</p>
-            <p>Mua hàng và gọi thợ kỹ thuật, đặt in 3D</p>
-        </div>
-        <div>
-            <h3>Thông tin pháp lý</h3>
-            <p><a href="/#pol-1">Chính sách bảo mật</a></p>
-            <p><a href="/#pol-2">Giải quyết khiếu nại</a></p>
-            <p><a href="/#pol-3">Chính sách giá</a></p>
-            <p><a href="/#pol-4">Chính sách thanh toán</a></p>
-            <p><a href="/#pol-5">Điều kiện & hạn chế</a></p>
-            <p><a href="/#pol-6">Giao hàng & Đổi trả</a></p>
-            <p><a href="/#pol-7">Hỗ trợ trực tuyến</a></p>
-        </div>
-        <div>
-            <h3>Truy cập nhanh</h3>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dienmayhieu.com" alt="QR truy cập" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;">
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <span>© 2026 Điện Máy Hiếu</span>
-        <span>Website đang chờ duyệt</span>
-    </div>
-</div></footer>
-    </div>
-</section>
+        const targetBtn = document.querySelector(`.bct-tab-btn[data-target="${hash.substring(1)}"]`);
+        if(targetBtn) {
+            targetBtn.click();
+            setTimeout(() => {
+                document.getElementById('bct-policies').scrollIntoView({behavior: 'smooth'});
+            }, 100);
+        }
+    }
+});
+</script>
+
 
 <script>
-function toggleFooter(btn) {
-    const collapsed = document.getElementById('footerCollapsed');
-    collapsed.classList.toggle('open');
-    btn.classList.toggle('active');
-    const isOpen = collapsed.classList.contains('open');
-    btn.innerHTML = isOpen
-        ? '<i class="fa-solid fa-chevron-up"></i> Thu gọn thông tin'
-        : '<i class="fa-solid fa-chevron-down"></i> Thông tin liên hệ & pháp lý';
-}
+    function updateTextView(_obj){
+        var num = getNumber(_obj.val());
+        if(num==0){
+            _obj.val('');
+        }else{
+            _obj.val(num.toLocaleString());
+        }
+    }
+    function getNumber(_str){
+        var arr = _str.split('');
+        var out = new Array();
+        for(var cnt=0;cnt<arr.length;cnt++){
+            if(isNaN(arr[cnt])==false){
+                out.push(arr[cnt]);
+            }
+        }
+        return Number(out.join(''));
+    }
+    $(document).ready(function(){
+        $('.fnum').on('keyup',function(){
+            updateTextView($(this));
+        });
+    });
 </script>
->Thông tin pháp lý</h3>
-            <p><a href="/#pol-1">Chính sách bảo mật</a></p>
-            <p><a href="/#pol-2">Giải quyết khiếu nại</a></p>
-            <p><a href="/#pol-3">Chính sách giá</a></p>
-            <p><a href="/#pol-4">Chính sách thanh toán</a></p>
-            <p><a href="/#pol-5">Điều kiện & hạn chế</a></p>
-            <p><a href="/#pol-6">Giao hàng & Đổi trả</a></p>
-            <p><a href="/#pol-7">Hỗ trợ trực tuyến</a></p>
+
+<!-- BEGIN: Footer -->
+<footer><div class="wrap">
+    <div class="footer-grid">
+        <div>
+            <h3>C├öNG TY TNHH MTV ─ÉIß╗åN Tß╗¼ HIß║╛U</h3>
+            <p>MST: 1402228630</p>
+            <p>─Éß╗ïa chß╗ë: 166, ß║ñp B├¼nh Thß║ính 1, X├ú Lß║Ñp V├▓, Tß╗ënh ─Éß╗ông Th├íp</p>
+            <p>Website: dienmayhieu.com</p>
+            <p>Khu vß╗▒c phß╗Ñc vß╗Ñ: b├ín k├¡nh 15 km t├¡nh tß╗½ Chß╗ú Lß║Ñp V├▓, ─Éß╗ông Th├íp</p>
         </div>
         <div>
-            <h3>Truy cập nhanh</h3>
-            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dienmayhieu.com" alt="QR truy cập" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;">
+            <h3>Li├¬n hß╗ç</h3>
+            <p>Hotline: 0979.553.289</p>
+            <p>Email: congvinh298@gmail.com</p>
+            <p>Mua h├áng v├á gß╗ìi thß╗ú kß╗╣ thuß║¡t, ─æß║╖t in 3D</p>
+        </div>
+        <div>
+            <h3>Th├┤ng tin ph├íp l├╜</h3>
+            <p><a href="/#pol-1">Ch├¡nh s├ích bß║úo mß║¡t</a></p>
+            <p><a href="/#pol-2">Giß║úi quyß║┐t khiß║┐u nß║íi</a></p>
+            <p><a href="/#pol-3">Ch├¡nh s├ích gi├í</a></p>
+            <p><a href="/#pol-4">Ch├¡nh s├ích thanh to├ín</a></p>
+            <p><a href="/#pol-5">─Éiß╗üu kiß╗çn & hß║ín chß║┐</a></p>
+            <p><a href="/#pol-6">Giao h├áng & ─Éß╗òi trß║ú</a></p>
+            <p><a href="/#pol-7">Hß╗ù trß╗ú trß╗▒c tuyß║┐n</a></p>
+        </div>
+        <div>
+            <h3>Truy cß║¡p nhanh</h3>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://dienmayhieu.com" alt="QR truy cß║¡p" style="max-width: 120px; border-radius: 8px; background: white; padding: 5px; margin-top: 5px;">
         </div>
     </div>
     <div class="footer-bottom">
-        <span>© 2026 Điện Máy Hiếu</span>
-        <span>Website đang chờ duyệt</span>
+        <span>┬⌐ 2026 ─Éiß╗çn M├íy Hiß║┐u</span>
+        <span>Website ─æang chß╗¥ duyß╗çt</span>
     </div>
 </div></footer>
 <!-- END: Footer -->
     
-<!-- CHATBOT ANH THIÊN OPENCLAW -->
+<!-- CHATBOT ANH THI├èN OPENCLAW -->
 <style>
 :root {
     --chat-cyan: #06b6d4;
@@ -1364,14 +1327,14 @@ function toggleFooter(btn) {
     
     <div id="openclaw-window" style="right: 0; bottom: 80px;">
         <div id="openclaw-header">
-            <span><i class="fa-solid fa-robot"></i> Dân chơi</span>
+            <span><i class="fa-solid fa-robot"></i> D├ón ch╞íi</span>
             <i class="fa-solid fa-xmark" style="cursor: pointer; font-size: 18px;" onclick="$('#openclaw-window').hide()"></i>
         </div>
         <div id="openclaw-messages">
-            <div class="msg msg-bot">Xin chào! Tui là <b>Dân chơi</b>, trợ lý AI của cửa hàng. Tui có thể giúp gì cho bạn về Mua sắm Điện Máy, Gọi Thợ hay In 3D?</div>
+            <div class="msg msg-bot">Xin ch├áo! Tui l├á <b>D├ón ch╞íi</b>, trß╗ú l├╜ AI cß╗ºa cß╗¡a h├áng. Tui c├│ thß╗â gi├║p g├¼ cho bß║ín vß╗ü Mua sß║»m ─Éiß╗çn M├íy, Gß╗ìi Thß╗ú hay In 3D?</div>
         </div>
         <form id="openclaw-input-area" onsubmit="sendOpenclawMsg(event)">
-            <input type="text" id="openclaw-input" placeholder="Nhập câu hỏi..." autocomplete="off">
+            <input type="text" id="openclaw-input" placeholder="Nhß║¡p c├óu hß╗Åi..." autocomplete="off">
             <button type="submit" id="openclaw-send"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
     </div>
@@ -1399,7 +1362,7 @@ function sendOpenclawMsg(e) {
     
     // Add typing indicator
     let typingId = 'typing-' + Date.now();
-    $('#openclaw-messages').append(`<div class="msg msg-bot" id="${typingId}">Đang gõ... <i class="fa-solid fa-ellipsis fa-fade"></i></div>`);
+    $('#openclaw-messages').append(`<div class="msg msg-bot" id="${typingId}">─Éang g├╡... <i class="fa-solid fa-ellipsis fa-fade"></i></div>`);
     scrollToBottom();
     
     $.ajax({
@@ -1412,13 +1375,13 @@ function sendOpenclawMsg(e) {
                 let res = typeof r === 'string' ? JSON.parse(r) : r;
                 $('#openclaw-messages').append(`<div class="msg msg-bot">${res.reply}</div>`);
             } catch(e) {
-                $('#openclaw-messages').append(`<div class="msg msg-bot">Xin lỗi, Anh thiên đang bận bảo trì server rùi!</div>`);
+                $('#openclaw-messages').append(`<div class="msg msg-bot">Xin lß╗ùi, Anh thi├¬n ─æang bß║¡n bß║úo tr├¼ server r├╣i!</div>`);
             }
             scrollToBottom();
         },
         error: function() {
             $('#' + typingId).remove();
-            $('#openclaw-messages').append(`<div class="msg msg-bot">Lỗi kết nối!</div>`);
+            $('#openclaw-messages').append(`<div class="msg msg-bot">Lß╗ùi kß║┐t nß╗æi!</div>`);
         }
     });
 }
@@ -1446,7 +1409,7 @@ function scrollToBottom() {
     new ClipboardJS('.copy');
     </script>
 
-<!-- Modal chi tiết sản phẩm -->
+<!-- Modal chi tiß║┐t sß║ún phß║⌐m -->
 <div class="product-modal-overlay" id="productModal" onclick="closeProductModal(event)">
     <div class="product-modal" onclick="event.stopPropagation()">
         <button class="product-modal-close" onclick="closeProductModal()">&times;</button>
@@ -1454,15 +1417,15 @@ function scrollToBottom() {
             <img id="pmImg" src="" alt="">
         </div>
         <div class="product-modal-body">
-            <div class="product-modal-cat" id="pmCat">Danh mục</div>
-            <div class="product-modal-title" id="pmTitle">Tên sản phẩm</div>
-            <div class="product-modal-price" id="pmPrice">0đ</div>
+            <div class="product-modal-cat" id="pmCat">Danh mß╗Ñc</div>
+            <div class="product-modal-title" id="pmTitle">T├¬n sß║ún phß║⌐m</div>
+            <div class="product-modal-price" id="pmPrice">0─æ</div>
             <div class="product-modal-note">
-                <p>Nhấn <strong>"Thêm giỏ"</strong> để lưu sản phẩm vào giỏ hàng, hoặc <strong>"Mua ngay"</strong> để tiến hành đặt hàng.</p>
-                <p>Liên hệ hotline <strong>0979.553.289</strong> hoặc Zalo nếu cần tư vấn thêm.</p>
+                <p>Nhß║Ñn <strong>"Th├¬m giß╗Å"</strong> ─æß╗â l╞░u sß║ún phß║⌐m v├áo giß╗Å h├áng, hoß║╖c <strong>"Mua ngay"</strong> ─æß╗â tiß║┐n h├ánh ─æß║╖t h├áng.</p>
+                <p>Li├¬n hß╗ç hotline <strong>0979.553.289</strong> hoß║╖c Zalo nß║┐u cß║ºn t╞░ vß║Ñn th├¬m.</p>
             </div>
             <div class="product-modal-actions">
-                <button class="btn-addcart" id="pmAddCart" onclick="event.stopPropagation();"><i class="fa-solid fa-cart-plus"></i> Thêm giỏ</button>
+                <button class="btn-addcart" id="pmAddCart" onclick="event.stopPropagation();"><i class="fa-solid fa-cart-plus"></i> Th├¬m giß╗Å</button>
                 <button class="btn-buynow" id="pmBuyNow" onclick="event.stopPropagation();"><i class="fa-solid fa-bolt"></i> Mua ngay</button>
             </div>
         </div>
@@ -1500,11 +1463,11 @@ function closeProductModal(event) {
     document.body.style.overflow = '';
 }
 
-// Gắn sự kiện click cho các card sản phẩm
+// Gß║»n sß╗▒ kiß╗çn click cho c├íc card sß║ún phß║⌐m
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('article.product').forEach(function(card) {
         card.addEventListener('click', function(e) {
-            // Nếu click vào nút thì không mở modal, để nút tự xử lý
+            // Nß║┐u click v├áo n├║t th├¼ kh├┤ng mß╗ƒ modal, ─æß╗â n├║t tß╗▒ xß╗¡ l├╜
             if (e.target.closest('button')) return;
             openProductModal(card);
         });
