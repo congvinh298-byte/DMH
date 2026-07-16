@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Điện Máy Hiếu - Chất Lượng Cao</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f9f5eb; color: #333; margin: 0; padding: 20px; }
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #d4a76e; padding-bottom: 10px; }
+        .header h1 { margin: 0; color: #8b694f; font-size: 1.6em; }
+        .header p { margin: 5px 0 0; color: #777; font-size: 14px; }
+
+        h2 { color: #8b694f; margin-top: 30px; }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .product-card {
+            border: 2px solid #d4a76e;
+            border-radius: 15px;
+            padding: 0;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+        .product-card:hover { transform: translateY(-4px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #e74c3c;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+        .product-image-wrap { position: relative; width: 100%; height: 220px; background: #f5f0e6; }
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 15px;
+        }
+        .product-info { padding: 15px; flex: 1; display: flex; flex-direction: column; }
+        .product-card h3 { margin: 0 0 8px 0; color: #d4a76e; font-size: 1.1em; }
+        .price { font-weight: bold; font-size: 1.25em; margin-bottom: 10px; color: #e74c3c; }
+        .short-desc { color: #666; font-size: 14px; margin-bottom: 12px; flex: 1; }
+        .product-actions { display: flex; gap: 8px; }
+        .product-actions button { flex: 1; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-size: 14px; color: white; }
+        .btn-buy { background-color: #d4a76e; }
+        .btn-cart { background-color: #8b694f; }
+
+        /* Modal chi tiết */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        .modal {
+            background: white;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: #eee;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .modal-image-wrap { width: 100%; height: 280px; background: #f5f0e6; position: relative; }
+        .modal-image { width: 100%; height: 100%; object-fit: contain; padding: 20px; }
+        .modal-body { padding: 20px; }
+        .modal-body h2 { margin-top: 0; color: #8b694f; }
+        .modal-body .price { font-size: 1.4em; margin-bottom: 15px; }
+        .modal-body ul { padding-left: 20px; }
+        .modal-body li { margin-bottom: 8px; }
+        .modal-actions { margin-top: 20px; display: flex; gap: 10px; }
+        .modal-actions button { flex: 1; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-size: 15px; color: white; }
+
+        .legal-footer {
+            background-color: #fff;
+            border-top: 2px solid #d4a76e;
+            padding: 25px;
+            margin-top: 30px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .legal-footer h3 { color: #8b694f; margin-top: 0; }
+        .legal-footer ul { padding-left: 20px; }
+        .legal-footer li { margin-bottom: 6px; }
+        .legal-links { margin-top: 15px; }
+        .legal-links a {
+            display: inline-block;
+            background-color: #d4a76e;
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            margin: 4px 4px 4px 0;
+            font-size: 13px;
+        }
+        .legal-links a:hover { background-color: #8b694f; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🙋‍♂️ Điện Máy Hiếu - Chất Lượng Cao</h1>
+        <p>Chuyên điện máy, gia dụng & lạnh tại Lấp Vò, Đồng Tháp</p>
+    </div>
+
+    <h2>💡 SẢN PHẨM HIỆN NAY</h2>
+
+    <div class="product-grid" id="productGrid"></div>
+
+    <!-- Modal chi tiết sản phẩm -->
+    <div class="modal-overlay" id="productModal" onclick="closeModal(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-image-wrap">
+                <span class="product-badge" id="modalBadge">GIÁ RẺ</span>
+                <img id="modalImage" class="modal-image" src="" alt="">
+            </div>
+            <div class="modal-body">
+                <h2 id="modalTitle">Tên sản phẩm</h2>
+                <p class="price" id="modalPrice">0 ₫</p>
+                <div id="modalDesc"></div>
+                <div class="modal-actions">
+                    <button class="btn-cart" onclick="alert('Đã thêm vào giỏ hàng!')">🛒 Thêm giỏ</button>
+                    <button class="btn-buy" onclick="alert('Vui lòng liên hệ hotro@dienmayhieu.com hoặc Zalo để đặt mua!')">Mua Ngay</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="legal-footer">
+        <h3>📋 Thông tin pháp lý</h3>
+        <ul>
+            <li><strong>Chủ sở hữu:</strong> Vinh Tran</li>
+            <li><strong>Tên cửa hàng:</strong> Điện Máy Hiếu</li>
+            <li><strong>Địa chỉ:</strong> Khu vực Lấp Vò, Đồng Tháp</li>
+            <li><strong>Điện thoại:</strong> 0909.xxx.xxx</li>
+            <li><strong>Email:</strong> hotro@dienmayhieu.com</li>
+            <li><strong>Mã số đăng ký kinh doanh:</strong> Chưa cập nhật</li>
+            <li><strong>Thông báo với Bộ Công Thương:</strong> Đã đăng ký / đang hoàn thiện theo Nghị định 52/2013/NĐ-CP (TMĐT) và Thông tư 47/2014/TT-BCT</li>
+        </ul>
+        <p>Website tuân thủ <strong>Nghị định 52/2013/NĐ-CP</strong> về thương mại điện tử, <strong>Thông tư 47/2014/TT-BCT</strong> hướng dẫn quản lý website TMĐT, và các quy định pháp luật Việt Nam hiện hành.</p>
+
+        <div class="legal-links">
+            <h3>📥 Tải hồ sơ pháp lý (Word - để ký & nộp Bộ Công Thương)</h3>
+            <a href="legal_docs/01_Chinh_sach_bao_mat.docx" download>01. Chính sách bảo mật</a>
+            <a href="legal_docs/02_Quy_trinh_tiep_nhan_giai_quyet_khieu_nai.docx" download>02. Quy trình tiếp nhận & giải quyết khiếu nại</a>
+            <a href="legal_docs/03_Chinh_sach_gia.docx" download>03. Chính sách giá</a>
+            <a href="legal_docs/04_Chinh_sach_thanh_toan.docx" download>04. Chính sách thanh toán</a>
+            <a href="legal_docs/05_Dieu_kien_han_che_cung_cap_hang_hoa_dich_vu.docx" download>05. Điều kiện/hạn chế cung cấp hàng hóa/dịch vụ</a>
+            <a href="legal_docs/06_Chinh_sach_giao_hang_doi_tra_hoan_tien.docx" download>06. Giao hàng, đổi trả, hoàn tiền</a>
+            <a href="legal_docs/07_Huong_thuc_ho_tro_truc_tuyen.docx" download>07. Hướng thức hỗ trợ trực tuyến</a>
+            <a href="legal_docs/08_Tai_lieu_khac.docx" download>08. Tài liệu khác</a>
+            <a href="legal_docs/00_Ho_so_phap_ly_day_du.docx" download>📄 Tổng hợp toàn bộ hồ sơ</a>
+        </div>
+
+        <p style="text-align:center; margin-top:15px; color:#777;">© 2026 Điện Máy Hiếu. Bảo lưu mọi quyền.</p>
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Tủ Lạnh Mini 48L",
+                price: "5.990.000 ₫",
+                image: "https://placehold.co/400x300/f5f0e6/8b694f?text=Tu+Lanh+Mini+48L",
+                short: "Dùng cho gia đình nhỏ (2-3 người), điều chỉnh nhiệt độ dễ dàng.",
+                desc: `
+                    <p><strong>Thông số kỹ thuật:</strong></p>
+                    <ul>
+                        <li>Dung tích: 48L phù hợp gia đình nhỏ (2-3 người)</li>
+                        <li>Điều chỉnh nhiệt độ dễ dàng theo nhu cầu</li>
+                        <li>Màu sắc tươi sáng, dễ nhìn, phù hợp mọi không gian</li>
+                        <li>Tiết kiệm điện năng, vận hành êm ái</li>
+                    </ul>
+                    <p><strong>Khu vực áp dụng:</strong> Việt Nam (chỉ áp dụng cho khu vực Việt Nam).</p>
+                    <p><strong>Bảo hành:</strong> 12 tháng chính hãng.</p>
+                `
+            },
+            {
+                id: 2,
+                name: "Bàn Lưu Thông Tin 350L",
+                price: "3.450.000 ₫",
+                image: "https://placehold.co/400x300/f5f0e6/8b694f?text=Ban+Luu+Thong+Tin",
+                short: "Dung tích 350L, tốc độ làm mát 120 m³/h.",
+                desc: `
+                    <p><strong>Thông số kỹ thuật:</strong></p>
+                    <ul>
+                        <li>Dung tích: 350L</li>
+                        <li>Tốc độ làm mát: 120 m³/h</li>
+                        <li>Điện chuyển đổi dữ liệu: 1Gbps</li>
+                        <li>Thiết kế hiện đại, bền bỉ</li>
+                    </ul>
+                    <p>Phù hợp cho văn phòng, cửa hàng và gia đình cần lưu trữ thông tin liên tục.</p>
+                `
+            },
+            {
+                id: 3,
+                name: "Máy Sử Dụng Nhanh",
+                price: "1.890.000 ₫",
+                image: "https://placehold.co/400x300/f5f0e6/8b694f?text=May+Su+Dung+Nhanh",
+                short: "Hoạt động 24/7, hỗ trợ kỹ thuật ngay lập tức.",
+                desc: `
+                    <p><strong>Đặc điểm nổi bật:</strong></p>
+                    <ul>
+                        <li>Hoạt động 24/7 ổn định</li>
+                        <li>Hỗ trợ kỹ thuật ngay lập tức khi có sự cố</li>
+                        <li>Dễ dàng sử dụng, không cần cài đặt phức tạp</li>
+                        <li>Tiết kiệm thời gian vận hành</li>
+                    </ul>
+                    <p>Giải pháp lý tưởng cho cửa hàng và hộ kinh doanh cần thiết bị hoạt động liên tục.</p>
+                `
+            },
+            {
+                id: 4,
+                name: "Bộ 3 Lõi Lọc Nước Gia Đình",
+                price: "160.000 ₫",
+                image: "https://placehold.co/400x300/f5f0e6/8b694f?text=Loi+Loc+Nuoc",
+                short: "Bộ 3 lõi lọc thay thế phù hợp máy lọc nước RO.",
+                desc: `
+                    <p><strong>Thông tin sản phẩm:</strong></p>
+                    <ul>
+                        <li>Bộ 3 lõi lọc nước chuẩn size 10 inch</li>
+                        <li>Phù hợp hầu hết máy lọc nước RO gia đình</li>
+                        <li>Lọc sạch cặn bẩn, rỉ sét, tạp chất</li>
+                        <li>Thời gian sử dụng: 6-12 tháng tùy nguồn nước</li>
+                    </ul>
+                    <p>Hàng chính hãng, giá rẻ, giao hàng tận nơi khu vực Lấp Vò.</p>
+                `
+            }
+        ];
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = products.map(p => `
+                <div class="product-card" onclick="openModal(${p.id})">
+                    <div class="product-image-wrap">
+                        <span class="product-badge">GIÁ RẺ</span>
+                        <img class="product-image" src="${p.image}" alt="${p.name}" loading="lazy">
+                    </div>
+                    <div class="product-info">
+                        <h3>${p.name}</h3>
+                        <p class="price">${p.price}</p>
+                        <p class="short-desc">${p.short}</p>
+                        <div class="product-actions">
+                            <button class="btn-cart" onclick="event.stopPropagation(); alert('Đã thêm vào giỏ hàng!')">Thêm giỏ</button>
+                            <button class="btn-buy" onclick="event.stopPropagation(); alert('Vui lòng liên hệ hotro@dienmayhieu.com hoặc Zalo để đặt mua!')">Mua Ngay</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(id) {
+            const p = products.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('modalImage').src = p.image;
+            document.getElementById('modalImage').alt = p.name;
+            document.getElementById('modalTitle').textContent = p.name;
+            document.getElementById('modalPrice').textContent = p.price;
+            document.getElementById('modalDesc').innerHTML = p.desc;
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(event) {
+            if (event && event.target !== document.getElementById('productModal') && event.target.closest('.modal')) return;
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        renderProducts();
+    </script>
+</body>
+</html>
